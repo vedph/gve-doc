@@ -2,6 +2,8 @@
 
 ⚠️ This is part of an ongoing discussion, so that's just a draft.
 
+![entities](../img/entities.png)
+
 ## L1 - Sheets
 
 At the bottom level we have sheets. Sheets provide what I call "snapshots" of a text together with all the variants on top of it, in the form of written annotations. Here I'm already designing a comprehensive model, which I partially showed at the DiSCePT meeting, and once I've completed it I will show you in detail. Meanwhile, I know enough of it to be able to provide a first model draft and I'm currently working on its implementation and refinement. The model includes:
