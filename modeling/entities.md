@@ -14,6 +14,29 @@ At the bottom level we have sheets. Sheets provide what I call "snapshots" of a 
 
 The **identity** of each sheet is granted by its materiality. So one sheet is one sheet, and has some standard identifier(s).
 
+### L1 Model
+
+The model of level 1 is quite complex, as it must represent in separate layers:
+
+- the base text;
+- all the annotations on top of it, giving rise to different variants according to our interpretations. The annotations are represented as operations which change the text they refer to;
+- our interpretations of the annotations, producing many readings. Interpretations select and order operations;
+- metadata about each operation;
+- diplomatic rendition of each operation;
+- animation timeline for each version of the text resulting from interpretations.
+
+![level 1](../img/level1.png)
+
+At the core of this model is the chain data structure. This data structure consists of a linear sequence of nodes, each connected to the previous and the next node by a link, and in our scenario representing a single character. Additionally, each link has a version tag, which adds the dimension of time to this structure.
+
+Internally, this structure collects nodes and links, and once they are added, they cannot be removed (unless we are using a single version). Any modification is done by adding new nodes and links, which connect or disconnect or reorder the existing nodes.
+
+So, a chain is a sort of time-enabled string, capable of representing multiple versions of the same text as defined by multiple subsets of the links connecting text nodes. You just follow the links with the desired version to build the corresponding text.
+
+A set of operations target this chain structure and add new links and nodes to represent each successive change, even in different branches, as each operation starts from a specific chain state and produce another chain state. Operations are selected and ordered by interpretations, and include philologic and diplomatic metadata.
+
+The chain contains all the states for our text, which are the basis for producing many text versions. For each produced version we can provide a timeline, which is in charge of orchestrating animations of the visual renditions of each visible operation.
+
 ### L1 Metadata
 
 Q: Apart from all the metadata defined by model for representing the various philological and diplomatic aspects of each sheet, which are other metadata for each sheet? We will e.g. have standard ID(s) in the literature, maybe date(s) and place(s), physical description (e.g. size, ink...), etc.
