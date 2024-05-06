@@ -2,7 +2,7 @@
 
 ⚠️ This is part of an ongoing discussion, so that's just a draft.
 
-- [reference documentation](http://www.fusisoft.it/docs/gve/): main documentation. Please refer to this documentation for the definitions and discussions of snapshots, carriers, and versions.
+- [reference documentation](http://www.fusisoft.it/docs/gve/): main documentation. Please refer to the [conceptual documentation](http://www.fusisoft.it/docs/gve/docs/autograph.html) in it for the definitions and discussions of snapshots, carriers, and versions.
 - [GVE demo app](https://gve-demo.fusi-soft.com/): chain data structure demo.
 
 ## L1 - Snapshot
