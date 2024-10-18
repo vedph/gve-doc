@@ -1,7 +1,3 @@
 # VEdition Documentation
 
-This repository contains conceptual documentation and resources about the VEdition project.
-
-## Resources
-
-- [list of epigrams](resources/epigram-list.xlsx).
+This repository contains conceptual documentation and resources about the VEdition project. Currently it is essentially used as a repository for conceptual technical documentation.
