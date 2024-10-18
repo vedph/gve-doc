@@ -1,7 +1,10 @@
-# GVE Core
+# User Experience
 
-The GVE core Angular library contains core frontend components to be used by GVE client apps.
+This section of the documentation refers to the frontend GUI designed and implemented to provide a user-friendly, collaborative and web-based content creation system for data shaped according to our [model](../model/index.md).
 
-![GVE core](img/gve-core.png)
+This UI has been designed into a set of **layers and modules**, with the primary purpose of providing a reusable tool for this and other projects. Currently, there are 4 layers, each corresponding to a different implementation technology:
 
-The top-level component here is the snapshot editor. This provides a complete UI for editing all the data contained by a snapshot.
+1. **snapshot core** (TS library, packaged with NPM: `gve-snapshot-core`): this is a pure Typescript library, framework-agnostic, containing just the definitions of the parts of a snapshot model. These definitions are provided in a separate library so that everyone can reuse them even without importing any piece of logic, which is rather provided by upper layers.
+2. **snapshot view** (Web Component, packaged with NPM: `gve-snapshot-view`): this is a framework-agnostic, pure web component which can be directly integrated in any HTML page or application to visualize a snapshot. Integrating this component is as simple as typing the name of its tag in the HTML page, and passing it a JS object with data of the snapshot to visualize. Starting from this object, the view takes care of all the complex details relative to generating an interactive SVG-based visualization of the snapshot. As such, this component can be used both in an editing environment, where it works as a preview (and that's how we use it in our editor), and in a presentation environment for end users. This is why it has been implemented with a highly neutral web-based technology with no dependencies from a specific web framework like Angular, React, or the like: this is a pure W3C standard web component.
+3. **snapshot editor** (Angular 18+ library, packaged with NPM: `gve-shell`): this is the core component used to fully edit the snapshot model. This is implemented as an Angular library, so that it can be easily integrated into any Angular based web application. In turn, this editor uses the snapshot view to preview the content being edited.
+4. **VEdition editor** (Angular 18+ Cadmus based editor, distributed in containerized Docker images: `cadmus-gve-app`): this is the editor planned for the full content of VEdition, which is not limited to snapshots, but extends to a whole tree of entities based on it. In this case we adopt Cadmus for its modularity and extensibility, which allows us to build a full web editor on top of an already mature tool, backed by a full-fledged database. In turn, this editor uses the snapshot editor library for editing snapshots, and more libraries for the other entities involved.
