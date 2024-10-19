@@ -1,0 +1,16 @@
+To build the book (https://flaviocopes.com/how-to-create-ebooks-markdown):
+
+1. download and install Calibre.
+2. add to the root:
+
+- book.json
+- cover.jpg
+- SUMMARY.md with toc
+- README.md with preface
+
+3. build by opening a terminal in this folder and running these commands:
+
+$env:Path += ";C:\Program Files\Calibre2"
+npx honkit pdf  ./ ./book.pdf
+npx honkit epub ./ ./book.epub
+npx honkit mobi ./ ./book.mobi

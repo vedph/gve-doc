@@ -1,0 +1,10 @@
+{
+  "root": "./",
+  "title": "GVE Documentation",
+  "description": "Technical Documentation",
+  "author": "Daniele Fusi",
+  "structure": {
+    "readme": "index.md",
+    "summary": "SUMMARY.md"
+  }
+}
