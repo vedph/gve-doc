@@ -31,16 +31,16 @@ So, the following JSON snippet specifies the snapshot view size (in pixels) and 
 
 ## Text
 
-The base text follows as an array of chain nodes. When you are entering text as a string, the nodes array is automatically built by the editor. In this case I have manually created it to provide a full example.
+The base text follows as an array of chain nodes. When you are entering text as a string, the nodes array is automatically built by the editor from it.
 
-Each chain node is an object having:
+Each chain node is an object, having:
 
-- a numeric ID. This is automatically assigned by software in a predictable way: for the base text characters, it is just the ordinal number of each character: so the first character is 1, the second 2, and so forth. Then, should other characters be added by insert or replace operations, they will get the next number available, thus ensuring that all the characters have a unique numeric ID in the context of this snapshot, and that this ID reflects our interpretation about the evolution of the text.
-- a label. This is the display value for the character, in our case equal to the character itself.
-- an index: this is the zero-based index of the character in the source text.
-- attached data, which in our case corresponds to a single character.
+- a _numeric ID_. This is automatically assigned by software in a predictable way: for the base text characters, it is just the ordinal number of each character: so the first character is 1, the second 2, and so forth. Then, should other characters be added by insert or replace operations, they will get the next number available, thus ensuring that all the characters have a unique numeric ID in the context of this snapshot, and that this ID reflects our interpretation about the evolution of the text.
+- a _label_. This is the display value for the character, in our case equal to the character itself.
+- an _index_: this is the zero-based index of the character in the source text.
+- _attached data_, which in our case corresponds to a single character.
 
->In its backend implementation the chain structure is templated for its data type, as we might want to reuse it to chain types different from single characters. Anyway, in this application we just use the maximum granularity level, represented here by the character, as its data item.
+>In its backend implementation the chain structure is templated for its data type, as we might want to reuse it to chain types different from single characters. So we might have chains of characters, strings, numbers, or even complex objects. Anyway, in this application we just use the maximum granularity level, represented here by the character, as its data item.
 
 ```json
 {
@@ -96,9 +96,9 @@ Optionally you can specify the base text's CSS style (any valid CSS value string
 }
 ```
 
-Here we set a big font size, as we just have a few letters; and we offset the base text top-left corner by 0,120 to leave some space for annotations on top of it.
+Here I set a big font size, as the snapshot contains a few letters; and I offset the base text top-left corner by 0,120 to leave some space for annotations on top of it.
 
-The **base text options** include these properties:
+In general, the **base text options** can include these properties:
 
 - `lineHeightOffset`\* (`number`): offset to add to each line height.
 - `charSpacing`\* (`number`): space to add between characters.
@@ -108,7 +108,9 @@ The **base text options** include these properties:
 
 ## Operations
 
-[Operations](./textual.md#operations) are objects inside an `operations` array property. They are listed in their order of application. Here I am listing one at a time, preceded by its essential text-based representation (which covers only a subset of its properties, but is useful for quick data entry or diagnostic purposes).
+[Operations](./textual.md#operations) are objects inside an `operations` array property. They are listed in their order of application.
+
+Here I am going to list them one at a time, preceded by its essential text-based representation (which covers only a subset of its properties, but is useful for quick data entry or diagnostic purposes).
 
 ### Delete Z
 
@@ -116,7 +118,7 @@ The **base text options** include these properties:
 3- [*log="delete Z" reason:="don't like Z"]
 ```
 
-This deletes the character node with ID=3 and injects two context-wide features: a multiple global one (`*log`) and a single node-scoped one (`reason`).
+This operation deletes the character node with ID=3 (`Z`), and injects two context-wide features: a multiple global one (`*log`) and a single node-scoped one (`reason`).
 
 This is because in this example we want to output a sort of per-operation log to keep track of operations execution, and to attach to the deleted `Z` node the reason for its deletion.
 

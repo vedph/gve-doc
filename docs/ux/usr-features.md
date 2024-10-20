@@ -16,10 +16,7 @@ The feature editor contains 3 controls:
 
 - `name`: the feature name.
 - `value`: the feature value.
-- `set policy`: the features set policy for this feature. This can be:
-  - `single`: when added to a set and a feature with the same name already exists, this gets replaced with the new one. For instance, the certainty rank is a single-policy feature, because logically you can just have a single level of certainty; if you set a new level, you are overwriting the value of the previous one. Also, the version feature is used to mark a specific output as a staged version; so, whenever a new version is defined, the old version value is replaced by it.
-  - `multiple`: when added to a set, the feature is just added to the set, whether another one exists with the same name or not. For instance, a `log` feature is used in our examples when we want to trace the operations effects on the generated texts. In this case, each operations logs a new entry and we want to preserve all the entries as they accumulate. So, this is a multiple feature, and whenever a new log entry is added all the existing entries are preserved.
-  - `single first`: when added to a set in a batch, and a feature with the same name already exists, the first one being added replaces all the existing ones, while the following ones to be added just get added as multiple. This has meaning only when adding several features at once. Otherwise, it just behaves as single.
+- `set policy`: the features set policy for this feature. This can be `single`, `multiple`, or `single first` (see the [features model](../model/textual.md#features) for more).
 
 By default, you can just type whatever you want as a feature name and value. Anyway, if you rather prefer a closed taxonomy, the client code can customize the editor by passing preset names and values:
 

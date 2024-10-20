@@ -74,7 +74,7 @@ As we have seen, these operations already imply a degree of interpretation; but 
 
 The main issue for interpretation is instead _selecting and ordering our ingredients_, that is, building a **recipe** for handling them in a way leading to a final outcome, which in our case is a version of our base text.
 
-In other terms, we have six ingredients listed. Among them, five are operations. Now, should I select all of them to build a specific version, or just a subset? And what would be their order of application? We need at least one recipe, or even more than one; each of them will represent an interpretation of our snapshot leading to a specific **version** of our text.
+In other terms, we have six ingredients listed. Among them, five are operations. Now, should I select all of them to build a specific version, or just a subset? And what would be their order of application? We need at least one recipe, or even more than one; each of them will represent an interpretation of our snapshot leading to a specific staged **version** of our text.
 
 So, recipes are completely up to our interpretation: of course, they are constrained by the number and type of available ingredients; but within these limits, any combination is possible. It is up to the scholar's judgement to consider all the complex factors behind a recipe, and define it, thus generating one or more versions of a text.
 
@@ -225,8 +225,6 @@ All the operations thus share a common set of metadata, represented by:
 
 - generic **features**. This is an open-ended set of any type of features, modeled as generic name/value pairs. So, for instance the ink color of an annotation represented by an operation might be represented as a name of `color`, and a value of `red`.
 
->Additionally, the feature carried by an operation has a specific set policy. This drives the behavior of the operation when updating features in their sets (=the context set, when they are global; or the nodes set, when they target the affected nodes). Usually you can add as many features as you want, even when they have the same name; this allows you representing items of a set (e.g. color=red and color=black for two colors used at the same time in an annotation). Anyway, you can treat a feature as single, so that when adding it, all the features having the same name in the same context will be removed; or treat a subset of features as single the first time it gets added, and as multiple later. See below about [syntax](#syntax) for more details.
-
 - **source** metadata: these metadata are specialized to represent the source for the variant implied by a specific operation. The model of a source item is similar to that of a generic apparatus, and contains:
   - _ID_: an identifier for the source. For instance, it might be the identifier used for Schiller, or for some other witness.
   - _type_: the type of source (a person, a witness, etc.).
@@ -235,9 +233,21 @@ All the operations thus share a common set of metadata, represented by:
 
 - **diplomatic** metadata: these metadata are specialized to represent the _visual_ aspects of an operation on the snapshot's carrier (see the [diplomatic portion of the model](diplomatic.md)).
 
-### Syntax
+#### Features
 
-Even though GVE provides a UI to edit such operations, it also allows a text-based representation for them. This text format is used to represent their basic metadata, including features, but excluding specialized metadata (source and diplomatic). It is mostly used to speed up editing, or for diagnostic purposes.
+The feature carried by an operation (and other objects in the snapshot model) is a bit more complex than just a name/value pair. Among its properties, a feature has a specific **set policy**, which drives the behavior of the operation when updating features in their sets (=the context set, when they are global; or the nodes set, when they target the affected nodes).
+
+The set policy can have any of these values:
+
+- **single**: when a feature is added to a set, and a feature with the same name already exists in it, the existing feature gets replaced with the new one. For instance, the certainty rank is a single-policy feature, because logically you can just have a single level of certainty; if you set a new level, you are overwriting the value of the previous one. Also, the version feature is used to mark a specific output as a staged version; so, whenever a new version is defined, the old version value is replaced by it.
+- **multiple**: when added to a set, the feature is just added to the set, whether another one exists with the same name or not. For instance, a `log` feature is used in our examples when we want to trace the operations effects on the generated texts. In this case, each operations logs a new entry and we want to preserve all the entries as they accumulate. So, this is a multiple feature, and whenever a new log entry is added all the existing entries are preserved.
+- **single first**: when added to a set in a batch, and a feature with the same name already exists, the first one being added replaces all the existing ones, while the following ones to be added just get added as multiple. This has meaning only when adding several features at once. Otherwise, it just behaves as single.
+
+>Some features get automatically projected onto their targets when applying an operation. This is the case of probability rank and source features. Source features also provide an example of the single-first policy: as every operation can have multiple sources, we want to replace the sources from previous operations the first time we add a source from the current operation, but then add all the other sources included by that operation. Should we use a single set policy, we would end up preserving only the last-added source, which is not what we want.
+
+### Operations DSL
+
+Even though GVE provides a UI to edit such operations, it also allows a text-based representation for them using a minimalist domain specific language (DSL). This text format is used to represent their basic metadata, including features, but excluding specialized metadata (source and diplomatic). It is mostly used to speed up editing, or for testing or diagnostic purposes in code.
 
 The general text-based syntax for these operations includes these components, from left to right:
 
@@ -266,7 +276,7 @@ annotate    | `:`      | Y  | Y   | -  | -      | -
 
 (5) `^RANK`: a metadatum representing the **probability rank** for the interpretation connected to this operation. A value=0 means unspecified, values above 0 are e.g. 1=highly probable, 2=probable, 3=less probable, etc., using as many levels as you require.
 
->When not zero, the rank also generates a feature with the same name and a value equal to the rank's value. This allows this metadatum to bubble up into the operation's output, and thus be part of the data attached to each generated version. The rank is thus a _projected feature_, using a single policy. Also source features get projected in a similar way, when present, using a first-single policy.
+>When not zero, the rank also generates a feature with the same name and a value equal to the rank's value. This allows this metadatum to bubble up into the operation's output, and thus be part of the data attached to each generated version. The rank is thus a _projected feature_, using a single policy. Source features too get projected in a similar way, when present, using a first-single policy.
 
 (6) `[NAME="VALUE"...]`: name=value pairs representing metadata **features**, separated by space. When the feature is flag-like (boolean), you can just use `NAME` without operators and value. Further syntax details:
 
