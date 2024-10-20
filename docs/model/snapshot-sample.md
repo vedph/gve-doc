@@ -1,14 +1,18 @@
 # Snapshot Example
 
-In this example we are going to represent the mock snapshot described in the documentation. Its rendered view is shown below:
+In this example I am going to represent the mock snapshot described in the documentation, split into parts for more readability. Its rendered view is shown below:
 
 ![sample view](./img/arzdc-view.png)
 
-The JSON code serializing the underlying model of this snapshot follows, split into various parts so I can add some comments to each one.
+The underlying storage format for snapshots in this software system is [JSON](https://en.wikipedia.org/wiki/JSON), which has the advantage of being extensible and compact, and very fit to the JavaScript language used in web applications. In fact, JSON is right the way JavaScript represents its code objects as text.
 
 ## Size and Image
 
-The following snippet specifies the snapshot view size (in pixels) and the optional background image to show as a watermark. You can use this as a reference to create your drawings on top of it, and specify the opacity you want for it.
+A snapshot first has a size. Optionally, it can have an image (with the same size) with some type of visual representation of its carrier: it might just be a photographic image, or a digital drawing extracted from it, or any other kind of surrogate facsimile representation.
+
+So, the following JSON snippet specifies the snapshot view size (in pixels) and the background image to show as a watermark. The image is displayed behind the snapshot visuals, and you can also specify the opacity level (ranging from 0=transparent to 1=100% opaque) you want for it if you want it to fade out more or less with relation to those visuals.
+
+>In JSON, each object is delimited by braces and can have any number of properties. Each property has a name and a value, which can be a scalar value like a string, a number, or a boolean value, or another object or an array (=list) of items. Arrays are delimited by square brackets. Names are between double quotes, and so are string values. So here there is an object including two other objects under properties named `size` and `image`. In turn, `size` has numeric properties `width` and `height`; and `image` has a string `url` property, and a numeric `opacity` property.
 
 ```json
 {
@@ -23,15 +27,24 @@ The following snippet specifies the snapshot view size (in pixels) and the optio
 }
 ```
 
+>In this example, I am using a mock image service to get an image of the desired size (as specified in the image URL) to play with. Of course, in real-world you will use your own image from some other URL.
+
 ## Text
 
-The base text follows as an array of chain nodes. When you are entering text as a string, the nodes array is automatically built by the editor. In this case I have created it manually to provide a full example.
+The base text follows as an array of chain nodes. When you are entering text as a string, the nodes array is automatically built by the editor. In this case I have manually created it to provide a full example.
 
-Each node is an object with a numeric ID, a label, an index, and data which in our case corresponds to a single character (the chain structure is templated for its data type, as we might want to reuse it to chain types different from single characters).
+Each chain node is an object having:
+
+- a numeric ID. This is automatically assigned by software in a predictable way: for the base text characters, it is just the ordinal number of each character: so the first character is 1, the second 2, and so forth. Then, should other characters be added by insert or replace operations, they will get the next number available, thus ensuring that all the characters have a unique numeric ID in the context of this snapshot, and that this ID reflects our interpretation about the evolution of the text.
+- a label. This is the display value for the character, in our case equal to the character itself.
+- an index: this is the zero-based index of the character in the source text.
+- attached data, which in our case corresponds to a single character.
+
+>In its backend implementation the chain structure is templated for its data type, as we might want to reuse it to chain types different from single characters. Anyway, in this application we just use the maximum granularity level, represented here by the character, as its data item.
 
 ```json
 {
-      "text": [
+    "text": [
     {
       "id": 1,
       "label": "A",
