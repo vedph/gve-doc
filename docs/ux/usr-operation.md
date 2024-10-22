@@ -51,15 +51,17 @@ Each source has:
 
 ## Diplomatic
 
-The diplomatic tab refers to the visuals connected to the operation. For instance, a stroke on a letter might be the visual representation corresponding to a delete operation. Operation visuals can be defined by any geometrical shape and/or text on top of the carrier surface.
+The diplomatic tab refers to the visuals connected to the operation. For instance, a stroke on a letter might be the visual representation corresponding to a delete operation.
 
-Technically, they are represented by a single SVG `g` (=group) element, which can include any number and type of SVG descendant elements. So here you can enter any valid SVG code, provided that it has a single `g` element as its unique root element.
+Operation visuals can be defined by any geometrical shape and/or text on top of the carrier surface. Technically, they are represented by a single [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG) `g` (=group) element, which can include any number and type of SVG descendant elements. So here you can enter any valid SVG code, provided that it has a single `g` element as its unique root element.
 
 ![diplomatic tab](img/operation-editor03.png)
 
 You can add an `id` attribute to any of these SVG elements, if you want to target them for animations or for linking features to them.
 
-Also, by convention you can add a `_t` suffix to any `id` whenever you want to add entry animations targeting its visual.
+Also, by convention you can add a `_t` suffix to any `id` whenever you want to add animations targeting the visual. When you add this suffix, the corresponding visual opacity is programmatically set to 0 (=transparent) when the software builds the SVG code for the snapshot viewer. This is because the visual is meant to be made visible by some animation, which implies the requirement to start as transparent.
+
+>Using this approach avoids the risk of an unwanted effect due to timing issues in animating objects: should you start with a visible visual, and then make it invisible to animate its entrance, this might produce a so-called [FOUC effect](https://en.wikipedia.org/wiki/Flash_of_unstyled_content), where the object appears for an instant before being made invisible. So, whenever you want to animate the entrance of a visual, just ensure you append the "transparent" `_t` suffix to it and in your animation assume that it will start with its `opacity`=0.
 
 A toolbar at the top of the SVG code editor contains these commands:
 
@@ -67,16 +69,24 @@ A toolbar at the top of the SVG code editor contains these commands:
 - `load`: load SVG code from a file.
 - `copy`: copy the SVG code into the clipboard.
 - `set`: set the SVG code from the clipboard.
-- `open editor`: open a designated external graphical editor for SVG. The default editor is <https://editor.method.ac/>. In this case you can copy the existing SVG code if any, paste it into the external editor, draw as desired, and copy back the resulting code. Then, use the set button to set the SVG code from the clipboard.
+- `open editor`: open a designated external graphical editor for SVG. The default editor is <https://editor.method.ac/>, but this can be changed and is a configuration parameter. In the case of this editor, you can copy the existing SVG code if any, paste it into the external editor, draw as desired, and copy back the resulting code. Then, use the set button to set the SVG code from the clipboard.
 
 ## Elements
 
-The elements tab is dependent from the [diplomatic tab](#diplomatic), and lists all the SVG elements having an `id` attribute, so that you can attach to them any number of [features](usr-features.md).
+The elements tab is dependent from the [diplomatic tab](#diplomatic), and lists all the SVG elements having an `id` attribute, so that you can attach to them any number of [features](usr-features.md). This way, you can get maximum metadata granularity also on the visuals side.
 
 ![elements tab](img/operation-editor04.png)
 
 - to add or edit features to an element, click its pen button.
 - to remove all the features from an element, click the delete button.
+
+You are free to decide for the level of abstraction attached to your visual representation. Visuals can be a highly surrogate and schematic representation, or try to be as faithful as possible to the source image. In the latter case, you might even want to show that image as the background of the geometric representation of visuals.
+
+Note that in most cases visuals should be representing non-textual entities, like strokes, shapes, and drawings of any sort. When the operation visuals include text, because this is being inserted or replaced, you do not need to add text elements to represent it.
+
+Visuals representing texts, i.e. characters, are handled at the text layer, and become part of the output text. So, they will be part of the text passed to the snapshot viewer, just like any other character from the base text. Anyway, you can displace the newly added characters so that they appear in the desired location. For instance, say your autograph text shows a letter X above a letter Y, meant to replace it. In this case, this newly introduced character node, X, will take the place of Y unless you displace it above.
+
+To displace the character(s) introduced by an operation, you can add features to the operation named `x` and `y` with its desired coordinates. These coordinates will be used by the snapshot viewer to anchor the newly introduced text at the starting point they define.
 
 ## D-Features
 

@@ -10,9 +10,10 @@ Of course, this is not necessarily a linear process; it may well happen that the
 
 So, ideally we can imagine to implement a description of this process in these steps:
 
-1. define the text to start with, which is our "base text".
-2. describe each single editing operation directly or indirectly performed on it. In the simplest case, we have a linear progression where each operation's output is the input to the next operation; but we may well start from the output of any of the previous operations in our reconstructed sequence, thus producing various branches in a tree-shaped structure.
-3. optionally, also describe the visuals corresponding to each operation. For instance, a slash on top of a letter meaning its delection, a V-like sign with some letters above it meaning their insertion in a specific place, etc.
+1. define the _text_ to start with, which is our "base text".
+2. describe each single _editing operation_ directly or indirectly performed on it. In the simplest case, we have a linear progression where each operation's output is the input to the next operation; but we may well start from the output of any of the previous operations in our reconstructed sequence, thus producing various branches in a tree-shaped structure.
+3. optionally, also describe the _visuals_ corresponding to each operation. For instance, a slash on top of a letter meaning its delection, a V-like sign with some letters above it meaning their insertion in a specific place, etc.
+4. optionally, define _animation timelines_ for presenting your visuals for any specific versions.
 
 ## Architecture
 
