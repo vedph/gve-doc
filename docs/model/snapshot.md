@@ -1,4 +1,4 @@
-# Autograph
+# Snapshot
 
 This conceptual documentation refers to the representation of a manuscript text mostly or exclusively written by the author's hand himself. All the terms used here are just a technical commodity for the sake of this documentation.
 
@@ -12,7 +12,7 @@ In the case of GVE, the essential source of epigrams is represented by autograph
 
 The main challenge in modeling the content of these carriers is that they do not just represent a linear text; rather, they represent a sort of 🔖 **snapshot** of the creative process which in the author's mind would have led to the intended text. So, the carrier is the material support of the snapshot, which potentially contains many versions of a text.
 
-In fact, graphically the snapshot does not just represent a text, but it includes many corrections, rethinkings, or refactorings of it, in the form of various types of 🔖 **annotations** (deletions, insertions, transpositions, side notes, etc.).
+In fact, graphically the snapshot does not just represent a text, but it includes many corrections, rethinkings, or refactorings of it, in the form of various types of 🔖 **annotations** (deletions, insertions, transpositions, side notes, etc.) on top of a text.
 
 The snapshot is thus a sort of picture taken from the author's mind in relation to the text being composed at a given point in time. This does not necessarily imply that this is the end stage of the creative process underlying the text. The process may well have gone further on; but this is not reflected by the snapshot, which just represents a picture which froze an instant of this process at a given time.
 
@@ -24,7 +24,9 @@ When for whatever reason an authoritative version of the final outcome of all th
 
 In a digital edition instead, we have the power to handle all the rich and complex data preserved by our snapshot, without resorting to compromises. We can represent all the ingredients (text and annotations), all the recipes (annotation selection and ordering), and all their outcomes (resulting versions), while still keeping each as a separate layer, so that everyone can evaluate our text reconstruction, and even provide his own alternatives.
 
-Of course, this requires a proper model. Before delving into its details, let us consider its location in a bigger picture, as shown by the diagram below:
+When an authoritative version of the final outcome of all these operations in the text is lacking, in a traditional (paper) edition usually we are forced to forge one, representing the best effort in interpreting our carrier's content.
+
+In a digital edition instead, we have the power to handle all the rich and complex data preserved by our snapshot, without resorting to compromises.  We can represent all the ingredients (text with annotations), all the recipes (annotation selection and ordering), and all their outcomes (resulting versions), while keeping each as a separate layer, so that everyone can evaluate our text reconstruction, and even provide his own alternatives. This scenario is depicted in this diagram:
 
 ![stages](img/stages.png)
 
@@ -36,7 +38,7 @@ So, at the bottom level we find the carrier with its snapshot. On an upper level
 
 So, on a third layer we find the _critical text_, which by definition is a reconstructive hypothesis. This is based on a selection of _versions_ representing our witnesses, and located in a lower layer (versions A-D). Then, in the case of autographs we have yet another lower layer (the carrier with its snapshot), which generates some or all of these versions.
 
->The critical text can be reconstructed at different levels: we can limit our reconstruction to what is attested by our snapshot's versions, when focusing on the text (in our scenario, an epigram) from each single snapshot; or collect versions coming from several snapshots (and optionally from any other source), when focusing on the "meta-epigram" derived from the critical comparison of the many epigrams collected from our various sources, if this is feasible and required (e.g. to print a single text). This is just a matter of branches selection in the lineage of our text: when focusing on each single snapshot, we may want to publish a reconstructed text (epigram) from its versions, in this single-ancestor lineage; when focusing on many snapshots or on a mixture of other sources, we may want to publish a reconstructed text ("meta-epigram") from all of them, or rather just provide a set of reconstructed texts. At any rate, at the conceptual level of this model this belongs to the layer of reconstruction, based on the layer of witnesses, whatever its source(s).
+>The critical text can be reconstructed at different levels: we can limit our reconstruction to what is attested by our snapshot's versions, when focusing on the text (in our scenario, an epigram) from each single snapshot; or collect versions coming from several snapshots (and optionally from any other source), when focusing on the epigram derived from the critical comparison of the many epigrams collected from our various sources, if this is feasible and required (e.g. to print a single text). This is just a matter of branches selection in the lineage of our text: when focusing on each single snapshot, we may want to publish a reconstructed text (epigram) from its versions, in this single-ancestor lineage; when focusing on many snapshots or on a mixture of other sources, we may want to publish a reconstructed text from all of them, or rather just provide a set of reconstructed texts. This is what happens in GVE, where there is no authoratitive publication of the text where all the versions would converge. So, in this case we will end up with a collection of multiple versions we might name a “synopsis”; and such will be the level above our snapshot for this peculiar edition. At any rate, at the conceptual level of this model this belongs to the layer of reconstruction, based on the layer of witnesses, whatever its source(s).
 
 Thus, the scope of our autograph model encompasses the area defined by the bounding dashed rectangle in the diagram: a carrier with a snapshot, which potentially defines many versions of a text. What we want from our model is a representation of that snapshot, both on the textual and on the graphical side.
 

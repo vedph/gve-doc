@@ -4,8 +4,8 @@
 
 Ideally, the main requirements of this model are:
 
-1. we want to **represent the snapshot** itself in a _computable_ model.
-2. we want to **preserve** as distinct, structured data our _ingredients_ (text and annotations), _recipes_ (annotation selection and ordering) and _outcomes_ (text versions).
+1. we want to **represent the snapshot** itself in a _computable_, generative way, defining the process which builds the reconstructed output.
+2. in this process, we want to **preserve** as distinct, structured data our _ingredients_ (text and annotations), _recipes_ (annotation selection and ordering) and _outcomes_ (text versions).
 3. we want to represent the snapshot annotations both in their **textual and visual form**. This is because the graphical representation of each annotation is semantic information, which should be encoded next to the textual variant it represents. By preserving both these layers of data we provide a richer model, which can be inspected by scholars used our digital edition as a tool, or just leveraged by more casual users as another way of looking at the text and its creation process.
 
 A good model should meet all these requirements using the simplest possible structure, which implies _raising the abstraction level_ so that even the finest details can find a generalized and consistent representation.
@@ -26,19 +26,19 @@ In technical terms, we could describe this structure as a _tagged multigraph lin
 
 ### Operations
 
-Let us see how this works by using a simplified diagram. Consider this carrier, which I created by first writing characters `ARZDC`, and then making some annotations on it, representing variations of the text.
+Let us see how this works by using a simplified diagram. Consider the image below, which I created by first writing characters `ARZDC`, and then making some annotations on it, representing variations of the text.
 
-A text being a linear sequence of characters, we don't care creating a true text in a specific language here; we just deal with such sequences, so that our examples are shorter and more to the point.
+>A text being a linear sequence of characters, we don't care creating a true text in a specific language here; we just deal with such sequences, so that our examples are shorter and more to the point.
 
 ![snapshot diagram](./img/snapshot1.png)
 
-As you can see, our snapshot provides annotations which can be interpreted as operations changing the **base text**, which is just what happens to be the starting point of our digital representation. So, "base text" here has no genetic or philological implication; it is just a practical device in our model.
+This snapshot provides annotations which can be interpreted as operations changing the **base text**, which is just what happens to be the starting point of our digital representation. So, "base text" here has no genetic or philological implication; it is just a practical device in our model.
 
-As our model represents multiple versions of what we consider the same text, this means that it represents a set of changes in it, from the first to the last version in the author's mind. Again, "first" and "last" here don't imply that these are the two edges of the line representing the whole creation process; rather, they are the two edges of the segment in this line which is covered by our snapshot. When representing multiple versions of a linear sequence in terms of changes of a starting sequence, of course we need right that: _a sequence to start with_. This is our "base text".
+As our model represents multiple versions of what we consider the "same" text, this means that it represents a set of changes in it, from the first to the last version in the author's mind. Again, "first" and "last" here don't imply that these are the two edges of the line representing the whole creation process; rather, they are the two edges of the segment in this line which is covered by our snapshot. When representing multiple versions of a linear sequence in terms of changes of a starting sequence, of course we need right that: _a sequence to start with_. This is our "base text".
 
 Often, this base text will correspond to what in a relatively tidy snapshot looks like a line in the main flow of text, used as the anchor for annotations. In our diagram, this is the line where I wrote `ARZDC`. This does not necessarily imply that I _first_ wrote `ARZDC`, and _then_ all the rest; I might well have written `AR`, then some of the annotations above it, and then the rest of the letters in the same line (`ZDC`); or I might have followed any of the other order of actions I could ever imagine for writing the text photographed by our snapshot. This is not relevant here; all what we want is a sequence to start with, and on the ground of both visual and textual representations (and optionally their meaning, when dealing with a real text) I happen to pick `ARZDC`.
 
-Having defined our base text, let us now focus on the **annotations**. The annotations on our snapshot clearly represent _operations_ on the text, which in a visual way lead to generate different versions of it:
+Having defined our base text, let us now focus on the **annotations**. The annotations on the sample snapshot clearly represent _operations_ on the text, which in a visual way lead to generate different versions of it:
 
 - the slash on `Z` represents a _deletion operation_.
 - the slash on `R` is part of a _replacement operation_. Of course, in simpler terms a replacement is just a composite operation, made of a deletion followed by an insertion. Yet, from our more synthetic point of view we prefer to look at it as a replacement. In fact, that's what our snapshot visuals aim to represent; we have a slash on `R`, and two segments originating from it and leading to two alternative letters: `V` on the left, and `P` on the right.
@@ -59,9 +59,9 @@ We thus want such operations to be as close as possible to a human-friendly way 
 
 ### Chain
 
-So far, we have modeled our snapshot and its ingredients: we have letters, and operations on them. Some of these operations just move letters around; others can delete them, or add new ones.
+So far, we have modeled our snapshot and its _ingredients_: we have letters, and operations on them. Some of these operations just move letters around; others can delete them, or add new ones.
 
-Our next challenge is representing a recipe. In our sample snapshot, our ingredients are:
+Our next challenge is representing a _recipe_. In our sample snapshot, our ingredients are:
 
 - the base text `ARZDC`;
 - the deletion of `Z`;

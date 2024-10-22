@@ -1,7 +1,7 @@
 # Summary
 
 - Model
-  - [Modeling Autographs](./docs/model/autograph.md)
+  - [Modeling Autographs: Snapshot](./docs/model/snapshot.md)
   - [Textual Model](./docs/model/textual.md)
   - [Diplomatic Model](./docs/model/diplomatic.md)
   - [Snapshot Sample](./docs/model/snapshot-sample.md)
