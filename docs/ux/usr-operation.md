@@ -88,8 +88,10 @@ Visuals representing texts, i.e. characters, are handled at the text layer, and 
 
 To displace the character(s) introduced by an operation, you can add features to the operation named `x` and `y` with its desired coordinates. These coordinates will be used by the snapshot viewer to anchor the newly introduced text at the starting point they define.
 
+>Similarly, reserved feature names besides `x` and `y` are also `class` and `style`, which add the corresponding attributes to the target element in the snapshot viewer.
+
 ## D-Features
 
 ![d-features tab](img/operation-editor05.png)
 
-The diplomatic features tab contains a set of [features](usr-features.md) assigned to the diplomatic description of the snapshot as a whole. So, any diplomatic feature not linked to any specific visual element should go here.
+The diplomatic features tab contains a set of [features](usr-features.md) assigned to the diplomatic description of the snapshot as a whole. So, any diplomatic feature not linked to any specific visual element (e.g. a sheet width or height) should go here.
