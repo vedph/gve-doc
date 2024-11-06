@@ -5,6 +5,7 @@
   - [Textual Model](./docs/model/textual.md)
   - [Diplomatic Model](./docs/model/diplomatic.md)
   - [Snapshot Sample](./docs/model/snapshot-sample.md)
+  - [True Text Snapshot Sample](./docs/model/limerick.md)
 - User Experience
   - [snapshot](./docs/ux/gve-core.md)
   - [editing snapshots](./docs/ux/usr-snapshot.md)
