@@ -69,11 +69,11 @@ Let us formalize this interpretation, representing it with the [DSL syntax](text
 So, here we are describing all changes step after step. Each operation output produces a new version, but only two of them are marked as staged, with names `alpha` and `beta` respectively. In short:
 
 ```txt
-40x5="said" [*log="said for cried"]
-99x5="crows" [*log="crows for swans"]
-116+["have " [*log="insert have" *version^="alpha" reason="metrical"]
+40x5="said" [*log="said for cried" x="72" y="140" style="font-size:20px;fill:red"]
+99x5="crows" [*log="crows for swans" x="120" y="210" style="font-size:20px;fill:red"]
+116+["have " [*log="insert have" *version^="alpha" reason="metrical" x="60" y="270" style="font-size:20px;fill:red"]
 72x23<>95x20  [*log="swap verses"]
-155x5="owls" [*log="owls for crows" *version^="beta"]
+155x5="owls" [*log="owls for crows" *version^="beta" x="210" y="210" style="font-size:20px;fill:red"]
 ```
 
 The output versions are:
