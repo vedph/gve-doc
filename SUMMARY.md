@@ -11,3 +11,5 @@
   - [editing snapshots](./docs/ux/usr-snapshot.md)
   - [editing operations](./docs/ux/usr-operation.md)
   - [editing features](./docs/ux/usr-features.md)
+- Technical Documentation
+  - [architecture](./docs/dev/index.md)
