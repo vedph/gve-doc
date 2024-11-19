@@ -70,10 +70,10 @@ So, here we are describing all changes step after step. Each operation output pr
 
 ```txt
 40x5="said" [*log="said for cried" x="72" y="140" style="font-size:20px;fill:red"]
-99x5="crows" [*log="crows for swans" x="120" y="210" style="font-size:20px;fill:red"]
-116+["have " [*log="insert have" *version^="alpha" reason="metrical" x="60" y="270" style="font-size:20px;fill:red"]
-72x23<>95x20  [*log="swap verses"]
-155x5="owls" [*log="owls for crows" *version^="beta" x="210" y="210" style="font-size:20px;fill:red"]
+99x5="crows" [*log="crows for swans" x="30" y="210" style="font-size:20px;fill:red"]
+116+["have " [*log="insert have" *version^="alpha" reason="metrical" x="20" y="245" style="font-size:20px;fill:red"]
+72x23<>95x21  [*log="swap verses"]
+155x5="owls" [*log="owls for crows" *version^="beta" x="110" y="210" style="font-size:20px;fill:red"]
 ```
 
 The output versions are:
