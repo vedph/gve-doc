@@ -71,7 +71,7 @@ So, here we are describing all changes step after step. Each operation output pr
 ```txt
 40x5="said" [*log="said for cried" x="72" y="140" style="font-size:20px;fill:red"]
 99x5="crows" [*log="crows for swans" x="30" y="210" style="font-size:20px;fill:red"]
-116+["have " [*log="insert have" *version^="alpha" reason="metrical" x="20" y="245" style="font-size:20px;fill:red"]
+116+["have " [*log="insert have" *version^="alpha" reason="metrical" x="20" y="250" style="font-size:20px;fill:red"]
 72x23<>95x21  [*log="swap verses"]
 155x5="owls" [*log="owls for crows" *version^="beta" x="110" y="210" style="font-size:20px;fill:red"]
 ```
@@ -129,6 +129,23 @@ have all built their nests in my beard!"
 ```
 
 This is the minimal data we need to represent our text versions. We can then go on, and add visuals and even timelines; anyway, until now all the snapshot data could be entered via text: a base text and 5 lines representing a batch of edits is all what is required to feed the chain engine and let it generate all the versions, each with its own metadata attached to either specific text nodes, or to the version as a whole.
+
+If we now look at the UI, focusing on the output of the last operation (`v5`), we can see the resulting text below the list of operations, character by character. Clicking on each character shows its features, if any, next to the snapshot features. Here for instance I have clicked on the character node with ID 165 (`o` of `owls`), getting:
+
+- the ID of the operation which introduced the node (`opid`: the value is the same you can see at the top of the snapshot, corresponding to the bottom of the operations list).
+- the `x` and `y` coordinates on the snapshot surface. This is assigned to the first character added by that operation (i.e. `o`); the next ones (i.e. `wls`) just follow it on the same line.
+- the `style` assigned to the new nodes: here I want `owls` with a smaller size, and red color (this is standard CSS targeting the SVG text elements).
+
+Also notice that on the left we get all the snapshot-wide features, which were accumulated while executing all the operations up to the last one:
+
+- a `log` entry for each operation executed. This is just to trace the effect of each operation.
+- a `version` entry with value `beta`, assigned to the `v5` version output by the last operation. This means that we want to flag this version as a staged version (a _Fassung_) with that name.
+
+![limerick snapshot UI](img/limerick-ops.png)
+
+Also, if we look at the snapshot view, we can see that all the new characters appear in a smaller font, with red color, as specified by their operations features. So, this is our minimalist representation of the snapshot: we still lack additional signs on top of it, like the bars or the arrows from our original image; but we already have a full representation of the text with all its metadata. By clicking on each of the generated versions listed to the right of the characters we can go back and forth along our reconstructive hypothesis of the progressive transformation of this text. In this snapshot we are looking at the last generated version (`v5`), whose background is highlighted; but we can just click on any other version to get its text, and browse all the metadata in it, while displaying the result in the snapshot view.
+
+Thus, we can get to this rich, interactive view of our autograph with just a few lines of text, representing the base text and the editing operations on it.
 
 ---
 
