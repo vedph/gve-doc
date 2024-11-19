@@ -173,4 +173,4 @@ For most eases you'll be able to specify a type. There are three types of ease: 
 
 ---
 
-◀️ [editing snapshots](usr-snapshot.md) | ▶️ [editing snapshot operations](usr-operation.md) | 🏠 [home](../index.md)
+◀️ [GVE core library](gve-core.md) | ▶️ [editing snapshot operations](usr-operation.md) | 🏠 [home](../index.md)
