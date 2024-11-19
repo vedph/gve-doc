@@ -129,3 +129,7 @@ have all built their nests in my beard!"
 ```
 
 This is the minimal data we need to represent our text versions. We can then go on, and add visuals and even timelines; anyway, until now all the snapshot data could be entered via text: a base text and 5 lines representing a batch of edits is all what is required to feed the chain engine and let it generate all the versions, each with its own metadata attached to either specific text nodes, or to the version as a whole.
+
+---
+
+◀️ [snapshot sample](snapshot-sample.md) | 🏠 [home](../index.md)

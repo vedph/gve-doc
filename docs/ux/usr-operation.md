@@ -95,3 +95,7 @@ To displace the character(s) introduced by an operation, you can add features to
 ![d-features tab](img/operation-editor05.png)
 
 The diplomatic features tab contains a set of [features](usr-features.md) assigned to the diplomatic description of the snapshot as a whole. So, any diplomatic feature not linked to any specific visual element (e.g. a sheet width or height) should go here.
+
+---
+
+◀️ [editing snapshot operations](usr-operation.md) | ▶️ [editing operation features](usr-features.md) | 🏠 [home](../index.md)

@@ -374,3 +374,7 @@ So in the end, these operations represent 7 variants of our text:
 Additionally, each version has its set of features, as derived by accumulating them from the various operations which generated it.
 
 >🛠️ Technical note: each chain operation derives from `ChainOperation<T>`, which in turn is derived from `VarOperationMetadata`. All operations get translated into calls to lower-level chain editing methods. The chain operations take care of finding the nodes corresponding to their location arguments. All the operations work on a chain operations **context** (`ChainOperationContext<T>`), which includes the chain itself and a set of related data, like last version tag, context features (for global features), node features, and all the details about each step in processing the text.
+
+---
+
+◀️ [snapshot](snapshot.md) | ▶️ [diplomatic part](diplomatic.md) | 🏠 [home](../index.md)

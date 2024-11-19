@@ -46,3 +46,7 @@ Once this model satisfies all our requirements, it will be the foundation for st
 
 - [textual model](textual.md)
 - [diplomatic model](diplomatic.md)
+
+---
+
+◀️ [model](index.md) | ▶️ [textual part](textual.md) | 🏠 [home](../index.md)

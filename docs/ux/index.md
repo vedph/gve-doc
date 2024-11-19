@@ -19,6 +19,11 @@ Of course, this is not necessarily a linear process; it may well happen that the
 
 The following pages provide a quick illustration of the editor UI:
 
+- [GVE core library](./gve-core.md)
 - [editing snapshots](./usr-snapshot.md)
   - [editing snapshot operations](./usr-operation.md)
   - [editing operation features](./usr-features.md)
+
+---
+
+🏠 [home](../index.md)

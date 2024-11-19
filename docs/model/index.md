@@ -5,3 +5,7 @@
   - [diplomatic part](diplomatic.md)
   - [snapshot sample](snapshot-sample.md)
   - [true text snapshot sample](limerick.md)
+
+---
+
+🏠 [home](../index.md)

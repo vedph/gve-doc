@@ -170,3 +170,7 @@ For most eases you'll be able to specify a type. There are three types of ease: 
 - `power1.in`: start slow and end faster, like a heavy object falling.
 - `power1.out`: start fast and end slower, like a rolling ball slowly coming to a stop.
 - `power1.inOut`: start slow and end slow, like a car accelerating and decelerating.
+
+---
+
+◀️ [editing snapshots](usr-snapshot.md) | ▶️ [editing snapshot operations](usr-operation.md) | 🏠 [home](../index.md)

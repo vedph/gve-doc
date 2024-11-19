@@ -15,3 +15,7 @@ In turn, the snapshot editor is composed by a lot of other components, covering 
 - [editing snapshots](./usr-snapshot.md)
 - [editing operations](./usr-operation.md)
 - [editing features](./usr-features.md)
+
+---
+
+◀️ [User experience](index.md) | ▶️ [editing snapshots](usr-snapshot.md) | 🏠 [home](../index.md)

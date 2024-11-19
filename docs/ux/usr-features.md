@@ -49,3 +49,7 @@ To **test** the behavior of the component, you have a couple of checkboxes at th
 - filter treshold: the value for the filer treshold.
 
 Whenever you change the set, the test page will show the received JSON code representing it.
+
+---
+
+◀️ [editing operation features](usr-features.md) | 🏠 [home](../index.md)

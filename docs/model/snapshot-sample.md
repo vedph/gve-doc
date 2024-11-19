@@ -382,3 +382,7 @@ In the end, the snapshot view provides users with an overview of the text creati
 
 - an _objective_ data layer, the digital representation of the snapshot as it can be described from its carrier. This is the set of all the visuals as they appear on it. Of course, even at this level there might be a level of subjectivity (for instance in reading a single sign), but this usually is a corner case, and anyway it can be encoded using features (like a probability rank) about it.
 - a _subjective_ data layer one, the philological interpretation of the snapshot, which is described by operations. These guide us in reading the snapshot, by interpreting the operations represented by its annotations so that they are filtered and ordered to get all the text versions we deduce from it. Additionally, we describe this recipe for getting our text versions from the ingredients on the table of the carrier in such a way that we effectively get operational instructions for the underlying chain data structure. This makes the system capable of generating all the text versions with all their metadata, up to the granularity level of a single character.
+
+---
+
+◀️ [diplomatic part](diplomatic.md) | ▶️ [true text snapshot sample](limerick.md) | 🏠 [home](../index.md)

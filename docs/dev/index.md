@@ -48,3 +48,7 @@ The UI has been designed into a set of **layers and modules**, with the primary 
 4. **VEdition editor** (Angular 18+ [Cadmus](https://myrmex.github.io/overview/cadmus)-based editor, distributed in containerized Docker images: `cadmus-gve-app`): this is the editor planned for the full content of VEdition, which is not limited to snapshots, but extends to a whole tree of entities based on it. In this case we adopt [Cadmus](https://myrmex.github.io/overview/cadmus) for its modularity and extensibility, which allows us to build a full web editor on top of an already mature tool, backed by a full-fledged database. In turn, this editor uses the snapshot editor library for editing snapshots, and more libraries for the other entities involved.
 
 This layered design allows to reuse the logic included in each component without having to introduce unwanted dependencies, according to the purposes and environment of reuse.
+
+---
+
+🏠 [home](../index.md)

@@ -84,3 +84,7 @@ The animation model here can be designed in compliance with a basic usage of GSA
     - `position`: this is just a string.
 
 >A timeline can be easily transformed into a set of instructions for GSAP. Essentially, a tween is created with the timeline's function corresponding to its type (`to`, `from`, `fromTo`), which gets as parameters selector, vars and position from the corresponding tween's properties. In tweens, both label and note have no usage, except facilitating the users work in editing the timeline.
+
+---
+
+◀️ [textual part](textual.md) | ▶️ [snapshot sample](snapshot-sample.md) | 🏠 [home](../index.md)
