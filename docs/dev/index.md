@@ -8,6 +8,8 @@ The GVE architecture is based on three main groups of components:
 
 ![GVE Software Architecture](img/architecture.png)
 
+The API layer allows to share the core logic (stored in separated libraries) with clients written in any language, and all the applications are distributed via Docker containers, thus making it easy to both host them in a server and use them on a local machine, without requiring any configuration.
+
 ## GVE Backend
 
 The GVE backend essentially consists of the snapshot model and its core chain data structure. The only language used for backend is C#.
