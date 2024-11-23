@@ -187,7 +187,7 @@ If you want a shorter SVG, in most cases you can drop the decimal digits and jus
 <path style="fill:none;stroke:#ff0000;stroke-width:2" d="m 436,229 8,11 -15,2 z" id="arrow-cap-2" />
 ```
 
-As you can see, the IDs make it easy to understand which path belongs to which operation.
+As you can see, the IDs make it easy to understand which path belongs to which operation. We can now simply copy-paste the path(s) belonging to each operation into their visuals, wrapping them into an SVG group (`g`).
 
 ---
 
