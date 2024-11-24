@@ -208,7 +208,15 @@ If you want a shorter SVG, in most cases you can drop the decimal digits and jus
 
 >💡 The operation editor has a _remove decimals_ button used right for this purpose.
 
-As you can see, the IDs make it easy to understand which path belongs to which operation. We can now simply copy-paste the path(s) belonging to each operation into their visuals, wrapping them into an SVG group (`g`).
+As you can see, the IDs make it easy to understand which path belongs to which operation. We can now simply copy-paste the path(s) belonging to each operation into their visuals, wrapping them into an SVG group (`g`). Here are again our operations:
+
+1. said for cried: this has no visuals, as we just have "said" written above "cried" with no additional sign.
+2. crows for swans: this has a bar on "swans", corresponding to our element with ID `swans-bar`.
+3. insert have: this has a V-like sign above "all", corresponding to our element with ID `v-bar`.
+4. swap verses: this has a curved double-edged arrow next to the two verses. Its visuals correspond to elements with IDs `arrow-cap-1`, `arrow-line`, and `arrow-cap-2`.
+5. owls for crows: this has a bar on "crows", corresponding to our element with ID `crows-bar`.
+
+>💡 The operation editor has a _wrap in group_ button used to wrap the existing code into a root `g` element. This makes it quicker to paste and adjust the code.
 
 ---
 
