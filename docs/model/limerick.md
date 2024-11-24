@@ -40,8 +40,8 @@ Further, to give an approximate reproduction of the text layout, we add set thes
 
 - text style: `font-size: 32px`
 - X offset = 70
-- Y offset = 130
-- ln h-offset=35
+- Y offset = 40
+- ln h-offset=26
 
 ## Adding Operations
 
@@ -74,14 +74,20 @@ Let us formalize this interpretation, representing it with the [DSL syntax](text
 So, here we are describing all changes step after step. Each operation output produces a new version, but only two of them are marked as staged, with names `alpha` and `beta` respectively. In short:
 
 ```txt
-40x5="said" [*log="said for cried" x="180" y="170" style="font-size:28px;fill:red"]
-99x5="crows" [*log="crows for swans" x="150" y="320" style="font-size:28px;fill:red"]
-116+["have " [*log="insert have" *version^="alpha" reason="metrical" x="40" y="390" style="font-size:28px;fill:red"]
+40x5="said" [*log="said for cried" x="150" y="80" style="font-size:28px;fill:red"]
+99x5="crows" [*log="crows for swans" x="120" y="200" style="font-size:28px;fill:red"]
+116+["have " [*log="insert have" *version^="alpha" reason="metrical" x="35" y="260" style="font-size:28px;fill:red"]
 72x23<>95x21  [*log="swap verses"]
-155x5="owls" [*log="owls for crows" *version^="beta" x="240" y="310" style="font-size:28px;fill:red"]
+155x5="owls" [*log="owls for crows" *version^="beta" x="195" y="195" style="font-size:28px;fill:red"]
 ```
 
-To view their result we can look at the snapshot view. Here, we also add a background image from some URL (e.g. <http://www.fusisoft.it/xfer/limerick.png>), so that we can see the facsimile behind our snapshot. To this end, we set the background image opacity to about 0.5. The snapshot view shows our result for the output of the last operation in the set (`v5`):
+To view their result we can look at the snapshot view. Here, we also add a background image from some URL (e.g. <http://www.fusisoft.it/xfer/limerick.png>), so that we can see the facsimile behind our snapshot. To this end, we set these background image parameters:
+
+- width: 670 (this is simply the image's width)
+- height: 381 (this is simply the image's height)
+- opacity = 0.5.
+
+The snapshot view shows our result for the output of the last operation in the set (`v5`):
 
 ![snapshot view](img/limerick-view1.png)
 
@@ -199,6 +205,8 @@ If you want a shorter SVG, in most cases you can drop the decimal digits and jus
 <path style="fill:none;stroke:#ff0000;stroke-width:2" d="m 429,189 c 13,3 43,8 11,44" id="arrow-line" />
 <path style="fill:none;stroke:#ff0000;stroke-width:2" d="m 436,229 8,11 -15,2 z" id="arrow-cap-2" />
 ```
+
+>💡 The operation editor has a _remove decimals_ button used right for this purpose.
 
 As you can see, the IDs make it easy to understand which path belongs to which operation. We can now simply copy-paste the path(s) belonging to each operation into their visuals, wrapping them into an SVG group (`g`).
 
