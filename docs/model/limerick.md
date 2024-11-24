@@ -20,7 +20,7 @@ This is our **snapshot**. We now use the snapshot editor to enter its data in th
 
 ## Setting Base Text
 
-Let us start by defining the **base text** (`v0`). Our mock snapshot is very simple: by looking at it, we can clearly see that this corresponds to the text which was first laid out following the printed sheet lines. So, we can define the base text as:
+👉 Let us start by defining the **base text** (`v0`). Our mock snapshot is very simple: by looking at it, we can clearly see that this corresponds to the text which was first laid out following the printed sheet lines. So, we can define the base text as:
 
 ```txt
 there was an old man with a beard,
@@ -36,12 +36,18 @@ In the GVE UI, we can just paste this text to get the identifiers assigned to ea
 
 >💡 To select a range, click on the first node, and then Ctrl+click on the last one. Note that the base text essentially is just a string, so that newlines are represented in it just like any character node, corresponding to a single newline character (LF). In the UI this is visualized as an arrow-down character.
 
-Further, to give an approximate reproduction of the text layout, we add set these base text parameters:
+👉 Further, to give an approximate reproduction of the text layout, we add set these base text **parameters**:
 
 - text style: `font-size: 32px`
 - X offset = 70
 - Y offset = 40
-- ln h-offset=26
+- ln h-offset = 26
+
+👉 Finally, we add a **background image** from some URL (e.g. <http://www.fusisoft.it/xfer/limerick.png>), so that we can see the facsimile behind our snapshot. Its parameters are:
+
+- width = 670 (this is simply the image's width);
+- height = 381 (this is simply the image's height);
+- opacity = 0.5.
 
 ## Adding Operations
 
@@ -81,13 +87,7 @@ So, here we are describing all changes step after step. Each operation output pr
 155x5="owls" [*log="owls for crows" *version^="beta" x="195" y="195" style="font-size:28px;fill:red"]
 ```
 
-To view their result we can look at the snapshot view. Here, we also add a background image from some URL (e.g. <http://www.fusisoft.it/xfer/limerick.png>), so that we can see the facsimile behind our snapshot. To this end, we set these background image parameters:
-
-- width: 670 (this is simply the image's width)
-- height: 381 (this is simply the image's height)
-- opacity = 0.5.
-
-The snapshot view shows our result for the output of the last operation in the set (`v5`):
+To view their result we can look at the snapshot view. This shows our result for the output of the last operation in the set (`v5`):
 
 ![snapshot view](img/limerick-view1.png)
 
