@@ -228,12 +228,25 @@ If you want a shorter SVG, in most cases you can drop the decimal digits and jus
 As you can see, the IDs make it easy to understand which path belongs to which operation. We can now simply copy-paste the path(s) belonging to each operation into their visuals, wrapping them into an SVG group (`g`). Here are again our operations:
 
 1. _said for cried_: this has no visuals, as we just have "said" written above "cried" with no additional sign.
-2. _crows for swans_: this has a bar on "swans", corresponding to our element with ID `swans-bar`. So, 👉 edit operation 2 and add its SVG code to the operation's visuals, wrapping it in a single root `g` element.
+2. _crows for swans_: this has a bar on "swans", corresponding to our element with ID `swans-bar`. So, 👉 edit operation 2 and under its `diplomatic` tab add its SVG code to the operation's visuals, wrapping it in a single root `g` element.
 3. _insert have_: this has a V-like sign above "all", corresponding to our element with ID `v-bar`. 👉 Edit operation 3 and do as above.
 4. _swap verses_: this has a curved double-edged arrow next to the two verses. Its visuals correspond to elements with IDs `arrow-cap-1`, `arrow-line`, and `arrow-cap-2`. 👉 Edit operation 4 and do as above: this time the `g` element will wrap all the three children `path` elements, instead that just one.
 5. _owls for crows_: this has a bar on "crows", corresponding to our element with ID `crows-bar`. 👉 Edit operation 5 and do as above.
 
 >💡 The operation editor has a _wrap in group_ button used to wrap the existing code into a root `g` element. This makes it quicker to paste and adjust the code. If the existing code is already wrapped in a `g` element, this does nothing.
+
+If we now look at the snapshot view corresponding to the last operation, we get the picture below:
+
+![final snapshot](img/limerick-view2.png)
+
+As you can see, each operation is now also represented by its visuals: most replacements (except that for "said") have a bar on top of the replaced text; the insertion of "have" has its V-shaped sign linking it to its intended position in the text; and the arrow signals the verses swap. If we click on any of the versions shown above, we can see the resulting text at that stage, with all the visuals accumulated on the snapshot.
+
+We have thus managed to fully represent our autograph in a highly compact way, which:
+
+- clearly separates our interpretation from the surrogate reproduction of the text;
+- formally defines our interpretation via editing operations starting from a base text;
+- generates all the versions of the text after each single operation, with all its metadata, attached to the version as a whole or to any of its characters;
+- adds a separate, diplomatic layer for the visual representation of each operation having one, using a standard technology like SVG, which has also the advantage of being animatable, interactive, and compatible with output formats like TEI.
 
 ---
 
