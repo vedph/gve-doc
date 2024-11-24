@@ -241,12 +241,22 @@ If we now look at the snapshot view corresponding to the last operation, we get 
 
 As you can see, each operation is now also represented by its visuals: most replacements (except that for "said") have a bar on top of the replaced text; the insertion of "have" has its V-shaped sign linking it to its intended position in the text; and the arrow signals the verses swap. If we click on any of the versions shown above, we can see the resulting text at that stage, with all the visuals accumulated on the snapshot.
 
+## Conclusion
+
 We have thus managed to fully represent our autograph in a highly compact way, which:
 
 - clearly separates our interpretation from the surrogate reproduction of the text;
 - formally defines our interpretation via editing operations starting from a base text;
 - generates all the versions of the text after each single operation, with all its metadata, attached to the version as a whole or to any of its characters;
 - adds a separate, diplomatic layer for the visual representation of each operation having one, using a standard technology like SVG, which has also the advantage of being animatable, interactive, and compatible with output formats like TEI.
+
+In a more traditional workflow, you might focus on a set of (mostly TEI) documents, each representing a selected stage in the transformation of the text, as reconstructed by our hypothesis. In each document you repeat the whole text, while annotating it as the effect of editing operations like insertions, deletions, replacements, and the like.
+
+So, you are focusing on the end products of a transformation process starting from a hypothetical first stage, which represents the base for comparing each document with a previous state of the text.
+
+Here instead we have reversed the flow: we focus on the transformation process, rather than on its effects, and describe it formally via operations. This allows to automatically generate 25 verses with all their annotations from just 5 base text verses and 5 operations. Additionally, we can fully integrate the representation of text with a visual, diplomatic layer, while preserving it in a separate, optional area.
+
+On this path, we can also add the dimension of time with animations, and provide a fully interactive UI where the reconstructed process can be represented in its maximum granularity, even beyond the selected stages traditionally represented by various documents.
 
 ---
 
