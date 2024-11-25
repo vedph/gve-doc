@@ -258,6 +258,8 @@ Here instead we have reversed the flow: we focus on the transformation process, 
 
 On this path, we can also add the dimension of time with animations, and provide a fully interactive UI where the reconstructed process can be represented in its maximum granularity, even beyond the selected stages traditionally represented by various documents.
 
+Also, this model allows to build a full-fledged web-based editor in a multi-user environment, backed by a database in a standard web application environment with backup, authentication and authorization levels, auditing, rate limiting, and highly-structured modular data, like in [Cadmus](https://myrmex.github.io/overview/cadmus). Of course, this does not mean that we're not going to generate outputs like TEI; it simply means that these will be built by exporting these compact snapshot data into TEI documents, which also offers the additional benefit of being able to adopt different markup schemas according to our desire.
+
 ---
 
 ◀️ [snapshot sample](snapshot-sample.md) | 🏠 [home](../index.md)
