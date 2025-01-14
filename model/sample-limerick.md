@@ -7,6 +7,10 @@ nav_order: 4
 
 # Limerick Example
 
+💡 If you prefer to look at a short video, here you can find a shorter version of this page:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/qAHa_O-Aqhw?si=sDsVXnNvRu7RCBBF" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 Let us make an example with a true text. Consider the first limerick in [The Book of Nonsense](http://purl.flvc.org/fsu/fd/FSULearBook_012) by Edward Lear (p.7 of the 1875 edition you can find at <http://purl.flvc.org/fsu/fd/FSULearBook_012>):
 
 ![The Book of Nonsense, page 7](img/nonsense7.png)
