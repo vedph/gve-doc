@@ -1,6 +1,6 @@
 # VEdition Documentation
 
-🌐 See <https://vedph.github.io/pythia-doc>
+🌐 See <https://vedph.github.io/gve-doc>
 
 ## Setup
 
