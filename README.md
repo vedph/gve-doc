@@ -2,6 +2,13 @@
 
 🌐 See <https://vedph.github.io/gve-doc>
 
+## Prerequisites
+
+Ensure that in your machine you:
+
+1. install Ruby SDK via the RubyInstaller.
+2. install Jekyll and bundler gems: `gem install jekyll bundler`.
+
 ## Setup
 
 This Jekyll site was setup as follows:

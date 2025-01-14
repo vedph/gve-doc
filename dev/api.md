@@ -176,18 +176,18 @@ graph LR;
 
 A ==> B
 B --> reasonB
-B --> opid
+B --> opidB
 B --> xB
 B --> yB
 B --> styleB
 B ==> C
 Z --> reasonZ
 C ==> D
-C --> opid
+C --> opidC
 C --> xC
 C --> yC
 C --> styleC
-V --> opid
+V --> opidV
 V --> xV
 V --> yV
 V --> styleV
