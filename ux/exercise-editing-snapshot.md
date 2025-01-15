@@ -117,7 +117,7 @@ all built their nests in my beard!"
 
 💡 The **snapshot view** will show the base text on top of the facsimile image. If you hover on the text in the view, you will see metadata about each character just below the view. This shows you how the view can be used in highly interactive UIs. Typically you will see here the type of the hovered element (currently you just have character types), its text value, the coordinates of its top-left corner, and the size of its bounding box. You can toggle rulers, and zoom and pan the view.
 
-▶️ 5. click on the `operations` tab and on the `batch` button to add operations. Just copy-paste this text, where each line represents an operation, and click the `batch add` button:
+▶️ 5. click on the `operations` tab and on the `batch` button to **add operations**. Just copy-paste this text, where each line represents an operation, and click the `batch add` button:
 
 ```txt
 40x5="said" [*log="said for cried" x="150" y="80" style="font-size:28px;fill:red"]
@@ -162,7 +162,7 @@ Let's show how we can draw visuals on top of a facsimile image. If you want to d
 
 If you want a shorter SVG, in most cases you can drop the decimal digits and just use integers; but of course, to the machine this makes no difference. The operation editor has a _remove decimals_ button used right for this purpose.
 
-▶️ 6. edit each operation from 2 to 5, adding to each its visuals by copy-pasting them from the saved SVG image (here I reduced the decimals to make this more compact and readable). For each operation:
+▶️ 6. **add operation visuals**: edit each operation from 2 to 5, adding to each its visuals by copy-pasting them from the saved SVG image (here I reduced the decimals to make this more compact and readable). For each operation:
 
 1. click its pen button to edit it.
 2. open its `diplomatic` tab.
