@@ -7,6 +7,18 @@ nav_order: 5
 
 # Exercise - Editing Snapshot
 
+- [Exercise - Editing Snapshot](#exercise---editing-snapshot)
+  - [Prerequisites](#prerequisites)
+  - [First Run](#first-run)
+  - [Exploring UI](#exploring-ui)
+    - [Animations](#animations)
+    - [Features](#features)
+    - [Base Text](#base-text)
+    - [Snapshot](#snapshot)
+  - [Create a Snapshot](#create-a-snapshot)
+    - [Textual Data](#textual-data)
+    - [Visual Data](#visual-data)
+
 This short exercise will guide you through the creation of a simple mock snapshot. This is drawn from the [snapshot example](../model/sample-limerick) illustrated about modeling.
 
 ![Facsimile](../model/img/limerick.png)
