@@ -194,3 +194,7 @@ If you want a shorter SVG, in most cases you can drop the decimal digits and jus
 <!-- operation 5 (replace crows with owls) -->
 <path style="fill:none;stroke:#ff0000;stroke-width:2" d="m 136,228 34,-25" id="crows-bar" />
 ```
+
+The final result should look like this:
+
+![result](img/exercise-result.png)

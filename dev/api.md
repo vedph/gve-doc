@@ -193,6 +193,122 @@ V --> yV
 V --> styleV
 ```
 
+The details of features step by step follows:
+
+1. del-z (log, Z:reason):
+
+- v0>v1=ARDC
+- log=delete Z
+- node:
+  - v1_3: reason=don't like Z
+
+2. rep R=V (log, version=alpha; V#6:x,y,style):
+
+- v1>v2=AVDC
+- log=delete Z
+- log=replace R with V
+- version=alpha
+- node:
+  - v1_3: reason=don't like Z
+  - v2_3: reason=don't like Z
+  - v2_6: opid
+  - v2_6: x
+  - v2_6: y
+  - v2_6: style
+
+3. rep V=B (log, B#7:reason,x,y,style)
+
+- v2>v3=ABDC
+- log=delete Z
+- log=replace R with V
+- log=replace V with B
+- node:
+  - v1_3: reason=don't like Z
+  - v2_3: reason=don't like Z
+  - v3_3: reason=don't like Z
+  - v2_6: opid
+  - v2_6: x
+  - v2_6: y
+  - v2_6: style
+  - v3_6: opid
+  - v3_6: x
+  - v3_6: y
+  - v3_6: style
+  - v3_7: reason=like B
+  - v3_7: x
+  - v3_7: y
+  - v3_7: style
+
+4. rep R=P (log, version=beta; P#8:x,y,style):
+
+- v1>v4=APDC
+- log=delete Z
+- log=replace R with V
+- log=replace V with B
+- log=replace R with P
+- version=beta
+- node:
+  - v1_3: reason=don't like Z
+  - v2_3: reason=don't like Z
+  - v3_3: reason=don't like Z
+  - v4_3: reason=don't like Z
+  - v2_6: opid
+  - v2_6: x
+  - v2_6: y
+  - v2_6: style
+  - v3_6: opid
+  - v3_6: x
+  - v3_6: y
+  - v3_6: style
+  - v3_7: reason=like B
+  - v3_7: x
+  - v3_7: y
+  - v3_7: style
+  - v4_8: opid
+  - v4_8: x
+  - v4_8: y
+  - v4_8: style
+
+5. swap C<>D (log=swap D with C, version=gamma)
+
+- v3>v5=ABCD
+- log=delete Z
+- log=replace R with V
+- log=replace V with B
+- log=replace R with P
+- log=swap D with C
+- version=gamma
+- node:
+  - v1_3: reason=don't like Z
+  - v2_3: reason=don't like Z
+  - v3_3: reason=don't like Z
+  - v4_3: reason=don't like Z
+  - v5_3: reason=don't like Z
+  - v2_6: opid
+  - v2_6: x
+  - v2_6: y
+  - v2_6: style
+  - v3_6: opid
+  - v3_6: x
+  - v3_6: y
+  - v3_6: style
+  - v3_7: reason=like B
+  - v3_7: x
+  - v3_7: y
+  - v3_7: style
+  - v4_8: opid
+  - v4_8: x
+  - v4_8: y
+  - v4_8: style
+  - v5_6: opid
+  - v5_6: x
+  - v5_6: y
+  - v5_6: style
+  - v5_7: reason=like B
+  - v5_7: x
+  - v5_7: y
+  - v5_7: style
+
 ## Get Chain
 
 - 🌐 `POST /api/text/operations/run/chain`
