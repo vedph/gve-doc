@@ -27,10 +27,10 @@ This short exercise will guide you through the creation of a simple mock snapsho
 
 You should have a modern computer with Windows, MacOS or Linux. Given that in this exercise it will work both as a client and as a server, you will need a decent amount of RAM (8 GB or more) for a better experience.
 
-Your computer should install this software:
+You need to install this software on your computer:
 
 - [Docker](https://vedph.github.io/cadmus-doc/deploy/docker.html): the containerization infrastructure used to safely and quickly run the software in isolation without any installation required.
-- [Inkscape](https://inkscape.org/): an SVG editor used to draw on top of a facsimile when providing visuals.
+- [Inkscape](https://inkscape.org/): an SVG editor used to draw on top of a facsimile when providing visuals. This is required only if you want to add visuals to the snapshot. Of course, you are free to use any other SVG editor of your choice.
 
 ## First Run
 
@@ -96,6 +96,8 @@ Thus, for animations the top-level component is the timelines set editor; this u
 
 We will be using this source text: <http://purl.flvc.org/fsu/fd/FSULearBook_012> and a mock autograph.
 
+⚠️ WARNING: this being a demo UI, no data will be saved, so be sure to stay on the snapshot editor page once entered it. If instead you want to restart from scratch, just reload the current page. This app is used for demonstration and testing purposes only. If you want to save the data you enter, use the [Docker compose script for the Cadmus editor](https://github.com/vedph/cadmus-gve-app/blob/master/docker-compose.yml) instead.
+
 ### Textual Data
 
 ▶️ 1. open the **snapshot editor** test page from menu `Demo/Snapshot editor`.
@@ -138,6 +140,8 @@ all built their nests in my beard!"
 72x23<>95x21  [*log="swap verses"]
 155x5="owls" [*log="owls for crows" *version^="beta" x="195" y="195" style="font-size:28px;fill:red"]
 ```
+
+>Of course you could also add one operation at a time using the UI, and filling its fields accordingly. This is just a quicker way to enter essential data about operations. It also allows you to use just plain text, entering it in any device and software, to jot down your notes about an autograph, and later quickly insert them into this structured model. All what you need is the base text, and a text representing operations. Anyway, not all the parts of the operation models are covered by their textual representation, and for them you will need to edit operations in the UI. For instance this is true for the visuals attached to each operation, or for other more specialized metadata, which would not make sense to include in a compact and manageable textual representation.
 
 💡 This will fill the list of snapshot operations, each with its own auto-generated ID. Also, all the operations are executed starting from the base text, and the output of each operation (a "version") is shown below the list in an interactive view. Here you can click on each version to see its text and its metadata.
 
