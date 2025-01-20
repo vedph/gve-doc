@@ -379,11 +379,25 @@ In the end, our operations are:
 4. `(v1:) 2=P [*log="replace R with P" *version^:=beta]`: visuals = blue segment connected to the grey stroke on `R`. The newly introduced text node is blue, smaller, and located at the top of the segment.
 5. `(v3:) 4<>5 [*version^:=gamma]`: visuals = green stroke on `C` and a smaller green copy of it below `Z` and `D`.
 
-The visuals usually reflect the snapshot's visual appearance in an approximate way; they might be drawn on top of an image of the carrier, or even be directly derived from it by vectorization. 
+Note that this sequence is not linear, as it branches after v1. The resulting operations tree is:
 
-The degree of approximation can greatly vary according to the purpose of the digital representation, from a highly similar vector-based representation to a purely symbolic representation of the underlying operations. On the other end, we might even omit visuals altogether and just limit ourselves to the text layer.
+```mermaid
+graph LR;
 
-Each visual provided with an ID, i.e. all the base text characters and all the visuals from operations metadata whose element has an `id` attribute, are also interactive objects on the page, so you could have your presentation software interact with the user via mouse events like hovering or clicking on them.
+v0-ARZDC --> v1-ARDC
+v1-ARDC --> v2-AVDC
+v2-AVDC --> v3-ABDC
+v1-ARDC --> v4-APDC
+v3-ABDC --> v5-ABCD
+```
+
+This is encoded by the version tag used to explicitly set the input of operations 4 (`(v1:)`=start from `v1`) and 5 (`(v3:)`=start from `v3`).
+
+The visuals of course can't be represented in the compact DSL text for these operations; you can add them using the UI. In most cases, they reflect the snapshot's visual appearance in an approximate way; they might be drawn on top of an image of the carrier, or even be directly derived from it by vectorization.
+
+The degree of approximation can greatly vary according to the purpose of the digital representation, from a highly similar vector-based representation to a purely symbolic surrogate representation of the underlying operations. On the other end, we might even omit visuals altogether and just limit ourselves to the text layer.
+
+Additionally, each visual provided with an ID, i.e. all the base text characters and all the visuals from operations metadata whose element has an `id` attribute, are also interactive objects on the page, so you could have your presentation software interact with the user via mouse events like hovering or clicking on them.
 
 In the end, the snapshot view provides users with an overview of the text creation and transformation processes, as derived from blending two layers, which are separately modeled:
 

@@ -151,6 +151,8 @@ Also, if you click on "s" you will look at the metadata for the version as a who
 
 You can click on each generated version to follow our hypothetical reconstruction of the author's creative process step by step, as defined by our operations. You will see each version in its full details, with all its metadata, walking across the path which leads from the base text to its final version. If you keep an eye on the snapshot view, you will see the text added by each operation appear in red, at the position specified by the operation itself.
 
+>To keep things simple, in this exercise we have reconstructed a linear evolution: the input of each operation is directly the output of the previous one (the first operation input always being of course the base text, which by definition is the first input). That's the default, so we say nothing about this in the DSL text. Anyway, you are free to construct complex branching trees of transformations by just specifying a different input for any operation (except of course the first one, always fed by the base text). See the [mock example](../model/sample-arzdc) for a simple illustration of branching.
+
 ### Visual Data
 
 Let's show how we can draw visuals on top of a facsimile image. If you want to directly skip to data entry using an already-made image, goto step 6. The first steps show you how to draw on top of your facsimile; for them, you will need to download the [mock facsimile image](http://www.fusisoft.it/xfer/limerick.png).
