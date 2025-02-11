@@ -170,3 +170,13 @@ D0 --> C0[C]
 ```
 
 We have now considered all the outputs of the chain graph, building a full path for each, in a trie-like structure. Starting from the root we can follow branches, each corresponding to a version. We are thus representing the same linear combinations as the chain graph, but in a tree-shaped structure, which implies that we have to duplicate nodes. Yet, this structure is now fit to an XML-based rendition.
+
+In fact, if we traverse the tree depth-first, we get:
+
+- ABCD (v6, as defined by the last, leaf node in this traversal)
+- ABDC (v3)
+- APCD (v5)
+- APDC (v4)
+- AVDC (v2)
+- ARDC (v1)
+- ARZDC (v0)
