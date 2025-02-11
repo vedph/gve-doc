@@ -61,3 +61,37 @@ A --> P
 P --> C5
 C5[C] --> D5[D]
 ```
+
+(3) v4: APDC: starting from the root, we follow matches up to the P node of APCD; this will be our branching node. The new branch will thus be DC:
+
+```mermaid
+graph LR;
+
+root --> A
+A --> B
+B --> C
+C --> D6[D]
+A --> P
+P --> C5
+C5[C] --> D5[D]
+P --> C4[C]
+C4 --> D4[D]
+```
+
+(4) v3: ABDC: starting from the root, we follow matches up to the B node of AB; this will be our branching node, adding to it the child branch DC:
+
+```mermaid
+graph LR;
+
+root --> A
+A --> B
+B --> C
+C --> D6[D]
+A --> P
+P --> C5
+C5[C] --> D5[D]
+P --> C4[C]
+C4 --> D4[D]
+B --> D3[D]
+D3 --> C3[C]
+```
