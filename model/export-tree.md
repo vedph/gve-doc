@@ -37,7 +37,7 @@ graph LR;
 root
 ```
 
-(1) v6: ABCD: this version is represented by a single lineage: A is child of root, B is child of A, C is child of B, and D is child of C:
+(1) **v6**: ABCD: this version is represented by a single lineage: A is child of root, B is child of A, C is child of B, and D is child of C:
 
 ```mermaid
 graph LR;
@@ -48,7 +48,7 @@ B --> C
 C --> D
 ```
 
-(2) v5: APCD: again, starting from the root we first find an A child; this is equal to our first A node of APCD, so we keep going along the existing lineage until we find a match. This will reduce nodes redundancy in our projected tree. As soon as we step down to B, we have a mismatch (with P): this defines the parent of this mismatching node as the branching point.
+(2) **v5**: APCD: again, starting from the root we first find an A child; this is equal to our first A node of APCD, so we keep going along the existing lineage until we find a match. This will reduce nodes redundancy in our projected tree. As soon as we step down to B, we have a mismatch (with P): this defines the parent of this mismatching node as the branching point.
 
 ```mermaid
 graph LR;
@@ -62,7 +62,7 @@ P --> C5
 C5[C] --> D5[D]
 ```
 
-(3) v4: APDC: starting from the root, we follow matches up to the P node of APCD; this will be our branching node. The new branch will thus be DC:
+(3) **v4**: APDC: starting from the root, we follow matches up to the P node of APCD; this will be our branching node. The new branch will thus be DC:
 
 ```mermaid
 graph LR;
@@ -78,7 +78,7 @@ P --> D4[D]
 D4 --> C4[C]
 ```
 
-(4) v3: ABDC: starting from the root, we follow matches up to the B node of AB; this will be our branching node, adding to it the child branch DC:
+(4) **v3**: ABDC: starting from the root, we follow matches up to the B node of AB; this will be our branching node, adding to it the child branch DC:
 
 ```mermaid
 graph LR;
@@ -96,7 +96,7 @@ B --> D3[D]
 D3 --> C3[C]
 ```
 
-(5) v2: AVDC: starting from the root, we follow matches up to its A child node. We will thus add a third branch to it, VDC:
+(5) **v2**: AVDC: starting from the root, we follow matches up to its A child node. We will thus add a third branch to it, VDC:
 
 ```mermaid
 graph LR;
@@ -117,7 +117,7 @@ V --> D2[D]
 D2 --> C2[C]
 ```
 
-(6) v1: ARDC: starting from the root, we follow matches up to its A child, as above; its new branch will be RDC:
+(6) **v1**: ARDC: starting from the root, we follow matches up to its A child, as above; its new branch will be RDC:
 
 ```mermaid
 graph LR;
@@ -141,7 +141,7 @@ R --> D1[D]
 D1 --> C1[C]
 ```
 
-(7) v0: ARZDC: starting from the root, we follow matches up to its R child, which becomes a new branching node. To this we will add the branch ZDC:
+(7) **v0**: ARZDC: starting from the root, we follow matches up to its R child, which becomes a new branching node. To this we will add the branch ZDC:
 
 ```mermaid
 graph LR;
