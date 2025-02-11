@@ -74,8 +74,8 @@ C --> D6[D]
 A --> P
 P --> C5
 C5[C] --> D5[D]
-P --> C4[C]
-C4 --> D4[D]
+P --> D4[D]
+D4 --> C4[C]
 ```
 
 (4) v3: ABDC: starting from the root, we follow matches up to the B node of AB; this will be our branching node, adding to it the child branch DC:
@@ -90,8 +90,8 @@ C --> D6[D]
 A --> P
 P --> C5
 C5[C] --> D5[D]
-P --> C4[C]
-C4 --> D4[D]
+P --> D4[D]
+D4 --> C4[C]
 B --> D3[D]
 D3 --> C3[C]
 ```
@@ -108,8 +108,8 @@ C --> D6[D]
 A --> P
 P --> C5
 C5[C] --> D5[D]
-P --> C4[C]
-C4 --> D4[D]
+P --> D4[D]
+D4 --> C4[C]
 B --> D3[D]
 D3 --> C3[C]
 A --> V
@@ -129,8 +129,8 @@ C --> D6[D]
 A --> P
 P --> C5
 C5[C] --> D5[D]
-P --> C4[C]
-C4 --> D4[D]
+P --> D4[D]
+D4 --> C4[C]
 B --> D3[D]
 D3 --> C3[C]
 A --> V
@@ -153,8 +153,8 @@ C --> D6[D]
 A --> P
 P --> C5
 C5[C] --> D5[D]
-P --> C4[C]
-C4 --> D4[D]
+P --> D4[D]
+D4 --> C4[C]
 B --> D3[D]
 D3 --> C3[C]
 A --> V
