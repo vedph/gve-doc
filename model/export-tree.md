@@ -95,3 +95,78 @@ C4 --> D4[D]
 B --> D3[D]
 D3 --> C3[C]
 ```
+
+(5) v2: AVDC: starting from the root, we follow matches up to its A child node. We will thus add a third branch to it, VDC:
+
+```mermaid
+graph LR;
+
+root --> A
+A --> B
+B --> C
+C --> D6[D]
+A --> P
+P --> C5
+C5[C] --> D5[D]
+P --> C4[C]
+C4 --> D4[D]
+B --> D3[D]
+D3 --> C3[C]
+A --> V
+V --> D2[D]
+D2 --> C2[C]
+```
+
+(6) v1: ARDC: starting from the root, we follow matches up to its A child, as above; its new branch will be RDC:
+
+```mermaid
+graph LR;
+
+root --> A
+A --> B
+B --> C
+C --> D6[D]
+A --> P
+P --> C5
+C5[C] --> D5[D]
+P --> C4[C]
+C4 --> D4[D]
+B --> D3[D]
+D3 --> C3[C]
+A --> V
+V --> D2[D]
+D2 --> C2[C]
+A --> R
+R --> D1[D]
+D1 --> C1[C]
+```
+
+(7) v0: ARZDC: starting from the root, we follow matches up to its R child, which becomes a new branching node. To this we will add the branch ZDC:
+
+```mermaid
+graph LR;
+
+root --> A
+A --> B
+B --> C
+C --> D6[D]
+A --> P
+P --> C5
+C5[C] --> D5[D]
+P --> C4[C]
+C4 --> D4[D]
+B --> D3[D]
+D3 --> C3[C]
+A --> V
+V --> D2[D]
+D2 --> C2[C]
+A --> R
+R --> D1[D]
+D1 --> C1[C]
+A --> R0[R]
+R0 --> Z
+Z --> D0[D]
+D0 --> C0[C]
+```
+
+We have now considered all the outputs of the chain graph, building a full path for each, in a trie-like structure. Starting from the root we can follow branches, each corresponding to a version. We are thus representing the same linear combinations as the chain graph, but in a tree-shaped structure, which implies that we have to duplicate nodes. Yet, this structure is now fit to an XML-based rendition.
