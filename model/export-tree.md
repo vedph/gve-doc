@@ -48,10 +48,10 @@ root
 ```mermaid
 graph LR;
 
-root --> A
-A --> B
-B --> C
-C --> D
+root ==> A
+A ==> B
+B ==> C
+C ==> D
 ```
 
 ---
@@ -61,13 +61,13 @@ C --> D
 ```mermaid
 graph LR;
 
-root --> A
+root ==> A
 A --> B
 B --> C
 C --> D
-A --> P
-P --> C5
-C5[C] --> D5[D]
+A ==> P
+P ==> C5
+C5[C] ==> D5[D]
 ```
 
 ---
@@ -77,15 +77,15 @@ C5[C] --> D5[D]
 ```mermaid
 graph LR;
 
-root --> A
+root ==> A
 A --> B
 B --> C
 C --> D6[D]
-A --> P
+A ==> P
 P --> C5
 C5[C] --> D5[D]
-P --> D4[D]
-D4 --> C4[C]
+P ==> D4[D]
+D4 ==> C4[C]
 ```
 
 ---
@@ -95,8 +95,8 @@ D4 --> C4[C]
 ```mermaid
 graph LR;
 
-root --> A
-A --> B
+root ==> A
+A ==> B
 B --> C
 C --> D6[D]
 A --> P
@@ -104,8 +104,8 @@ P --> C5
 C5[C] --> D5[D]
 P --> D4[D]
 D4 --> C4[C]
-B --> D3[D]
-D3 --> C3[C]
+B ==> D3[D]
+D3 ==> C3[C]
 ```
 
 ---
@@ -115,7 +115,7 @@ D3 --> C3[C]
 ```mermaid
 graph LR;
 
-root --> A
+root ==> A
 A --> B
 B --> C
 C --> D6[D]
@@ -126,9 +126,9 @@ P --> D4[D]
 D4 --> C4[C]
 B --> D3[D]
 D3 --> C3[C]
-A --> V
-V --> D2[D]
-D2 --> C2[C]
+A ==> V
+V ==> D2[D]
+D2 ==> C2[C]
 ```
 
 ---
@@ -138,7 +138,7 @@ D2 --> C2[C]
 ```mermaid
 graph LR;
 
-root --> A
+root ==> A
 A --> B
 B --> C
 C --> D6[D]
@@ -152,9 +152,9 @@ D3 --> C3[C]
 A --> V
 V --> D2[D]
 D2 --> C2[C]
-A --> R
-R --> D1[D]
-D1 --> C1[C]
+A ==> R
+R ==> D1[D]
+D1 ==> C1[C]
 ```
 
 ---
@@ -164,7 +164,7 @@ D1 --> C1[C]
 ```mermaid
 graph LR;
 
-root --> A
+root ==> A
 A --> B
 B --> C
 C --> D6[D]
@@ -181,10 +181,10 @@ D2 --> C2[C]
 A --> R
 R --> D1[D]
 D1 --> C1[C]
-A --> R0[R]
-R0 --> Z
-Z --> D0[D]
-D0 --> C0[C]
+A ==> R0[R]
+R0 ==> Z
+Z ==> D0[D]
+D0 ==> C0[C]
 ```
 
 We have now considered all the outputs of the chain graph, building a full path for each, in a trie-like structure. Starting from the root we can follow branches, each corresponding to a version. We are thus representing the same linear combinations as the chain graph, but in a tree-shaped structure, which implies that we have to duplicate nodes. Yet, this structure is now fit to an XML-based rendition.
