@@ -1,13 +1,13 @@
-<!-- ---
+---
 title: Exporting Tree
 layout: default
 parent: Model
 nav_order: 6
---- -->
+---
 
 # Exporting Tree
 
-⚠️ This is preliminary and incomplete documentation!
+⚠️ This is preliminary draft documentation subject to change!
 
 Let us consider the versions produced by our [mock example](sample-arzdc.md):
 
@@ -203,9 +203,7 @@ In fact, if we traverse the tree depth-first, we get:
 
 To render an XML based on a binary alternative like in the example of `app` including `lem` and `rdg`, we need to further constrain the above structure to allow at most two children per node.
 
-Also, we want to introduce a blank node whenever there is such a fork into two branches. Whenever we locate the node to start branching for, we replace it with a blank whose first child is that node, and the second child is the first non-matching node of the new sequence being added.
-
-Let us start as in the previous example:
+When more than 2 children are required, we thus need to insert a blank fork node, having as first child the original node, and as second child the new one. This blank node will be inserted at the place of the last child of the last maching node, whether it's a node with payload or a blank fork node. Let us start as in the previous example:
 
 ```mermaid
 graph LR;
