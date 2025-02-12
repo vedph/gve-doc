@@ -344,7 +344,7 @@ D1 ==> C1[C]
 
 ---
 
-(7) **v0**: ARZDC: finally, we traverse node up the last matching one, which is R; we thus insert a blank fork node at the place of its last child, having as children R and the new Z. So, this last string ARZDC follows the path root, A, blank, blank, blank, blank, Z, D, C.
+(7) **v0**: ARZDC: finally, we traverse node up the last matching one, which is R; we thus insert a blank fork node at the place of its last child, having as children R and the new Z. So, this last string ARZDC follows the path root, A, blank, blank, blank, R, blank, Z, D, C.
 
 ```mermaid
 graph LR;
@@ -368,9 +368,9 @@ x2 ==> x1[x]
 x1 --> V2[V]
 V2 --> D2[D]
 D2 --> C2[C]
-x1 ==> x0[x]
-x0 --> R1[R]
-R1 --> D1[D]
+x1 ==> R1[R]
+R1 ==> x0[x]
+x0 --> D1[D]
 D1 --> C1[C]
 x0 ==> Z0[Z]
 Z0 ==> D0[D]
