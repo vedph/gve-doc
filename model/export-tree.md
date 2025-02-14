@@ -313,7 +313,7 @@ D2 ==> C2[C]
 
 ---
 
-(6) **v1**: ARDC: we traverse nodes and find many branches, the longest matching one (or last matching one, when there are many matching branches with the same length) being the blank node having already 2 children P and V. So as usual we insert a new blank node before its second child, having as children V and the new node R.
+(6) **v1**: ARDC: we traverse node A and a blank node (sibling of B), which is the last matching node. So, we insert a blank fork node before it, having as first child the blank with P and V, and as second child the new R node.
 
 ```mermaid
 graph LR;
@@ -327,24 +327,24 @@ C6[C] --> D6[D]
 x3[x] --> D3[D]
 D3 --> C3[C]
 x5 ==> x2[x]
-x2 --> P5[P]
+x2 ==> R1[R]
+R1 ==> D1[D]
+D1 ==> C1[C]
+x2 --> x1[x]
+x1 --> P5[P]
 P5[P] --> x4[x]
 x4[x] --> C5[C]
 C5[C] --> D5[D]
 x4[x] --> D4[D]
 D4[D] --> C4[C]
-x2 ==> x1[x]
 x1 --> V2[V]
 V2 --> D2[D]
 D2 --> C2[C]
-x1 ==> R1[R]
-R1 ==> D1[D]
-D1 ==> C1[C]
 ```
 
 ---
 
-(7) **v0**: ARZDC: finally, we traverse node up the last matching one, which is R; we thus insert a blank fork node at the place of its last child, having as children R and the new Z. So, this last string ARZDC follows the path root, A, blank, blank, blank, R, blank, Z, D, C.
+(7) **v0**: ARZDC: finally, we traverse node up the last matching one, which is R; we thus insert a blank fork node at the place of its last child (D), having as children D and the new Z.
 
 ```mermaid
 graph LR;
@@ -358,21 +358,21 @@ C6[C] --> D6[D v6]
 x3[x] --> D3[D]
 D3 --> C3[C v3]
 x5 ==> x2[x]
-x2 --> P5[P]
-P5[P] --> x4[x]
-x4[x] --> C5[C]
-C5[C] --> D5[D v5]
-x4[x] --> D4[D]
-D4[D] --> C4[C v4]
-x2 ==> x1[x]
-x1 --> V2[V]
-V2 --> D2[D]
-D2 --> C2[C v2]
-x1 ==> R1[R]
+x2 ==> R1[R]
 R1 ==> x0[x]
 x0 --> D1[D]
 D1 --> C1[C v1]
 x0 ==> Z0[Z]
 Z0 ==> D0[D]
 D0 ==> C0[C v0]
+x2 --> x1[x]
+x1 --> P5[P]
+P5[P] --> x4[x]
+x4[x] --> C5[C]
+C5[C] --> D5[D v5]
+x4[x] --> D4[D]
+D4[D] --> C4[C v4]
+x1 --> V2[V]
+V2 --> D2[D]
+D2 --> C2[C v2]
 ```
