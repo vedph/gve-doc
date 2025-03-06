@@ -24,7 +24,7 @@
 <!-- 3 -->
 <g id="node3" class="node">
 <title>3</title>
-<ellipse fill="#c0c0f0" stroke="#c0c0f0" cx="171" cy="-450" rx="27" ry="18"/>
+<ellipse fill="#c0c0c0" stroke="#c0c0c0" cx="171" cy="-450" rx="27" ry="18"/>
 <text text-anchor="middle" x="171" y="-445.8" font-family="Times,serif" font-size="14.00">3</text>
 </g>
 <!-- 2&#45;&gt;3 -->
@@ -49,7 +49,7 @@
 <!-- 10 -->
 <g id="node10" class="node">
 <title>10</title>
-<ellipse fill="#c0c0f0" stroke="#c0c0f0" cx="225" cy="-378" rx="27" ry="18"/>
+<ellipse fill="#c0c0c0" stroke="#c0c0c0" cx="225" cy="-378" rx="27" ry="18"/>
 <text text-anchor="middle" x="225" y="-373.8" font-family="Times,serif" font-size="14.00">10</text>
 </g>
 <!-- 3&#45;&gt;10 -->
@@ -61,7 +61,7 @@
 <!-- 5 -->
 <g id="node5" class="node">
 <title>5</title>
-<ellipse fill="#c0c0f0" stroke="#c0c0f0" cx="99" cy="-306" rx="27" ry="18"/>
+<ellipse fill="#c0c0c0" stroke="#c0c0c0" cx="99" cy="-306" rx="27" ry="18"/>
 <text text-anchor="middle" x="99" y="-301.8" font-family="Times,serif" font-size="14.00">5</text>
 </g>
 <!-- 4&#45;&gt;5 -->
@@ -125,7 +125,7 @@
 <!-- 11 -->
 <g id="node11" class="node">
 <title>11</title>
-<ellipse fill="#c0c0f0" stroke="#c0c0f0" cx="225" cy="-306" rx="27" ry="18"/>
+<ellipse fill="#c0c0c0" stroke="#c0c0c0" cx="225" cy="-306" rx="27" ry="18"/>
 <text text-anchor="middle" x="225" y="-301.8" font-family="Times,serif" font-size="14.00">11</text>
 </g>
 <!-- 10&#45;&gt;11 -->
@@ -176,7 +176,7 @@
 <!-- 13 -->
 <g id="node13" class="node">
 <title>13</title>
-<ellipse fill="#c0c0f0" stroke="#c0c0f0" cx="171" cy="-162" rx="27" ry="18"/>
+<ellipse fill="#c0c0c0" stroke="#c0c0c0" cx="171" cy="-162" rx="27" ry="18"/>
 <text text-anchor="middle" x="171" y="-157.8" font-family="Times,serif" font-size="14.00">13</text>
 </g>
 <!-- 12&#45;&gt;13 -->
@@ -266,7 +266,7 @@
 <!-- 22 -->
 <g id="node22" class="node">
 <title>22</title>
-<ellipse fill="#c0c0f0" stroke="#c0c0f0" cx="315" cy="-234" rx="27" ry="18"/>
+<ellipse fill="#c0c0c0" stroke="#c0c0c0" cx="315" cy="-234" rx="27" ry="18"/>
 <text text-anchor="middle" x="315" y="-229.8" font-family="Times,serif" font-size="14.00">22</text>
 </g>
 <!-- 21&#45;&gt;22 -->
