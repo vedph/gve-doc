@@ -276,8 +276,8 @@ type        | operator | at | run | to | to-run | value
 ------------|----------|----|-----|----|--------|------
 replace     | `=`      | Y  | Y   | -  | -      | Y
 delete      | `-`      | Y  | Y   | -  | -      | -
-add before  | `+[`     | Y  | Y   | -  | -      | Y
-add after   | `+]`     | Y  | Y   | -  | -      | Y
+add before  | `+[`     | Y  | -   | -  | -      | Y
+add after   | `+]`     | Y  | -   | -  | -      | Y
 move before | `>[`     | Y  | Y   | Y  | -      | -
 move after  | `>]`     | Y  | Y   | Y  | -      | -
 swap        | `<>`     | Y  | Y   | Y  | Y      | -
