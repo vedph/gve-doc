@@ -260,6 +260,8 @@ The set policy can have any of these values:
 
 #### Trace Features
 
+⚠️ WARNING - THIS SECTION IS A DRAFT!
+
 Trace features are features which can be automatically injected by operations. They are used to trace some data related to their execution which may later prove useful in various ways, especially for rendering.
 
 For instance, when rendering the snapshot UI we might want to highlight the nodes affected by each operation. These vary according to the operation type and its arguments. For example, a replacement operation which replaces "AB" with "X" can inject a special trace feature to nodes "A" and "B" on one side, and "X" on the other side.
@@ -374,6 +376,10 @@ ARZDC
 | 3=in@1 α | 2=in@1 β | 6=out@1 β | 7=out@1 γ | 8=out@1 δ | 5=out2@1 ε |
 |          | 2=in@1 δ | 6=in@1 γ  | 4=in@1 ε  |           | 4=out2@1 ε |
 |          |          |           | 5=in2@1 ε |           |            |
+
+Thanks to these features, at each version we can see all the nodes affected by the operation which generated it, and connect them to the previous or next versions. For instance, say we are looking at `B` from v5 and we go backwards to see how this evolved:
+
+1. v5 #7=`B` (γ rep V=B) => v3 (v3 being the input of v5): in v3, the nodes having a γ segment are: γ-out #7=`B`, and γ-in #6=`V`.
 
 TODO
 
