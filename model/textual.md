@@ -319,62 +319,61 @@ For instance, in a replacement operation targeting a `v0` segment "AB" these nod
 
 We can represent the trace features added under each version in the following table, and each feature in a version column has the assigned node ID followed by its value. As remarked above, the Greek letter represents the ID of the operation in a compact form:
 
-**v0**: we start with this context:
+**v0**: we start with this base text (each node ID is above its character):
 
-v  | op | set   | v0 | v1 | v2 | v3 | v4 | v5
----|----|-------|----|----|----|----|----|---
-v0 |    | ARZDC |    |    |    |    |    |
+```txt
+12345
+ARZDC
+```
 
-**v1**: delete Z (#3):
+**v1**: (α) delete Z (#3):
 
-- input (v0): Z.
+- input (v0): Z (#3).
 - output (v1): nothing.
 
-v  | op    | set  | v0     | v1 | v2 | v3 | v4 | v5
----|-------|------|--------|----|----|----|----|---
-v1 | del Z | ARDC | 3=in@1 |    |    |    |    |
-v1 |       |      |        |    |    |    |    |
+| v0     | v1 | v2 | v3 | v4 | v5 |
+|--------|----|----|----|----|----|
+| 3=in@1 |    |    |    |    |    |
 
-**v2**: replace R (#2)=V (#6): `A[V]DC`:
+**v2**: (β) replace R (#2)=V (#6): `A[V]DC`:
 
-- input (v1): R.
-- output (v2): V.
+- input (v1): R (#2).
+- output (v2): V (#6).
 
-v  | op      | set  | v0     | v1     | v2      | v3 | v4 | v5
----|---------|------|--------|--------|---------|----|----|---
-v2 | rep R=V | AVDC | 3=in@1 | 2=in@1 | 6=out@1 |    |    |
-v2 |         |      |        |        |         |    |    |
+| v0     | v1     | v2      | v3 | v4 | v5 |
+|--------|--------|---------|----|----|----|
+| 3=in@1 | 2=in@1 | 6=out@1 |    |    |    |
 
-**v3**: replace V (#6)=B (#7): `A[B]DC`:
+**v3**: (γ) replace V (#6)=B (#7): `A[B]DC`:
 
-- input (v2): V.
-- output (v3): B.
+- input (v2): V (#6).
+- output (v3): B (#7).
 
-v  | op      | set  | v0     | v1     | v2      | v3      | v4 | v5
----|---------|------|--------|--------|---------|---------|----|---
-v3 | rep V=B | ABDC | 3=in@1 | 2=in@1 | 6=out@1 | 7=out@1 |    |
-v3 |         |      |        |        | 6=in@1  |         |    |
+| v0     | v1     | v2      | v3      | v4 | v5 |
+|--------|--------|---------|---------|----|----|
+| 3=in@1 | 2=in@1 | 6=out@1 | 7=out@1 |    |    |
+|        |        | 6=in@1  |         |    |    |
 
-**v4** from v1: replace R (#2)=P (#8): `A[P]DC`:
+**v4** from v1: (δ) replace R (#2)=P (#8): `A[P]DC`:
 
-- input (v1): R.
-- output (v4): P.
+- input (v1): R (#2).
+- output (v4): P (#8).
 
-v  | op      | set  | v0     | v1           | v2      | v3      | v4      | v5
----|---------|------|--------|--------------|---------|---------|---------|---
-v4 | rep R=P | APDC | 3=in@1 | 2=in@1 (R=V) | 6=out@1 | 7=out@1 | 8=out@1 |
-v4 |         |      |        | 2=in@1 (R=P) | 6=in@1  |         |         |
+| v  | op      | set  | v0     | v1           | v2      | v3      | v4      | v5 |
+|----|---------|------|--------|--------------|---------|---------|---------|----|
+| v4 | rep R=P | APDC | 3=in@1 | 2=in@1 (R=V) | 6=out@1 | 7=out@1 | 8=out@1 |    |
+| v4 |         |      |        | 2=in@1 (R=P) | 6=in@1  |         |         |    |
 
-**v5** from v3: swap D (#4) with C (#5): `AB[CD]`:
+**v5** from v3: (ε) swap D (#4) with C (#5): `AB[CD]`:
 
-- input (v3): D, C.
-- output (v5): C, D.
+- input (v3): D (#4), C (#5).
+- output (v5): C (#5), D (#4).
 
-v  | op      | set  | v0     | v1           | v2      | v3      | v4      | v5
----|---------|------|--------|--------------|---------|---------|---------|---------
-v5 | rep R=P | ABCD | 3=in@1 | 2=in@1 (R=V) | 6=out@1 | 7=out@1 | 8=out@1 | 4=out@1
-v5 |         |      |        | 2=in@1 (R=P) | 6=in@1  | 4=in@1  |         | 5=out2@1
-v5 |         |      |        |              |         | 5=in2@1 |         |
+| v  | op      | set  | v0     | v1           | v2      | v3      | v4      | v5       |
+|----|---------|------|--------|--------------|---------|---------|---------|----------|
+| v5 | rep R=P | ABCD | 3=in@1 | 2=in@1 (R=V) | 6=out@1 | 7=out@1 | 8=out@1 | 4=out@1  |
+| v5 |         |      |        | 2=in@1 (R=P) | 6=in@1  | 4=in@1  |         | 5=out2@1 |
+| v5 |         |      |        |              |         | 5=in2@1 |         |          |
 
 TODO
 
