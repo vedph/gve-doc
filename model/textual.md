@@ -258,6 +258,126 @@ The set policy can have any of these values:
 
 >Some features get automatically projected onto their targets when applying an operation. This is the case of probability rank and source features. Source features also provide an example of the single-first policy: as every operation can have multiple sources, we want to replace the sources from previous operations the first time we add a source from the current operation, but then add all the other sources included by that operation. Should we use a single set policy, we would end up preserving only the last-added source, which is not what we want.
 
+#### Trace Features
+
+Trace features are features which can be automatically injected by operations. They are used to trace some data related to their execution which may later prove useful in various ways, especially for rendering.
+
+For instance, when rendering the snapshot UI we might want to highlight the nodes affected by each operation. These vary according to the operation type and its arguments. For example, a replacement operation which replaces "AB" with "X" can inject a special trace feature to nodes "A" and "B" on one side, and "X" on the other side.
+
+The same features will also be useful when rendering the nodes during data export into other formats, like TEI.
+
+All the trace features have these properties:
+
+- their has form `$OPID/NAME` where after the constant `$` prefix (which marks trace features) include the operation ID (`OPID`) followed by `/` and the specific feature name. So their name is stamped with the ID of the operation which generated it, which guarantees they are unique in the context of each version.
+- they are single features, meaning that there can be only one per node. This is a consequence of their stamping.
+
+Currently the only such features defined have specific names `seg-in`, `seg2-in`, `seg-out`, `seg2-out`, meaning the _segment_ (=sequence of _contiguous_ nodes) affected by the operation. The `...2` features are used only for swap operations, which affect two segments at a time. The suffix `-in` and `-out` refer to the segment before and after executing the operation. For instance, in a replacement of "AB" with "X" the segment before the operation is "AB" and that after the operation is "X".
+
+>Of course, the segments are contiguous in a specific version only. Operations (except for the annotate operation) alter the order of the nodes, and versions are just their output.
+
+The values for both segment features are defined as `TAG@NR` where `TAG` is the version tag they belong to, and `NR` the ordinal number of the node in the segment captured by the operation.
+
+For instance, in a replacement operation targeting a `v0` segment "AB" these nodes will get (using `OPID` as an ID placeholder for brevity):
+
+- for v0 nodes:
+  - `A`: `$OPID/seg-in` equal to `v0@1`.
+  - `B`: `$OPID/seg-in` equal to `v0@2`.
+- for v1 nodes:
+  - `X`: `$OPID/seg-out` equal to `v1@1`.
+
+>Again, notice that the number after `@` is NOT the node ID but rather its _ordinal number_ in the segment affected by the rule.
+
+👉 Operations inject trace features as follows:
+
+- **replace**:
+  - input: the segment to be replaced.
+  - output: the new segment nodes which replaced the old one.
+- **delete**:
+  - input: the segment to be deleted.
+  - output: nothing. The delete has no output segment by definition. So, the deleted node, once detached from the version text, will just retain its input segment feature.
+- **add before**:
+  - TODO
+- **add after**:
+- - TODO
+- **move before**:
+- - TODO
+- **move after**:
+- - TODO
+- **swap**:
+- - TODO
+- **annotate**:
+  - input: the segment to annotate.
+  - output: the segment annotated. This is equal to the input segment.
+
+💡 Trace features ease the work of later processing (like rendering) when starting from each generated text version. For instance, consider our usual [mock example](sample-arzdc), starting with base text `ARZDC` (v0) and continuing with these operations (each identified in this list with a Greek letter for short):
+
+1. delete `Z` (α) => v1 `ARDC`
+2. replace `R`=`V` (β) => v2 `AVDC`
+3. replace `V`=`B` (γ) => v3 `ABDC`
+4. from v1, replace `R`=`P` (δ) => v4 `ARDC`
+5. from v3, swap `D` and `C` (ε) => v5 `ABCD`
+
+We can represent the trace features added under each version in the following table, and each feature in a version column has the assigned node ID followed by its value. As remarked above, the Greek letter represents the ID of the operation in a compact form:
+
+**v0**: we start with this context:
+
+v  | op | set   | v0 | v1 | v2 | v3 | v4 | v5
+---|----|-------|----|----|----|----|----|---
+v0 |    | ARZDC |    |    |    |    |    |
+
+**v1**: delete Z (#3):
+
+- input (v0): Z.
+- output (v1): nothing.
+
+v  | op    | set  | v0     | v1 | v2 | v3 | v4 | v5
+---|-------|------|--------|----|----|----|----|---
+v1 | del Z | ARDC | 3=in@1 |    |    |    |    |
+v1 |       |      |        |    |    |    |    |
+
+**v2**: replace R (#2)=V (#6): `A[V]DC`:
+
+- input (v1): R.
+- output (v2): V.
+
+v  | op      | set  | v0     | v1     | v2      | v3 | v4 | v5
+---|---------|------|--------|--------|---------|----|----|---
+v2 | rep R=V | AVDC | 3=in@1 | 2=in@1 | 6=out@1 |    |    |
+v2 |         |      |        |        |         |    |    |
+
+**v3**: replace V (#6)=B (#7): `A[B]DC`:
+
+- input (v2): V.
+- output (v3): B.
+
+v  | op      | set  | v0     | v1     | v2      | v3      | v4 | v5
+---|---------|------|--------|--------|---------|---------|----|---
+v3 | rep V=B | ABDC | 3=in@1 | 2=in@1 | 6=out@1 | 7=out@1 |    |
+v3 |         |      |        |        | 6=in@1  |         |    |
+
+**v4** from v1: replace R (#2)=P (#8): `A[P]DC`:
+
+- input (v1): R.
+- output (v4): P.
+
+v  | op      | set  | v0     | v1           | v2      | v3      | v4      | v5
+---|---------|------|--------|--------------|---------|---------|---------|---
+v4 | rep R=P | APDC | 3=in@1 | 2=in@1 (R=V) | 6=out@1 | 7=out@1 | 8=out@1 |
+v4 |         |      |        | 2=in@1 (R=P) | 6=in@1  |         |         |
+
+**v5** from v3: swap D (#4) with C (#5): `AB[CD]`:
+
+- input (v3): D, C.
+- output (v5): C, D.
+
+v  | op      | set  | v0     | v1           | v2      | v3      | v4      | v5
+---|---------|------|--------|--------------|---------|---------|---------|---------
+v5 | rep R=P | ABCD | 3=in@1 | 2=in@1 (R=V) | 6=out@1 | 7=out@1 | 8=out@1 | 4=out@1
+v5 |         |      |        | 2=in@1 (R=P) | 6=in@1  | 4=in@1  |         | 5=out2@1
+v5 |         |      |        |              |         | 5=in2@1 |         |
+
+TODO
+
 ### Operations DSL
 
 Even though GVE provides a UI to edit such operations, it also allows a text-based representation for them using a minimalist domain specific language (DSL). This text format is used to represent their basic metadata, including features, but excluding specialized metadata (source and diplomatic). It is mostly used to speed up editing, or for testing or diagnostic purposes in code.
