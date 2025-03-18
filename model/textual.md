@@ -301,15 +301,12 @@ For instance, in a replacement operation targeting a `v0` segment "AB" these nod
 - **delete**:
   - input: the segment to be deleted.
   - output: nothing. The delete has no output segment by definition. So, the deleted node, once detached from the version text, will just retain its input segment feature.
-- **add before** and **add after**:
+- **add before**, **add after**, **move before**, **move after**:
   - input: the anchor node gets an anchor feature.
   - output: the added segment nodes.
-- **move before**:
-- - TODO
-- **move after**:
-- - TODO
 - **swap**:
-- - TODO
+  - input: the segments to be swapped: one in `seg-in` and another in `seg2-in`.
+  - output: the swapped segments: one in `seg-out` and another in `seg2-out`.
 - **annotate**:
   - input: the segment to annotate.
   - output: the segment annotated. This is equal to the input segment.
