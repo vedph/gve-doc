@@ -273,11 +273,15 @@ All the trace features have these properties:
 - their has form `$OPID/NAME` where after the constant `$` prefix (which marks trace features) include the operation ID (`OPID`) followed by `/` and the specific feature name. So their name is stamped with the ID of the operation which generated it, which guarantees they are unique in the context of each version.
 - they are single features, meaning that there can be only one per node. This is a consequence of their stamping.
 
-Currently the only such features defined have specific names `seg-in`, `seg2-in`, `seg-out`, `seg2-out`, meaning the _segment_ (=sequence of _contiguous_ nodes) affected by the operation. The `...2` features are used only for swap operations, which affect two segments at a time. The suffix `-in` and `-out` refer to the segment before and after executing the operation. For instance, in a replacement of "AB" with "X" the segment before the operation is "AB" and that after the operation is "X".
+Currently these are the trace features:
 
->Of course, the segments are contiguous in a specific version only. Operations (except for the annotate operation) alter the order of the nodes, and versions are just their output.
+- `seg-in`: input _segment_ (=sequence of _contiguous_ nodes) selected by the operation. Value is `TAG@NR` where `TAG` is the version tag the nodes belong to, and `NR` the ordinal number of the node in the segment captured by the operation.
+- `seg-out`: output segment affected by the operation.
+- `seg2-in`: same as `seg-in`, for the second segment in a swap operation.
+- `seg2-out`: same as `seg-out`, for the second segment in a swap operation.
+- `anchor`: the anchor node used as a reference for add or move operations. Value is `TAG` where `TAG` is the version tag the node belongs to (the input version tag for the add or move operation).
 
-The values for both segment features are defined as `TAG@NR` where `TAG` is the version tag they belong to, and `NR` the ordinal number of the node in the segment captured by the operation.
+>Of course, segments are contiguous in a specific version only. Operations (except for the annotate operation) alter the order of the nodes, and versions are just their output.
 
 For instance, in a replacement operation targeting a `v0` segment "AB" these nodes will get (using `OPID` as an ID placeholder for brevity):
 
@@ -297,10 +301,9 @@ For instance, in a replacement operation targeting a `v0` segment "AB" these nod
 - **delete**:
   - input: the segment to be deleted.
   - output: nothing. The delete has no output segment by definition. So, the deleted node, once detached from the version text, will just retain its input segment feature.
-- **add before**:
-  - TODO
-- **add after**:
-- - TODO
+- **add before** and **add after**:
+  - input: the anchor node gets an anchor feature.
+  - output: the added segment nodes.
 - **move before**:
 - - TODO
 - **move after**:
