@@ -272,6 +272,7 @@ All the trace features have these properties:
 
 - their name starts with `$`, a prefix reserved to trace features.
 - their value is composite. It always includes operation ID, input and output version, and possibly the segment ordinal number for the features requiring it.
+- they get not copied into the next version. So, the lifetime of each trace feature is limited: whenever a new operation is executed, it does not inherit trace features from the previous result.
 
 Currently these are the trace features:
 
@@ -290,7 +291,7 @@ Currently these are the trace features:
   - output: the new segment nodes which replaced the old one.
 - **delete**:
   - input: the segment to be deleted.
-  - output: nothing. The delete has no output segment by definition. So, the deleted node, once detached from the version text, will just retain its input segment feature. Anyway, all deleted nodes have a standard `del` feature whose value is equal to that of trace features for segments.
+  - output: nothing. The delete has no output segment by definition. So, the deleted node, once detached from the version text, will just retain its input segment feature. Anyway, all deleted nodes have a standard `del` feature whose value is equal to that of trace features for segments. The `del` feature it's not a trace feature because it must persist forever once attached to a node: once a node is deleted, it will never come back in a sequence. In fact, together with `opid`, these feature mark the entrance and exit of a node, as versions define new sequences.
 - **add before**, **add after**, **move before**, **move after**:
   - input: the anchor node gets an anchor feature.
   - output: the added segment nodes.
@@ -300,6 +301,8 @@ Currently these are the trace features:
 - **annotate**:
   - input: the segment to annotate.
   - output: the segment annotated. This is equal to the input segment.
+
+>As for deletion, remember that in the chain structure no node is ever removed from the set (just like in a sheet of paper you can put a stroke on a word, but the word still is there, taking the room originally assigned to it). So, even deleted nodes are still part of it; only, they are no longer included in sequences representing a specific combination of nodes resulting in a text version. That's what the stroke of our example means. Once nodes get out of a sequence, they will never come back in any other one. We might add new nodes equal to the old ones; but they will be represented as such -- _new_ nodes, which get _added_ to the set. That's consistent with the underlying process this model represents: in most cases, it's not possible to physically erase a word; if you mark it as deleted, like e.g. with a stroke, you might later reintroduce that word by writing it again somewhere else, and that's right what is represented by "duplicate" nodes in the model.
 
 Thanks to these features, at each version we can see all the nodes affected by the operation which generated it, and connect them to the previous or next versions.
 
