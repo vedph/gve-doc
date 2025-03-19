@@ -262,7 +262,7 @@ The set policy can have any of these values:
 
 ⚠️ WARNING - THIS SECTION IS A DRAFT!
 
-Trace features are features which can be automatically injected by operations. They are used to trace some data related to their execution which may later prove useful in various ways, especially for rendering.
+Trace features are features automatically injected by operations. They are used to trace some data related to their execution which may later prove useful in various ways, especially for rendering. Yet, if you don't need them you can opt out from their generation.
 
 For instance, when rendering the snapshot UI we might want to highlight the nodes affected by each operation. These vary according to the operation type and its arguments. For example, a replacement operation which replaces "AB" with "X" can inject a special trace feature to nodes "A" and "B" on one side, and "X" on the other side.
 
@@ -270,28 +270,18 @@ The same features will also be useful when rendering the nodes during data expor
 
 All the trace features have these properties:
 
-- their has form `$OPID/NAME` where after the constant `$` prefix (which marks trace features) include the operation ID (`OPID`) followed by `/` and the specific feature name. So their name is stamped with the ID of the operation which generated it, which guarantees they are unique in the context of each version.
-- they are single features, meaning that there can be only one per node. This is a consequence of their stamping.
+- their name starts with `$`, a prefix reserved to trace features.
+- their value is composite. It always includes operation ID, input and output version, and possibly the segment ordinal number for the features requiring it.
 
 Currently these are the trace features:
 
-- `seg-in`: input _segment_ (=sequence of _contiguous_ nodes) selected by the operation. Value is `TAG@NR` where `TAG` is the version tag the nodes belong to, and `NR` the ordinal number of the node in the segment captured by the operation.
+- `seg-in`: input _segment_ (=sequence of _contiguous_ nodes) selected by the operation. Value is `OPID TAGIN:TAGOUT N` where `OPID` is the operation ID, `TAGIN` the input version tag, `TAGOUT` the output version tag, and `N` the ordinal number of the node in the segment captured by the operation.
 - `seg-out`: output segment affected by the operation.
 - `seg2-in`: same as `seg-in`, for the second segment in a swap operation.
 - `seg2-out`: same as `seg-out`, for the second segment in a swap operation.
-- `anchor`: the anchor node used as a reference for add or move operations. Value is `TAG` where `TAG` is the version tag the node belongs to (the input version tag for the add or move operation).
+- `anchor`: the anchor node used as a reference for add or move operations. The value is like that of segments, except for the final `N` which would not make sense for an anchor. By definition, only a single node can be used as anchor, so there is no need to specify its relative position in a segment.
 
->Of course, segments are contiguous in a specific version only. Operations (except for the annotate operation) alter the order of the nodes, and versions are just their output.
-
-For instance, in a replacement operation targeting a `v0` segment "AB" these nodes will get (using `OPID` as an ID placeholder for brevity):
-
-- for v0 nodes:
-  - `A`: `$OPID/seg-in` equal to `v0@1`.
-  - `B`: `$OPID/seg-in` equal to `v0@2`.
-- for v1 nodes:
-  - `X`: `$OPID/seg-out` equal to `v1@1`.
-
->Again, notice that the number after `@` is NOT the node ID but rather its _ordinal number_ in the segment affected by the rule.
+>Of course, segments are contiguous in a specific version only. Operations (except for the annotate operation) alter the order of the nodes, and versions are just their output. That's why to ease later processing it is convenient to store the relative position of each node in a segment for every version.
 
 👉 Operations inject trace features as follows:
 
@@ -300,7 +290,7 @@ For instance, in a replacement operation targeting a `v0` segment "AB" these nod
   - output: the new segment nodes which replaced the old one.
 - **delete**:
   - input: the segment to be deleted.
-  - output: nothing. The delete has no output segment by definition. So, the deleted node, once detached from the version text, will just retain its input segment feature.
+  - output: nothing. The delete has no output segment by definition. So, the deleted node, once detached from the version text, will just retain its input segment feature. Anyway, all deleted nodes have a standard `del` feature whose value is equal to that of trace features for segments.
 - **add before**, **add after**, **move before**, **move after**:
   - input: the anchor node gets an anchor feature.
   - output: the added segment nodes.
@@ -311,77 +301,56 @@ For instance, in a replacement operation targeting a `v0` segment "AB" these nod
   - input: the segment to annotate.
   - output: the segment annotated. This is equal to the input segment.
 
-💡 Trace features ease the work of later processing (like rendering) when starting from each generated text version. For instance, consider our usual [mock example](sample-arzdc), starting with base text `ARZDC` (v0) and continuing with these operations (each identified in this list with a Greek letter for short):
+Thanks to these features, at each version we can see all the nodes affected by the operation which generated it, and connect them to the previous or next versions.
 
-1. delete `Z` (α) => v1 `ARDC`
-2. replace `R`=`V` (β) => v2 `AVDC`
-3. replace `V`=`B` (γ) => v3 `ABDC`
-4. from v1, replace `R`=`P` (δ) => v4 `ARDC`
-5. from v3, swap `D` and `C` (ε) => v5 `ABCD`
+For instance, let us consider the [limerick example](sample-limerick), which refers to a real text. We can use a screenshot of the base text UI to show its characters with their numeric IDs:
 
-We can represent the trace features added under each version in the following table, and each feature in a version column has the assigned node ID followed by its value. As remarked above, the Greek letter represents the ID of the operation in a compact form:
+![base text](img/limerick-base.png)
 
-**v0**: we start with this base text (each node ID is above its character):
+The snapshot operations are:
 
-```txt
-12345
-ARZDC
-```
+1. replace "cried" with "said" (in this sample I'll use `REP_CRIED` as its ID): `v1`;
+2. replace "swans" with "crows" (`REP_SWANS`): `v2`;
+3. insert "have" + space before "all" (for metrical reasons; `INS_HAVE`): `v3`;
+4. swap verses 3-4 (`SWAP`): `v4`;
+5. replace "crows" with "owls" (`REP_CROWS`): `v5`.
 
-**v1**: (α) delete Z (#3):
+When using trace features, we get (I replace the alphanumeric operation IDs with symbolic names to enhance readability):
 
-- input (v0): Z (#3).
-- output (v1): nothing.
+- **v0** (base text):
+  - `$seg-in`: for the input segment `cried` of the first replace operation (`REP_CRIED`). Its 5 nodes (40-44) have values like `REP_CRIED v0:v1 1` (from `1` to `5`).
 
-| v0       | v1 | v2 | v3 | v4 | v5 |
-|----------|----|----|----|----|----|
-| 3=in@1 α |    |    |    |    |    |
+- **v1** (output of `REP_CRIED`, replace "cried" with "said"):
+  - `$seg-out` for the output segment `said` of the first replace operation (`REP_CRIED`). Its 4 nodes (151-154) have values like `REP_CRIED v0:v1 1` (from `1` to `4`). The same nodes also carry a standard `opid` feature with the ID of the operation which added them to the chain. As expected, `opid` features get inherited from version to version: once a node has been added, it stays in the chain forever.
+  - `$seg-in`: for the input segment `swans` of `REP_SWANS`. Its 5 nodes (99-103) have values like `REP_SWANS v1:v2 1` (from `1` to `5`).
 
-**v2**: (β) replace R (#2)=V (#6): `A[V]DC`:
+- **v2** (output of `REP_SWANS`, replace "swans" with "crows"):
+  - `$seg-out`: for the output segment `crows` of `REP_SWANS`. Its 5 nodes (155-159) have values like `REP_SWANS v1:v2 1` (from `1` to `5`). The same nodes also carry a standard `opid` feature.
+  - `$anchor`: for node 116 (`a`) with value `INS_HAVE v2:v3` defines the anchor working as a reference for the insertion operation. There is no input segment here, i.e. it's zero, because we are going to add new nodes for `have` before `all`.
 
-- input (v1): R (#2).
-- output (v2): V (#6).
+- **v3** (output of `INS_HAVE`, insert "have" + space before "all"):
+  - `$seg-out`: for the inserted segment `have` + space of `INS_HAVE`. Its 5 nodes (160-164) have values like `INS_HAVE v2:v3 1` (from `1` to `5`). These nodes also carry the standard features for `opid` and `reason`.
+  - `$seg-in`: for the first input segment `four larks and a wren,↓` of `SWAP`. Its 23 nodes (72-94) have values like `SWAP v3:v4 1` (from `1` to `23`).
+  - `$seg2-in`: `two crows and a hen↓`, for the second input segment of `SWAP`. Its 21 nodes (95-98, 155-159, 104-115) have values like `SWAP v3:v4 1` (from `1` to `21`).
 
-| v0       | v1       | v2        | v3 | v4 | v5 |
-|----------|----------|-----------|----|----|----|
-| 3=in@1 α | 2=in@1 β | 6=out@1 β |    |    |    |
+- **v4** (output of `SWAP`, swap `four larks and a wren,↓` with `two crows and a hen↓`):
+  - `$seg-out`: for the swapped segment `four larks and a wren,↓` of `SWAP`. Its 23 nodes (72-94) have values like `SWAP v3:v4 1` (from `1` to `23`).
+  - `$seg2-out`: `two crows and a hen↓`, for the second input segment of `SWAP`. Its 21 nodes (95-98, 155-159, 104-115) have values like `SWAP v3:v4 1` (from `1` to `21`).
+  - `$seg-in`: for the input segment `crows` of `REP_CROWS`. Its 5 nodes (155-159) have values like `$seg-in:="REP_CROWS v4:v5 1` (from `1` to `5`).
 
-**v3**: (γ) replace V (#6)=B (#7): `A[B]DC`:
+- **v5** (output of `REP_CROWS`, replace "crows" with "owls"):
+  - `$seg-out`: for the output segment `owls` of `REP_CROWS`. Its 4 nodes (165-168) have values like `$seg-out:="01ed346709 v4:v5 1` (from `1` to `4`).
 
-- input (v2): V (#6).
-- output (v3): B (#7).
+So, at each version we can look at the trace features to see which segments were affected by the previous operation (in `seg-out` and `seg2-out`), and which will be affected by the next one (in `seg-in` and `seg2-in`). In the following table, I list each segment defined for all the versions:
 
-| v0       | v1       | v2        | v3        | v4 | v5 |
-|----------|----------|-----------|-----------|----|----|
-| 3=in@1 α | 2=in@1 β | 6=out@1 β | 7=out@1 γ |    |    |
-|          |          | 6=in@1 γ  |           |    |    |
-
-**v4** from v1: (δ) replace R (#2)=P (#8): `A[P]DC`:
-
-- input (v1): R (#2).
-- output (v4): P (#8).
-
-| v0       | v1       | v2        | v3        | v4        | v5 |
-|----------|----------|-----------|-----------|-----------|----|
-| 3=in@1 α | 2=in@1 β | 6=out@1 β | 7=out@1 γ | 8=out@1 δ |    |
-|          | 2=in@1 δ | 6=in@1 γ  |           |           |    |
-
-**v5** from v3: (ε) swap D (#4) with C (#5): `AB[CD]`:
-
-- input (v3): D (#4), C (#5).
-- output (v5): C (#5), D (#4).
-
-| v0       | v1       | v2        | v3        | v4        | v5         |
-|----------|----------|-----------|-----------|-----------|------------|
-| 3=in@1 α | 2=in@1 β | 6=out@1 β | 7=out@1 γ | 8=out@1 δ | 5=out2@1 ε |
-|          | 2=in@1 δ | 6=in@1 γ  | 4=in@1 ε  |           | 4=out2@1 ε |
-|          |          |           | 5=in2@1 ε |           |            |
-
-Thanks to these features, at each version we can see all the nodes affected by the operation which generated it, and connect them to the previous or next versions. For instance, say we are looking at `B` from v5 and we go backwards to see how this evolved:
-
-1. v5 #7=`B` (γ rep V=B) => v3 (v3 being the input of v5): in v3, the nodes having a γ segment are: γ-out #7=`B`, and γ-in #6=`V`.
-
-TODO
+| ver | previous (out)                                 | next (in)                                      |
+|-----|------------------------------------------------|------------------------------------------------|
+| v0  |                                                | cried                                          |
+| v1  | said                                           | swans                                          |
+| v2  | crows                                          | ⚓ a(ll)                                        |
+| v3  | have_                                          | four larks and a wren,↓ / two crows and a hen↓ |
+| v4  | four larks and a wren,↓ / two crows and a hen↓ | crows                                          |
+| v5  | owls                                           |                                                |
 
 ### Operations DSL
 
@@ -397,16 +366,16 @@ The general text-based syntax for these operations includes these components, fr
 
 (3) `OPERATOR` (required): the **operator** defines the operation's type. According to the operator, the other relevant parameters are listed in this table:
 
-type        | operator | at | run | to | to-run | value
-------------|----------|----|-----|----|--------|------
-replace     | `=`      | Y  | Y   | -  | -      | Y
-delete      | `-`      | Y  | Y   | -  | -      | -
-add before  | `+[`     | Y  | -   | -  | -      | Y
-add after   | `+]`     | Y  | -   | -  | -      | Y
-move before | `>[`     | Y  | Y   | Y  | -      | -
-move after  | `>]`     | Y  | Y   | Y  | -      | -
-swap        | `<>`     | Y  | Y   | Y  | Y      | -
-annotate    | `:`      | Y  | Y   | -  | -      | -
+| type        | operator | at | run | to | to-run | value |
+|-------------|----------|----|-----|----|--------|-------|
+| replace     | `=`      | Y  | Y   | -  | -      | Y     |
+| delete      | `-`      | Y  | Y   | -  | -      | -     |
+| add before  | `+[`     | Y  | -   | -  | -      | Y     |
+| add after   | `+]`     | Y  | -   | -  | -      | Y     |
+| move before | `>[`     | Y  | Y   | Y  | -      | -     |
+| move after  | `>]`     | Y  | Y   | Y  | -      | -     |
+| swap        | `<>`     | Y  | Y   | Y  | Y      | -     |
+| annotate    | `:`      | Y  | Y   | -  | -      | -     |
 
 >Run by default is always 1 except in add where it is 0.
 
