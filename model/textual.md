@@ -272,6 +272,7 @@ All the trace features have these properties:
 
 - their name starts with `$`, a prefix reserved to trace features.
 - their value is composite. It always includes operation ID, input and output version, and possibly the segment ordinal number for the features requiring it.
+- there can be multiple features of the same type. This happens when we have branching, so that e.g. the same node can be the input of two different operations belonging to different branches.
 - they get not copied into the next version. So, the lifetime of each trace feature is limited: whenever a new operation is executed, it does not inherit trace features from the previous result.
 
 Currently these are the trace features:
