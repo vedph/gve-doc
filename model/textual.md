@@ -301,7 +301,7 @@ Currently these are the trace features:
   - input: the segment to annotate.
   - output: the segment annotated. This is equal to the input segment.
 
->As for deletion, remember that in the chain structure no node is ever removed from the set (just like in a sheet of paper you can put a stroke on a word, but the word still is there, taking the space originally assigned to it). So, even deleted nodes are still part of it; only, they are no longer included in sequences representing a specific combination of nodes resulting in a text version. That's what the stroke of our example means. Once nodes get out of a sequence, they will never come back in any other one. We might add new nodes equal to the old ones; but they will be represented as such -- _new_ nodes, which get _added_ to the set. That's consistent with the underlying process this model represents: in most cases, it's not possible to physically erase a word. If you mark it as deleted, like e.g. with a stroke, you might later reintroduce that word by writing it again somewhere else, and that's right what is represented by "duplicate" nodes in the model.
+>As for deletion, remember that in the chain structure no node is ever removed from the set (just like in a sheet of paper you can put a stroke on a word, but the word still is there, taking the space originally assigned to it). So, even deleted nodes are still part of it; only, they are no longer included in sequences representing a specific combination of nodes resulting in a text version. That's what the stroke of our example means. Once nodes get out of a sequence, they will never come back in any other one. We might add new nodes equal to the old ones; but they will be represented as such -- _new_ nodes, which get _added_ to the set. That's consistent with the underlying process this model represents: in most cases, it's not possible to physically remove a word. If you mark it as deleted, like e.g. with a stroke, you might later reintroduce that word by writing it again somewhere else, and that's right what is represented by "duplicate" nodes in the model.
 
 Thanks to these features, at each version we can see all the nodes affected by the operation which generated it, and connect them to the previous or next versions.
 
@@ -354,13 +354,72 @@ So, at each version we can look at the trace features to see which segments were
 | v4  | two crows and a hen↓ / four larks and a wren,↓ | crows                                          |
 | v5  | owls                                           |                                                |
 
-So, reading backwards, we pick the _output_ segment of each version and find the corresponding _input_ segment (=the input segment with the same operation ID) in its _previous_ version (which is not necessarily equal to the current version - 1, because we might have branching); we then repeat this until we get to the start of the transformation:
+As an example, consider how these features would help in later processing like rendering. For instance, by reading backwards we can pick the _output_ segment of each version and find the corresponding _input_ segment (=the input segment with the same operation ID) in its _previous_ version (which is not necessarily equal to the current version - 1, because we might have branching); we then repeat this until we get to the start of the transformation:
 
-- v5 `owls` is from `crows` (`REP_CROWS` v4>v5);
+- v5 `owls` is from `crows` (`REP_CROWS` v4>v5 beta);
 - v4 `two crows...` and `four larks...` and  are from `four larks...` and `two crows...` (here we have segments pairs as that's a swap: `SWAP` v3>v4);
-- v3 `have_` was inserted before `all` (`INS_HAVE` v2>v3);
+- v3 `have_` was inserted before `all` (`INS_HAVE` v2>v3 alpha);
 - v2 `crows` is from `swans` (`REP_SWANS` v1>v2);
 - v1 `said` is from `cried` (`REP_CRIED` v0>v1).
+
+If we were to represent the final staged version _beta_ as a simple text with notes about its transformations, we could do as follows:
+
+1. determine the _versions range_: every staged version starts from the first version past the previous staged version, and ends with itself. So, for beta we start from the first version past alpha, which corresponds to v4, and ends with v5, which corresponds to beta. Should we rather want version alpha, we would start from the base text (as there is no previous staged version) and end with v3.
+2. collect all the _output segments_ in that range, i.e.:
+   - v5: `owls`;
+   - v4: `two crows and a hen↓` / `four larks and a wren,↓`.
+3. _flatten_ these segments into a single line, getting:
+
+```txt
+[1:there was an old man with a beard,
+who said: "It is just as I feared!]
+[2:two ][3:owls][4: and a hen,]
+[5:four larks and a wren,]
+[6:have all built their nests in my beard!"]
+```
+
+Here we have 6 segments:
+
+- `there was an old man... I feared`: this had no changes.
+- `two_`: this was part of the first segment of the swap operation.
+- `owls`: this has been replaced from `crows`.
+- `_and a hen`: this was part of the swap operation.
+- `four larks and a wren,`: this was the second segment of the swap operation.
+- `have all...beard!`: this had no changes.
+
+That's a trivial output, but it shows how trace features can ease such processes, especially useful in rendition tasks.
+
+Of course, the more the changes, the more the fragmentation; that's the price to pay for a lossy, flattened representation of a more structured model. For instance, if we had no `alpha` staged version, our versions range would include all the operations, which would result into these collected segments:
+
+- v5: `owls`;
+- v4: `two crows and a hen↓` / `four larks and a wren,↓`.
+- v3: `have_`
+- v2: `crows`
+- v1: `said`
+
+By projecting them into the final text as a flat linear sequence with no nesting, we would get this segmentation:
+
+```txt
+[1:there was an old man with a beard,
+who ][2:said][3:: "It is just as I feared!]
+[4:two ][5:owls][6: and a hen,]
+[7:four larks and a wren,]
+[8:have ][9:all built their nests in my beard!"]
+```
+
+where each segment could be annotated like this:
+
+1. `there was... who_`: no changes.
+2. `said` from `cried`.
+3. `: ... feared!`: no change.
+4. `two_` is part of the first segment in swap.
+5. `owls` from `crows`.
+6. `_and a hen` is part of the first segment in swap.
+7. `four larks and a wren,` is the second segment of the swap operation.
+8. `have_` was inserted before `all`.
+9. `all... beard!`: no changes.
+
+Additionally, we could leverage all the standard features attached to operations (e.g. source, ink color, reason, etc.) for richer notes.
 
 ### Operations DSL
 
