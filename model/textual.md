@@ -260,8 +260,6 @@ The set policy can have any of these values:
 
 #### Trace Features
 
-⚠️ WARNING - THIS SECTION IS A DRAFT!
-
 Trace features are features automatically injected by operations. They are used to trace some data related to their execution which may later prove useful in various ways, especially for rendering. Yet, if you don't need them you can opt out from their generation.
 
 For instance, when rendering the snapshot UI we might want to highlight the nodes affected by each operation. These vary according to the operation type and its arguments. For example, a replacement operation which replaces "AB" with "X" can inject a special trace feature to nodes "A" and "B" on one side, and "X" on the other side.
@@ -315,9 +313,9 @@ The snapshot operations are:
 
 1. replace "cried" with "said" (in this sample I'll use `REP_CRIED` as its ID): `v1`;
 2. replace "swans" with "crows" (`REP_SWANS`): `v2`;
-3. insert "have" + space before "all" (for metrical reasons; `INS_HAVE`): `v3`;
+3. insert "have" + space before "all" (for metrical reasons; `INS_HAVE`): `v3`, staged as `alpha`;
 4. swap verses 3-4 (`SWAP`): `v4`;
-5. replace "crows" with "owls" (`REP_CROWS`): `v5`.
+5. replace "crows" with "owls" (`REP_CROWS`): `v5`, staged as `beta`.
 
 When using trace features, we get (I replace the alphanumeric operation IDs with symbolic names to enhance readability):
 
@@ -353,8 +351,16 @@ So, at each version we can look at the trace features to see which segments were
 | v1  | said                                           | swans                                          |
 | v2  | crows                                          | ⚓ a(ll)                                        |
 | v3  | have_                                          | four larks and a wren,↓ / two crows and a hen↓ |
-| v4  | four larks and a wren,↓ / two crows and a hen↓ | crows                                          |
+| v4  | two crows and a hen↓ / four larks and a wren,↓ | crows                                          |
 | v5  | owls                                           |                                                |
+
+So, reading backwards, we pick the _output_ segment of each version and find the corresponding _input_ segment (=the input segment with the same operation ID) in its _previous_ version (which is not necessarily equal to the current version - 1, because we might have branching); we then repeat this until we get to the start of the transformation:
+
+- v5 `owls` is from `crows` (`REP_CROWS` v4>v5);
+- v4 `two crows...` and `four larks...` and  are from `four larks...` and `two crows...` (here we have segments pairs as that's a swap: `SWAP` v3>v4);
+- v3 `have_` was inserted before `all` (`INS_HAVE` v2>v3);
+- v2 `crows` is from `swans` (`REP_SWANS` v1>v2);
+- v1 `said` is from `cried` (`REP_CRIED` v0>v1).
 
 ### Operations DSL
 
