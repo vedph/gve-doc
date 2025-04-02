@@ -58,13 +58,13 @@ he had a red hat for sure,|and long moustache and grey beard.
 
 Say that our interpretation defines the following operations starting from the base text, which is the one first written down on the regular notebook lines:
 
-1. insert "very" before "long": `32+["very " [*log="insert 'very ' before 'long'"]` (`v1`);
+1. insert "very " before "long": `32+["very " [*log="insert 'very ' before 'long'"]` (`v1`);
 2. replace "red" with "green": `10x3="green" [*log="replace 'red' with 'green'"]` (`v2`);
 3. delete "grey": `51x5- [*log="delete grey" *version^="A"]` (`v3`, staged as `A`);
 4. move "for sure," before "he": `18x9>[1@fs [*log="move 'for sure,' before 'he'"]` (`v4`);
 5. delete tail space: `17-@fs [*log="delete tail ' '"]` (`v5`);
 6. insert space before "he": `1+[" "@fs [*log="insert space before 'he'"]` (`v6`);
-7. `37x9<>56x5 [*log="swap 'moustache' / 'beard'" *version^="B"]` (`v7`, staged as `B`).
+7. swap moustache/beard: `37x9<>56x5 [*log="swap 'moustache' / 'beard'" *version^="B"]` (`v7`, staged as `B`).
 
 >Note the group ID `fs` assigned to operations 4-6: this is used to mark the grouped operations as a virtually single macro-operation. In this case, we are moving "for sure," before "he"; this also implies removing the space which separated "hat" from it, because after moving the word "hat" is found at line end, and that space would be redundant. Also, we need to add a space after the comma. This is done by two additional operations, which logically depend on the move operation, and are thus grouped as a whole in a single macro. For variants generation this has no relevance, because all the operation effects get accumulated up to the next staged version; but it will be useful for export.
 
