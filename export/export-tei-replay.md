@@ -15,7 +15,7 @@ This is the structure used by the Saba edition, and thus can be displayed in EVT
 
 ### 1. Operations
 
-We just start with the GVE model recipe, i.e. the base text and its operations. This time, we use them to directly generate a tree structure for each staged version:
+We start with the GVE model recipe, i.e. the base text and its operations. That's our model, the _snapshot_. This time, we use them to directly generate a tree structure for each staged version:
 
 - build a linear tree from base text (v0) having a blank root node.
 - for each operation:
@@ -27,7 +27,7 @@ We just start with the GVE model recipe, i.e. the base text and its operations. 
 
 All the globally-injected features are stored in the root node.
 
-This results into a linear tree structure where each node is a single character and has all the injected features, plus these trace-like features starting with `$`. Of course, we will need a separate tree for each staged version, rather than a single graph like in the chain; but the model behind these structures is the same, and works in the same way.
+This results into a linear tree structure where each node is a single character and has all the injected features, plus these trace-like features starting with `$`. Of course, we will need a separate tree for each staged version, rather than a single graph like in the chain; but the model behind these structures is the same, and it works in the same way.
 
 As an example, let us consider this mock autograph:
 
@@ -92,7 +92,7 @@ The procedure is:
 
 >The whitespace condition is due to the filter we applied, which removed features from whitespace characters. Such characters are considered as neutral for features, so they always match, or we would risk to break a segment too early.
 
-So, for our example, we get these nodes:
+So, for our example, we get these nodes (OPID are really GUID-like strings, but I am just reporting their ordinal number for simplicity):
 
 1. root;
 2. `for sure,`: `$ins` OPID 4;
@@ -101,7 +101,7 @@ So, for our example, we get these nodes:
 5. `green`: `$ins` OPID 2;
 6. ` hat `
 7. `for sure,`: `$del` OPID 4;
-8. `and `
+8. `and` + space
 9. `very`: `$ins` OPID 1;
 10. ` long `
 11. `moustache`: `$del` OPID 7;
@@ -109,14 +109,16 @@ So, for our example, we get these nodes:
 13. ` and `
 14. `grey`: `$del` OPID 3;
 15. `beard`: `$del` OPID 7;
-16. `moustache`: `$ins` OPID 7.
-17. `.`
+16. `moustache`: `$ins` OPID 7;
+17. `.`.
 
-Note that this procedure, as usual in our approach, leverages a dynamic segmentation process where we do not set any specific segmentation unit in advance. We just calculate the best unit for the most efficient and compact output during export.
+Note that this procedure, as usual in our approach, leverages a _dynamic_ segmentation process, where we do not set any specific segmentation unit in advance. We just calculate the best unit for the most efficient and compact output during export.
 
 At the end of this segmentation process, our linear tree structure has not changed, but in most cases it now contains less nodes, because of merging. We can now proceed to materialize this structure into markup.
 
 ### 3. Materialization
+
+This materializes the tree into markup:
 
 - at the root node add `app` with child `lem` (in our case the final version is the "preferred" one) with child `mod`, with all the metadata you might want to encode;
 - let node = root's child node;
@@ -133,11 +135,15 @@ So for our example (I am just writing the essential markup here, without detaile
 
 ```xml
 <app>
+  <!-- previous versions would go here when we want them... -->
   <lem>
     <mod>
       <ins>for sure,</ins> he had a <subst><del>red</del><ins>green</ins></subst> hat <del>for sure,</del>and <ins>very</ins> long <subst><del>moustache</del><ins>beard</ins></subst> and <del>grey</del><subst><del>beard</del><ins>moustache</ins></subst>.
     </mod>
   </lem>
-  <!-- other versions would go here... -->
 </app>
 ```
+
+If we just represent the text with strikethrough for deletions and bold for insertions we get this:
+
+**for sure**, he had a ~~red~~**green** hat ~~for sure,~~and **very** long ~~moustache~~**beard** and ~~grey~~~~beard~~**moustache**.
