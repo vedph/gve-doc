@@ -58,8 +58,8 @@ a2 --> b2
 b2 --> c2
 
 v3-root --> a3
-a3 --> b3
-b3 --> c3
+a3 --> x3
+x3 --> c3
 ```
 
 This way, we will be able to process all the versions in a single pipeline.
@@ -141,34 +141,121 @@ These operations generate the following text versions:
 
 >As usual, note that these are just the outputs of each operation. Every operation alters the text along the path leading from one staged version to the next; so many of the outputs are just intermediate steps along this path. This is clearly the case especially when the output does not make sense, like in `v5`. For instance, on the basis of external information here one might consider as staged versions just `v4` and `v6`. This is of course a matter of interpretation, within the constraints defined by the snapshot.
 
-TODO
+So, this is the essential data of our snapshot: a base text, and the operations affecting it. We now want to export this into a specific form of TEI, namely the scheme adopted by the Saba 1919 digital edition (which can be displayed in EVT 3).
 
-As an example, say we want to get a TEI output where, for a given text (an epigram, a page, etc.):
+There, for a given multiple-versions text (an epigram, a page, etc.):
 
 1. all the versions are inside an `app` element;
-2. in `app`, each version is inside a `lem` or `rdg` element;
+2. in `app`, each version is inside a `lem` (when the version is preferred by the editor) or `rdg` element;
 3. in `lem`/`rdg`, a `mod` contains more metadata about the version (in attributes);
-4. in `mod`, we use `del`, `add`, or `subst` as customary in TEI critical.
+4. in `mod`, we use `del`, `add`, or `subst` as customary in the TEI critical module.
 
-This is the structure used by the Saba edition, and thus can be displayed in EVT 3.
+Having defined both the start and the desired end of our transformation, let us now proceed with the export pipeline.
+
+### Example - Stage 1
+
+First, we use a tree builder to create a tree from the GVE snapshot. We then compose version trees into a "multi" tree, containing all the branches we want to export. Say we want only to export `v4` and `v6` assuming them as the staged versions.
+
+Also, we need to restore the deleted nodes into the exported trees, because we are going to need them in our desired TEI format. So, we just configure the builder accordingly via its options.
+
+The dump for the linear tree built for `v4` is:
+
+```txt
++ ⯈ [1.1]
+ + ⯈ [2.1] → #1: a
+  + ⯈ [3.1] → #2:  
+   + ⯈ [4.1] → #16: n ($seg-out="fdf91da3b9 v3:v4 1", $seg-in="9dcb36963d v4:v5 1")
+    + ⯈ [5.1] → #17: i ($seg-out="fdf91da3b9 v3:v4 2", $seg-in="9dcb36963d v4:v5 2")
+     + ⯈ [6.1] → #18: c ($seg-out="fdf91da3b9 v3:v4 3", $seg-in="9dcb36963d v4:v5 3")
+      + ⯈ [7.1] → #19: e ($seg-out="fdf91da3b9 v3:v4 4", $seg-in="9dcb36963d v4:v5 4")
+       + ⯈ [8.1] → #20:   ($seg-out="fdf91da3b9 v3:v4 5")
+        + ⯈ [9.1] → #3: r ($del="723a2d3720 v0:v1 1")
+         + ⯈ [10.1] → #4: e ($del="723a2d3720 v0:v1 2")
+          + ⯈ [11.1] → #5: d ($del="723a2d3720 v0:v1 3")
+           + ⯈ [12.1] → #6:   ($del="723a2d3720 v0:v1 4")
+            + ⯈ [13.1] → #7: p ($del="dc16589efc v1:v2 1")
+             + ⯈ [14.1] → #8: e ($del="dc16589efc v1:v2 2")
+              + ⯈ [15.1] → #9: n ($del="dc16589efc v1:v2 3")
+               + ⯈ [16.1] → #10: h ($del="5292f1f888 v2:v3 1")
+                + ⯈ [17.1] → #11: a ($del="5292f1f888 v2:v3 2")
+                 + ⯈ [18.1] → #12: t ($del="5292f1f888 v2:v3 3")
+                  + ⯈ [19.1] → #13: c ($seg2-in="9dcb36963d v4:v5 1", $seg-out="5292f1f888 v2:v3 1", $anchor="fdf91da3b9 v3:v4")
+                   + ⯈ [20.1] → #14: a ($seg2-in="9dcb36963d v4:v5 2", $seg-out="5292f1f888 v2:v3 2")
+                    - ■ [21.1] → #15: t ($seg2-in="9dcb36963d v4:v5 3", $seg-out="5292f1f888 v2:v3 3")
+```
+
+Here, each node is listed in a line, including its data payload after the right arrow: the node's ID, its text value, and its optional features in brackets. Note that trace features, all starting with `$`, were automatically injected by operations.
+
+>Note that, as explained, trace feature values have always the form `OPID TAGIN:TAGOUT NR`, where `OPID`=operation ID, `TAGIN`=input version tag, `TAGOUT`=output version tag, and `NR`=ordinal number of the node in the segment selected by the operation. As for feature names, `$seg-in` represents a node selected by the operation as its input; `$seg-out` a node selected by the operation as its output; `$del` a deleted node. Names with `$seg2...` are the same, but refer to the second segment of a swap operation, which by definition deals with two distinct segments.
+
+This is a linear tree, with a single branch starting from a blank node, and having a child node for each successive character. Here is the corresponding dump for `v6`:
+
+```txt
++ ⯈ [1.1]
+ + ⯈ [2.1] → #1: a
+  + ⯈ [3.1] → #2:  
+   + ⯈ [4.1] → #16: n ($del="9dcb36963d v4:v5 1")
+    + ⯈ [5.1] → #17: i ($del="9dcb36963d v4:v5 2")
+     + ⯈ [6.1] → #18: c ($del="9dcb36963d v4:v5 3")
+      + ⯈ [7.1] → #19: e ($del="9dcb36963d v4:v5 4")
+       + ⯈ [8.1] → #3: r ($del="723a2d3720 v0:v1 1")
+        + ⯈ [9.1] → #4: e ($del="723a2d3720 v0:v1 2")
+         + ⯈ [10.1] → #5: d ($del="723a2d3720 v0:v1 3")
+          + ⯈ [11.1] → #6:   ($del="723a2d3720 v0:v1 4")
+           + ⯈ [12.1] → #7: p ($del="dc16589efc v1:v2 1")
+            + ⯈ [13.1] → #8: e ($del="dc16589efc v1:v2 2")
+             + ⯈ [14.1] → #9: n ($del="dc16589efc v1:v2 3")
+              + ⯈ [15.1] → #10: h ($del="5292f1f888 v2:v3 1")
+               + ⯈ [16.1] → #11: a ($del="5292f1f888 v2:v3 2")
+                + ⯈ [17.1] → #12: t ($del="5292f1f888 v2:v3 3")
+                 + ⯈ [18.1] → #13: c ($seg-out="5292f1f888 v2:v3 1", $anchor="fdf91da3b9 v3:v4", $seg2-in="9dcb36963d v4:v5 1")
+                  + ⯈ [19.1] → #14: a ($seg-out="5292f1f888 v2:v3 2", $seg2-in="9dcb36963d v4:v5 2")
+                   + ⯈ [20.1] → #15: t ($seg-out="5292f1f888 v2:v3 3", $seg2-in="9dcb36963d v4:v5 3")
+                    + ⯈ [21.1] → #20:   ($seg-out="fdf91da3b9 v3:v4 5")
+                     + ⯈ [22.1] → #21: i ($seg-out="56e0de97a8 v5:v6 1")
+                      + ⯈ [23.1] → #22: s ($seg-out="56e0de97a8 v5:v6 2")
+                       + ⯈ [24.1] → #23:   ($seg-out="56e0de97a8 v5:v6 3")
+                        + ⯈ [25.1] → #13: c ($del="9dcb36963d v4:v5 1")
+                         + ⯈ [26.1] → #14: a ($del="9dcb36963d v4:v5 2")
+                          + ⯈ [27.1] → #15: t ($del="9dcb36963d v4:v5 3")
+                           + ⯈ [28.1] → #16: n ($seg-out="fdf91da3b9 v3:v4 1", $seg-in="9dcb36963d v4:v5 1", $anchor="56e0de97a8 v5:v6")
+                            + ⯈ [29.1] → #17: i ($seg-out="fdf91da3b9 v3:v4 2", $seg-in="9dcb36963d v4:v5 2")
+                             + ⯈ [30.1] → #18: c ($seg-out="fdf91da3b9 v3:v4 3", $seg-in="9dcb36963d v4:v5 3")
+                              - ■ [31.1] → #19: e ($seg-out="fdf91da3b9 v3:v4 4", $seg-in="9dcb36963d v4:v5 4")
+```
+
+So in the end we will have a "multi" tree with a blank root node having 2 branches for `v4` and `v6`:
+
+```mermaid
+graph TB;
+
+root --> v4-root
+v4-root --> v4a[...]
+root --> v6-root
+v6-root --> v6a[...]
+```
+
+This tree can now enter the export pipeline.
+
+### Example - Stage 2
+
+The pipeline contains a single tree filter, the _linear merge filter_. This will merge nodes into single nodes representing their text as a single, multiple-characters segment, according to the features we select.
+
+In our example we are interested only in the trace features which help us define the text structure: `$seg-out`, `$seg2-out`, `$del`. This does not mean that other features will be dropped; it just means that they won't be taken into consideration when delimiting the maximum extent of each segment according to its set of relevant features.
+
+So, all the successive nodes sharing the same set of relevant features (here defined as `$seg-out`, `$seg2-out`, `$del`) will be merged into a single node, concatenating their characters into a single text segment.
+
+Note that with "sharing the same set" we mean that, among the features defined as relevant, each merged node must have each feature name and value equal to the corresponding feature in another merged node. Yet, for values we can define filters to consider just a specific portion of them for the purpose of this comparison.
+
+>In our example, we are going to use a single feature value filter, represented by the regular expression `^([^ ]+).*$`, replaced with `$1`. This means that we're going to select only the `OPID` operation ID from the whole value of the trace features. This is required because otherwise we could not merge any nodes given that each of them has a different value for `NR`.
+
+As already remarked, here we need to wrap this filter into a composite filter, because our tree really is just a wrapper for multiple trees, one per version. So, we are going to place in the pipeline a composite filter wrapping a linear merge filter. This will apply the linear merge filter to each sub-tree: `v4` and `v6`.
+
+The result of this filter can be summarized by a new dump:
+
+TODO
 
 ## Procedure
-
-### 1. Operations
-
-We start with the GVE model recipe, i.e. the base text and its operations. That's our model, the _snapshot_. This time, we use them to directly generate a tree structure for each staged version:
-
-- build a linear tree from base text (v0) having a blank root node.
-- for each operation:
-  - if it's INS: add new nodes with features `$ins`=`OPID N` (`OPID`=operation ID, `N`=operation number), and operation-injected features;
-  - if it's DEL: mark deleted nodes with features `$del` (as for `$ins`) and operation-injected features;
-  - if it's REP/MOV: DEL and INS;
-  - if it's SWP: DEL and INS for 1st segment, DEL and INS for 2nd segment;
-  - if it's ANN: add operation-injected features.
-
-All the globally-injected features are stored in the root node.
-
-This results into a linear tree structure where each node is a single character and has all the injected features, plus these trace-like features starting with `$`. Of course, we will need a separate tree for each staged version, rather than a single graph like in the chain; but the model behind these structures is the same, and it works in the same way.
 
 As an example, let us consider this mock autograph:
 
