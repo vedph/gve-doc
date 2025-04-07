@@ -1,6 +1,6 @@
 # Export GVE into TEI
 
-This section describes the rendering pipeline used for GVE data sources.
+This section describes the rendering pipeline used to export GVE snapshots into TEI.
 
 ## Stage 1: Preprocessing
 
