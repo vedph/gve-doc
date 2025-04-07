@@ -1,29 +1,10 @@
-# Export TEI
+# Export GVE into TEI
 
-Exporting TEI from a GVE model uses a refactored version of the [Cadmus rendering subsystem](https://vedph.github.io/cadmus-doc/migration/rendering/rendition.html). The main data flow follows a pipeline leading from the [GVE snapshot](../model/textual.md) to the final result, whether it's some form of TEI or any other format:
-
-```mermaid
-graph LR;
-
-SNAPSHOT --> tree-builder
-tree-builder --> tree-filters
-tree-filters --> tree-renderer
-tree-renderer --> text-filters
-text-filters --> RESULT
-```
-
-Except for the first step, which adapts GVE data to the rendering pipeline, this is shared with the Cadmus rendering subsystem, typically (but not only) used to export multi-layered text into various forms of TEI.
-
-We can devise 4 main stages in the pipeline flow:
-
-1. **preprocessing**: adapt the input to the model used by the first part of the pipeline (in this case using a _tree builder_), i.e. a "linear tree". This is a tree structure having a single branch and starting with a blank root node. Every text segment being processed is represented by a node; and each node is child of the node with the previous segment, and parent of the node with the next one. So, at start this tree is functionally like an array: we just have a sequence of segments. Yet, in the next stages the tree may branch and transform as required by the desired output.
-2. **tree filtering**: the tree passes through any number of _tree filters_, which can freely transform it. Each filter has a tree as its input, and the same tree or a new one as its output. The output of each filter will thus be the input for the next one.
-3. **tree rendering**: the tree structure is materialized into some text-based output format, using a _tree renderer_. This receives the filtered tree as its input, and outputs an object whose type depends on the renderer: it might be a string, an object representing an XML element, etc.
-4. **text filtering**: the output is optionally further refined by passing through a sequence of _text filters_. Despite their name, these filters are free to represent their object in the way it best fits their task. For instance, some of them just look at the text as a string, while others may look at it as an XML element using a structured object to represent it.
+This section describes the rendering pipeline used for GVE data sources.
 
 ## Stage 1: Preprocessing
 
-As already remarked, this first stage is the only one which is specific to GVE. Once it has been executed, data is in a format which can be used by any text tree renderer, and the rest of the pipeline is generic and reusable. The same approach is used by the Cadmus export subsystem.
+As seen about the [pipeline](index.md#pipeline), this first stage is the only one which is specific to GVE. Once it has been executed, data is in a format which can be used by any text tree renderer, and the rest of the pipeline is generic and reusable. The same approach is used by the Cadmus export subsystem.
 
 In GVE, a specialized component (`GveTextTreeBuilder`) is used to build a linear text tree for each text version derived from a GVE chain. At this stage:
 
@@ -351,10 +332,3 @@ The result of this renderer for the two staged versions (`v4` and `v6`) is repor
 Of course, this is a simplified rendition to keep the example readable; so we just added a `@n` attribute with the version tag to each `mod`, and a `@source` attribute linking to the corresponding operation. We could easily add much more data, and even think about rendering more features.
 
 So, we got to the end of our pipeline: starting from a GVE snapshot, we ended up with a TEI document fragment which can be easily augmented by adding new filters in stage 4 (e.g. to wrap this result into a full TEI document template, add more metadata to the header, etc.). All the components along the pipeline have access to the rendering context, which keeps a shared state and allows to get data directly from the GVE model itself, and to a logging system, which provides diagnostic details about each rendition stage.
-
-The pipeline approach has many **benefits**:
-
-- it splits monolithic and complex logic into simpler bits, each implemented by an independent software component.
-- such components are designed for reuse, so that we can generate virtually unlimited outputs by just chaining and configuring them in different ways.
-- leveraging reuse allows to easily export completely different outputs without having to write any code. On the other hand, whoever writes code to add some more specialized logic is not only serving his own project, but also contributing to a repository of pipeline modules which could be used in many other scenarios.
-- defining a pipeline is a completely declarative process, so no programming is required: a pipeline is fully configured by creating a JSON document with all the settings required to configure and concatenate each module.
