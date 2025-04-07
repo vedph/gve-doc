@@ -7,7 +7,7 @@ nav_order: 2
 
 # Export GVE into TEI
 
-This section describes the rendering pipeline used to export GVE snapshots into TEI.
+This section describes the rendering [pipeline](index#pipeline) used to export GVE snapshots into TEI.
 
 ## Stage 1: Preprocessing
 
@@ -289,7 +289,7 @@ As the tree contains multiple branches, one per sub-tree, we are going to use a 
 
 The logic of a composite renderer is more complex than that of a composite filter though, because the renderer might compose the partial renditions got from its inner component in unpredictable ways. So, we effectively have two distinct components: one is the single "Saba" tree renderer, which can be used also in isolation; another is the composed "Saba" tree renderer, which combines the results of the former into a single `app` element.
 
-The single tree renderer essentially walks the linear branch down, nd after adding a `lem`/`rdg` element with its child `mod` and some metadata, it inspects the trace features of each walked node:
+The single tree renderer essentially walks the linear branch down, and after adding a `lem`/`rdg` element with its child `mod` and some metadata, it inspects the trace features of each walked node:
 
 - when it's a delete, add a `subst/del` branch for replace or swap operations, or just `del` for other operation types. This is because we are going to represent the nodes removed by replace or swap to the left of the nodes which replaced them; and in this case we want to wrap both these groups into a `subst` element representing the replacement operations as a deletion paired with an insertion. In both cases, the `del` element's text will be represented by the deleted segment.
 - when it's a `seg-out` (or `seg2-out`) feature, add an `ins` element with the inserted segment as its text content. Then, if this has a `subst` ancestor, pop XML elements until we reach the one belonging to the same operation of the `del` element. This ensures that we are properly wrapping each pair of `del`+`ins` under a `subst`.
@@ -297,7 +297,7 @@ The single tree renderer essentially walks the linear branch down, nd after addi
 
 As you can see, the rendition logic here is minimal, because we are at the end of a pipeline where most of the work has already been completed in the previous stages.
 
-The result of this renderer for the two staged versions (`v4` and `v6`) is reported below (I am pretty-printing the code here to make it more readable, even if in the real output no indentation is added inside `mod`):
+The composite renderer just runs the inner renderer to each branch of the root tree node, adding each result to an `app` element. The result of this renderer for the two staged versions (`v4` and `v6`) is reported below (I am pretty-printing the code here to make it more readable, even if in the real output no indentation is added inside `mod`):
 
 ```xml
 <app xmlns="http://www.tei-c.org/ns/1.0">
@@ -336,6 +336,6 @@ The result of this renderer for the two staged versions (`v4` and `v6`) is repor
 </app>
 ```
 
-Of course, this is a simplified rendition to keep the example readable; so we just added a `@n` attribute with the version tag to each `mod`, and a `@source` attribute linking to the corresponding operation. We could easily add much more data, and even think about rendering more features.
+Note that this is a simplified rendition to keep the example readable; so we just added a `@n` attribute with the version tag to each `mod`, and a `@source` attribute linking to the corresponding operation. We could easily add much more data, and even think about rendering more features.
 
 So, we got to the end of our pipeline: starting from a GVE snapshot, we ended up with a TEI document fragment which can be easily augmented by adding new filters in stage 4 (e.g. to wrap this result into a full TEI document template, add more metadata to the header, etc.). All the components along the pipeline have access to the rendering context, which keeps a shared state and allows to get data directly from the GVE model itself, and to a logging system, which provides diagnostic details about each rendition stage.
