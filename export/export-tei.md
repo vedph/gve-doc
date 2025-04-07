@@ -110,7 +110,7 @@ After this stage the pipeline has completed, and the result is any text-based ou
 
 ## Example 1
 
-Let us see a sample illustrating this process using a simple pipeline with a short mock autograph text, represented in Figure 1:
+Let us see a sample illustrating this process using a simple pipeline with a short mock autograph text, represented in Figure 1. Of course, that's a totally unrealistic text, but it was created with the aim of including most of the operation types with a few words.
 
 ![a mock autograph](img/mock-autograph-pen.png)
 
@@ -299,6 +299,62 @@ Once we have our "multi" tree representing our staged versions, we can finally p
 
 As the tree contains multiple branches, one per sub-tree, we are going to use a composite "Saba" tree renderer. This will wrap a "Saba" tree renderer which, like most filters, just deals with a linear tree.
 
-The root node of the tree structure will correspond to a single `app`.
+The logic of a composite renderer is more complex than that of a composite filter though, because the renderer might compose the partial renditions got from its inner component in unpredictable ways. So, we effectively have two distinct components: one is the single "Saba" tree renderer, which can be used also in isolation; another is the composed "Saba" tree renderer, which combines the results of the former into a single `app` element.
 
-TODO
+The single tree renderer essentially walks the linear branch down, nd after adding a `lem`/`rdg` element with its child `mod` and some metadata, it inspects the trace features of each walked node:
+
+- when it's a delete, add a `subst/del` branch for replace or swap operations, or just `del` for other operation types. This is because we are going to represent the nodes removed by replace or swap to the left of the nodes which replaced them; and in this case we want to wrap both these groups into a `subst` element representing the replacement operations as a deletion paired with an insertion. In both cases, the `del` element's text will be represented by the deleted segment.
+- when it's a `seg-out` (or `seg2-out`) feature, add an `ins` element with the inserted segment as its text content. Then, if this has a `subst` ancestor, pop XML elements until we reach the one belonging to the same operation of the `del` element. This ensures that we are properly wrapping each pair of `del`+`ins` under a `subst`.
+- when there is no feature, just add the text.
+
+As you can see, the rendition logic here is minimal, because we are at the end of a pipeline where most of the work has already been completed in the previous stages.
+
+The result of this renderer for the two staged versions (`v4` and `v6`) is reported below (I am pretty-printing the code here to make it more readable, even if in the real output no indentation is added inside `mod`):
+
+```xml
+<app xmlns="http://www.tei-c.org/ns/1.0">
+  <rdg>
+    <mod n="v4">a 
+      <ins source="oe43f114758">nice </ins>
+      <del source="oda74a8a542">red </del>
+      <subst source="o1218b2292d">
+        <del>pen</del>
+        <subst source="ob0f47c5e00">
+          <del>hat</del>cat
+        </subst>
+      </subst>
+    </mod>
+  </rdg>
+  <lem>
+    <mod n="v6">a 
+      <subst source="od9ab6e69f9">
+        <del>nice</del>
+        <del source="oda74a8a542">red </del>
+        <subst source="o1218b2292d">
+          <del>pen</del>
+          <subst source="ob0f47c5e00">
+            <del>hat</del>cat
+            <ins source="oe43f114758"></ins>
+          </subst>
+        </subst>
+        <ins source="o951ad2d17c">is </ins>
+        <subst source="od9ab6e69f9">
+          <del>cat</del>
+          <ins source="oe43f114758">nice</ins>
+        </subst>
+      </subst>
+    </mod>
+  </lem>
+</app>
+```
+
+Of course, this is a simplified rendition to keep the example readable; so we just added a `@n` attribute with the version tag to each `mod`, and a `@source` attribute linking to the corresponding operation. We could easily add much more data, and even think about rendering more features.
+
+So, we got to the end of our pipeline: starting from a GVE snapshot, we ended up with a TEI document fragment which can be easily augmented by adding new filters in stage 4 (e.g. to wrap this result into a full TEI document template, add more metadata to the header, etc.). All the components along the pipeline have access to the rendering context, which keeps a shared state and allows to get data directly from the GVE model itself, and to a logging system, which provides diagnostic details about each rendition stage.
+
+The pipeline approach has many **benefits**:
+
+- it splits monolithic and complex logic into simpler bits, each implemented by an independent software component.
+- such components are designed for reuse, so that we can generate virtually unlimited outputs by just chaining and configuring them in different ways.
+- leveraging reuse allows to easily export completely different outputs without having to write any code. On the other hand, whoever writes code to add some more specialized logic is not only serving his own project, but also contributing to a repository of pipeline modules which could be used in many other scenarios.
+- defining a pipeline is a completely declarative process, so no programming is required: a pipeline is fully configured by creating a JSON document with all the settings required to configure and concatenate each module.
