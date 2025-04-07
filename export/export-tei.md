@@ -1,3 +1,10 @@
+---
+title: GVE to TEI
+layout: default
+parent: Export
+nav_order: 2
+---
+
 # Export GVE into TEI
 
 This section describes the rendering pipeline used to export GVE snapshots into TEI.

@@ -1,3 +1,10 @@
+---
+title: GVE Trees
+layout: default
+parent: Export
+nav_order: 3
+---
+
 # Export - Trees
 
 The tree structure is used in the rendering pipeline to represent the text being transformed, up to its materialization performed by a tree renderer. In this context, tree filters are used to transform a text tree into another text tree.
