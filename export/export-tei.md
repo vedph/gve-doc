@@ -27,7 +27,7 @@ The logic of this builder is driven by these parameters:
 
 Note that given the multi-dimensional nature of a GVE chain, the builder produces **multiple trees**, one per text version. Each of them will then have to go through the successive stages of filtering and rendering.
 
-In order to adapt this scenario to the pipeline, a very simple operation is added at the end of our preprocessing stage: as the pipeline requires a single tree to deal with, while we have many linear trees, we just create a new tree having a blank root node, whose children are the root nodes of each of the linear trees representing versions. Each of these root nodes also gets a `v` feature with the version's tag.
+In order to adapt this scenario to the pipeline, a very simple operation is added at the end of our preprocessing stage: as the pipeline requires a single tree to deal with, while we have many linear trees, we just create a new tree having a blank root node, whose children are the root nodes of each of the linear trees representing versions. Each of these root nodes also gets a `sub-id` feature with the version's tag, and an optional `version` feature with the staged version identifier, when there is any.
 
 For instance, if we have 3 text versions (`ab`, `abc`, `axc`), each represented by a separate linear tree, we will merge them into a new tree:
 
@@ -57,17 +57,17 @@ Anyway, given that our pipeline is modular, and any tree filter and renderer com
 Of course, having two versions of the same component to accommodate for two different input types (a "single tree" and a "multi-tree") would not be a viable approach. Rather, the approach is:
 
 - add a generic **composite tree filter**, which can be used to wrap an instance of any tree filter. This simply assumes that its input is a multi-tree, and applies its inner tree filter to each branch stemming from its root node. So, the inner filter being applied to each branch needs to know nothing about the difference between "single" or "multi" trees; it just works on a single linear tree. In this context anyway this linear tree happens to be a branch of a multi-tree. This allows reusing any tree filter component by just wrapping it into this, which in turn is yet another tree filter. Thus, we can freely chain all the filters we want in the pipeline, whether we are dealing with "single" or "multi" trees.
-- add a generic **composite tree renderer**, inspired by the same approach.
+- add a generic **composite tree renderer**, using a similar approach.
 
 ## Stage 2: Tree Filtering
 
 Tree filtering usually contains most of the transformation logic towards a specific output. Filters are chained so that each applies a small bit of logic towards the final stage of the pipeline.
 
-A fundamental filter here is the linear merge filter (`LinearMergeTextTreeFilter`), usually applied as the first in the chain. This filter merges multiple nodes of a linear tree into a single node, whose text is the concatenation of the text of all the merged nodes. Merging groups are defined by checking node features: all the subsequent nodes having the same set of features (both for their name and their value) are merged into a single node.
+A fundamental filter here is the **linear merge filter** (`LinearMergeTextTreeFilter`), usually applied as the first in the chain. This filter merges multiple nodes of a linear tree into a single node, whose text is the concatenation of the text of all the merged nodes. Merging groups are defined by checking node features: all the subsequent nodes having the same set of features (both for their name and their value) are merged into a single node.
 
 Note that you are in charge of defining the features you want to be considered as merging criteria; you can define both their names, and any number of replacement filters for their values.
 
-So, this filter produces a **dynamic segmentation** of the text, where each segment is represented by a single node and its text is linked to the same metadata (features). Such segmentation provides maximum efficiency for the subsequent rendering, because we always use the segment with the maximum extent, whatever it is, from a single character to hundreds of them.
+So, this filter produces a **dynamic segmentation** of the text, where each segment is represented by a single node and its text is linked to the same metadata (features). Rather than positing an a-priori segmentation unit for the whole document (like e.g. when systematically wrapping all the words in elements like `ab` or `seg` to attach some data to them without knowing in advance the annotation extent), dynamic segmentation merges all the characters having the same set of annotations, whether they are a full sentence, or just a single character, or anything in between. This maximizes efficiency and reduces complexity, because we always use the segment with the maximum extent, whatever it is, leveraging full information about the extent of the annotations we selected for export.
 
 ## Stage 3: Tree Rendering
 
