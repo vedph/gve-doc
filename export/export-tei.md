@@ -41,7 +41,7 @@ Note that given the multi-dimensional nature of a GVE chain, the builder produce
 
 In order to adapt this scenario to the pipeline, a very simple operation is added at the end of our preprocessing stage: as the pipeline requires a single tree to deal with, while we have many linear trees, we just create a new tree having a blank root node, whose children are the root nodes of each of the linear trees representing versions. Each of these root nodes also gets a `v` feature with the version's tag.
 
-For instance, if we have 3 versions, each represented by a separate linear tree, we will merge them into a new tree:
+For instance, if we have 3 text versions (`ab`, `abc`, `axc`), each represented by a separate linear tree, we will merge them into a new tree:
 
 ```mermaid
 graph TB;
@@ -50,16 +50,16 @@ multi-root --> v1-root
 multi-root --> v2-root
 multi-root --> v3-root
 
-v1-root --> a1
-a1 --> b1
+v1-root --> a1[a]
+a1 --> b1[b]
 
-v2-root --> a2
-a2 --> b2
-b2 --> c2
+v2-root --> a2[a]
+a2 --> b2[b]
+b2 --> c2[c]
 
-v3-root --> a3
-a3 --> x3
-x3 --> c3
+v3-root --> a3[a]
+a3 --> x3[x]
+x3 --> c3[c]
 ```
 
 This way, we will be able to process all the versions in a single pipeline.
@@ -108,7 +108,7 @@ Finally, and optionally, the result of a tree renderer can be further refined by
 
 After this stage the pipeline has completed, and the result is any text-based output format, often some form of TEI.
 
-## Example
+## Example 1
 
 Let us see a sample illustrating this process using a simple pipeline with a short mock autograph text, represented by Figure 1:
 
@@ -139,7 +139,7 @@ These operations generate the following text versions:
 - `v5`: `a cat nice`
 - `v6`: `a cat is nice`
 
->As usual, note that these are just the outputs of each operation. Every operation alters the text along the path leading from one staged version to the next; so many of the outputs are just intermediate steps along this path. This is clearly the case especially when the output does not make sense, like in `v5`. For instance, on the basis of external information here one might consider as staged versions just `v4` and `v6`. This is of course a matter of interpretation, within the constraints defined by the snapshot.
+>As usual, note that these are just the outputs of each operation. Every operation alters the text along the path leading from one staged version to the next one; so many of the outputs are just intermediate steps along this path. This is clearly the case especially when the output does not make sense, like in `v5`. For instance, on the basis of external information here one might consider as staged versions just `v4` and `v6`. This is of course a matter of interpretation, within the constraints defined by the snapshot.
 
 So, this is the essential data of our snapshot: a base text, and the operations affecting it. We now want to export this into a specific form of TEI, namely the scheme adopted by the Saba 1919 digital edition (which can be displayed in EVT 3).
 
@@ -152,9 +152,11 @@ There, for a given multiple-versions text (an epigram, a page, etc.):
 
 Having defined both the start and the desired end of our transformation, let us now proceed with the export pipeline.
 
-### Example - Stage 1
+### Example 1 - Stage 1
 
-First, we use a tree builder to create a tree from the GVE snapshot. We then compose version trees into a "multi" tree, containing all the branches we want to export. Say we want only to export `v4` and `v6` assuming them as the staged versions.
+First, we use a tree builder to create a tree from the GVE snapshot. We then compose version trees into a "multi" tree, containing all the branches we want to export. Say we want only to export `v4` and `v6` assuming them as the staged versions, and that we want only trace features (dropping log features, in this example).
+
+>As remarked, when building the tree you can select the features you want in or out of the resulting nodes. Of course this depends on the annotations you will be using in generating the output. In this case we have no other metadata we are interested in; but there might be other cases where operations inject more metadata about e.g. other authors or revisors, ink types, etc. Any selected feature will be carried by its node, and pass through filters unless these are designed to affect them.
 
 Also, we need to restore the deleted nodes into the exported trees, because we are going to need them in our desired TEI format. So, we just configure the builder accordingly via its options.
 
@@ -237,7 +239,7 @@ v6-root --> v6a[...]
 
 This tree can now enter the export pipeline.
 
-### Example - Stage 2
+### Example 1 - Stage 2
 
 The pipeline contains a single tree filter, the _linear merge filter_. This will merge nodes into single nodes representing their text as a single, multiple-characters segment, according to the features we select.
 
@@ -251,7 +253,37 @@ Note that with "sharing the same set" we mean that, among the features defined a
 
 As already remarked, here we need to wrap this filter into a composite filter, because our tree really is just a wrapper for multiple trees, one per version. So, we are going to place in the pipeline a composite filter wrapping a linear merge filter. This will apply the linear merge filter to each sub-tree: `v4` and `v6`.
 
-The result of this filter can be summarized by a new dump:
+The result of this filter can be summarized by a new dump (the two sub-trees have been separated by a blank line for more readability):
+
+```txt
++ ⯈ [1.1]
+
+ + ⯈ [2.1] →  (v=v4)
+  + ⯈ [3.1] → #1: a 
+   + ⯈ [4.1] → #16: nice  ($seg-out="90da420ff9 v3:v4 1", $seg-in="f118ee1cd3 v4:v5 1", $seg-out="90da420ff9 v3:v4 2", $seg-in="f118ee1cd3 v4:v5 2", $seg-out="90da420ff9 v3:v4 3", $seg-in="f118ee1cd3 v4:v5 3", $seg-out="90da420ff9 v3:v4 4", $seg-in="f118ee1cd3 v4:v5 4", $seg-out="90da420ff9 v3:v4 5")
+    + ⯈ [5.1] → #3: red  ($del="f3ac775e10 v0:v1 1", $del="f3ac775e10 v0:v1 2", $del="f3ac775e10 v0:v1 3", $del="f3ac775e10 v0:v1 4")
+     + ⯈ [6.1] → #7: pen ($del="3b224463a2 v1:v2 1", $del="3b224463a2 v1:v2 2", $del="3b224463a2 v1:v2 3")
+      + ⯈ [7.1] → #10: hat ($del="a915b9b07a v2:v3 1", $del="a915b9b07a v2:v3 2", $del="a915b9b07a v2:v3 3")
+       - ■ [8.1] → #13: cat ($seg2-in="f118ee1cd3 v4:v5 1", $seg-out="a915b9b07a v2:v3 1", $anchor="90da420ff9 v3:v4", $seg2-in="f118ee1cd3 v4:v5 2", $seg-out="a915b9b07a v2:v3 2", $seg2-in="f118ee1cd3 v4:v5 3", $seg-out="a915b9b07a v2:v3 3")
+
+ + ⯈ [2.2] →  (v=v6)
+  + ⯈ [3.1] → #1: a 
+   + ⯈ [4.1] → #16: nice ($del="f118ee1cd3 v4:v5 1", $del="f118ee1cd3 v4:v5 2", $del="f118ee1cd3 v4:v5 3", $del="f118ee1cd3 v4:v5 4")
+    + ⯈ [5.1] → #3: red  ($del="f3ac775e10 v0:v1 1", $del="f3ac775e10 v0:v1 2", $del="f3ac775e10 v0:v1 3", $del="f3ac775e10 v0:v1 4")
+     + ⯈ [6.1] → #7: pen ($del="3b224463a2 v1:v2 1", $del="3b224463a2 v1:v2 2", $del="3b224463a2 v1:v2 3")
+      + ⯈ [7.1] → #10: hat ($del="a915b9b07a v2:v3 1", $del="a915b9b07a v2:v3 2", $del="a915b9b07a v2:v3 3")
+       + ⯈ [8.1] → #13: cat ($seg-out="a915b9b07a v2:v3 1", $anchor="90da420ff9 v3:v4", $seg2-in="f118ee1cd3 v4:v5 1", $seg-out="a915b9b07a v2:v3 2", $seg2-in="f118ee1cd3 v4:v5 2", $seg-out="a915b9b07a v2:v3 3", $seg2-in="f118ee1cd3 v4:v5 3")
+        + ⯈ [9.1] → #20:   ($seg-out="90da420ff9 v3:v4 5")
+         + ⯈ [10.1] → #21: is  ($seg-out="8f7c9ffd80 v5:v6 1", $seg-out="8f7c9ffd80 v5:v6 2", $seg-out="8f7c9ffd80 v5:v6 3")
+          + ⯈ [11.1] → #13: cat ($del="f118ee1cd3 v4:v5 1", $del="f118ee1cd3 v4:v5 2", $del="f118ee1cd3 v4:v5 3")
+           - ■ [12.1] → #16: nice ($seg-out="90da420ff9 v3:v4 1", $seg-in="f118ee1cd3 v4:v5 1", $anchor="8f7c9ffd80 v5:v6", $seg-out="90da420ff9 v3:v4 2", $seg-in="f118ee1cd3 v4:v5 2", $seg-out="90da420ff9 v3:v4 3", $seg-in="f118ee1cd3 v4:v5 3", $seg-out="90da420ff9 v3:v4 4", $seg-in="f118ee1cd3 v4:v5 4")
+```
+
+The following diagram summarizes the above dump (I applied the red color to the deleted nodes):
+
+![multi tree](img/pen-composite.svg)
+
+>On passage, note that this defines a segment including only a space (between "cat" and "is"). This is the consequence of the design of the filter's behavior, because that space refers to a different operation and thus has different metadata. Yet, the power of the pipeline approach is right in concatenating small pieces of reusable logic. Should we want to merge this space into the previous segment, we could just concatenate another filter which deals with whitespace-only segments and merges them following some specific logic.
 
 TODO
 
