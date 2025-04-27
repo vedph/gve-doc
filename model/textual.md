@@ -291,8 +291,11 @@ Currently these are the trace features:
 - **delete**:
   - input: the segment to be deleted.
   - output: nothing. The delete has no output segment by definition. So, the deleted node, once detached from the version text, will just retain its input segment feature. Anyway, all deleted nodes have a standard `del` feature whose value is equal to that of trace features for segments. The `del` feature it's not a trace feature because it must persist forever once attached to a node: once a node is deleted, it will never come back in a sequence. In fact, together with `opid`, these feature mark the entrance and exit of a node, as versions define new sequences.
-- **add before**, **add after**, **move before**, **move after**:
+- **add before**, **add after**:
   - input: the anchor node gets an anchor feature.
+  - output: the added segment nodes.
+- **move before**, **move after**:
+  - input: the segment to be moved; also, the anchor node gets an anchor feature.
   - output: the added segment nodes.
 - **swap**:
   - input: the segments to be swapped: one in `seg-in` and another in `seg2-in`.
