@@ -47,7 +47,7 @@ In the GVE UI, we can just paste this text to get the identifiers assigned to ea
 
 >💡 To select a range, click on the first node, and then Ctrl+click on the last one. Note that the base text essentially is just a string, so that newlines are represented in it just like any character node, corresponding to a single newline character (LF). In the UI this is visualized as an arrow-down character.
 
-👉 Further, to give an approximate reproduction of the text layout, we add set these base text **parameters**:
+👉 Further, to give an approximate reproduction of the text layout, we set these base text **parameters**:
 
 - text style: `font-size: 32px`
 - X offset = 70
