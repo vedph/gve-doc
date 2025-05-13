@@ -75,7 +75,9 @@ one [two ]1{FIVE}2{Five}4[five]5 six {ten }4three four zero
 
 ### Version Alpha
 
-The alpha version branch is the first child of the root node:
+- v4 `one two five six three four zero`
+
+The alpha version branch is the first child of the root node (as always, ignore operation IDs as these get automatically generated and this document was written in different times):
 
 ```txt
 + ⯈ [1.1]
@@ -91,46 +93,58 @@ The alpha version branch is the first child of the root node:
 ...
 ```
 
-Its corresponding rendition is (this has been manually indented to make its structure more readable):
+Here is the corresponding rendition, with manually added indentation, and trace comments to make it more readable:
 
 ```xml
 <rdg>
   <mod n="v4">
+    <!--⯈ [3.1] one  #2-->
     one 
-    <ins source="o637f7d477a">two </ins>
-    <subst source="oe166382c8a">
-      <del source="oe166382c8a">FIVE</del>
-      <subst source="occ3e52155c">
-        <del source="occ3e52155c">Five</del>
-        <ins source="occ3e52155c">five</ins>
-      </subst>
-       six 
-      <del source="oeb34c1c747">ten </del>
-      three four zero
+    <!--⯈ [4.1] two  #3-->
+    <ins source="ofba20f3ed6">two </ins>
+    <!--⯈ [5.1] FIVE #4-->
+    <subst source="oaae8cd0ebe">
+      <del source="oaae8cd0ebe">FIVE</del>
+      <ins source="oaae8cd0ebe">
+        <!--⯈ [6.1] Five #5-->
+        <subst source="oe4ffaa8348">
+          <del source="oe4ffaa8348">Five</del>
+          <ins source="oe4ffaa8348"><!--⯈ [7.1] five #6-->five</ins>
+          <!--⯈ [8.1]  six  #7-->
+        </subst>
+      </ins>
     </subst>
+     six 
+    <!--⯈ [9.1] ten  #8-->
+    <del source="o4504c223bc">ten </del>
+    <!--■ [10.1] three four zero #9-->
+    three four zero
   </mod>
 </rdg>
 ```
 
 ### Version Beta
 
+- v7 `zero one two three four five six`
+
 The second branch is version beta:
 
 ```txt
+...
 + ⯈ [2.2] #1 →  (sub-id=v7, version=beta)
-  + ⯈ [3.1] zero #2 → #29: zero ($seg-in="901fc11cc5 v5:v6 1", $seg-out="901fc11cc5 v5:v6 1", $seg-in="901fc11cc5 v5:v6 2", $seg-out="901fc11cc5 v5:v6 2", $seg-in="901fc11cc5 v5:v6 3", $seg-out="901fc11cc5 v5:v6 3", $seg-in="901fc11cc5 v5:v6 4", $seg-out="901fc11cc5 v5:v6 4")
-   + ⯈ [4.1]   #3 → #45:   ($seg-out="0041319539 v6:v7 1")
-    + ⯈ [5.1] one  #4 → #1: one  ($anchor="901fc11cc5 v5:v6", $anchor="0041319539 v6:v7")
-     + ⯈ [6.1] two  #5 → #33: two  ($seg-out="c0b3f7a099 v0:v1 1", $seg-out="c0b3f7a099 v0:v1 2", $seg-out="c0b3f7a099 v0:v1 3", $seg-out="c0b3f7a099 v0:v1 4")
-      + ⯈ [7.1] five six #6 → #41: five six ($del="33ba5c10c2 v4:v5 1", $del="33ba5c10c2 v4:v5 2", $del="33ba5c10c2 v4:v5 3", $del="33ba5c10c2 v4:v5 4", $del="33ba5c10c2 v4:v5 5", $del="33ba5c10c2 v4:v5 6", $del="33ba5c10c2 v4:v5 7", $del="33ba5c10c2 v4:v5 8")
-       + ⯈ [8.1] ten  #7 → #14: ten  ($del="6a8062ba68 v3:v4 1", $del="6a8062ba68 v3:v4 2", $del="6a8062ba68 v3:v4 3", $del="6a8062ba68 v3:v4 4")
-        + ⯈ [9.1] three four #8 → #18: three four ($seg2-in="33ba5c10c2 v4:v5 1", $seg-out="33ba5c10c2 v4:v5 1", $seg2-in="33ba5c10c2 v4:v5 2", $seg-out="33ba5c10c2 v4:v5 2", $seg2-in="33ba5c10c2 v4:v5 3", $seg-out="33ba5c10c2 v4:v5 3", $seg2-in="33ba5c10c2 v4:v5 4", $seg-out="33ba5c10c2 v4:v5 4", $seg2-in="33ba5c10c2 v4:v5 5", $seg-out="33ba5c10c2 v4:v5 5", $seg2-in="33ba5c10c2 v4:v5 6", $seg-out="33ba5c10c2 v4:v5 6", $seg2-in="33ba5c10c2 v4:v5 7", $seg-out="33ba5c10c2 v4:v5 7", $seg2-in="33ba5c10c2 v4:v5 8", $seg-out="33ba5c10c2 v4:v5 8", $seg2-in="33ba5c10c2 v4:v5 9", $seg-out="33ba5c10c2 v4:v5 9", $seg2-in="33ba5c10c2 v4:v5 10", $seg-out="33ba5c10c2 v4:v5 10")
+  + ⯈ [3.1] zero #2 → #29: zero ($seg-in="b2c2ac714e v5:v6 1", $seg-out="b2c2ac714e v5:v6 1", $seg-in="b2c2ac714e v5:v6 2", $seg-out="b2c2ac714e v5:v6 2", $seg-in="b2c2ac714e v5:v6 3", $seg-out="b2c2ac714e v5:v6 3", $seg-in="b2c2ac714e v5:v6 4", $seg-out="b2c2ac714e v5:v6 4")
+   + ⯈ [4.1]   #3 → #45:   ($seg-out="f291841280 v6:v7 1")
+    + ⯈ [5.1] one  #4 → #1: one  ($anchor="b2c2ac714e v5:v6", $anchor="f291841280 v6:v7")
+     + ⯈ [6.1] two  #5 → #33: two  ($seg-out="2f3ff9fb6f v0:v1 1", $seg-out="2f3ff9fb6f v0:v1 2", $seg-out="2f3ff9fb6f v0:v1 3", $seg-out="2f3ff9fb6f v0:v1 4")
+      + ⯈ [7.1] five six #6 → #41: five six ($del="6f4b8216d1 v4:v5 1", $del="6f4b8216d1 v4:v5 2", $del="6f4b8216d1 v4:v5 3", $del="6f4b8216d1 v4:v5 4", $del="6f4b8216d1 v4:v5 5", $del="6f4b8216d1 v4:v5 6", $del="6f4b8216d1 v4:v5 7", $del="6f4b8216d1 v4:v5 8")
+       + ⯈ [8.1] ten  #7 → #14: ten  ($del="e932aaf00f v3:v4 1", $del="e932aaf00f v3:v4 2", $del="e932aaf00f v3:v4 3", $del="e932aaf00f v3:v4 4")
+        + ⯈ [9.1] three four #8 → #18: three four ($seg2-in="6f4b8216d1 v4:v5 1", $seg-out="6f4b8216d1 v4:v5 1", $seg2-in="6f4b8216d1 v4:v5 2", $seg-out="6f4b8216d1 v4:v5 2", $seg2-in="6f4b8216d1 v4:v5 3", $seg-out="6f4b8216d1 v4:v5 3", $seg2-in="6f4b8216d1 v4:v5 4", $seg-out="6f4b8216d1 v4:v5 4", $seg2-in="6f4b8216d1 v4:v5 5", $seg-out="6f4b8216d1 v4:v5 5", $seg2-in="6f4b8216d1 v4:v5 6", $seg-out="6f4b8216d1 v4:v5 6", $seg2-in="6f4b8216d1 v4:v5 7", $seg-out="6f4b8216d1 v4:v5 7", $seg2-in="6f4b8216d1 v4:v5 8", $seg-out="6f4b8216d1 v4:v5 8", $seg2-in="6f4b8216d1 v4:v5 9", $seg-out="6f4b8216d1 v4:v5 9", $seg2-in="6f4b8216d1 v4:v5 10", $seg-out="6f4b8216d1 v4:v5 10")
          + ⯈ [10.1]   #9 → #13:  
-          + ⯈ [11.1] three four #10 → #18: three four ($del="33ba5c10c2 v4:v5 1", $del="33ba5c10c2 v4:v5 2", $del="33ba5c10c2 v4:v5 3", $del="33ba5c10c2 v4:v5 4", $del="33ba5c10c2 v4:v5 5", $del="33ba5c10c2 v4:v5 6", $del="33ba5c10c2 v4:v5 7", $del="33ba5c10c2 v4:v5 8", $del="33ba5c10c2 v4:v5 9", $del="33ba5c10c2 v4:v5 10")
-           + ⯈ [12.1] FIVE #11 → #5: FIVE ($del="24d9eeb7f5 v1:v2 1", $del="24d9eeb7f5 v1:v2 2", $del="24d9eeb7f5 v1:v2 3", $del="24d9eeb7f5 v1:v2 4")
-            + ⯈ [13.1] Five #12 → #37: Five ($del="920c73814c v2:v3 1", $del="920c73814c v2:v3 2", $del="920c73814c v2:v3 3", $del="920c73814c v2:v3 4")
-             + ⯈ [14.1] five #13 → #41: five ($seg-out="920c73814c v2:v3 1", $seg-in="33ba5c10c2 v4:v5 1", $seg2-out="33ba5c10c2 v4:v5 1", $seg-out="920c73814c v2:v3 2", $seg-in="33ba5c10c2 v4:v5 2", $seg2-out="33ba5c10c2 v4:v5 2", $seg-out="920c73814c v2:v3 3", $seg-in="33ba5c10c2 v4:v5 3", $seg2-out="33ba5c10c2 v4:v5 3", $seg-out="920c73814c v2:v3 4", $seg-in="33ba5c10c2 v4:v5 4", $seg2-out="33ba5c10c2 v4:v5 4")
-              + ⯈ [15.1]  six #14 → #9:  six ($seg-in="33ba5c10c2 v4:v5 5", $seg2-out="33ba5c10c2 v4:v5 5", $seg-in="33ba5c10c2 v4:v5 6", $seg2-out="33ba5c10c2 v4:v5 6", $seg-in="33ba5c10c2 v4:v5 7", $seg2-out="33ba5c10c2 v4:v5 7", $seg-in="33ba5c10c2 v4:v5 8", $seg2-out="33ba5c10c2 v4:v5 8")
+          + ⯈ [11.1] three four #10 → #18: three four ($del="6f4b8216d1 v4:v5 1", $del="6f4b8216d1 v4:v5 2", $del="6f4b8216d1 v4:v5 3", $del="6f4b8216d1 v4:v5 4", $del="6f4b8216d1 v4:v5 5", $del="6f4b8216d1 v4:v5 6", $del="6f4b8216d1 v4:v5 7", $del="6f4b8216d1 v4:v5 8", $del="6f4b8216d1 v4:v5 9", $del="6f4b8216d1 v4:v5 10")
+           + ⯈ [12.1] FIVE #11 → #5: FIVE ($del="5911688bf0 v1:v2 1", $del="5911688bf0 v1:v2 2", $del="5911688bf0 v1:v2 3", $del="5911688bf0 v1:v2 4")
+            + ⯈ [13.1] Five #12 → #37: Five ($del="63b4fee131 v2:v3 1", $del="63b4fee131 v2:v3 2", $del="63b4fee131 v2:v3 3", $del="63b4fee131 v2:v3 4")
+             + ⯈ [14.1] five #13 → #41: five ($seg-out="63b4fee131 v2:v3 1", $seg-in="6f4b8216d1 v4:v5 1", $seg2-out="6f4b8216d1 v4:v5 1", $seg-out="63b4fee131 v2:v3 2", $seg-in="6f4b8216d1 v4:v5 2", $seg2-out="6f4b8216d1 v4:v5 2", $seg-out="63b4fee131 v2:v3 3", $seg-in="6f4b8216d1 v4:v5 3", $seg2-out="6f4b8216d1 v4:v5 3", $seg-out="63b4fee131 v2:v3 4", $seg-in="6f4b8216d1 v4:v5 4", $seg2-out="6f4b8216d1 v4:v5 4")
+              + ⯈ [15.1]  six #14 → #9:  six ($seg-in="6f4b8216d1 v4:v5 5", $seg2-out="6f4b8216d1 v4:v5 5", $seg-in="6f4b8216d1 v4:v5 6", $seg2-out="6f4b8216d1 v4:v5 6", $seg-in="6f4b8216d1 v4:v5 7", $seg2-out="6f4b8216d1 v4:v5 7", $seg-in="6f4b8216d1 v4:v5 8", $seg2-out="6f4b8216d1 v4:v5 8")
                + ⯈ [16.1]   #15 → #28:  
-                - ■ [17.1] zero #16 → #29: zero ($del="901fc11cc5 v5:v6 1", $del="901fc11cc5 v5:v6 2", $del="901fc11cc5 v5:v6 3", $del="901fc11cc5 v5:v6 4")
+                - ■ [17.1] zero #16 → #29: zero ($del="b2c2ac714e v5:v6 1", $del="b2c2ac714e v5:v6 2", $del="b2c2ac714e v5:v6 3", $del="b2c2ac714e v5:v6 4")
 ```
