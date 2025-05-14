@@ -36,7 +36,7 @@ These operations can be read as follows:
 6. v5>v6: move `zero` before `one`
 7. v6>v7: insert space before `one` (staged version "beta")
 
->Note that the last 2 operations are grouped because they are semantically one, i.e. adding the space is implicit in moving the word so that we avoid stitching words after moving.
+>Note that the last 2 operations are grouped because they are semantically one, i.e. adding the space is implicit in moving the word so that we avoid stitching words after moving. Additionally, we might also add another operation to remove the final space after zero is moved, but we omit this to make the example shorter, as a trailing space in the rendition makes no harm.
 
 ## Versions
 
@@ -77,23 +77,197 @@ one [two ]1{FIVE}2{Five}4[five]5 six {ten }4three four zero
 
 - v4 `one two five six three four zero`
 
-The alpha version branch is the first child of the root node (as always, ignore operation IDs as these get automatically generated and this document was written in different times):
+The alpha version branch is the first child of the root node (as always, ignore operation IDs as these get automatically generated and this document was written in different times). Its dump is reported below: each node, corresponding to one character of the version's text, is a line, indented according to its depth level. The line contains the node's Y and X positions, its label, and the data payload attached to that node after a right arrow. Features (selected from the larger set available for each character) are listed with their name and value separated by an equals sign.
 
 ```txt
-+ ⯈ [1.1]
- + ⯈ [2.1] #1 →  (sub-id=v4, version=alpha)
-  + ⯈ [3.1] one  #2 → #1: one 
-   + ⯈ [4.1] two  #3 → #33: two  ($seg-out="c0b3f7a099 v0:v1 1", $seg-out="c0b3f7a099 v0:v1 2", $seg-out="c0b3f7a099 v0:v1 3", $seg-out="c0b3f7a099 v0:v1 4")
-    + ⯈ [5.1] FIVE #4 → #5: FIVE ($del="24d9eeb7f5 v1:v2 1", $del="24d9eeb7f5 v1:v2 2", $del="24d9eeb7f5 v1:v2 3", $del="24d9eeb7f5 v1:v2 4")
-     + ⯈ [6.1] Five #5 → #37: Five ($del="920c73814c v2:v3 1", $del="920c73814c v2:v3 2", $del="920c73814c v2:v3 3", $del="920c73814c v2:v3 4")
-      + ⯈ [7.1] five #6 → #41: five ($seg-in="33ba5c10c2 v4:v5 1", $seg-out="920c73814c v2:v3 1", $seg-in="33ba5c10c2 v4:v5 2", $seg-out="920c73814c v2:v3 2", $seg-in="33ba5c10c2 v4:v5 3", $seg-out="920c73814c v2:v3 3", $seg-in="33ba5c10c2 v4:v5 4", $seg-out="920c73814c v2:v3 4")
-       + ⯈ [8.1]  six  #7 → #9:  six  ($seg-in="33ba5c10c2 v4:v5 5", $seg-in="33ba5c10c2 v4:v5 6", $seg-in="33ba5c10c2 v4:v5 7", $seg-in="33ba5c10c2 v4:v5 8")
-        + ⯈ [9.1] ten  #8 → #14: ten  ($del="6a8062ba68 v3:v4 1", $del="6a8062ba68 v3:v4 2", $del="6a8062ba68 v3:v4 3", $del="6a8062ba68 v3:v4 4")
-         - ■ [10.1] three four zero #9 → #18: three four zero ($seg2-in="33ba5c10c2 v4:v5 1", $seg2-in="33ba5c10c2 v4:v5 2", $seg2-in="33ba5c10c2 v4:v5 3", $seg2-in="33ba5c10c2 v4:v5 4", $seg2-in="33ba5c10c2 v4:v5 5", $seg2-in="33ba5c10c2 v4:v5 6", $seg2-in="33ba5c10c2 v4:v5 7", $seg2-in="33ba5c10c2 v4:v5 8", $seg2-in="33ba5c10c2 v4:v5 9", $seg2-in="33ba5c10c2 v4:v5 10")
-...
+ + ⯈ [2.1] →  (sub-id=v4, version=alpha)
+  + ⯈ [3.1] o → #1: o
+   + ⯈ [4.1] n → #2: n
+    + ⯈ [5.1] e → #3: e
+     + ⯈ [6.1]   → #4:  
+      + ⯈ [7.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+       + ⯈ [8.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+        + ⯈ [9.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+         + ⯈ [10.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+          + ⯈ [11.1] f → #41: f ($seg-in="5efc466ae9 v4:v5 1", $seg-out="980a28378f v2:v3 1")
+           + ⯈ [12.1] i → #42: i ($seg-in="5efc466ae9 v4:v5 2", $seg-out="980a28378f v2:v3 2")
+            + ⯈ [13.1] v → #43: v ($seg-in="5efc466ae9 v4:v5 3", $seg-out="980a28378f v2:v3 3")
+             + ⯈ [14.1] e → #44: e ($seg-in="5efc466ae9 v4:v5 4", $seg-out="980a28378f v2:v3 4")
+              + ⯈ [15.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5")
+               + ⯈ [16.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6")
+                + ⯈ [17.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7")
+                 + ⯈ [18.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8")
+                  + ⯈ [19.1]   → #13:  
+                   + ⯈ [20.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1")
+                    + ⯈ [21.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2")
+                     + ⯈ [22.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3")
+                      + ⯈ [23.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4")
+                       + ⯈ [24.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5")
+                        + ⯈ [25.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6")
+                         + ⯈ [26.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7")
+                          + ⯈ [27.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8")
+                           + ⯈ [28.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9")
+                            + ⯈ [29.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10")
+                             + ⯈ [30.1]   → #28:  
+                              + ⯈ [31.1] z → #29: z
+                               + ⯈ [32.1] e → #30: e
+                                + ⯈ [33.1] r → #31: r
+                                 - ■ [34.1] o → #32: o
 ```
 
-Here is the corresponding rendition, with manually added indentation, and trace comments to make it more readable:
+>The number after `#` is the original node ID (source ID) from the GVE chain structure. So, at start each node will have a unique source ID; once we start restoring deleted nodes, it might happen that duplicated nodes share the same source ID.
+
+As you can see, in this linear (single-branch) tree each character is a child node of the preceding character. Note that the branch starts at 2.1, having a couple of features related to the version the branch refers to (`v4`, staged as `alpha`); the root at level 1 instead is the root of the whole tree, which contains one child branch for each version.
+
+Once the tree has been built, the builder goes on to restore deletions (as we requested in its configuration), from v3 backwards. In case of replacements (due to replacements or swap operations), the builder restores each segment right before the one replacing it. Here you can follow the restore process, step by step.
+
+(1) v3 (delete `ten_`): the characters of the deleted segment are restored:
+
+```txt
+ + ⯈ [2.1] →  (sub-id=v4, version=alpha)
+  + ⯈ [3.1] o → #1: o
+   + ⯈ [4.1] n → #2: n
+    + ⯈ [5.1] e → #3: e
+     + ⯈ [6.1]   → #4:  
+      + ⯈ [7.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+       + ⯈ [8.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+        + ⯈ [9.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+         + ⯈ [10.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+          + ⯈ [11.1] f → #41: f ($seg-in="5efc466ae9 v4:v5 1", $seg-out="980a28378f v2:v3 1")
+           + ⯈ [12.1] i → #42: i ($seg-in="5efc466ae9 v4:v5 2", $seg-out="980a28378f v2:v3 2")
+            + ⯈ [13.1] v → #43: v ($seg-in="5efc466ae9 v4:v5 3", $seg-out="980a28378f v2:v3 3")
+             + ⯈ [14.1] e → #44: e ($seg-in="5efc466ae9 v4:v5 4", $seg-out="980a28378f v2:v3 4")
+              + ⯈ [15.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5")
+               + ⯈ [16.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6")
+                + ⯈ [17.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7")
+                 + ⯈ [18.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8")
+                  + ⯈ [19.1]   → #13:  
+
+                   + ⯈ [20.1] t → #14: t ($del="196de059bf v3:v4 1")
+                    + ⯈ [21.1] e → #15: e ($del="196de059bf v3:v4 2")
+                     + ⯈ [22.1] n → #16: n ($del="196de059bf v3:v4 3")
+                      + ⯈ [23.1]   → #17:   ($del="196de059bf v3:v4 4")
+
+                       + ⯈ [24.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1")
+                        + ⯈ [25.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2")
+                         + ⯈ [26.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3")
+                          + ⯈ [27.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4")
+                           + ⯈ [28.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5")
+                            + ⯈ [29.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6")
+                             + ⯈ [30.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7")
+                              + ⯈ [31.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8")
+                               + ⯈ [32.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9")
+                                + ⯈ [33.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10")
+                                 + ⯈ [34.1]   → #28:  
+                                  + ⯈ [35.1] z → #29: z
+                                   + ⯈ [36.1] e → #30: e
+                                    + ⯈ [37.1] r → #31: r
+                                     - ■ [38.1] o → #32: o
+```
+
+Note that each restored node has a `$del` trace feature which marks it as a restoration.
+
+(2) v2 (replace `Five` with `five`): `Five` nodes are restored before `five`:
+
+```txt
+ + ⯈ [2.1] →  (sub-id=v4, version=alpha)
+  + ⯈ [3.1] o → #1: o
+   + ⯈ [4.1] n → #2: n
+    + ⯈ [5.1] e → #3: e
+     + ⯈ [6.1]   → #4:  
+      + ⯈ [7.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+       + ⯈ [8.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+        + ⯈ [9.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+         + ⯈ [10.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+
+          + ⯈ [11.1] F → #37: F ($del="980a28378f v2:v3 1")
+           + ⯈ [12.1] i → #38: i ($del="980a28378f v2:v3 2")
+            + ⯈ [13.1] v → #39: v ($del="980a28378f v2:v3 3")
+             + ⯈ [14.1] e → #40: e ($del="980a28378f v2:v3 4")
+
+              + ⯈ [15.1] f → #41: f ($seg-in="5efc466ae9 v4:v5 1", $seg-out="980a28378f v2:v3 1")
+               + ⯈ [16.1] i → #42: i ($seg-in="5efc466ae9 v4:v5 2", $seg-out="980a28378f v2:v3 2")
+                + ⯈ [17.1] v → #43: v ($seg-in="5efc466ae9 v4:v5 3", $seg-out="980a28378f v2:v3 3")
+                 + ⯈ [18.1] e → #44: e ($seg-in="5efc466ae9 v4:v5 4", $seg-out="980a28378f v2:v3 4")
+                  + ⯈ [19.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5")
+                   + ⯈ [20.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6")
+                    + ⯈ [21.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7")
+                     + ⯈ [22.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8")
+                      + ⯈ [23.1]   → #13:  
+                       + ⯈ [24.1] t → #14: t ($del="196de059bf v3:v4 1")
+                        + ⯈ [25.1] e → #15: e ($del="196de059bf v3:v4 2")
+                         + ⯈ [26.1] n → #16: n ($del="196de059bf v3:v4 3")
+                          + ⯈ [27.1]   → #17:   ($del="196de059bf v3:v4 4")
+                           + ⯈ [28.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1")
+                            + ⯈ [29.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2")
+                             + ⯈ [30.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3")
+                              + ⯈ [31.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4")
+                               + ⯈ [32.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5")
+                                + ⯈ [33.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6")
+                                 + ⯈ [34.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7")
+                                  + ⯈ [35.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8")
+                                   + ⯈ [36.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9")
+                                    + ⯈ [37.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10")
+                                     + ⯈ [38.1]   → #28:  
+                                      + ⯈ [39.1] z → #29: z
+                                       + ⯈ [40.1] e → #30: e
+                                        + ⯈ [41.1] r → #31: r
+                                         - ■ [42.1] o → #32: o
+```
+
+(3) v1 (replace `FIVE` with `Five`): `FIVE` nodes are restored before `Five`:
+
+```txt
+ + ⯈ [2.1] →  (sub-id=v4, version=alpha)
+  + ⯈ [3.1] o → #1: o
+   + ⯈ [4.1] n → #2: n
+    + ⯈ [5.1] e → #3: e
+     + ⯈ [6.1]   → #4:  
+      + ⯈ [7.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+       + ⯈ [8.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+        + ⯈ [9.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+         + ⯈ [10.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+
+          + ⯈ [11.1] F → #5: F ($del="91b036cd5e v1:v2 1")
+           + ⯈ [12.1] I → #6: I ($del="91b036cd5e v1:v2 2")
+            + ⯈ [13.1] V → #7: V ($del="91b036cd5e v1:v2 3")
+             + ⯈ [14.1] E → #8: E ($del="91b036cd5e v1:v2 4")
+
+              + ⯈ [15.1] F → #37: F ($del="980a28378f v2:v3 1")
+               + ⯈ [16.1] i → #38: i ($del="980a28378f v2:v3 2")
+                + ⯈ [17.1] v → #39: v ($del="980a28378f v2:v3 3")
+                 + ⯈ [18.1] e → #40: e ($del="980a28378f v2:v3 4")
+                  + ⯈ [19.1] f → #41: f ($seg-in="5efc466ae9 v4:v5 1", $seg-out="980a28378f v2:v3 1")
+                   + ⯈ [20.1] i → #42: i ($seg-in="5efc466ae9 v4:v5 2", $seg-out="980a28378f v2:v3 2")
+                    + ⯈ [21.1] v → #43: v ($seg-in="5efc466ae9 v4:v5 3", $seg-out="980a28378f v2:v3 3")
+                     + ⯈ [22.1] e → #44: e ($seg-in="5efc466ae9 v4:v5 4", $seg-out="980a28378f v2:v3 4")
+                      + ⯈ [23.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5")
+                       + ⯈ [24.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6")
+                        + ⯈ [25.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7")
+                         + ⯈ [26.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8")
+                          + ⯈ [27.1]   → #13:  
+                           + ⯈ [28.1] t → #14: t ($del="196de059bf v3:v4 1")
+                            + ⯈ [29.1] e → #15: e ($del="196de059bf v3:v4 2")
+                             + ⯈ [30.1] n → #16: n ($del="196de059bf v3:v4 3")
+                              + ⯈ [31.1]   → #17:   ($del="196de059bf v3:v4 4")
+                               + ⯈ [32.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1")
+                                + ⯈ [33.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2")
+                                 + ⯈ [34.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3")
+                                  + ⯈ [35.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4")
+                                   + ⯈ [36.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5")
+                                    + ⯈ [37.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6")
+                                     + ⯈ [38.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7")
+                                      + ⯈ [39.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8")
+                                       + ⯈ [40.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9")
+                                        + ⯈ [41.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10")
+                                         + ⯈ [42.1]   → #28:  
+                                          + ⯈ [43.1] z → #29: z
+                                           + ⯈ [44.1] e → #30: e
+                                            + ⯈ [45.1] r → #31: r
+                                             - ■ [46.1] o → #32: o
+```
+
+At this stage, version 4 branch is complete and ready for its rendition. When later the branch passes to the Saba 1919 renderer, it gets materialized into this TEI fragment (the renderer was configured to output trace comments, and I manually indented the result to make it more readable):
 
 ```xml
 <rdg>
@@ -101,27 +275,29 @@ Here is the corresponding rendition, with manually added indentation, and trace 
     <!--⯈ [3.1] one  #2-->
     one 
     <!--⯈ [4.1] two  #3-->
-    <ins source="ofba20f3ed6">two </ins>
+    <ins source="o275cc81635">two </ins>
     <!--⯈ [5.1] FIVE #4-->
-    <subst source="oaae8cd0ebe">
-      <del source="oaae8cd0ebe">FIVE</del>
-      <ins source="oaae8cd0ebe">
+    <subst source="o04c07a71b7">
+      <del source="o04c07a71b7">FIVE</del>
+      <ins source="o04c07a71b7">
         <!--⯈ [6.1] Five #5-->
-        <subst source="oe4ffaa8348">
-          <del source="oe4ffaa8348">Five</del>
-          <ins source="oe4ffaa8348"><!--⯈ [7.1] five #6-->five</ins>
+        <subst source="o0b2c6f7068">
+          <del source="o0b2c6f7068">Five</del>
+          <ins source="o0b2c6f7068"><!--⯈ [7.1] five #6-->five</ins>
           <!--⯈ [8.1]  six  #7-->
         </subst>
       </ins>
     </subst>
      six 
     <!--⯈ [9.1] ten  #8-->
-    <del source="o4504c223bc">ten </del>
+    <del source="of63bacae53">ten </del>
     <!--■ [10.1] three four zero #9-->
     three four zero
   </mod>
 </rdg>
 ```
+
+>As the renderer has been configured to treat v7 (beta) as the preferred one, v4 here is wrapped inside an `rdg` element. The preferred version will then be wrapped inside a `lem` element.
 
 ### Version Beta
 
@@ -147,4 +323,51 @@ The second branch is version beta:
               + ⯈ [15.1]  six #14 → #9:  six ($seg-in="6f4b8216d1 v4:v5 5", $seg2-out="6f4b8216d1 v4:v5 5", $seg-in="6f4b8216d1 v4:v5 6", $seg2-out="6f4b8216d1 v4:v5 6", $seg-in="6f4b8216d1 v4:v5 7", $seg2-out="6f4b8216d1 v4:v5 7", $seg-in="6f4b8216d1 v4:v5 8", $seg2-out="6f4b8216d1 v4:v5 8")
                + ⯈ [16.1]   #15 → #28:  
                 - ■ [17.1] zero #16 → #29: zero ($del="b2c2ac714e v5:v6 1", $del="b2c2ac714e v5:v6 2", $del="b2c2ac714e v5:v6 3", $del="b2c2ac714e v5:v6 4")
+```
+
+TODO
+
+```xml
+<lem>
+  <mod n="v7">
+    <!--⯈ [3.1] zero #2-->
+    <ins source="o3a696f77da">zero</ins>
+    <!--⯈ [4.1]   #3-->
+    <ins source="o836c8c7e66"> </ins>
+    <!--⯈ [5.1] one  #4-->
+    one 
+    <!--⯈ [6.1] two  #5-->
+    <ins source="o275cc81635">two </ins>
+    <!--⯈ [7.1] five six #6-->
+    <subst source="o19e122c4da">
+      <del source="o19e122c4da">five six</del>
+      <ins source="o19e122c4da"><!--⯈ [8.1] three four #7-->three four</ins>
+      <!--⯈ [9.1]   #8-->
+    </subst>
+    <!--⯈ [10.1] ten  #9-->
+    <del source="of63bacae53">ten </del>
+    <!--⯈ [11.1] three four #10-->
+    <subst source="o19e122c4da">
+      <del source="o19e122c4da">three four</del>
+      <ins source="o19e122c4da">
+        <!--⯈ [12.1] FIVE #11-->
+        <subst source="o04c07a71b7">
+          <del source="o04c07a71b7">FIVE</del>
+          <ins source="o04c07a71b7">
+            <!--⯈ [13.1] Five #12-->
+            <subst source="o0b2c6f7068">
+              <del source="o0b2c6f7068">Five</del>
+              <ins source="o0b2c6f7068"><!--⯈ [14.1] five #13-->five</ins>
+              <!--⯈ [15.1]  six #14-->
+              <ins source="o19e122c4da"> six</ins>
+            </subst>
+            <!--⯈ [16.1]   #15-->
+          </ins>
+        </subst>
+      </ins>
+    </subst>
+    <!--■ [17.1] zero #16-->
+    <del source="o3a696f77da">zero</del>
+  </mod>
+</lem>
 ```
