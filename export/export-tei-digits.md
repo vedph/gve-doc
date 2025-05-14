@@ -303,27 +303,275 @@ At this stage, version 4 branch is complete and ready for its rendition. When la
 
 - v7 `zero one two three four five six`
 
-The second branch is version beta:
+The branch built from v7 (`zero one two three four five six_`) is:
 
 ```txt
-...
-+ ⯈ [2.2] #1 →  (sub-id=v7, version=beta)
-  + ⯈ [3.1] zero #2 → #29: zero ($seg-in="b2c2ac714e v5:v6 1", $seg-out="b2c2ac714e v5:v6 1", $seg-in="b2c2ac714e v5:v6 2", $seg-out="b2c2ac714e v5:v6 2", $seg-in="b2c2ac714e v5:v6 3", $seg-out="b2c2ac714e v5:v6 3", $seg-in="b2c2ac714e v5:v6 4", $seg-out="b2c2ac714e v5:v6 4")
-   + ⯈ [4.1]   #3 → #45:   ($seg-out="f291841280 v6:v7 1")
-    + ⯈ [5.1] one  #4 → #1: one  ($anchor="b2c2ac714e v5:v6", $anchor="f291841280 v6:v7")
-     + ⯈ [6.1] two  #5 → #33: two  ($seg-out="2f3ff9fb6f v0:v1 1", $seg-out="2f3ff9fb6f v0:v1 2", $seg-out="2f3ff9fb6f v0:v1 3", $seg-out="2f3ff9fb6f v0:v1 4")
-      + ⯈ [7.1] five six #6 → #41: five six ($del="6f4b8216d1 v4:v5 1", $del="6f4b8216d1 v4:v5 2", $del="6f4b8216d1 v4:v5 3", $del="6f4b8216d1 v4:v5 4", $del="6f4b8216d1 v4:v5 5", $del="6f4b8216d1 v4:v5 6", $del="6f4b8216d1 v4:v5 7", $del="6f4b8216d1 v4:v5 8")
-       + ⯈ [8.1] ten  #7 → #14: ten  ($del="e932aaf00f v3:v4 1", $del="e932aaf00f v3:v4 2", $del="e932aaf00f v3:v4 3", $del="e932aaf00f v3:v4 4")
-        + ⯈ [9.1] three four #8 → #18: three four ($seg2-in="6f4b8216d1 v4:v5 1", $seg-out="6f4b8216d1 v4:v5 1", $seg2-in="6f4b8216d1 v4:v5 2", $seg-out="6f4b8216d1 v4:v5 2", $seg2-in="6f4b8216d1 v4:v5 3", $seg-out="6f4b8216d1 v4:v5 3", $seg2-in="6f4b8216d1 v4:v5 4", $seg-out="6f4b8216d1 v4:v5 4", $seg2-in="6f4b8216d1 v4:v5 5", $seg-out="6f4b8216d1 v4:v5 5", $seg2-in="6f4b8216d1 v4:v5 6", $seg-out="6f4b8216d1 v4:v5 6", $seg2-in="6f4b8216d1 v4:v5 7", $seg-out="6f4b8216d1 v4:v5 7", $seg2-in="6f4b8216d1 v4:v5 8", $seg-out="6f4b8216d1 v4:v5 8", $seg2-in="6f4b8216d1 v4:v5 9", $seg-out="6f4b8216d1 v4:v5 9", $seg2-in="6f4b8216d1 v4:v5 10", $seg-out="6f4b8216d1 v4:v5 10")
-         + ⯈ [10.1]   #9 → #13:  
-          + ⯈ [11.1] three four #10 → #18: three four ($del="6f4b8216d1 v4:v5 1", $del="6f4b8216d1 v4:v5 2", $del="6f4b8216d1 v4:v5 3", $del="6f4b8216d1 v4:v5 4", $del="6f4b8216d1 v4:v5 5", $del="6f4b8216d1 v4:v5 6", $del="6f4b8216d1 v4:v5 7", $del="6f4b8216d1 v4:v5 8", $del="6f4b8216d1 v4:v5 9", $del="6f4b8216d1 v4:v5 10")
-           + ⯈ [12.1] FIVE #11 → #5: FIVE ($del="5911688bf0 v1:v2 1", $del="5911688bf0 v1:v2 2", $del="5911688bf0 v1:v2 3", $del="5911688bf0 v1:v2 4")
-            + ⯈ [13.1] Five #12 → #37: Five ($del="63b4fee131 v2:v3 1", $del="63b4fee131 v2:v3 2", $del="63b4fee131 v2:v3 3", $del="63b4fee131 v2:v3 4")
-             + ⯈ [14.1] five #13 → #41: five ($seg-out="63b4fee131 v2:v3 1", $seg-in="6f4b8216d1 v4:v5 1", $seg2-out="6f4b8216d1 v4:v5 1", $seg-out="63b4fee131 v2:v3 2", $seg-in="6f4b8216d1 v4:v5 2", $seg2-out="6f4b8216d1 v4:v5 2", $seg-out="63b4fee131 v2:v3 3", $seg-in="6f4b8216d1 v4:v5 3", $seg2-out="6f4b8216d1 v4:v5 3", $seg-out="63b4fee131 v2:v3 4", $seg-in="6f4b8216d1 v4:v5 4", $seg2-out="6f4b8216d1 v4:v5 4")
-              + ⯈ [15.1]  six #14 → #9:  six ($seg-in="6f4b8216d1 v4:v5 5", $seg2-out="6f4b8216d1 v4:v5 5", $seg-in="6f4b8216d1 v4:v5 6", $seg2-out="6f4b8216d1 v4:v5 6", $seg-in="6f4b8216d1 v4:v5 7", $seg2-out="6f4b8216d1 v4:v5 7", $seg-in="6f4b8216d1 v4:v5 8", $seg2-out="6f4b8216d1 v4:v5 8")
-               + ⯈ [16.1]   #15 → #28:  
-                - ■ [17.1] zero #16 → #29: zero ($del="b2c2ac714e v5:v6 1", $del="b2c2ac714e v5:v6 2", $del="b2c2ac714e v5:v6 3", $del="b2c2ac714e v5:v6 4")
+ + ⯈ [2.2] →  (sub-id=v7, version=beta)
+  + ⯈ [3.1] z → #29: z ($seg-in="cbdd5bf924 v5:v6 1", $seg-out="cbdd5bf924 v5:v6 1")
+   + ⯈ [4.1] e → #30: e ($seg-in="cbdd5bf924 v5:v6 2", $seg-out="cbdd5bf924 v5:v6 2")
+    + ⯈ [5.1] r → #31: r ($seg-in="cbdd5bf924 v5:v6 3", $seg-out="cbdd5bf924 v5:v6 3")
+     + ⯈ [6.1] o → #32: o ($seg-in="cbdd5bf924 v5:v6 4", $seg-out="cbdd5bf924 v5:v6 4")
+      + ⯈ [7.1]   → #45:   ($seg-out="27140c3f3c v6:v7 1")
+       + ⯈ [8.1] o → #1: o ($anchor="cbdd5bf924 v5:v6", $anchor="27140c3f3c v6:v7")
+        + ⯈ [9.1] n → #2: n
+         + ⯈ [10.1] e → #3: e
+          + ⯈ [11.1]   → #4:  
+           + ⯈ [12.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+            + ⯈ [13.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+             + ⯈ [14.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+              + ⯈ [15.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+               + ⯈ [16.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1", $seg-out="5efc466ae9 v4:v5 1")
+                + ⯈ [17.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2", $seg-out="5efc466ae9 v4:v5 2")
+                 + ⯈ [18.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3", $seg-out="5efc466ae9 v4:v5 3")
+                  + ⯈ [19.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4", $seg-out="5efc466ae9 v4:v5 4")
+                   + ⯈ [20.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5", $seg-out="5efc466ae9 v4:v5 5")
+                    + ⯈ [21.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6", $seg-out="5efc466ae9 v4:v5 6")
+                     + ⯈ [22.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7", $seg-out="5efc466ae9 v4:v5 7")
+                      + ⯈ [23.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8", $seg-out="5efc466ae9 v4:v5 8")
+                       + ⯈ [24.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9", $seg-out="5efc466ae9 v4:v5 9")
+                        + ⯈ [25.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10", $seg-out="5efc466ae9 v4:v5 10")
+                         + ⯈ [26.1]   → #13:  
+                          + ⯈ [27.1] f → #41: f ($seg-out="980a28378f v2:v3 1", $seg-in="5efc466ae9 v4:v5 1", $seg2-out="5efc466ae9 v4:v5 1")
+                           + ⯈ [28.1] i → #42: i ($seg-out="980a28378f v2:v3 2", $seg-in="5efc466ae9 v4:v5 2", $seg2-out="5efc466ae9 v4:v5 2")
+                            + ⯈ [29.1] v → #43: v ($seg-out="980a28378f v2:v3 3", $seg-in="5efc466ae9 v4:v5 3", $seg2-out="5efc466ae9 v4:v5 3")
+                             + ⯈ [30.1] e → #44: e ($seg-out="980a28378f v2:v3 4", $seg-in="5efc466ae9 v4:v5 4", $seg2-out="5efc466ae9 v4:v5 4")
+                              + ⯈ [31.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5", $seg2-out="5efc466ae9 v4:v5 5")
+                               + ⯈ [32.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6", $seg2-out="5efc466ae9 v4:v5 6")
+                                + ⯈ [33.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7", $seg2-out="5efc466ae9 v4:v5 7")
+                                 + ⯈ [34.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8", $seg2-out="5efc466ae9 v4:v5 8")
+                                  - ■ [35.1]   → #28:  
 ```
+
+At this stage the builder starts restoring deletions, from v6 backwards (v6 is skipped because it has no deletion):
+
+(1) v5 (move `zero`): `zero` is restored at the end:
+
+```txt
+  + ⯈ [2.2] →  (sub-id=v7, version=beta)
+  + ⯈ [3.1] z → #29: z ($seg-in="cbdd5bf924 v5:v6 1", $seg-out="cbdd5bf924 v5:v6 1")
+   + ⯈ [4.1] e → #30: e ($seg-in="cbdd5bf924 v5:v6 2", $seg-out="cbdd5bf924 v5:v6 2")
+    + ⯈ [5.1] r → #31: r ($seg-in="cbdd5bf924 v5:v6 3", $seg-out="cbdd5bf924 v5:v6 3")
+     + ⯈ [6.1] o → #32: o ($seg-in="cbdd5bf924 v5:v6 4", $seg-out="cbdd5bf924 v5:v6 4")
+      + ⯈ [7.1]   → #45:   ($seg-out="27140c3f3c v6:v7 1")
+       + ⯈ [8.1] o → #1: o ($anchor="cbdd5bf924 v5:v6", $anchor="27140c3f3c v6:v7")
+        + ⯈ [9.1] n → #2: n
+         + ⯈ [10.1] e → #3: e
+          + ⯈ [11.1]   → #4:  
+           + ⯈ [12.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+            + ⯈ [13.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+             + ⯈ [14.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+              + ⯈ [15.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+               + ⯈ [16.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1", $seg-out="5efc466ae9 v4:v5 1")
+                + ⯈ [17.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2", $seg-out="5efc466ae9 v4:v5 2")
+                 + ⯈ [18.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3", $seg-out="5efc466ae9 v4:v5 3")
+                  + ⯈ [19.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4", $seg-out="5efc466ae9 v4:v5 4")
+                   + ⯈ [20.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5", $seg-out="5efc466ae9 v4:v5 5")
+                    + ⯈ [21.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6", $seg-out="5efc466ae9 v4:v5 6")
+                     + ⯈ [22.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7", $seg-out="5efc466ae9 v4:v5 7")
+                      + ⯈ [23.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8", $seg-out="5efc466ae9 v4:v5 8")
+                       + ⯈ [24.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9", $seg-out="5efc466ae9 v4:v5 9")
+                        + ⯈ [25.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10", $seg-out="5efc466ae9 v4:v5 10")
+                         + ⯈ [26.1]   → #13:  
+                          + ⯈ [27.1] f → #41: f ($seg-out="980a28378f v2:v3 1", $seg-in="5efc466ae9 v4:v5 1", $seg2-out="5efc466ae9 v4:v5 1")
+                           + ⯈ [28.1] i → #42: i ($seg-out="980a28378f v2:v3 2", $seg-in="5efc466ae9 v4:v5 2", $seg2-out="5efc466ae9 v4:v5 2")
+                            + ⯈ [29.1] v → #43: v ($seg-out="980a28378f v2:v3 3", $seg-in="5efc466ae9 v4:v5 3", $seg2-out="5efc466ae9 v4:v5 3")
+                             + ⯈ [30.1] e → #44: e ($seg-out="980a28378f v2:v3 4", $seg-in="5efc466ae9 v4:v5 4", $seg2-out="5efc466ae9 v4:v5 4")
+                              + ⯈ [31.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5", $seg2-out="5efc466ae9 v4:v5 5")
+                               + ⯈ [32.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6", $seg2-out="5efc466ae9 v4:v5 6")
+                                + ⯈ [33.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7", $seg2-out="5efc466ae9 v4:v5 7")
+                                 + ⯈ [34.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8", $seg2-out="5efc466ae9 v4:v5 8")
+                                  + ⯈ [35.1]   → #28:  
+
+                                   + ⯈ [36.1] z → #29: z ($del="cbdd5bf924 v5:v6 1")
+                                    + ⯈ [37.1] e → #30: e ($del="cbdd5bf924 v5:v6 2")
+                                     + ⯈ [38.1] r → #31: r ($del="cbdd5bf924 v5:v6 3")
+                                      - ■ [39.1] o → #32: o ($del="cbdd5bf924 v5:v6 4")
+```
+
+(2) v4 (swap `five six` with `three four`): a swap implies two restorations: first, `five six` before `three four`:
+
+```txt
+ + ⯈ [2.2] →  (sub-id=v7, version=beta)
+  + ⯈ [3.1] z → #29: z ($seg-in="cbdd5bf924 v5:v6 1", $seg-out="cbdd5bf924 v5:v6 1")
+   + ⯈ [4.1] e → #30: e ($seg-in="cbdd5bf924 v5:v6 2", $seg-out="cbdd5bf924 v5:v6 2")
+    + ⯈ [5.1] r → #31: r ($seg-in="cbdd5bf924 v5:v6 3", $seg-out="cbdd5bf924 v5:v6 3")
+     + ⯈ [6.1] o → #32: o ($seg-in="cbdd5bf924 v5:v6 4", $seg-out="cbdd5bf924 v5:v6 4")
+      + ⯈ [7.1]   → #45:   ($seg-out="27140c3f3c v6:v7 1")
+       + ⯈ [8.1] o → #1: o ($anchor="cbdd5bf924 v5:v6", $anchor="27140c3f3c v6:v7")
+        + ⯈ [9.1] n → #2: n
+         + ⯈ [10.1] e → #3: e
+          + ⯈ [11.1]   → #4:  
+           + ⯈ [12.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+            + ⯈ [13.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+             + ⯈ [14.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+              + ⯈ [15.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+
+               + ⯈ [16.1] f → #41: f ($del="5efc466ae9 v4:v5 1")
+                + ⯈ [17.1] i → #42: i ($del="5efc466ae9 v4:v5 2")
+                 + ⯈ [18.1] v → #43: v ($del="5efc466ae9 v4:v5 3")
+                  + ⯈ [19.1] e → #44: e ($del="5efc466ae9 v4:v5 4")
+                   + ⯈ [20.1]   → #9:   ($del="5efc466ae9 v4:v5 5")
+                    + ⯈ [21.1] s → #10: s ($del="5efc466ae9 v4:v5 6")
+                     + ⯈ [22.1] i → #11: i ($del="5efc466ae9 v4:v5 7")
+                      + ⯈ [23.1] x → #12: x ($del="5efc466ae9 v4:v5 8")
+
+                       + ⯈ [24.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1", $seg-out="5efc466ae9 v4:v5 1")
+                        + ⯈ [25.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2", $seg-out="5efc466ae9 v4:v5 2")
+                         + ⯈ [26.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3", $seg-out="5efc466ae9 v4:v5 3")
+                          + ⯈ [27.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4", $seg-out="5efc466ae9 v4:v5 4")
+                           + ⯈ [28.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5", $seg-out="5efc466ae9 v4:v5 5")
+                            + ⯈ [29.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6", $seg-out="5efc466ae9 v4:v5 6")
+                             + ⯈ [30.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7", $seg-out="5efc466ae9 v4:v5 7")
+                              + ⯈ [31.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8", $seg-out="5efc466ae9 v4:v5 8")
+                               + ⯈ [32.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9", $seg-out="5efc466ae9 v4:v5 9")
+                                + ⯈ [33.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10", $seg-out="5efc466ae9 v4:v5 10")
+                                 + ⯈ [34.1]   → #13:  
+                                  + ⯈ [35.1] f → #41: f ($seg-out="980a28378f v2:v3 1", $seg-in="5efc466ae9 v4:v5 1", $seg2-out="5efc466ae9 v4:v5 1")
+                                   + ⯈ [36.1] i → #42: i ($seg-out="980a28378f v2:v3 2", $seg-in="5efc466ae9 v4:v5 2", $seg2-out="5efc466ae9 v4:v5 2")
+                                    + ⯈ [37.1] v → #43: v ($seg-out="980a28378f v2:v3 3", $seg-in="5efc466ae9 v4:v5 3", $seg2-out="5efc466ae9 v4:v5 3")
+                                     + ⯈ [38.1] e → #44: e ($seg-out="980a28378f v2:v3 4", $seg-in="5efc466ae9 v4:v5 4", $seg2-out="5efc466ae9 v4:v5 4")
+                                      + ⯈ [39.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5", $seg2-out="5efc466ae9 v4:v5 5")
+                                       + ⯈ [40.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6", $seg2-out="5efc466ae9 v4:v5 6")
+                                        + ⯈ [41.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7", $seg2-out="5efc466ae9 v4:v5 7")
+                                         + ⯈ [42.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8", $seg2-out="5efc466ae9 v4:v5 8")
+                                          + ⯈ [43.1]   → #28:  
+                                           + ⯈ [44.1] z → #29: z ($del="cbdd5bf924 v5:v6 1")
+                                            + ⯈ [45.1] e → #30: e ($del="cbdd5bf924 v5:v6 2")
+                                             + ⯈ [46.1] r → #31: r ($del="cbdd5bf924 v5:v6 3")
+                                              - ■ [47.1] o → #32: o ($del="cbdd5bf924 v5:v6 4")
+```
+
+then, restoring `three four` before `five six` (not the restored one):
+
+```txt
+ + ⯈ [2.2] →  (sub-id=v7, version=beta)
+  + ⯈ [3.1] z → #29: z ($seg-in="cbdd5bf924 v5:v6 1", $seg-out="cbdd5bf924 v5:v6 1")
+   + ⯈ [4.1] e → #30: e ($seg-in="cbdd5bf924 v5:v6 2", $seg-out="cbdd5bf924 v5:v6 2")
+    + ⯈ [5.1] r → #31: r ($seg-in="cbdd5bf924 v5:v6 3", $seg-out="cbdd5bf924 v5:v6 3")
+     + ⯈ [6.1] o → #32: o ($seg-in="cbdd5bf924 v5:v6 4", $seg-out="cbdd5bf924 v5:v6 4")
+      + ⯈ [7.1]   → #45:   ($seg-out="27140c3f3c v6:v7 1")
+       + ⯈ [8.1] o → #1: o ($anchor="cbdd5bf924 v5:v6", $anchor="27140c3f3c v6:v7")
+        + ⯈ [9.1] n → #2: n
+         + ⯈ [10.1] e → #3: e
+          + ⯈ [11.1]   → #4:  
+           + ⯈ [12.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+            + ⯈ [13.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+             + ⯈ [14.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+              + ⯈ [15.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+               + ⯈ [16.1] f → #41: f ($del="5efc466ae9 v4:v5 1")
+                + ⯈ [17.1] i → #42: i ($del="5efc466ae9 v4:v5 2")
+                 + ⯈ [18.1] v → #43: v ($del="5efc466ae9 v4:v5 3")
+                  + ⯈ [19.1] e → #44: e ($del="5efc466ae9 v4:v5 4")
+                   + ⯈ [20.1]   → #9:   ($del="5efc466ae9 v4:v5 5")
+                    + ⯈ [21.1] s → #10: s ($del="5efc466ae9 v4:v5 6")
+                     + ⯈ [22.1] i → #11: i ($del="5efc466ae9 v4:v5 7")
+                      + ⯈ [23.1] x → #12: x ($del="5efc466ae9 v4:v5 8")
+                       + ⯈ [24.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1", $seg-out="5efc466ae9 v4:v5 1")
+                        + ⯈ [25.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2", $seg-out="5efc466ae9 v4:v5 2")
+                         + ⯈ [26.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3", $seg-out="5efc466ae9 v4:v5 3")
+                          + ⯈ [27.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4", $seg-out="5efc466ae9 v4:v5 4")
+                           + ⯈ [28.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5", $seg-out="5efc466ae9 v4:v5 5")
+                            + ⯈ [29.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6", $seg-out="5efc466ae9 v4:v5 6")
+                             + ⯈ [30.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7", $seg-out="5efc466ae9 v4:v5 7")
+                              + ⯈ [31.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8", $seg-out="5efc466ae9 v4:v5 8")
+                               + ⯈ [32.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9", $seg-out="5efc466ae9 v4:v5 9")
+                                + ⯈ [33.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10", $seg-out="5efc466ae9 v4:v5 10")
+                                 + ⯈ [34.1]   → #13:  
+
+                                  + ⯈ [35.1] t → #18: t ($del="5efc466ae9 v4:v5 1")
+                                   + ⯈ [36.1] h → #19: h ($del="5efc466ae9 v4:v5 2")
+                                    + ⯈ [37.1] r → #20: r ($del="5efc466ae9 v4:v5 3")
+                                     + ⯈ [38.1] e → #21: e ($del="5efc466ae9 v4:v5 4")
+                                      + ⯈ [39.1] e → #22: e ($del="5efc466ae9 v4:v5 5")
+                                       + ⯈ [40.1]   → #23:   ($del="5efc466ae9 v4:v5 6")
+                                        + ⯈ [41.1] f → #24: f ($del="5efc466ae9 v4:v5 7")
+                                         + ⯈ [42.1] o → #25: o ($del="5efc466ae9 v4:v5 8")
+                                          + ⯈ [43.1] u → #26: u ($del="5efc466ae9 v4:v5 9")
+                                           + ⯈ [44.1] r → #27: r ($del="5efc466ae9 v4:v5 10")
+
+                                            + ⯈ [45.1] f → #41: f ($seg-out="980a28378f v2:v3 1", $seg-in="5efc466ae9 v4:v5 1", $seg2-out="5efc466ae9 v4:v5 1")
+                                             + ⯈ [46.1] i → #42: i ($seg-out="980a28378f v2:v3 2", $seg-in="5efc466ae9 v4:v5 2", $seg2-out="5efc466ae9 v4:v5 2")
+                                              + ⯈ [47.1] v → #43: v ($seg-out="980a28378f v2:v3 3", $seg-in="5efc466ae9 v4:v5 3", $seg2-out="5efc466ae9 v4:v5 3")
+                                               + ⯈ [48.1] e → #44: e ($seg-out="980a28378f v2:v3 4", $seg-in="5efc466ae9 v4:v5 4", $seg2-out="5efc466ae9 v4:v5 4")
+                                                + ⯈ [49.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5", $seg2-out="5efc466ae9 v4:v5 5")
+                                                 + ⯈ [50.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6", $seg2-out="5efc466ae9 v4:v5 6")
+                                                  + ⯈ [51.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7", $seg2-out="5efc466ae9 v4:v5 7")
+                                                   + ⯈ [52.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8", $seg2-out="5efc466ae9 v4:v5 8")
+                                                    + ⯈ [53.1]   → #28:  
+                                                     + ⯈ [54.1] z → #29: z ($del="cbdd5bf924 v5:v6 1")
+                                                      + ⯈ [55.1] e → #30: e ($del="cbdd5bf924 v5:v6 2")
+                                                       + ⯈ [56.1] r → #31: r ($del="cbdd5bf924 v5:v6 3")
+                                                        - ■ [57.1] o → #32: o ($del="cbdd5bf924 v5:v6 4")
+```
+
+(3) v3 (delete `ten_`): `ten_` is restored after `six` and before `three four`. Note that here the builder makes an adjustment to the position of the restored segment. According to its metadata, it should be placed before node 24.1 #18 (after `six` and before `three`); but this would break the segments pair built by the implicit coupling of the two segments of a replacement: the deleted segment `five six` (deletion here is part of swapping), and the the inserted segment `three four`. So, an adjustment is defined which, when the reference node has `$seg-out` feature(s) with the same operation as the `$del` features of the previous node, the reference head node becomes the first node past the `$seg-out` segment (and after space nodes): here, this is 39.1 #18. This avoids a later rendition of `subst` where the `del`/`ins` pair would be split by a restored `<del>ten </del>`.
+
+```txt
+ + ⯈ [2.2] →  (sub-id=v7, version=beta)
+  + ⯈ [3.1] z → #29: z ($seg-in="cbdd5bf924 v5:v6 1", $seg-out="cbdd5bf924 v5:v6 1")
+   + ⯈ [4.1] e → #30: e ($seg-in="cbdd5bf924 v5:v6 2", $seg-out="cbdd5bf924 v5:v6 2")
+    + ⯈ [5.1] r → #31: r ($seg-in="cbdd5bf924 v5:v6 3", $seg-out="cbdd5bf924 v5:v6 3")
+     + ⯈ [6.1] o → #32: o ($seg-in="cbdd5bf924 v5:v6 4", $seg-out="cbdd5bf924 v5:v6 4")
+      + ⯈ [7.1]   → #45:   ($seg-out="27140c3f3c v6:v7 1")
+       + ⯈ [8.1] o → #1: o ($anchor="cbdd5bf924 v5:v6", $anchor="27140c3f3c v6:v7")
+        + ⯈ [9.1] n → #2: n
+         + ⯈ [10.1] e → #3: e
+          + ⯈ [11.1]   → #4:  
+           + ⯈ [12.1] t → #33: t ($seg-out="dc328266f2 v0:v1 1")
+            + ⯈ [13.1] w → #34: w ($seg-out="dc328266f2 v0:v1 2")
+             + ⯈ [14.1] o → #35: o ($seg-out="dc328266f2 v0:v1 3")
+              + ⯈ [15.1]   → #36:   ($seg-out="dc328266f2 v0:v1 4")
+               + ⯈ [16.1] f → #41: f ($del="5efc466ae9 v4:v5 1")
+                + ⯈ [17.1] i → #42: i ($del="5efc466ae9 v4:v5 2")
+                 + ⯈ [18.1] v → #43: v ($del="5efc466ae9 v4:v5 3")
+                  + ⯈ [19.1] e → #44: e ($del="5efc466ae9 v4:v5 4")
+                   + ⯈ [20.1]   → #9:   ($del="5efc466ae9 v4:v5 5")
+                    + ⯈ [21.1] s → #10: s ($del="5efc466ae9 v4:v5 6")
+                     + ⯈ [22.1] i → #11: i ($del="5efc466ae9 v4:v5 7")
+                      + ⯈ [23.1] x → #12: x ($del="5efc466ae9 v4:v5 8")
+                       + ⯈ [24.1] t → #18: t ($seg2-in="5efc466ae9 v4:v5 1", $seg-out="5efc466ae9 v4:v5 1")
+                        + ⯈ [25.1] h → #19: h ($seg2-in="5efc466ae9 v4:v5 2", $seg-out="5efc466ae9 v4:v5 2")
+                         + ⯈ [26.1] r → #20: r ($seg2-in="5efc466ae9 v4:v5 3", $seg-out="5efc466ae9 v4:v5 3")
+                          + ⯈ [27.1] e → #21: e ($seg2-in="5efc466ae9 v4:v5 4", $seg-out="5efc466ae9 v4:v5 4")
+                           + ⯈ [28.1] e → #22: e ($seg2-in="5efc466ae9 v4:v5 5", $seg-out="5efc466ae9 v4:v5 5")
+                            + ⯈ [29.1]   → #23:   ($seg2-in="5efc466ae9 v4:v5 6", $seg-out="5efc466ae9 v4:v5 6")
+                             + ⯈ [30.1] f → #24: f ($seg2-in="5efc466ae9 v4:v5 7", $seg-out="5efc466ae9 v4:v5 7")
+                              + ⯈ [31.1] o → #25: o ($seg2-in="5efc466ae9 v4:v5 8", $seg-out="5efc466ae9 v4:v5 8")
+                               + ⯈ [32.1] u → #26: u ($seg2-in="5efc466ae9 v4:v5 9", $seg-out="5efc466ae9 v4:v5 9")
+                                + ⯈ [33.1] r → #27: r ($seg2-in="5efc466ae9 v4:v5 10", $seg-out="5efc466ae9 v4:v5 10")
+                                 + ⯈ [34.1]   → #13:  
+
+                                  + ⯈ [35.1] t → #14: t ($del="196de059bf v3:v4 1")
+                                   + ⯈ [36.1] e → #15: e ($del="196de059bf v3:v4 2")
+                                    + ⯈ [37.1] n → #16: n ($del="196de059bf v3:v4 3")
+                                     + ⯈ [38.1]   → #17:   ($del="196de059bf v3:v4 4")
+
+                                      + ⯈ [39.1] t → #18: t ($del="5efc466ae9 v4:v5 1")
+                                       + ⯈ [40.1] h → #19: h ($del="5efc466ae9 v4:v5 2")
+                                        + ⯈ [41.1] r → #20: r ($del="5efc466ae9 v4:v5 3")
+                                         + ⯈ [42.1] e → #21: e ($del="5efc466ae9 v4:v5 4")
+                                          + ⯈ [43.1] e → #22: e ($del="5efc466ae9 v4:v5 5")
+                                           + ⯈ [44.1]   → #23:   ($del="5efc466ae9 v4:v5 6")
+                                            + ⯈ [45.1] f → #24: f ($del="5efc466ae9 v4:v5 7")
+                                             + ⯈ [46.1] o → #25: o ($del="5efc466ae9 v4:v5 8")
+                                              + ⯈ [47.1] u → #26: u ($del="5efc466ae9 v4:v5 9")
+                                               + ⯈ [48.1] r → #27: r ($del="5efc466ae9 v4:v5 10")
+                                                + ⯈ [49.1] f → #41: f ($seg-out="980a28378f v2:v3 1", $seg-in="5efc466ae9 v4:v5 1", $seg2-out="5efc466ae9 v4:v5 1")
+                                                 + ⯈ [50.1] i → #42: i ($seg-out="980a28378f v2:v3 2", $seg-in="5efc466ae9 v4:v5 2", $seg2-out="5efc466ae9 v4:v5 2")
+                                                  + ⯈ [51.1] v → #43: v ($seg-out="980a28378f v2:v3 3", $seg-in="5efc466ae9 v4:v5 3", $seg2-out="5efc466ae9 v4:v5 3")
+                                                   + ⯈ [52.1] e → #44: e ($seg-out="980a28378f v2:v3 4", $seg-in="5efc466ae9 v4:v5 4", $seg2-out="5efc466ae9 v4:v5 4")
+                                                    + ⯈ [53.1]   → #9:   ($seg-in="5efc466ae9 v4:v5 5", $seg2-out="5efc466ae9 v4:v5 5")
+                                                     + ⯈ [54.1] s → #10: s ($seg-in="5efc466ae9 v4:v5 6", $seg2-out="5efc466ae9 v4:v5 6")
+                                                      + ⯈ [55.1] i → #11: i ($seg-in="5efc466ae9 v4:v5 7", $seg2-out="5efc466ae9 v4:v5 7")
+                                                       + ⯈ [56.1] x → #12: x ($seg-in="5efc466ae9 v4:v5 8", $seg2-out="5efc466ae9 v4:v5 8")
+                                                        + ⯈ [57.1]   → #28:  
+                                                         + ⯈ [58.1] z → #29: z ($del="cbdd5bf924 v5:v6 1")
+                                                          + ⯈ [59.1] e → #30: e ($del="cbdd5bf924 v5:v6 2")
+                                                           + ⯈ [60.1] r → #31: r ($del="cbdd5bf924 v5:v6 3")
+                                                            - ■ [61.1] o → #32: o ($del="cbdd5bf924 v5:v6 4")
+```
+
+(4) v2 (replace `Five` with `five`): `Five` nodes are restored before `five`:
 
 TODO
 
