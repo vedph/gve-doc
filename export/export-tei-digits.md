@@ -722,7 +722,7 @@ So, an adjustment is defined which, when the reference node has `$seg-out` featu
 - ■ [69.1] o → #32: o ($del="f92da3d45b v5:v6 4")
 ```
 
-TODO
+The v7 rendered output is (with manually added indentation):
 
 ```xml
 <lem>
@@ -738,11 +738,38 @@ TODO
       <del source="13765c894f @8×8&lt;&gt;17x10">five six</del>
       <ins source="13765c894f @8×8&lt;&gt;17x10"><!--⯈ [8.1] three four #7-->three four</ins>
     </subst>
-    <!--⯈ [9.1]   #8--> <!--⯈ [10.1] ten  #9-->
+    <!--⯈ [9.1]   #8--> 
+    <!--⯈ [10.1] ten  #9-->
     <del source="8fc6b83c48 14×4- [*version^:=alpha]">ten </del>
     <!--⯈ [11.1] three four #10-->
-    <subst source="13765c894f @8×8&lt;&gt;17x10"><del source="13765c894f @8×8&lt;&gt;17x10">three four</del><ins source="13765c894f @8×8&lt;&gt;17x10"><!--⯈ [12.1] FIVE #11--><subst source="43c7bd7748 5×4=&quot;Five&quot;"><del source="43c7bd7748 5×4=&quot;Five&quot;">FIVE</del><ins source="43c7bd7748 5×4=&quot;Five&quot;"><!--⯈ [13.1] Five #12--><subst source="089ef22b95 37×4=&quot;five&quot;"><del source="089ef22b95 37×4=&quot;five&quot;">Five</del><ins source="089ef22b95 37×4=&quot;five&quot;"><!--⯈ [14.1] five #13-->five</ins></subst><!--⯈ [15.1]  six #14--> six</ins></subst><!--⯈ [16.1]   #15--></ins></subst> <!--■ [17.1] zero #16--><del source="f92da3d45b 29×4&gt;[1@zero">zero</del></mod>
+    <subst source="13765c894f @8×8&lt;&gt;17x10">
+      <del source="13765c894f @8×8&lt;&gt;17x10">three four</del>
+      <ins source="13765c894f @8×8&lt;&gt;17x10">
+        <!--⯈ [12.1] FIVE #11-->
+        <subst source="43c7bd7748 5×4=&quot;Five&quot;">
+          <del source="43c7bd7748 5×4=&quot;Five&quot;">FIVE</del>
+          <ins source="43c7bd7748 5×4=&quot;Five&quot;">
+            <!--⯈ [13.1] Five #12-->
+            <subst source="089ef22b95 37×4=&quot;five&quot;">
+              <del source="089ef22b95 37×4=&quot;five&quot;">Five</del>
+              <ins source="089ef22b95 37×4=&quot;five&quot;"><!--⯈ [14.1] five #13-->five</ins>
+            </subst>
+            <!--⯈ [15.1]  six #14--> six
+          </ins>
+        </subst>
+      <!--⯈ [16.1]   #15-->
+      </ins>
+    </subst>
+  <!--■ [17.1] zero #16-->
+  <del source="f92da3d45b 29×4&gt;[1@zero">zero</del>
+  </mod>
 </lem>
+```
+
+If we represent the deleted text between `{}`, the inserted text between `[]`, and `subst` text between `()` the result is:
+
+```txt
+[zero][ ]one [two ]({five six}[three four]) {ten }({three four}[({FIVE}[({Five}[five]) six])]){zero}
 ```
 
 This is the full output of the renderer, without any manual changes:
