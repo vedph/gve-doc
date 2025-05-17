@@ -267,6 +267,31 @@ Note that each restored node has a `$del` trace feature which marks it as a rest
 - ■ [46.1] o → #32: o
 ```
 
+At this stage, a merge filter is applied which groups together all the nodes with the same set of relevant features. The result is a more compact v4 branch:
+
+```txt
++ ⯈ [2.1] #1 →  (sub-id=v4, version=alpha)
++ ⯈ [3.1] one  #2 → #1: one 
++ ⯈ [4.1] two  #3 → #33: two  ($seg-out="90357b5eb5 v0:v1 1", $seg-out="90357b5eb5 v0:v1 2", $seg-out="90357b5eb5 v0:v1 3", $seg-out="90357b5eb5 v0:v1 4")
++ ⯈ [5.1] FIVE #4 → #5: FIVE ($del="d2df0b1950 v1:v2 1", $del="d2df0b1950 v1:v2 2", $del="d2df0b1950 v1:v2 3", $del="d2df0b1950 v1:v2 4")
++ ⯈ [6.1] Five #5 → #37: Five ($del="28944ea325 v2:v3 1", $del="28944ea325 v2:v3 2", $del="28944ea325 v2:v3 3", $del="28944ea325 v2:v3 4")
++ ⯈ [7.1] five #6 → #41: five ($seg-in="0bed4d216e v4:v5 1", $seg-out="28944ea325 v2:v3 1", $seg-in="0bed4d216e v4:v5 2", $seg-out="28944ea325 v2:v3 2", $seg-in="0bed4d216e v4:v5 3", $seg-out="28944ea325 v2:v3 3", $seg-in="0bed4d216e v4:v5 4", $seg-out="28944ea325 v2:v3 4")
++ ⯈ [8.1]  six  #7 → #9:  six  ($seg-in="0bed4d216e v4:v5 5", $seg-in="0bed4d216e v4:v5 6", $seg-in="0bed4d216e v4:v5 7", $seg-in="0bed4d216e v4:v5 8")
++ ⯈ [9.1] ten  #8 → #14: ten  ($del="e551a938f8 v3:v4 1", $del="e551a938f8 v3:v4 2", $del="e551a938f8 v3:v4 3", $del="e551a938f8 v3:v4 4")
+- ■ [10.1] three four zero #9 → #18: three four zero ($seg2-in="0bed4d216e v4:v5 1", $seg2-in="0bed4d216e v4:v5 2", $seg2-in="0bed4d216e v4:v5 3", $seg2-in="0bed4d216e v4:v5 4", $seg2-in="0bed4d216e v4:v5 5", $seg2-in="0bed4d216e v4:v5 6", $seg2-in="0bed4d216e v4:v5 7", $seg2-in="0bed4d216e v4:v5 8", $seg2-in="0bed4d216e v4:v5 9", $seg2-in="0bed4d216e v4:v5 10")
+```
+
+As you can see, the segmentation for v4 text `one two five six three four zero` is now:
+
+1. `one`
+2. `two_` (inserted)
+3. `FIVE` (deleted)
+4. `Five` (deleted)
+5. `five` (inserted)
+6. `_six_`
+7. `ten_` (deleted)
+8. `three four zero`
+
 At this stage, version 4 branch is complete and ready for its rendition. When later the branch passes to the Saba 1919 renderer, it gets materialized into this TEI fragment (the renderer was configured to output trace comments, and I manually indented the result to make it more readable):
 
 ```xml
@@ -275,29 +300,27 @@ At this stage, version 4 branch is complete and ready for its rendition. When la
     <!--⯈ [3.1] one  #2-->
     one 
     <!--⯈ [4.1] two  #3-->
-    <ins source="o275cc81635">two </ins>
+    <ins source="70793a80b7 5×0+[&quot;two &quot;">two </ins>
     <!--⯈ [5.1] FIVE #4-->
-    <subst source="o04c07a71b7">
-      <del source="o04c07a71b7">FIVE</del>
-      <ins source="o04c07a71b7">
+    <subst source="8fa7bdee36 5×4=&quot;Five&quot;">
+      <del source="8fa7bdee36 5×4=&quot;Five&quot;">FIVE</del>
+      <ins source="8fa7bdee36 5×4=&quot;Five&quot;">
         <!--⯈ [6.1] Five #5-->
-        <subst source="o0b2c6f7068">
-          <del source="o0b2c6f7068">Five</del>
-          <ins source="o0b2c6f7068"><!--⯈ [7.1] five #6-->five</ins>
-          <!--⯈ [8.1]  six  #7-->
+        <subst source="13c31a54b5 37×4=&quot;five&quot;">
+          <del source="13c31a54b5 37×4=&quot;five&quot;">Five</del>
+          <ins source="13c31a54b5 37×4=&quot;five&quot;"><!--⯈ [7.1] five #6-->five</ins>
         </subst>
+        <!--⯈ [8.1]  six  #7-->
       </ins>
     </subst>
-     six 
+      six 
     <!--⯈ [9.1] ten  #8-->
-    <del source="of63bacae53">ten </del>
-    <!--■ [10.1] three four zero #9-->
-    three four zero
-  </mod>
+    <del source="9f6f8e6b47 14×4- [*version^:=alpha]">ten </del>
+    <!--■ [10.1] three four zero #9-->three four zero</mod>
 </rdg>
 ```
 
->As the renderer has been configured to treat v7 (beta) as the preferred one, v4 here is wrapped inside an `rdg` element. The preferred version will then be wrapped inside a `lem` element.
+>As the renderer has been configured to treat v7 (beta) as the preferred one, v4 here is wrapped inside an `rdg` element. The preferred version instead will be wrapped inside a `lem` element.
 
 ### Version Beta
 
