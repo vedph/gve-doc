@@ -17,11 +17,11 @@ This section describes the rendering [pipeline](index#pipeline) used to export G
 
 ## Stage 1: Preprocessing
 
-As seen about the [pipeline](index.md#pipeline), this first stage is the only one which is specific to GVE. Once it has been executed, data is in a format which can be used by any text tree renderer, and the rest of the pipeline is generic and reusable. The same approach is used by the Cadmus export subsystem.
+As seen about the [pipeline](index.md#pipeline), this first stage is the only one which is specific to GVE. Once it has been executed, data is in a format which can be used by any text tree renderer, and the rest of the pipeline is generic and reusable. The same approach is used by the [Cadmus export subsystem](export-cadmus).
 
-In GVE, a specialized component (`GveTextTreeBuilder`) is used to build a linear text tree for each text version derived from a GVE chain. At this stage:
+In GVE, a specialized component (`GveTextTreeBuilder`) is used to build a linear text tree for each text version derived from a [GVE chain](../model/textual.md#chain). At this stage:
 
-- each node in this tree corresponds to a single character, as this is the maximum granularity level inherited from the GVE chain.
+- each node in this tree corresponds to a single character, as this is the maximum granularity level simply inherited from the GVE chain.
 - each node in the tree contains all or a subset of the features injected into it by operations, plus automatically injected trace features.
 
 The logic of this builder is driven by these parameters:
@@ -33,7 +33,7 @@ The logic of this builder is driven by these parameters:
 
 Note that given the multi-dimensional nature of a GVE chain, the builder produces **multiple trees**, one per text version. Each of them will then have to go through the successive stages of filtering and rendering.
 
-In order to adapt this scenario to the pipeline, a very simple operation is added at the end of our preprocessing stage: as the pipeline requires a single tree to deal with, while we have many linear trees, we just create a new tree having a blank root node, whose children are the root nodes of each of the linear trees representing versions. Each of these root nodes also gets a `sub-id` feature with the version's tag, and an optional `version` feature with the staged version identifier, when there is any.
+In order to adapt this scenario to the pipeline, we need to add a very simple operation at the end of our preprocessing stage. In fact, the pipeline requires a single tree to deal with, while we have many linear trees. So, we just create a new tree having a blank root node, whose children are the root nodes of each of the linear trees representing versions. Each of these root nodes also gets a `sub-id` feature with the version's tag, and an optional `version` feature with the staged version identifier, when there is any.
 
 For instance, if we have 3 text versions (`ab`, `abc`, `axc`), each represented by a separate linear tree, we will merge them into a new tree:
 
@@ -58,9 +58,9 @@ x3 --> c3[c]
 
 This way, we will be able to process all the versions in a single pipeline.
 
-Anyway, given that our pipeline is modular, and any tree filter and renderer components can be chained into it, this implies dealing with the fact that sometimes their input tree might really be a wrapper for multiple trees, where each needs to be processed by the same component. Formally we have a single input type for all the components: a tree; yet, in some cases this is really a wrapper for multiple trees, represented as branches of a blank root node.
+Given that our pipeline is modular, and any tree filter and renderer components can be chained into it, this implies dealing with the fact that sometimes their input tree might really be a wrapper for multiple trees, where each needs to be processed by the same component. Formally, we have a single input type (a tree) for all the components; yet, in some cases this is really a wrapper for multiple trees, represented as branches of a blank root node.
 
-Of course, having two versions of the same component to accommodate for two different input types (a "single tree" and a "multi-tree") would not be a viable approach. Rather, the approach is:
+Of course, having two versions of the same component to accommodate for two different input types (a "single tree" and a "multi-tree") would not be a viable approach. Rather, the solution adopted here is using composition:
 
 - add a generic **composite tree filter**, which can be used to wrap an instance of any tree filter. This simply assumes that its input is a multi-tree, and applies its inner tree filter to each branch stemming from its root node. So, the inner filter being applied to each branch needs to know nothing about the difference between "single" or "multi" trees; it just works on a single linear tree. In this context anyway this linear tree happens to be a branch of a multi-tree. This allows reusing any tree filter component by just wrapping it into this, which in turn is yet another tree filter. Thus, we can freely chain all the filters we want in the pipeline, whether we are dealing with "single" or "multi" trees.
 - add a generic **composite tree renderer**, using a similar approach.
@@ -73,17 +73,17 @@ A fundamental filter here is the **linear merge filter** (`LinearMergeTextTreeFi
 
 Note that you are in charge of defining the features you want to be considered as merging criteria; you can define both their names, and any number of replacement filters for their values.
 
-So, this filter produces a **dynamic segmentation** of the text, where each segment is represented by a single node and its text is linked to the same metadata (features). Rather than positing an a-priori segmentation unit for the whole document (like e.g. when systematically wrapping all the words in elements like `ab` or `seg` to attach some data to them without knowing in advance the annotation extent), dynamic segmentation merges all the characters having the same set of annotations, whether they are a full sentence, or just a single character, or anything in between. This maximizes efficiency and reduces complexity, because we always use the segment with the maximum extent, whatever it is, leveraging full information about the extent of the annotations we selected for export.
+So, this filter produces a **dynamic segmentation** of the text, where each segment is represented by a single node and its text is linked to the same metadata (features). Rather than positing an a-priori segmentation unit for the whole document (like e.g. when systematically wrapping all the words in elements like `seg` to attach some data to them without knowing in advance the annotation extent), dynamic segmentation merges all the characters having the same set of annotations, whether they are a full sentence, or just a single character, or anything in between. This maximizes efficiency and reduces complexity. We always use the segment with the maximum extent, whatever it is, leveraging full information about the extent of the annotations we selected for export.
 
 ## Stage 3: Tree Rendering
 
-Once we have prepared the text tree, we are ready to render it into the desired format. Rendering is done by a component which takes the tree plus the renderer context (an object carrying data used during the pipeline execution), and produces some representation of it.
+Once we have prepared the text tree, we are ready to render it into the desired format. Rendering is done by a component which takes as its input the tree plus the renderer context (an object carrying data used during the pipeline execution), and produces some representation of it.
 
-The output of a tree renderer is not necessarily a string; the reason for this is flexibility. The renderer here adopts a strategy already used by the Proteus conversion system (empowering both GVE and Cadmus exports) in its text filters. There, each text filter internally handles its data with the model it prefers: some of them use a string; others use a string builder (an object used to optimize the programmatic creation of a string: `StringBuilder`); others use an object representing the model of an XML element (`XElement`); and so forth.
+The output of a tree renderer is not necessarily a string; the reason for this is flexibility. The renderer here adopts a strategy already used by the Proteus conversion system (empowering both GVE and Cadmus exports) in its text filters. There, each text filter internally handles its data with the model it prefers: some of them use a string; others use a string builder (an object type used to optimize the programmatic creation of a string: `StringBuilder`); others use an object representing the model of an XML element (`XElement`); and so forth.
 
-Despite this freedom, text filters concatenation in Proteus is still possible thanks to an adapter layer between each pair of filters, which in turn uses different "plug" services. Each plug service can convert a given type from a string or into a string. This way, whatever the data type internally used by the filter's implementation, we can still freely chain any of them in the pipeline.
+Despite this freedom, text filters concatenation in Proteus is still possible thanks to an adapter layer between each pair of filters, which in turn uses different "plug" services. Each plug service can convert a given type from a string, or into a string. This way, whatever the data type internally used by the filter's implementation, we can still freely chain any of them in the pipeline.
 
->The adaptation only happens when types don't match. When two consecutive filters work on the same type (like both using `XElement`), no adaptation occurs. In this case, the output from the first filter passes directly to the next filter without any unnecessary conversion. This optimization avoids the performance and potential data loss costs of converting between identical types unnecessarily.
+>The adaptation only happens when types don't match. When two consecutive filters work on the same type (like both using `XElement`), no adaptation occurs. In this case, the output from the first filter directly passes to the next filter without any unnecessary conversion. This optimization avoids the performance and potential data loss costs of unnecessarily converting between identical types.
 
 This architecture is especially useful with modules in a pipeline, like in Proteus text filters, because each of them is free to use its best model for the task, and the pipeline can be easily extended with new modules without breaking the existing ones. So, the same approach is applied to text tree renderers: the return type is generic (an `object` or `null`) just like for text filters, because this allows the maximum flexibility in the rendering process. The renderer can return a `string`, an `XElement`, or any other type, and the caller can then decide how to handle it.
 
