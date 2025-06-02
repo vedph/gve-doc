@@ -1,6 +1,13 @@
-# TEI Export Sample - Digits
+---
+title: Example - Digits
+layout: default
+parent: Export
+nav_order: 5
+---
 
-- [TEI Export Sample - Digits](#tei-export-sample---digits)
+# Example - Digits
+
+- [Example - Digits](#example---digits)
   - [Snapshot](#snapshot)
   - [Versions](#versions)
     - [Version Alpha](#version-alpha)
