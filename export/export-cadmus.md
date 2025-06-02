@@ -50,6 +50,8 @@ For text, a flattener component selects the requested layers and flattens them i
 
 These spans then are converted into a single-branch tree, where each span is a child node of the previous span. From there, tree filters can variously transform it, until a tree renderer renders it into some output format, like TEI or HTML.
 
+>This modular pipeline is designed to be completely configured with a declarative approach. A JSON document contains its full configuration, telling which components to use and how to configure them, from data source up to the final output. This allows even non-technical users to define and customize the export process at will, without having to write a single line of code. On the other hand, technical users will be able to create their own modules and chain them into the pipeline, should a highly specific logic be required. That's a modular and collaborative approach, in the spirit of the Cadmus system.
+
 Another benefit of this dynamic segmentation is that for those cases where we have a lot of different annotations, we are not forced to systematically wrap each word of our text in advance like in stand-off. In that case, we use some neutral TEI element like `seg` to annotate each word with an ID; and then, we can refer to each span via these identifiers, thus avoiding overlap. Yet, this is redundant; and it forces us to use a preset markup unit, like here the word, thus making us stick to that level of granularity.
 
 In Cadmus export process segmentation is not preset, but calculated at the time of export, according to our annotations. We start with multiple layers of annotations on top of a base text; we select the layers we want, and their combinations define the resulting segments.
@@ -80,6 +82,6 @@ Before, we just had a sequence of text spans. Now, we start with the same sequen
 
 This has many benefits:
 
-- it is best fit to the target format, which is typically based on a DOM tree, like XML or HTML. We can thus generate the tree, and then just materialize it into markup.
-- it allows for multiple text flows. For instance, in the Saba 1919 TEI scheme branches like `lem` and `rdg` are used to represent different text versions.
+- it is best fit to the _target format_, which is typically based on a [DOM tree](https://en.wikipedia.org/wiki/Document_Object_Model), like XML or HTML. We can thus generate the tree, and then just materialize it into markup.
+- it allows for _multiple text flows_. For instance, in the Saba 1919 TEI scheme branches like `lem` and `rdg` are used to represent different text versions.
 - it allows for [complex single text flows](export-trees.md), which branch into segments representing alternative versions, like for instance in TEI parallel segmentation.
