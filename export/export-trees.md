@@ -5,6 +5,11 @@ parent: Export
 nav_order: 3
 ---
 
+- [Export - Trees](#export---trees)
+  - [Projecting Graph](#projecting-graph)
+    - [N-ary Tree](#n-ary-tree)
+    - [Binary Tree](#binary-tree)
+
 # Export - Trees
 
 The tree structure is used in the rendering pipeline to represent the text being transformed, up to its materialization performed by a tree renderer. In this context, tree filters are used to transform a text tree into another text tree.

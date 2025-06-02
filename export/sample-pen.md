@@ -5,6 +5,11 @@ parent: Export
 nav_order: 6
 ---
 
+- [Example - Pen](#example---pen)
+  - [Stage 1](#stage-1)
+  - [Stage 2](#stage-2)
+  - [Stage 3](#stage-3)
+
 # Example - Pen
 
 Let us see a sample illustrating this process using a simple pipeline with a short mock autograph text, represented in Figure 1. Of course, that's a totally unrealistic text, but it was created with the aim of including most of the operation types with a few words.
