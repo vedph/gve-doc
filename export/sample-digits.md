@@ -13,12 +13,6 @@ nav_order: 5
 
 # Example - Digits
 
-- [Example - Digits](#example---digits)
-  - [Snapshot](#snapshot)
-  - [Versions](#versions)
-    - [Version Alpha](#version-alpha)
-    - [Version Beta](#version-beta)
-
 In this export example, I use a very short mock autograph with many different operations to show the general flow of the process.
 
 ## Snapshot
