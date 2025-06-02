@@ -69,7 +69,7 @@ We thus have these segments:
 3. space, linked to paleography;
 4. `B`, linked to orthography, paleography, and comment;
 5. `IXIT ANNOS`, linked to comment;
-6. `XX`, linked to nothing, like the initial QV.
+6. space + `XX`, linked to nothing, like the initial `QV`.
 
 So, rather than having a fixed and systematic segmentation like word-by-word, affecting the whole text, we have a dynamic one, with variable length, perfectly fit to our annotations. This simplifies the export process, and ensures that the resulting output will be as compact as possible.
 Once this segmentation is in place, it will be turned into a tree structure, which will be variously manipulated to generate the desired markup from its logic model. In it, each node corresponds to a segment.
@@ -80,20 +80,24 @@ Now, in this pipeline the tree has been introduced for GVE right to provide more
 
 Before, we just had a sequence of text spans. Now, we start with the same sequence, but this is stored as the nodes of a single-branch tree. The tree starts with a single branch, but it can later be transformed into any other shape.
 
-For instance, from a text like `sample` we would get a tree with a blank root node, whose unique child is a node for `s`; in turn, this node would have as its unique child another node for `a`; and so forth.
+For instance, from the above text segments we would get a tree with a blank root node, whose unique child is a node for `QV`; in turn, this node would have as its unique child another node for `E`; and so forth.
 
 ```mermaid
-graph LR;
+graph TB;
 
-blank --> s;
-s --> a;
-a --> m;
-m --> p;
-p --> l;
-l --> e;
+blank --> QV;
+QV --> E;
+E --> _
+_ --> B;
+B --> IXIT_ANNOS;
+IXIT_ANNOS --> _XX;
 ```
 
+So, each tree node represents a variable-length portion of the text, variously linked to any number of metadata. The link is implemented by a set of features, which are simple name=value pairs.
+
 When the pipeline starts, this tree has a single branch. Later, it can be transformed in any way, and split into multiple branches, nesting without limits, to best fit the desired output structure.
+
+>In GVE, the tree also starts with single-character segments. So, each node corresponds to 1 character. Later, filters transform it by building larger segments, e.g. according to the metadata attached them.
 
 This has many benefits:
 
