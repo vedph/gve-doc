@@ -80,8 +80,23 @@ Now, in this pipeline the tree has been introduced for GVE right to provide more
 
 Before, we just had a sequence of text spans. Now, we start with the same sequence, but this is stored as the nodes of a single-branch tree. The tree starts with a single branch, but it can later be transformed into any other shape.
 
+For instance, from a text like `sample` we would get a tree with a blank root node, whose unique child is a node for `s`; in turn, this node would have as its unique child another node for `a`; and so forth.
+
+```mermaid
+graph LR;
+
+blank --> s;
+s --> a;
+a --> m;
+m --> p;
+p --> l;
+l --> e;
+```
+
+When the pipeline starts, this tree has a single branch. Later, it can be transformed in any way, and split into multiple branches, nesting without limits, to best fit the desired output structure.
+
 This has many benefits:
 
-- it is best fit to the _target format_, which is typically based on a [DOM tree](https://en.wikipedia.org/wiki/Document_Object_Model), like XML or HTML. We can thus generate the tree, and then just materialize it into markup.
+- it is fit to the _target format_, which is typically based on a [DOM tree](https://en.wikipedia.org/wiki/Document_Object_Model), like XML or HTML. We can thus generate the tree, and then just materialize it into markup.
 - it allows for _multiple text flows_. For instance, in the Saba 1919 TEI scheme branches like `lem` and `rdg` are used to represent different text versions.
 - it allows for [complex single text flows](export-trees.md), which branch into segments representing alternative versions, like for instance in TEI parallel segmentation.
