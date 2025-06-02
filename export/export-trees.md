@@ -1,26 +1,26 @@
 ---
-title: GVE Trees
+title: Export Trees
 layout: default
 parent: Export
 nav_order: 3
 ---
 
-- [Export - Trees](#export---trees)
+- [Export Trees](#export-trees)
   - [Projecting Graph](#projecting-graph)
     - [N-ary Tree](#n-ary-tree)
     - [Binary Tree](#binary-tree)
 
-# Export - Trees
+# Export Trees
 
 The tree structure is used in the rendering pipeline to represent the text being transformed, up to its materialization performed by a tree renderer. In this context, tree filters are used to transform a text tree into another text tree.
 
-In these trees, each node represents a variable-length portion of the text, variously linked to any number of metadata. The link is implemented by a set of so-called features, which are simple name=value pairs.
+In these trees, each node represents a variable-length portion of the text, variously linked to any number of metadata. The link is implemented by a set of features, which are simple name=value pairs.
 
 Using trees rather than a simple sequence of text blocks allows for more powerful transformations, especially when our target is a format based on the same structure, like TEI or HTML.
 
 In some cases, a GVE chain might be directly projected into trees to represent multiple text versions at a time, even though this implies added redundancy and complexity in comparison with the source graph structure.
 
-In this section I show some examples about this type of projections, which provide practical examples about the benefits of adopting a tree rather than a list: the tree can be used for all the purposes a list could be used for, but also for much more. So, this more capable structure was chosen for the pipeline.
+In this section we show some scenarios from this type of projections, which provide examples about the benefits of adopting a tree rather than a list. The tree can be used for all the purposes a list could be used for, but also for much more. That's why this more capable structure was chosen for the pipeline.
 
 ## Projecting Graph
 
@@ -38,17 +38,17 @@ As you can see from its chain, the graph contains 7 different paths we can follo
 
 ![chain](../model/img/arzdc-gviz.png)
 
-Versions in this graph are multi-dimensional: each path defining a version defines a different direction. The graph is a multi-dimensional representation of linear combinations representing versions. In this graph, it is the metadata attached to each link which guides across the various paths across nodes, thus defining different versions of the same text. This is very compact, because no node (with all its metadata) needs to be duplicated; we just link the same nodes in different ways (or even leave them out, in some paths).
+Versions in this graph are multi-dimensional: each path defining a version defines a different plane where the sequence of characters is placed. The graph is a multi-dimensional representation of linear combinations representing versions. In this graph, it is the metadata attached to each link which leads across the various paths across nodes, thus defining different versions of the same text. This is very compact, because no node (with all its metadata) needs to be duplicated; we just link the same nodes in different ways (or even leave them out, in some paths).
 
 Typically, in this graph's export scenarios it's the nodes which get materialized, as they carry text. Links have no meaning there, because the sequence is defined by the order in which nodes are arranged in a linear text. So, text versions must result from the arrangement of segments corresponding to nodes.
 
-This implies adding at least one constraint to the number of links stemming from a node. This is what happens in a tree structure: there, a node can still have many children nodes, but it can only have a single parent; and it always has one, unless it's the root node.
+This implies adding at least one constraint to the number of links stemming from a node; and that's right what happens in a tree structure. There, a node can still have many children nodes, but it can only have a single parent; and it always has one, unless it's the root node.
 
->The constraint defining the hierarchical tree structure is the same which explains why we can't overlap tags.
+>💡 The constraint defining the hierarchical tree structure is the same which explains why we can't overlap tags in markup languages like XML.
 
-In a tree, we can thus start from any of the leaf nodes, those at the bottom of the tree with no children, and traverse the tree upwards, parent after parent. At each node there is no other information required to move, because it's implied that it can have one and one only parent node; so we just move from a node to its parent, and then from that parent to its parent; and so on until we get to the root (which by definition has no parent).
+In a tree, we can thus start from any of the _leaf_ nodes (those at the bottom of the tree with no children), and traverse the tree upwards, parent after parent. At each node, we need no other information to move, because it's implied that it can have one and one only parent node. So, we just move from a node to its parent, and then from that parent to its parent; and so on, until we get to the root (which by definition has no parent).
 
-So, the above graph with its seven variants can be transformed into such a tree; but the cost of this operation will be duplicating nodes, because once we are on a branch, we can no longer jump back: we have to go forward in a linear way.
+Thus, the above graph with its seven variants could be transformed into such a tree; but the cost of this operation will be duplicating nodes, because once we are on a branch, we can no longer jump back: we have to go forward in a linear way.
 
 Say we start from v6 `ABCD`, and then we want to add v1 `APCD`. At first, we just start with a single branch, a linear tree:
 
@@ -93,7 +93,9 @@ P --> Cp[C];
 Cp --> Dp[D];
 ```
 
-So, with only two versions we already had to duplicate 2 nodes (and their metadata). Anyway, once we have this tree structure, we can start from any leaf node (one of the two `D` in this example), and just go back to build a full linear text version like `ABCD` from the first branch, or `APCD` from the second one. Redundancy is the price to pay for reducing the complexity of traversal operations. In a tree we can either move on the vertical axis (to a sibling, if our tree is drawn left to right like here), or on the horizontal axis (to a child or parent); so starting from a leaf and going backwards we have no choice to make, because there is only a single path to be followed. That's of course the reason behind the tree model for markup like TEI: essentially, we have a linear text (a sequence of characters) which can branch into many children lines, in our case to represent multiple versions of it.
+So, with only two versions we already had to duplicate 2 nodes (and their metadata). Anyway, once we have this tree structure, we can start from any leaf node (one of the two `D` in this example), and just go back to build a full linear text version like `ABCD` from the first branch, or `APCD` from the second one.
+
+Redundancy is the price to pay for reducing the complexity of traversal operations. In a tree we can either move on the vertical axis (to a sibling, if our tree is drawn left to right like here), or on the horizontal axis (to a child or parent); so starting from a leaf and going backwards we have no choice to make, because there is only a single path to be followed. That's of course the reason behind the tree model for markup like TEI: essentially, we have a linear text (a sequence of characters) which can branch into many children lines, in our case to represent multiple versions of it.
 
 Yet, in the case of markup representing a text with variants (be it a critical text, or an autograph) we hardly deal with atomic segments, like single characters; in most cases, we deal with "words", or even word groups. Text segmentation here depends on what we want to annotate for each segment of text; maybe a single word, or longer, or sometimes even shorter, portions. Of course, while often variants are linked to word segments, this is not always the case; and the more variants we add, the more opportunities for segmentation to vary, even in a way which could hardly be dealt with in this scenario.
 
@@ -101,7 +103,7 @@ In this context, a popular TEI method for representing multiple versions of a te
 
 In this method, the texts compared are split into matching segments in synch with one another, like in our example above with two branches. Whenever there is a branching, we wrap variants in an `app` element, including each one in `rdg` (or in `lem` when this is a preferred variant). This makes it easy to compare different readings side by side, and also to extract the full text of any witness (or version, in our scenario). Of course, its drawback is that this encoding may quickly become highly nested and redundant; and there might be issues when trying to adopt different levels of granularity in segmenting text, because we need to keep the branches in synch.
 
-Apart from segmentation issues anyway, high nesting and redundancy can be mitigated by generating XML encoding via software. At any rate, whatever the encoding strategy for our markup export, we first need to transform our graph into a tree. In turn, there are a couple of transformation strategies we can devise to best prepare our structure for markup rendition. Let us start from the less constrained one, which is thus less distant from our source graph.
+Apart from segmentation issues anyway, high nesting and redundancy can be mitigated by generating XML encoding via software. At any rate, whatever the encoding strategy for our markup export, we first need to transform our graph into a tree. In turn, there are a couple of transformation strategies we could devise to best prepare our structure for markup rendition. Let us start from the less constrained one, which is thus less distant from our source graph.
 
 ### N-ary Tree
 
@@ -280,9 +282,13 @@ Here is a more compact visualization for this N-ary tree (as generated by the co
 
 ### Binary Tree
 
-Let us now consider an even more constrained tree. In the above tree, we still deal with a lot of branches stemming from each node. This potentially can be an issue for encoding methods like parallel segmentation, as they rely on keeping the segments of each version in synch. The more the versions, the higher the possibilities that segments do not align. Further, when adapting this method to autographs, a typical technique is using a nested binary branching at each `app` element, with two children for two versions being compared. So, to render an XML based on a binary alternative like in the example of `app` including `lem` and `rdg`, we need to further constrain the above structure to allow _at most two children per node_.
+Let us now consider an even more constrained tree. In the above tree, we still deal with a lot of branches stemming from each node. This potentially can be an issue for encoding methods like parallel segmentation, as they rely on keeping the segments of each version in synch. The more the versions, the higher the possibilities that segments do not align.
 
-So, when more than 2 children would be required, we need to insert a blank fork node, having as first child the original node, and as second child the new one. This blank node will be inserted at the place of the last child of the last maching node, whether it's a node with payload or a blank fork node. With this recursive structure, we can encode as many branches as we want, of course each incurring in the overhead of one additional nesting level.
+Further, when adapting this method to autographs, sometimes we might want to limit branching to a binary choice: for instance, for each `app` element have two children for two versions being compared. So, to render an XML based on a binary alternative like in the example of `app` including `lem` and `rdg`, we need to further constrain the above structure to allow _at most two children per node_.
+
+>Like all the structures discussed in this section, the examples are used only to show the flexibility gained by using a tree of annotated nodes, rather than a simple sequence of annotated segments. So, we focus on transformations of abstract trees, possibly more fit to a specific hypothetical scenario.
+
+In this binary tree, when more than 2 children would be required, we need to insert a blank fork node, having as first child the original node, and as second child the new one. This blank node will be inserted at the place of the last child of the last maching node, whether it's a node with payload or a blank fork node. With this recursive structure, we can encode as many branches as we want, of course each incurring in the overhead of one additional nesting level.
 
 To make things clearer, let us start as in the previous example:
 
