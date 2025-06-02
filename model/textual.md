@@ -5,6 +5,19 @@ parent: Model
 nav_order: 1
 ---
 
+- [Textual Model](#textual-model)
+  - [Model Requirements](#model-requirements)
+  - [Core Chain Model](#core-chain-model)
+    - [Operations](#operations)
+    - [Chain](#chain)
+    - [Metadata](#metadata)
+      - [Features](#features)
+      - [Trace Features](#trace-features)
+        - [Trace Features: Simple Example](#trace-features-simple-example)
+        - [Trace Features: Limerick Example](#trace-features-limerick-example)
+    - [Operations DSL](#operations-dsl)
+    - [Example](#example)
+
 # Textual Model
 
 ## Model Requirements
@@ -260,26 +273,26 @@ The set policy can have any of these values:
 
 #### Trace Features
 
-Trace features are features automatically injected by operations. They are used to trace some data related to their execution which may later prove useful in various ways, especially for rendering. Yet, if you don't need them you can opt out from their generation.
+In exporting outputs like TEI, we will need to know which portions of text were changed and how. Yet, we tend to prefer a loose coupling between the snapshot model and the export pipeline, because that's designed to be generic.
 
-For instance, when rendering the snapshot UI we might want to highlight the nodes affected by each operation. These vary according to the operation type and its arguments. For example, a replacement operation which replaces "AB" with "X" can inject a special trace feature to nodes "A" and "B" on one side, and "X" on the other side.
+So, in the export pipeline we prefer to avoid borrowing logic from the inner workings of the snapshot model. Rather, we want a text with all the annotations required to build our TEI with this additional information.
 
-The same features will also be useful when rendering the nodes during data export into other formats, like TEI.
+To this end _trace features_ were introduced. These are automatically injected by each operation to trace its effect on the text being built. So, for instance a replacement operation will mark with all the characters it is going to replace with a specific trace feature, and all the characters replacing them with another one. The first feature will tell us that those nodes were collected for deletion; the second one that other nodes were added to their place.
 
-All the trace features have these properties:
+Trace features are clearly distinguished from those you are free to add to any operations. All the trace features have these properties:
 
 - their name starts with `$`, a prefix reserved to trace features.
 - their value is composite. It always includes operation ID, input and output version, and possibly the segment ordinal number for the features requiring it.
 - there can be multiple features of the same type. This happens when we have branching, so that e.g. the same node can be the input of two different operations belonging to different branches.
-- they get not copied into the next version. So, the lifetime of each trace feature is limited: whenever a new operation is executed, it does not inherit trace features from the previous result.
+- they are _not_ copied into the next version. So, the lifetime of each trace feature is limited: whenever a new operation is executed, it does not inherit trace features from the previous result.
 
-Currently these are the trace features:
+Currently there are five types of trace features:
 
 - `$seg-in`: input _segment_ (=sequence of _contiguous_ nodes) selected by the operation. Value is `OPID TAGIN:TAGOUT N` where `OPID` is the operation ID, `TAGIN` the input version tag, `TAGOUT` the output version tag, and `N` the ordinal number of the node in the segment captured by the operation.
-- `$seg-out`: output segment affected by the operation.
+- `$seg-out`: output segment affected by the operation. Value is the same as `$seg-in`.
 - `$seg2-in`: same as `seg-in`, for the second segment in a swap operation.
 - `$seg2-out`: same as `seg-out`, for the second segment in a swap operation.
-- `$anchor`: the anchor node used as a reference for add or move operations. The value is like that of segments, except for the final `N` which would not make sense for an anchor. By definition, only a single node can be used as anchor, so there is no need to specify its relative position in a segment.
+- `$anchor`: marks a single anchor node, used as a reference for add or move operations. The value is like that of segments, except for the final `N` which would not make sense for an anchor. By definition, only a single node can be used as anchor, so there is no need to specify its relative position in a segment.
 
 >Of course, segments are contiguous in a specific version only. Operations (except for the annotate operation) alter the order of the nodes, and versions are just their output. That's why to ease later processing it is convenient to store the relative position of each node in a segment for every version.
 
@@ -308,7 +321,52 @@ Currently these are the trace features:
 
 Thanks to these features, at each version we can see all the nodes affected by the operation which generated it, and connect them to the previous or next versions.
 
-For instance, let us consider the [limerick example](sample-limerick), which refers to a real text. We can use a screenshot of the base text UI to show its characters with their numeric IDs:
+##### Trace Features: Simple Example
+
+For instance, consider this mock autograph with numbers, where I added an ordinal number to each operation to make it easier to read it:
+
+![mock autograph](../export/img/mock-autograph-digits.png)
+
+The text versions in this autograph are:
+
+- v0 one FIVE six ten three four zero
+- v1 one two FIVE six ten three four zero
+- v2 one two Five six ten three four zero
+- v3 one two five six ten three four zero
+- v4 one two five six three four zero (alpha)
+- v5 one two three four five six zero
+- v6 zeroone two three four five six
+- v7 zero one two three four five six (beta)
+
+As for the operations, we start by inserting "two" before "FIVE".
+
+Then, we replace FIVE with the corresponding title-case word "Five"; again, we replace this with the full lowercased word, "five".
+
+Then, we remove "ten". This version 4 is labeled as a staged version, named alpha, i.e. a stage during the text transformation which happens to be considered as a waypoint along the path towards the final state of the text, accumulating the effects of all the operations up to this point.
+
+Then, the process goes on by swapping "three four" with "five six"; moving "zero" from the tail to the head; and inserting a space to separate these words. Once we get to this final version 7, we have another staged version, named beta.
+
+Now, let us focus on version alpha and look at the corresponding trace features: we have an anchor before "FIVE" which is the reference point for the insertion of "two"; what gets inserted is found in the next version 1 as an output segment ("two").
+
+Then, "FIVE" is selected as the input segment for the next operation, a replacement, whose output segment is the title-cased word.
+
+The same happens to this "Five", which gets lowercased by another replacement: so, title-case "Five" is the input segment, and in the next version lowercase "five" is the output segment.
+
+Finally, we select "ten" as the input segment of a delete operation. Note that there's no output segment for it; or in other words, the output segment is zero. Then we have "five" selected as a portion of the text involved in the next operation, the swap, which is past version alpha.
+
+![trace features up to v4](../export/img/digits-trace-v4.png)
+
+We could go on, but that's the point: trace features allow us to track the effect of editing operations in text without having to execute them again from another context, which is loosely coupled to the snapshot model.
+
+Let us look at this list of trace features, from bottom to top, i.e. from version 4 back to version 0, which is the base text. First, we can see that the "ten" input segment was removed; the lowercase "five" segment replaced a title-case "Five"; in turn, this replaced an uppercase "FIVE". Before it, "two" was inserted.
+
+So, trace features coupled with the type and metadata of each operation (operation identifiers are found in the feature value) in most cases are all what a renderer needs to build its output.
+
+>🚀 You can inspect trace features using the developer's demo at <https://gve-demo.fusi-soft.com>. Just click `Snapshots`, pick the "digits" preset from the list, run operations, and switch to the `Steps` tab. This contains a row for each output (version). You can use the `n-features` column controls to inspect node features, including trace features, for each version up to that corresponding to its row.
+
+##### Trace Features: Limerick Example
+
+Let us now consider a more realistic example, like our [limerick example](sample-limerick). We can use a screenshot of the base text UI to show its characters with their numeric IDs:
 
 ![base text](img/limerick-base.png)
 

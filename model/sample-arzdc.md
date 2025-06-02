@@ -5,6 +5,17 @@ parent: Model
 nav_order: 3
 ---
 
+- [Mock Snapshot Example](#mock-snapshot-example)
+  - [Size and Image](#size-and-image)
+  - [Text](#text)
+  - [Operations](#operations)
+    - [Delete Z](#delete-z)
+    - [Replace R with V](#replace-r-with-v)
+    - [Replace V with B](#replace-v-with-b)
+    - [Replace R with P](#replace-r-with-p)
+    - [Swap D and C](#swap-d-and-c)
+    - [Recap](#recap)
+
 # Mock Snapshot Example
 
 In this example I am going to represent the mock snapshot described in the documentation, split into parts for more readability. Its rendered view is shown below:

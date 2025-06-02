@@ -5,6 +5,12 @@ parent: Model
 nav_order: 2
 ---
 
+- [Diplomatic Model](#diplomatic-model)
+  - [Animation](#animation)
+    - [Animations and Steps](#animations-and-steps)
+    - [GSAP Model](#gsap-model)
+    - [Animation Model](#animation-model)
+
 # Diplomatic Model
 
 On the diplomatic side, our model should provide an at least approximate graphical representation of the snapshot.

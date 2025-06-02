@@ -5,6 +5,13 @@ parent: Model
 nav_order: 5
 ---
 
+- [Entities Hierarchy](#entities-hierarchy)
+  - [Overview](#overview)
+  - [Cadmus for VEdition](#cadmus-for-vedition)
+    - [Snapshot](#snapshot)
+    - [Epigram](#epigram)
+  - [Collection](#collection)
+
 # Entities Hierarchy
 
 The snapshot is just the lowest level entity in our hierarchy. Being closest to the material supports, and representing a highly complex multiple-versions text, it's the most complex one. Yet, above it there are other entities we want to represent in our data.
