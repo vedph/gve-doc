@@ -47,7 +47,7 @@ The pipeline approach has many **benefits**:
 
 To start with, we can envisage at least 3 export scenarios in this context:
 
-1. _exporting Cadmus text_. This is an [independent project](https://vedph.github.io/cadmus-doc/migration/rendering/rendition.html), but GVE borrows a good portion of its logic, because with reference to text rendition they target similar problems.
+1. [exporting Cadmus text](export-cadmus). Cadmus an [independent project](https://vedph.github.io/cadmus-doc/migration/rendering/rendition.html), but GVE borrows a good portion of its logic, because with reference to text rendition they target similar problems.
 
 2. [exporting GVE snapshots into text documents](export-tei). For instance, you might want to generate some kind of TEI document(s) representing a subset of source data.
 

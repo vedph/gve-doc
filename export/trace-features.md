@@ -1,8 +1,8 @@
 ---
-title: GVE Trees
+title: Trace Features
 layout: default
 parent: Export
-nav_order: 3
+nav_order: 2
 ---
 
 - [Trace Features](#trace-features)
