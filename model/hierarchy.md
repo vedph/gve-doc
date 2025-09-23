@@ -8,27 +8,49 @@ nav_order: 5
 - [Entities Hierarchy](#entities-hierarchy)
   - [Overview](#overview)
   - [Cadmus for VEdition](#cadmus-for-vedition)
-    - [Snapshot](#snapshot)
-    - [Epigram](#epigram)
-  - [Collection](#collection)
 
 # Entities Hierarchy
 
 The snapshot is just the lowest level entity in our hierarchy. Being closest to the material supports, and representing a highly complex multiple-versions text, it's the most complex one. Yet, above it there are other entities we want to represent in our data.
 
->⚠️ Given the early stage of this modeling phase, here I'm using a purely IT-oriented and pragmatic terminology for these entities. An appropriate philological naming for these entities is discussed elsewhere.
+>⚠️ This document reflects an early stage of the modeling stage for those entities, representing the base for a Cadmus-based editor.
 
 ## Overview
 
-Essentially, in our project we deal with snapshots giving rise to one or more versions of what is regarded as a unique original text. As per the [snapshot model](snapshot), "version" here in technical meaning is just the output of a text-changing operation; many operations affect the base text, transforming it into something else, which represents another "version" of it.
+The diagram below summarizes the main entities in this project:
 
-These outputs just represent the steps which progressively lead towards a specific waypoint along the path towards an ideal, final redaction of the text, which in the case of VEdition does not exist. Among these steps, these waypoints define our "staged versions", i.e. steps which get promoted to a visible stage where they act as what we regard as a true redaction of the text on its own, rather than just an intermediate step towards it. Of course, that's a matter of subjective judgement, even if based on all the available evidence.
+![alt text](img/entities.png)
 
-So, from a pragmatic point of view, we need at least 3 entities in our hierarchy:
+Starting from the material side (top of the diagram), everything starts with our **carriers**. A carrier is defined as "the concrete, physical object that contains, among other things, the textual witnesses and is then digitally reproduced and described in the edition". In the diagram I am representing two notebook carriers, named H55 and H54.
 
-- **snapshot**, the digital representation of the material carrier (and of its interpretation) we start from;
-- **epigrams**, i.e. the texts corresponding to staged versions, which build up what we can read as an epigram (stemming from a specific ancestor via modifications);
-- **collections** of epigrams. The term "collection" here is used with a purely IT sense, meaning any number of items belonging to an ordered set. What corresponds to this collection may vary: it might just be an idea of the author for organizing some epigrams, derived from what he writes about them elsewhere; or it might be what emerges from marks added to the notebooks (e.g. numbers) for each epigram, hinting at some plan for building an ordered collection of them; or it might be something material, like a physical collection of them. Whatever the specific nature, we can adopt a single, more abstract model for them.
+These notebooks contain many texts. In the diagram we focus on a single epigram, which happens to be found in both these notebooks. At the lowest level of our model hierarchy there are the [snapshots](textual), a highly structured and computable digital model representing the **textual situation** specific to that carrier. The "textual situation" is defined as "the transmitted sum of all variants of textual versions on a text carrier". The snapshot is not just a container of variations of a text, but rather a compact model capable of generating all of them with their metadata, via operations which represent the scholars' interpretation of the annotations chaotically scattered on the carrier. As such, it can also be used to animate the history of the making of this specific text across all its supposed stages, as hinted by all the annotations on the carrier.
+
+So, a carrier will usually contain multiple snapshots, each referred to a specific text. Typically, scholarly critical judgement usually ends up defining a final **epigram version** from each snapshot. Let us provide a less abstract example: the below picture was taken from a spreadsheet collecting all the epigram versions from all the carriers:
+
+![alt text](img/xls-epigrams.png)
+
+As you can see, each column starting from C corresponds to a carrier (H55, M1, M2, H54, etc.). All the epigram versions present in various carriers are aligned on the same row: for instance, at row 14 what can be considered the same epigram is attested by two different epigram versions, one in H55 and another in H54, both with _incipit_ "In dem engsten der".
+
+Now, the very fact that we are aligning the same texts in the same row, and assigning them a shared numeric identifier, implies that we are recognizing them as instances of the same class, the abstract **epigram**. The epigram is defined as "all textual versions that are “related to each other through textual identity and distinguishable through textual variance” (GGA 224)". In our model, the "epigram" is thus an abstraction, which is conveniently used to hold metadata shared among all the epigrams: it corresponds to the row in the spreadsheet table, which is identified by your epigram identifier. "Real" epigrams (=epigram versions) are in columns; but they are all lined up in the same row because we consider all these texts as alternatives of a single unit. This unit is our abstraction, the primary reason for lining them up in the same row; so all what we say about the row is meant to apply to all the columns in it.
+
+So, looking again at our diagram, each snapshot is connected to an epigram version, which is the text critically reconstructed as the final stage of the creative process detailed by the snapshot. This is the second (mid) layer in our diagram.
+
+In turn, multiple epigram versions are instances of an abstraction, the epigram, which appears in yet another layer (bottom). In our diagram example, the two epigram versions from snapshots in carriers H55 and H54 are linked to a single epigram. It should be noticed that in this project, due to the peculiar nature of Venetian Epigrams, the epigram has no text at all: it is just an abstract container for metadata shared among epigram versions, each arising from a different carrier.
+
+Finally, on this abstract layer we find a **collection**. This is a more specialized IT term fit to the entity represented in the digital model, and essentially corresponding to what is defined as an order or sequence ("the arrangement of all textual witnesses as found on a textual carrier"). The term "collection" here is used with a purely IT sense, meaning any number of items belonging to an _ordered_ set. What corresponds to this collection may vary: it might just be an idea of the author for organizing some epigrams, derived from what he writes about them elsewhere; or it might be what emerges from marks added to the notebooks (e.g. numbers) for each epigram, hinting at some plan for building an ordered collection of them; or something material, like the physical sequence in which they appear. Whatever the specific nature, we adopt a single, more abstract model for them.
+
+💡 A collection contains texts in a given order. The order is represented by a sequence. From a purely IT standpoint, a collection is an abstract data type that groups multiple data elements, which can be of the same or different types. That's the most generic, umbrella term and can include sets, lists, arrays,
+etc. A "set" is a specialization which differs because its elements are all unique. Among collections, some are ordered: these are "sequence", "list", and "array". A sequence can be finite or infinite (e.g. the sequence of numbers). Lists and arrays are both ordered, but lists are dynamically resized, while arrays are static but more memory-efficient. So, "collection" is more abstract: it's a conceptual container that doesn't enforce rules about order, uniqueness, or mutability. It's like saying "a vehicle" without specifying whether it's a car, bike, or spaceship. Instead:
+
+- a set is a collection with constraints: no duplicates, no order.
+- a sequence is a collection with structure: order matters, duplicates allowed.
+- a list is a sequence with flexibility (dynamic size).
+- an array is a sequence with rigidity (fixed size).
+
+In this generic model, a "collection" is not necessarily ordered; or it might be ordered in multiple ways. From the point of view of a modular architecture, this means separating these two notions: the collection is the overarching entity, and it can sort its items in no way (when not sorted), or in just 1 way, or in multiple ways. This implies that the model for zero or more ordering's assigned to the items of a collection will be repeated
+for each different order. That's the way to go in IT, as this ensures we have a consistent model without redundancies (i.e. repetitions).
+This is also the practical reason for which the collection is an item, while I think about sequences as parts of that item, even if the details of this implementation are still to be defined. So, I am saying that those items belong to a collection, and I say this only once; then, I add that this collection can be ordered in 0 or more different sequences. Anyway, this can be easily regarded as a modeling detail. We can adopt a synecdoche and name these
+collections "sequences" if this is the main point in talking about them. From the user's point of view, nothing changes. Yet, internally we must distinguish between the collection in the technical sense from how we can arrange items in it.
 
 ## Cadmus for VEdition
 
@@ -38,49 +60,9 @@ Essentially, you can think of Cadmus records (called _items_) as boxes, where yo
 
 In fact, text in Cadmus is just an object, like any other datum, and so are its annotations. For instance, if you have a text with a critical apparatus, a comment, and paleographic annotations, you might have a box with an object for the plain text; an object for the apparatus annotations; another one for the comments; and yet another one for paleographic annotations. Each of these objects has its own model, so that annotating a text essentially means linking an object of any type to a specific portion of it.
 
-This produces a sort of layered annotation system, where each layer contains a set of annotations belonging to a specific knowledge domain, and thus having its own model. For highly complex or highly frequent annotations this has many benefits: 
+This produces a sort of layered annotation system, where each layer contains a set of annotations belonging to a specific knowledge domain, and thus having its own model. For highly complex or highly frequent annotations this has many benefits:
 
 - it allows for a highly _scalable_ scenario, where you can add as many annotations (layers) as you want, without affecting the existing text and its other annotations. You just add another annotation to the layer object, or a new layer object for annotations belonging to a different knowledge domain, without having to change neither the text or its existing annotations. This is not true for annotations systems like XML, where a single tree-based structure holds all the metadata attached to portions of the text; there, adding many heterogeneous structures on top of it means struggling to tackle a complex game of interlocking pieces to build a tree with all the required tags woven together. Additionally, this is not always practical or even possible, and eventually ends up hitting the barrier of overlap, which is not allowed in XML. The typical solution in this case is standoff, which in fact is one of the typical outputs of Cadmus when exporting a subset of its data into TEI; yet, that's right its complexity which calls for an automatic generation of it.
 - it allows designing the model of each annotation _without constraints_ from the physical model. You can define a highly structured object for each type of annotation, without caring about having to interlock its parts with those of other models into a single, predefined structure. Also, instead of just attaching "flat" tags (as element names or attribute name/value pairs) to a portion of text, you can attach a _fully structured_ object of any depth, where each property is either a scalar value or yet another object, without limits.
 - it allows abstracting from a specific physical model (e.g. XML) thus producing an _easy user experience_, requiring no IT skills to create digital content; you just have to fill a web form.
 - it allows using the same abstract source model to _generate multiple outputs_, whether it is a TEI document (in one or more different schemas), an RDF graph, etc.
-
-In this context, the planned design might be sketched like in Figure 1:
-
-![Cadmus architecture](./img/cadmus.png)
-
-- Figure 1 - _Cadmus architecture plan for VEdition_
-
-As you can see, here we have at least 3 items types for snapshots, epigrams, and collections, in the broader sense of these terms described above.
-
-### Snapshot
-
-The snapshot item is a box which might include these objects (the links refer to the [list of shared Cadmus models](https://vedph.github.io/cadmus-doc/models/shared.html)), which are a first hypothesis about the types of data one might want to attach to snapshots. Of course, this is just a sketch, and at any rate Cadmus architecture allows us to change it even after entering our data. Also, we are free to design any other object type and add it, just like we did for the snapshot itself.
-
-- snapshot: this is the full [snapshot model](snapshot). As illustrated in the diagram, this is a compact and highly structured way of representing many versions of a given text at once, with a computable and granular approach, while preserving the distinct planes of objective representation and subjective interpretation. So for instance in the diagram the snapshot starts from a base text and changes it via operation 1; this outputs version 1 (v1). In turn, v1 is the input to another operation 2, which outputs v2. This v2 is picked as a staged version, a waypoint marked along the path of text change; that's why it's green rather than gray. In turn, v2 is the input for operation 3, generating a staged version v3; and for operation 4, generating v4, which in turn is the input to operation 5, generating another staged version, v5. So here v4 (just like v1) are only intermediate steps towards different stages. The stages are the effective versions of our epigrams.
-- [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata): generic metadata. These can be used to attach generic metadata of any sort to the snapshot, like e.g. human-friendly identifiers, names of the responsible of the item, etc.
-- [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids): this might be useful to list various external identifiers for the snapshot, maybe derived from third-party repositories, so that we can map the same entities across different data sets.
-- [links](https://github.com/vedph/cadmus-general/blob/master/docs/fr.pin-links): this could be used for both internal and external links, in a more structured way than external IDs. It might even totally replace external IDs.
-- [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories): this could be used to tag the snapshot with any type and number of categories drawn from some taxonomies. For instance, they might be related to text topics, formal features, material support features, etc. Tagging various entities in this way might be useful later for connecting them in many different ways via shared features.
-- [keywords](https://github.com/vedph/cadmus-general/blob/master/docs/index-keywords): keywords of any sort and language you might want to attach to a snapshot. This has roughly the same purpose of categories, but rather than referring to a set of conceptual classes it just uses highly specific and language-dependent tags.
-- [date](https://github.com/vedph/cadmus-general/blob/master/docs/historical-date): if you want to attach a date to the carrier, this could be used for this purpose. There are other object types too, if you need more data; for instance, [chronotopes](https://github.com/vedph/cadmus-general/blob/master/docs/chronotopes) allow you to specify any number of date/place pairs.
-- [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment): if you need to add some free-text comment to the item as a whole, optionally with additional keywords, categories, references, and links, you can use this part.
-- [documental references](https://github.com/vedph/cadmus-general/blob/master/docs/doc-references): short documental references using conventional citational systems (like e.g. "Il. 3,25", "CIL X 14" etc.) can be placed here.
-- [bibliography](https://github.com/vedph/cadmus-general/blob/master/docs/bibliography): a short set of bibliographic items can be placed here if useful. For more systematic (and highly repetitive) bibliography there are other object types, while this is for more episodic references.
-- [notes](https://github.com/vedph/cadmus-general/blob/master/docs/note): a general-purpose free text note, maybe just for internal redactional purposes.
-
-### Epigram
-
-Epigrams in the strictly pragmatic sense defined above are just the staged outputs of the snapshot. So they can be automatically generated. Anyway, once we have generated them, it might be the case that you want to add more data to these texts, well beyond the annotations stemming from the operations on the text. If this happens, we can plan for a set of epigram items in our data.
-
-In this case, we could think of a mixed approach: first we automatically generate epigram items from snapshots, by just running the snapshot operations and collecting the text of each staged version; once this is done, we have our editable records, and we can change and enrich them at will.
-
-Such epigram items might thus have all the object types already listed for snapshots, except of course for the snapshot object. Additionally, they might have:
-
-- [text](https://github.com/vedph/cadmus-general/blob/master/docs/token-text): this is the staged version text as generated by running the snapshot operations.
-- [apparatus text layer](https://github.com/vedph/cadmus-philology/blob/master/docs/fr.apparatus): this is a critical apparatus text layer. It might be initially generated from operations metadata, and then edited manually.
-- [comment text layer](https://github.com/vedph/cadmus-general/blob/master/docs/fr.comment): you might use this layer to comment a specific portion of the text. The model is the same of the generic comment object.
-
-## Collection
-
-At a higher hierarchy level we finally find collections. These items would probably require a mixture of preset models, like metadata, external IDs, categories, keywords, date, comment, documental references, bibliography, notes, and the like; and of specifically designed models, according to how we will imagine their specific features.
