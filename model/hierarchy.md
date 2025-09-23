@@ -106,7 +106,7 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
         - `features` (`Feature[]`):
           - `name`\* (`string`)
           - `value` (`string`)
-          - `setPolicy`\* (int)
+          - `setPolicy`\* (`int`)
       - `textStyle` (`string`)
       - `textOptions` (`SvgBaseTextOptions`):
         - `lineHeightOffset` (`double`)
