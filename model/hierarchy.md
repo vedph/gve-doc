@@ -8,6 +8,12 @@ nav_order: 5
 - [Entities Hierarchy](#entities-hierarchy)
   - [Overview](#overview)
   - [Cadmus for VEdition](#cadmus-for-vedition)
+    - [Items](#items)
+      - [Snapshot](#snapshot)
+      - [Carrier](#carrier)
+      - [Epigram Version and Lost Lines](#epigram-version-and-lost-lines)
+      - [Epigram](#epigram)
+      - [Collection](#collection)
 
 # Entities Hierarchy
 
@@ -64,3 +70,131 @@ This produces a sort of layered annotation system, where each layer contains a s
 - it allows using the same abstract source model to _generate multiple outputs_, whether it is a TEI document (in one or more different schemas), an RDF graph, etc.
 
 [^1]: Strictly speaking, for a collection it is not necessary that the witnesses belong to a single textual carrier. In theory, one could even envisage a case where someone is planning a collection by picking texts from different carriers. The definition quoted here anyway refers to the most typical case.
+
+### Items
+
+Here we list the Cadmus items with their parts, as defined for the GVE editor in the API backend profile.
+
+#### Snapshot
+
+- _identity_:
+  - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
+  - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
+  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
+- _content_:
+  - snapshot (GVE: [code](https://github.com/vedph/gve-core/blob/master/Cadmus.Gve.Parts/GveSnapshotPart.cs)):
+    - `snapshot` (`Snapshot`):
+      - `size` (`Size`):
+        - `width` (`double`)
+        - `height` (`double`)
+      - `style` (`string`)
+      - `defs` (`string`)
+      - `image` (`SnapshotImage`):
+        - `url`\* (`string`)
+        - `canvas` (`Rectangle`):
+          - `x` (`double`)
+          - `y` (`double`)
+          - `width` (`double`)
+          - `height` (`double`)
+        - `opacity` (`double`)
+      - `text` (`CharChainNode[]`):
+        - `id` (`int`)
+        - `index` (`int`)
+        - `label` (`string`)
+        - `data` (`char`)
+        - `sourceTag` (`string`)
+        - `features` (`Feature[]`):
+          - `name`\* (`string`)
+          - `value` (`string`)
+          - `setPolicy`\* (int)
+      - `textStyle` (`string`)
+      - `textOptions` (`SvgBaseTextOptions`):
+        - `lineHeightOffset` (`double`)
+        - `charSpacingOffset` (`double`)
+        - `spcWidthOffset` (`double`)
+        - `offset` (`Point`):
+          - `x` (`double`)
+          - `y` (`double`)
+        - `minLineHeights` (dictionary of doubles keyed by shorts)
+  - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
+- _history_:
+  - [historical dates](https://github.com/vedph/cadmus-general/blob/master/docs/asserted-historical-dates.md)
+- _editorial_:
+  - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+#### Carrier
+
+- _identity_:
+  - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
+  - [shelfmarks](https://github.com/vedph/cadmus-codicology/blob/master/docs/cod-shelfmarks.md)
+  - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`carrier`
+- _material_:
+  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md)
+  - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
+- _content_:
+  - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
+- _history_:
+  - [historical dates](https://github.com/vedph/cadmus-general/blob/master/docs/asserted-historical-dates.md)
+  - [historical events](https://github.com/vedph/cadmus-general/blob/master/docs/historical-events.md)
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md):`hist`
+- _editorial_:
+  - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+#### Epigram Version and Lost Lines
+
+- _identity_:
+  - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
+  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
+  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md):`auth`
+- _material_:
+  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md)
+  - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
+- _content_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`topic`
+  - [flags](https://github.com/vedph/cadmus-general/blob/master/docs/flags.md):`version`
+  - [token-based text](https://github.com/vedph/cadmus-general/blob/master/docs/token-text.md)
+  - [apparatus layer](https://github.com/vedph/cadmus-philology/blob/master/docs/fr.apparatus.md)
+  - [comment layer](https://github.com/vedph/cadmus-general/blob/master/docs/fr.comment.md)
+  - `hands` (GVE):
+    - `hands` (`GveHand[]`):
+      - `eid` (`string`)
+      - `ownerId` (`AssertedCompositeId`)
+      - `tag` (`string` 📚 `gve-hand-tags`)
+      - `tool` (`string` 📚 `gve-hand-tools`)
+      - `color` (`string` 📚 `gve-hand-colors`)
+      - `notes` (dictionary of strings)
+- _history_:
+  - [historical dates](https://github.com/vedph/cadmus-general/blob/master/docs/asserted-historical-dates.md)
+  - [historical events](https://github.com/vedph/cadmus-general/blob/master/docs/historical-events.md)
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md):`hist`
+- _editorial_:
+  - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+#### Epigram
+
+- _identity_:
+  - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
+  - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
+- _content_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`topic`
+  - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
+- _editorial_:
+  - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+#### Collection
+
+- _identity_:
+  - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
+  - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
+- _content_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`seq`
+  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
+  - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
+- _editorial_:
+  - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
