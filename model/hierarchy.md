@@ -14,12 +14,13 @@ nav_order: 5
       - [Epigram Version and Lost Lines](#epigram-version-and-lost-lines)
       - [Epigram](#epigram)
       - [Collection](#collection)
+      - [Parts Matrix](#parts-matrix)
 
 # Entities Hierarchy
 
 The snapshot is just the lowest level entity in our hierarchy. Being closest to the material supports, and representing a highly complex multiple-versions text, it's the most complex one. Yet, above it there are other entities we want to represent in our data.
 
->⚠️ This document reflects an early stage of the modeling stage for those entities, representing the base for a Cadmus-based editor.
+> ⚠️ This document reflects an early stage of the modeling stage for those entities, representing the base for a Cadmus-based editor.
 
 ## Overview
 
@@ -145,16 +146,18 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 
 #### Epigram Version and Lost Lines
 
+For epigram version the group ID is the epigram's EID.
+
 - _identity_:
   - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
-  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
+  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md) 🔗 carrier
   - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md):`auth`
 - _material_:
   - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md)
   - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`topic`
-  - [flags](https://github.com/vedph/cadmus-general/blob/master/docs/flags.md):`version`
+  - [flags](https://github.com/vedph/cadmus-general/blob/master/docs/flags.md):`txt`
   - [token-based text](https://github.com/vedph/cadmus-general/blob/master/docs/token-text.md)
   - [apparatus layer](https://github.com/vedph/cadmus-philology/blob/master/docs/fr.apparatus.md)
   - [comment layer](https://github.com/vedph/cadmus-general/blob/master/docs/fr.comment.md)
@@ -193,8 +196,30 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
 - _content_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`seq`
-  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
+  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md) 🔗 version
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
 - _editorial_:
   - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+#### Parts Matrix
+
+| part         | snapshot | carrier | version | lines  | epigram | collection |
+| ------------ | -------- | ------- | ------- | ------ | ------- | ---------- |
+| categories   |          | carrier | topic   | topic  | topic   | seq        |
+| comment      | X        | X       |         |        | X       | X          |
+| dates        | X        | X       | X       | X      |         |            |
+| events       |          | X       | X       | X      |         |            |
+| external IDs | X        | X       |         |        | X       | X          |
+| flags        |          |         | txt     | txt    |         |            |
+| hands (GVE)  |          |         | X       | X      |         |            |
+| links        | X        |         | X auth  | X auth |         | X          |
+| measurements |          | X       | X       | X      |         |            |
+| metadata     | X        | X       | X       | X      | X       | X          |
+| note         | X        | X hist  | X hist  | X hist | X       | X          |
+| references   | X        | X       | X       |        | X       | X          |
+| shelfmarks   |          | X       |         |        |         |            |
+| states       |          | X       | X       | X      |         |            |
+| text         |          |         | X       | X      |         |            |
+| apparatus=   |          |         | X       | X      |         |            |
+| comment=     |          |         | X       | X      |         |            |
