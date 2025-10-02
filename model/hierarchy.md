@@ -15,6 +15,7 @@ nav_order: 5
       - [Epigram](#epigram)
       - [Collection](#collection)
       - [Parts Matrix](#parts-matrix)
+      - [Thesauri List](#thesauri-list)
 
 # Entities Hierarchy
 
@@ -134,7 +135,6 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`carrier`
 - _material_:
-  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md)
   - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
@@ -155,7 +155,6 @@ For epigram version the group ID is the epigram's EID.
   - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md) 🔗 carrier
   - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md):`auth`
 - _material_:
-  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md)
   - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`topic`
@@ -216,7 +215,6 @@ For epigram version the group ID is the epigram's EID.
 | flags        |          |         | txt     | txt    |         |            |
 | hands (GVE)  |          |         | X       | X      |         |            |
 | links        | X        |         | X auth  | X auth |         | X          |
-| measurements |          | X       | X       | X      |         |            |
 | metadata     | X        | X       | X       | X      | X       | X          |
 | note         | X        | X hist  | X hist  | X hist | X       | X          |
 | references   | X        | X       | X       |        | X       | X          |
@@ -225,3 +223,66 @@ For epigram version the group ID is the epigram's EID.
 | text         |          |         | X       | X      |         |            |
 | apparatus=   |          |         | X       | X      |         |            |
 | comment=     |          |         | X       | X      |         |            |
+
+#### Thesauri List
+
+This list currently excludes text-related parts as it is not yet defined whether they will be required.
+
+- categories (carrier, topic, seq):
+  - 📚 categories
+- comment:
+  - 📚 comment-tags
+  - 📚 doc-reference-types
+  - 📚 doc-reference-tags
+  - 📚 comment-id-scopes
+  - 📚 comment-id-tags
+  - 📚 assertion-tags
+  - 📚 comment-categories
+  - 📚 comment-keyword-languages
+- dates:
+  - 📚 doc-reference-types
+  - 📚 doc-reference-tags
+- events:
+  - 📚 event-types
+  - 📚 event-tags
+  - 📚 chronotope-tags
+  - 📚 assertion-tags
+  - 📚 doc-reference-types
+  - 📚 doc-reference-tags
+  - 📚 event-relations
+  - 📚 pin-link-scopes
+  - 📚 pin-link-tags
+  - 📚 assertion-tags
+- external IDs:
+  - 📚 external-id-tags
+  - 📚 external-id-scopes
+  - 📚 assertion-tags
+  - 📚 doc-reference-types
+  - 📚 doc-reference-tags
+- flags (txt):
+  - 📚 flags
+- hands (GVE):
+  - 📚 gve-hand-tags
+  - 📚 gve-hand-tools
+  - 📚 gve-hand-colors
+- links (default, auth):
+  - 📚 pin-link-scopes
+  - 📚 pin-link-tags
+  - 📚 pin-link-assertion-tags
+  - 📚 pin-link-docref-types
+  - 📚 pin-link-docref-tags
+- metadata:
+  - 📚 metadata-types
+  - 📚 metadata-names
+- note (default, hist):
+  - 📚 note-tags
+- references
+  - 📚 doc-reference-types
+  - 📚 doc-reference-tags
+- shelfmarks:
+  - 📚 cod-shelfmark-tags
+  - 📚 cod-shelfmark-libraries
+- states:
+  - 📚 physical-states
+  - 📚 physical-state-features
+  - 📚 physical-state-reporters
