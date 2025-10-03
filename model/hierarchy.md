@@ -12,6 +12,7 @@ nav_order: 5
       - [Snapshot Part](#snapshot-part)
       - [Hands Part](#hands-part)
     - [Items](#items)
+      - [Flags](#flags)
       - [Snapshot](#snapshot)
       - [Carrier](#carrier)
       - [Epigram Version and Lost Lines](#epigram-version-and-lost-lines)
@@ -168,15 +169,31 @@ See [code](https://github.com/vedph/gve-core/blob/master/Cadmus.Gve.Parts/GveSna
 
 ### Items
 
-Here we list the Cadmus items with their parts, as defined for the GVE editor in the API backend profile.
+Here we list the Cadmus items with their parts, as defined for the GVE editor in the API backend profile. The references part is mostly used for Zotero-based bibliography.
+
+#### Flags
+
+- complete
+- revised
+- undisclosed
+- lost
 
 #### Snapshot
 
 - _identity_:
   - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
+  - [shelfmarks](https://github.com/vedph/cadmus-codicology/blob/master/docs/cod-shelfmarks.md)
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
   - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
 - _content_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`content`: branches for:
+    - copy type (rough, clean)
+    - language (German, Italian, Latin, Ancient Greek)
+    - authorship (autograph, allograph)
+    - numbering (pagination, foliation)
+    - margins (cropped, torn)
+    - writing material (ink1, ink2, pencil...)
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`lang`: languages (German, Italian, Latin, Ancient Greek)
   - [snapshot](#snapshot-part) (GVE)
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
 - _history_:
@@ -187,21 +204,28 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 
 #### Carrier
 
-- facet name: Siglum carrier (Sigle Textträger).
 - flags: lost.
 
 - _identity_:
   - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
   - [shelfmarks](https://github.com/vedph/cadmus-codicology/blob/master/docs/cod-shelfmarks.md)
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
-  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`carrier`: this 
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`content`
 - _material_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`: branches for:
+    - format (quarto)
+    - materials
+    - paper type
+    - paper colors
+  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md)
   - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`text`: branches for:
+    - manuscripts (epigram, epigram collection, letter...)
+    - prints (literary magazine, edition volume)
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
 - _history_:
-  - [historical dates](https://github.com/vedph/cadmus-general/blob/master/docs/asserted-historical-dates.md)
-  - [historical events](https://github.com/vedph/cadmus-general/blob/master/docs/historical-events.md)
+  - [chronotopes](https://github.com/vedph/cadmus-general/blob/master/docs/chronotopes.md) for both origin and provenance (use tags).
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md):`hist`
 - _editorial_:
   - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
@@ -219,7 +243,7 @@ For epigram version the group ID is the epigram's EID.
   - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`topic`
-  - [flags](https://github.com/vedph/cadmus-general/blob/master/docs/flags.md):`txt`
+  - [flags](https://github.com/vedph/cadmus-general/blob/master/docs/flags.md):`text`
   - [token-based text](https://github.com/vedph/cadmus-general/blob/master/docs/token-text.md)
   - [apparatus layer](https://github.com/vedph/cadmus-philology/blob/master/docs/fr.apparatus.md)
   - [comment layer](https://github.com/vedph/cadmus-general/blob/master/docs/fr.comment.md)
@@ -259,24 +283,25 @@ For epigram version the group ID is the epigram's EID.
 
 #### Parts Matrix
 
-| part         | snapshot | carrier | version | lines  | epigram | collection |
-| ------------ | -------- | ------- | ------- | ------ | ------- | ---------- |
-| categories   |          | carrier | topic   | topic  | topic   | seq        |
-| comment      | X        | X       |         |        | X       | X          |
-| dates        | X        | X       | X       | X      |         |            |
-| events       |          | X       | X       | X      |         |            |
-| external IDs | X        | X       |         |        | X       | X          |
-| flags        |          |         | txt     | txt    |         |            |
-| hands (GVE)  |          |         | X       | X      |         |            |
-| links        | X        |         | X auth  | X auth |         | X          |
-| metadata     | X        | X       | X       | X      | X       | X          |
-| note         | X        | X hist  | X hist  | X hist | X       | X          |
-| references   | X        | X       | X       |        | X       | X          |
-| shelfmarks   |          | X       |         |        |         |            |
-| states       |          | X       | X       | X      |         |            |
-| text         |          |         | X       | X      |         |            |
-| apparatus=   |          |         | X       | X      |         |            |
-| comment=     |          |         | X       | X      |         |            |
+| part         | snapshot | carrier              | version | lines  | epigram | collection |
+| ------------ | -------- | -------------------- | ------- | ------ | ------- | ---------- |
+| categories   | content  | content support text | topic   | topic  | topic   | seq        |
+| comment      | X        | X                    |         |        | X       | X          |
+| dates        | X        | X                    | X       | X      |         |            |
+| events       |          |                      | X       | X      |         |            |
+| external IDs | X        | X                    |         |        | X       | X          |
+| flags        |          |                      | text    | text   |         |            |
+| hands (GVE)  |          |                      | X       | X      |         |            |
+| links        | X        |                      | X auth  | X auth |         | X          |
+| measurements |          | X                    |         |        |         |            |
+| metadata     | X        | X                    | X       | X      | X       | X          |
+| note         | X        | X hist               | X hist  | X hist | X       | X          |
+| references   | X        | X                    | X       |        | X       | X          |
+| shelfmarks   | X        | X                    |         |        |         |            |
+| states       |          | X                    | X       | X      |         |            |
+| text         |          |                      | X       | X      |         |            |
+| apparatus=   |          |                      | X       | X      |         |            |
+| comment=     |          |                      | X       | X      |         |            |
 
 #### Thesauri List
 
@@ -325,9 +350,13 @@ This list currently excludes text-related parts as it is not yet defined whether
   - 📚 pin-link-assertion-tags
   - 📚 pin-link-docref-types
   - 📚 pin-link-docref-tags
+- measurements:
+  - 📚 physical-size-set-names
+  - 📚 physical-size-dim-tags
+  - 📚 physical-size-units
 - metadata:
   - 📚 metadata-types
-  - 📚 metadata-names
+  - 📚 metadata-names (eid, author...)
 - note (default, hist):
   - 📚 note-tags
 - references
