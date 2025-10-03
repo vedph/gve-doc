@@ -8,6 +8,9 @@ nav_order: 5
 - [Entities Hierarchy](#entities-hierarchy)
   - [Overview](#overview)
   - [Cadmus for VEdition](#cadmus-for-vedition)
+    - [GVE Parts](#gve-parts)
+      - [Snapshot Part](#snapshot-part)
+      - [Hands Part](#hands-part)
     - [Items](#items)
       - [Snapshot](#snapshot)
       - [Carrier](#carrier)
@@ -75,6 +78,94 @@ This produces a sort of layered annotation system, where each layer contains a s
 
 [^1]: Strictly speaking, for a collection it is not necessary that the witnesses belong to a single textual carrier. In theory, one could even envisage a case where someone is planning a collection by picking texts from different carriers. The definition quoted here anyway refers to the most typical case.
 
+### GVE Parts
+
+These parts are specific to the GVE project.
+
+#### Snapshot Part
+
+See [code](https://github.com/vedph/gve-core/blob/master/Cadmus.Gve.Parts/GveSnapshotPart.cs) for more details.
+
+- `snapshot` (`Snapshot`):
+  - `size` (`Size`): size in pixels:
+    - `width` (`double`)
+    - `height` (`double`)
+  - `style` (`string`): snapshot CSS style.
+  - `defs` (`string`): optional SVG `defs` element code.
+  - `image` (`SnapshotImage`): background image:
+    - `url`\* (`string`)
+    - `canvas` (`Rectangle`):
+      - `x` (`double`)
+      - `y` (`double`)
+      - `width` (`double`)
+      - `height` (`double`)
+    - `opacity` (`double`)
+  - `text` (`CharChainNode[]`):
+    - `id` (`int`)
+    - `index` (`int`)
+    - `label` (`string`)
+    - `data` (`char`)
+    - `sourceTag` (`string`)
+    - `features` (`Feature[]`):
+      - `name`\* (`string`)
+      - `value` (`string`)
+      - `setPolicy`\* (`int`)
+  - `textStyle` (`string`): CSS style for base text layer.
+  - `textOptions` (`SvgBaseTextOptions`):
+    - `lineHeightOffset` (`double`)
+    - `charSpacingOffset` (`double`)
+    - `spcWidthOffset` (`double`)
+    - `offset` (`Point`):
+      - `x` (`double`)
+      - `y` (`double`)
+    - `minLineHeights` (dictionary of doubles keyed by shorts)
+  - `operations` (`CharChainOperationSource[]`):
+    - `rank` (`short`)
+    - `groupId` (`string`)
+    - `features` (`OperationFeature[]`):
+      - `name` (`string`)
+      - `value` (`string`)
+      - `setPolicy` (`FeatureSetPolicy`)
+      - `isNegated` (`bool`)
+      - `isGlobal` (`bool`)
+      - `isShortLived` (`bool`)
+    - `sources` (`OperationSource[]`):
+      - `id`\* (`string`)
+      - `type` (`string`)
+      - `rank` (`short`)
+      - `note` (`string`)
+    - `diplomatics` (`OperationDiplomatics`):
+      - `g` (string): SVG for the graphical representation of the operation.
+      - `isNewTextHidden` (`bool`)
+      - `features` (`Feature[]`):
+        - `name` (`string`)
+        - `value` (`string`)
+        - `setPolicy` (`FeatureSetPolicy`)
+      - `elementFeatures` (dictionary with key=string and value=list of `Feature`'s)
+    - `id`\* (`string`)
+    - `type`\* (`OperationType`)
+    - `inputTag` (`string`)
+    - `outputTag` (`string`)
+    - `atAsIndex` (`bool`)
+    - `at` (`int`)
+    - `run` (`int`)
+    - `toAsIndex` (`bool`)
+    - `to` (`int`)
+    - `toRun` (`int`)
+    - `value` (`string`): the primary value argument for this operation.
+  - `opStyle` (`string`): CSS style for the operation layer.
+  - `timelines` (dictionary with `string` keys and `AnimationTimeline` value):
+
+#### Hands Part
+
+- `hands` (`GveHand[]`):
+  - `eid` (`string`)
+  - `ownerId` (`AssertedCompositeId`)
+  - `tag` (`string` 📚 `gve-hand-tags`)
+  - `tool` (`string` 📚 `gve-hand-tools`)
+  - `color` (`string` 📚 `gve-hand-colors`)
+  - `notes` (dictionary of strings)
+
 ### Items
 
 Here we list the Cadmus items with their parts, as defined for the GVE editor in the API backend profile.
@@ -86,40 +177,7 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
   - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
 - _content_:
-  - snapshot (GVE: [code](https://github.com/vedph/gve-core/blob/master/Cadmus.Gve.Parts/GveSnapshotPart.cs)):
-    - `snapshot` (`Snapshot`):
-      - `size` (`Size`):
-        - `width` (`double`)
-        - `height` (`double`)
-      - `style` (`string`)
-      - `defs` (`string`)
-      - `image` (`SnapshotImage`):
-        - `url`\* (`string`)
-        - `canvas` (`Rectangle`):
-          - `x` (`double`)
-          - `y` (`double`)
-          - `width` (`double`)
-          - `height` (`double`)
-        - `opacity` (`double`)
-      - `text` (`CharChainNode[]`):
-        - `id` (`int`)
-        - `index` (`int`)
-        - `label` (`string`)
-        - `data` (`char`)
-        - `sourceTag` (`string`)
-        - `features` (`Feature[]`):
-          - `name`\* (`string`)
-          - `value` (`string`)
-          - `setPolicy`\* (`int`)
-      - `textStyle` (`string`)
-      - `textOptions` (`SvgBaseTextOptions`):
-        - `lineHeightOffset` (`double`)
-        - `charSpacingOffset` (`double`)
-        - `spcWidthOffset` (`double`)
-        - `offset` (`Point`):
-          - `x` (`double`)
-          - `y` (`double`)
-        - `minLineHeights` (dictionary of doubles keyed by shorts)
+  - [snapshot](#snapshot-part) (GVE)
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
 - _history_:
   - [historical dates](https://github.com/vedph/cadmus-general/blob/master/docs/asserted-historical-dates.md)
@@ -129,11 +187,14 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 
 #### Carrier
 
+- facet name: Siglum carrier (Sigle Textträger).
+- flags: lost.
+
 - _identity_:
   - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
   - [shelfmarks](https://github.com/vedph/cadmus-codicology/blob/master/docs/cod-shelfmarks.md)
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
-  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`carrier`
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`carrier`: this 
 - _material_:
   - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
@@ -162,14 +223,7 @@ For epigram version the group ID is the epigram's EID.
   - [token-based text](https://github.com/vedph/cadmus-general/blob/master/docs/token-text.md)
   - [apparatus layer](https://github.com/vedph/cadmus-philology/blob/master/docs/fr.apparatus.md)
   - [comment layer](https://github.com/vedph/cadmus-general/blob/master/docs/fr.comment.md)
-  - `hands` (GVE):
-    - `hands` (`GveHand[]`):
-      - `eid` (`string`)
-      - `ownerId` (`AssertedCompositeId`)
-      - `tag` (`string` 📚 `gve-hand-tags`)
-      - `tool` (`string` 📚 `gve-hand-tools`)
-      - `color` (`string` 📚 `gve-hand-colors`)
-      - `notes` (dictionary of strings)
+  - [hands](#hands-part) (GVE)
 - _history_:
   - [historical dates](https://github.com/vedph/cadmus-general/blob/master/docs/asserted-historical-dates.md)
   - [historical events](https://github.com/vedph/cadmus-general/blob/master/docs/historical-events.md)
