@@ -176,7 +176,9 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 - complete
 - revised
 - undisclosed
-- lost
+- lost (for carriers and possibly others)
+
+>We can use a flag for `lost` because this allows browsing and filtering carrier items according to these types at a glance (`lost` being something no longer existing, this is a capital distinction to be made), and because this is a single, binary feature for which a categories part would be too much. Also, a `lost` flag might possibly apply to other items, too.
 
 #### Snapshot
 
@@ -202,6 +204,33 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
   - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
 
+Categories thesauri:
+
+- 📚 `categories_content`:
+  - copy type:
+    - rough (Rohfassung)
+    - clean (Reinschrift)
+    - print (Druck): we could put this here because it can't be a flag, as it applies only to carriers; and in a sense it could be aligned to these other types which tend to be mutually exclusive.
+  - language:
+    - German (Deutsch)
+    - Italian (Italienisch)
+    - Latin (Lateinisch)
+    - Ancient Greek (Altgriechisch)
+  - authorship:
+    - autograph (Autograph)
+    - allograph (Allograph)
+  - numbering:
+    - pagination (Paginierung)
+    - foliation (Folierung)
+  - margins (Ränder):
+    - cropped (beschnitten)
+    - torn (gerissen)
+  - writing material (Schreibmaterial):
+    - ink 1 (Tinte 1)
+    - ink 2 (Tinte 2)
+    - pencil (Bleistift)
+    - red chalk (Rötel)
+
 #### Carrier
 
 - flags: lost.
@@ -214,10 +243,10 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 - _material_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`: branches for:
     - format (quarto)
-    - materials
+    - materials (loose materials, folded materials, bound materials...)
     - paper type
     - paper colors
-  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md)
+  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md); default size `mm`.
   - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`text`: branches for:
@@ -230,6 +259,39 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 - _editorial_:
   - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+Categories thesauri:
+
+- 📚 `categories_support`:
+  - format (Format):
+    - quarto (Quarto)
+  - loose materials (Loses Material)
+    - sheet (Blatt)
+    - cut-out/clipping (Blattausschnitt)
+  - folded materials (Gefaltetes Material)
+  - bound materials (Gebundenes Material):
+    - notebook cover (Heft mit Umschlag)
+    - notebook bound (Heft)
+    - book page (Buchseite)
+  
+- 📚 `categories_text`:
+  - epigram (Epigramm)
+  - epigram collection (Epigrammsammlung)
+  - letter (Brief)
+  - travel journal (Reisetagebuch)
+  - working notebook (Arbeitsheft)
+  - index (Index)
+  - note (Notat)
+  - letter recipients list (Liste Briefempfänger)
+  - calculations (Berechnungen)
+  - sketches (Skizzen)
+  - itinerary (Reiseplan)
+  - scientific descriptions (Naturwissenschaftliche Beschreibung)
+  - list of words (Wörterlisten)
+  - remarks on epigram meter (Bemerkungen zur Metrik)
+  - print (Druck):
+    - literary magazine (Literaturzeitschrift)
+    - edition volume (Editionsband)
 
 #### Epigram Version and Lost Lines
 
