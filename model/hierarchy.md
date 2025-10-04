@@ -173,12 +173,14 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 
 #### Flags
 
-- complete
-- revised
-- undisclosed
+- complete: the item is complete
+- revised: the item has been revised
+- undisclosed: the item is not (or not yet) meant for publishing
 - lost (for carriers and possibly others)
 
 >We can use a flag for `lost` because this allows browsing and filtering carrier items according to these types at a glance (`lost` being something no longer existing, this is a capital distinction to be made), and because this is a single, binary feature for which a categories part would be too much. Also, a `lost` flag might possibly apply to other items, too.
+
+In a publishing flow, where data move from the backend database (edited with Cadmus) to some frontend presentation, there will be rules to determine when an item in the database is to be published: e.g. the item must be complete and not be undisclosed.
 
 #### Snapshot
 
