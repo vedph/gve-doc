@@ -444,7 +444,7 @@ This list currently excludes text-related parts as it is not yet defined whether
 
 #### Operation Features
 
-As for the snapshot features, we can provide me one or more of these definitions:
+As for the snapshot features, we can provide one or more of these definitions:
 
 - a set of feature definitions for **operations metadata**.
 - a set of feature definitions for **operations diplomatic metadata**. Here you put all what refers to color, shape, etc.
