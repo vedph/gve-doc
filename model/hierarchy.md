@@ -475,7 +475,7 @@ So, once we have these definitions say for the diplomatic features, the diplomat
 Here we represent these features using this convention:
 
 ```txt
-- operation features
+- diplomatic features
   - names:
     - clr=color
     - sz=size
