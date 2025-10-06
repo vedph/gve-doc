@@ -20,6 +20,7 @@ nav_order: 5
       - [Collection](#collection)
       - [Parts Matrix](#parts-matrix)
       - [Thesauri List](#thesauri-list)
+      - [Operation Features](#operation-features)
 
 # Entities Hierarchy
 
@@ -173,10 +174,10 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 
 #### Flags
 
-- complete: the item is complete
-- revised: the item has been revised
-- undisclosed: the item is not (or not yet) meant for publishing
-- lost (for carriers and possibly others)
+- `complete`: the item is complete
+- `revised`: the item has been revised
+- `undisclosed`: the item is not (or not yet) meant for publishing
+- `lost` (for carriers and possibly others)
 
 >We can use a flag for `lost` because this allows browsing and filtering carrier items according to these types at a glance (`lost` being something no longer existing, this is a capital distinction to be made), and because this is a single, binary feature for which a categories part would be too much. Also, a `lost` flag might possibly apply to other items, too.
 
@@ -189,6 +190,12 @@ In a publishing flow, where data move from the backend database (edited with Cad
   - [shelfmarks](https://github.com/vedph/cadmus-codicology/blob/master/docs/cod-shelfmarks.md)
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
   - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
+- _material_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`: branches for:
+    - format (quarto)
+    - materials (loose materials, folded materials, bound materials...)
+    - paper type
+    - paper colors
 - _content_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`content`: branches for:
     - copy type (rough, clean)
@@ -205,6 +212,8 @@ In a publishing flow, where data move from the backend database (edited with Cad
 - _editorial_:
   - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+>The proposed page rotation feature (right or left) is a property of the whole support, so it will not be encoded as an [operation feature](#operation-features). If this is only applied to snapshots, we could add it to its metadata or provide a specific categories for the support; anyway it's easier to just add the rotation to the entries of the `categories:support` part, and use it for snapshots only. This will keep all the support properties in the same set, and avoid a full part for just a couple of entries.
 
 Categories thesauri:
 
@@ -233,6 +242,21 @@ Categories thesauri:
     - pencil (Bleistift)
     - red chalk (Rötel)
 
+- 📚 `categories_support`:
+  - format (Format):
+    - quarto (Quarto)
+  - loose materials (Loses Material)
+    - sheet (Blatt)
+    - cut-out/clipping (Blattausschnitt)
+  - folded materials (Gefaltetes Material)
+  - bound materials (Gebundenes Material):
+    - notebook cover (Heft mit Umschlag)
+    - notebook bound (Heft)
+    - book page (Buchseite)
+  - rotation (Drehung): added from snapshot diplomatic properties:
+    - right (Rechtsdrehung)
+    - left (Linksdrehung)
+  
 #### Carrier
 
 - flags: lost.
@@ -243,11 +267,7 @@ Categories thesauri:
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`content`
 - _material_:
-  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`: branches for:
-    - format (quarto)
-    - materials (loose materials, folded materials, bound materials...)
-    - paper type
-    - paper colors
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`
   - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md); default size `mm`.
   - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
@@ -264,19 +284,7 @@ Categories thesauri:
 
 Categories thesauri:
 
-- 📚 `categories_support`:
-  - format (Format):
-    - quarto (Quarto)
-  - loose materials (Loses Material)
-    - sheet (Blatt)
-    - cut-out/clipping (Blattausschnitt)
-  - folded materials (Gefaltetes Material)
-  - bound materials (Gebundenes Material):
-    - notebook cover (Heft mit Umschlag)
-    - notebook bound (Heft)
-    - book page (Buchseite)
-  
-- 📚 `categories_text`:
+ 📚 `categories_text`:
   - epigram (Epigramm)
   - epigram collection (Epigrammsammlung)
   - letter (Brief)
@@ -433,3 +441,48 @@ This list currently excludes text-related parts as it is not yet defined whether
   - 📚 physical-states
   - 📚 physical-state-features
   - 📚 physical-state-reporters
+
+#### Operation Features
+
+As for the snapshot features, we can provide me one or more of these definitions:
+
+- a set of feature definitions for **operations metadata**.
+- a set of feature definitions for **operations diplomatic metadata**. Here you put all what refers to color, shape, etc.
+- a set of feature definitions for **operation visual elements metadata**. If not using SVG descriptions these are not required. The set refers to the SVG elements which build up the graphical representation of a feature, when there is one. For instance, say you are graphically representing a composite stroke where for some reason one red segment crosses one black segment: in this case, you would graphically represent this with 2 SVG line elements, 1 per stroke. Each of these lines could have any number of features attached, like the ink color for that specific line. So, the element feature definitions would be used here.
+
+With _definitions_ I mean that not only you can provide a list of features, but also that for each feature in the list you can either leave its values as an open set, or close them, defining a list of allowed values for that feature.
+
+For instance, say we want to have 2 features, one for color and another for size. Of course, this is totally unrealistic; it's just a fake example providing both an open and a closed set. So, we would define 2 features, each having an ID (in English by convention) and a label (in English, German, or any other language we want), e.g.:
+
+- ID=`clr`, label=`color`
+- ID=`sz`, label=`size`
+
+>On passage, in real-world we do not usually adopt abbreviated IDs like "clr" or "sz"; we use the full name (see [thesauri naming conventions](https://vedph.github.io/cadmus-doc/models/thesauri.html#naming-conventions)), "color" and "size", unless this is too long. Here I'm just using these abbreviations so we can easily differentiate between IDs and values in the example.
+
+Now, say that the size is free, as we want to enter a free measurement here; while the color is limited to a set including only red, green, blue. This means that we will include a "dictionary" of available colors for the feature with the ID=`clr`, while providing nothing for the other one (`sz`):
+
+- `clr`:
+  - ID=`r`, label=`red`
+  - ID=`g`, label=`green`
+  - ID=`b`, label=`blue`
+
+So, once we have these definitions say for the diplomatic features, the diplomatic features UI will behave as follows:
+
+- the list of features is a closed set, a dropdown list with only "color" and "size";
+- when you pick "color", the value is a dropdown list too, with only "red", "green", "blue";
+- when you pick "size", the value is a textbox where you are free to type.
+
+Here we represent these features using this convention:
+
+```txt
+- operation features
+  - names:
+    - clr=color
+    - sz=size
+  - values:
+    - clr:r=red
+    - clr:g=green
+    - clr:b=blue
+```
+
+This represents a single definition set, in a specific language; just replicate this structure to cover more languages.
