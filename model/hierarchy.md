@@ -439,6 +439,13 @@ This list currently excludes text-related parts as it is not yet defined whether
 - shelfmarks:
   - 📚 cod-shelfmark-tags
   - 📚 cod-shelfmark-libraries
+- snapshot:
+  - 📚 snapshot-feat-names
+  - 📚 snapshot-feat-values
+  - 📚 snapshot-efeat-names
+  - 📚 snapshot-efeat-values
+  - 📚 snapshot-dfeat-names
+  - 📚 snapshot-dfeat-values
 - states:
   - 📚 physical-states
   - 📚 physical-state-features
