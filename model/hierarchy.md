@@ -285,23 +285,24 @@ Categories thesauri:
 Categories thesauri:
 
  📚 `categories_text`:
-  - epigram (Epigramm)
-  - epigram collection (Epigrammsammlung)
-  - letter (Brief)
-  - travel journal (Reisetagebuch)
-  - working notebook (Arbeitsheft)
-  - index (Index)
-  - note (Notat)
-  - letter recipients list (Liste Briefempfänger)
-  - calculations (Berechnungen)
-  - sketches (Skizzen)
-  - itinerary (Reiseplan)
-  - scientific descriptions (Naturwissenschaftliche Beschreibung)
-  - list of words (Wörterlisten)
-  - remarks on epigram meter (Bemerkungen zur Metrik)
-  - print (Druck):
-    - literary magazine (Literaturzeitschrift)
-    - edition volume (Editionsband)
+
+- epigram (Epigramm)
+- epigram collection (Epigrammsammlung)
+- letter (Brief)
+- travel journal (Reisetagebuch)
+- working notebook (Arbeitsheft)
+- index (Index)
+- note (Notat)
+- letter recipients list (Liste Briefempfänger)
+- calculations (Berechnungen)
+- sketches (Skizzen)
+- itinerary (Reiseplan)
+- scientific descriptions (Naturwissenschaftliche Beschreibung)
+- list of words (Wörterlisten)
+- remarks on epigram meter (Bemerkungen zur Metrik)
+- print (Druck):
+  - literary magazine (Literaturzeitschrift)
+  - edition volume (Editionsband)
 
 #### Epigram Version and Lost Lines
 
