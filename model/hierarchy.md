@@ -486,3 +486,60 @@ Here we represent these features using this convention:
 ```
 
 This represents a single definition set, in a specific language; just replicate this structure to cover more languages.
+
+- diplomatic features:
+  - names:
+    - epigram-nr=epigram number
+    - page-nr=page number
+    - position=position
+    - shape=shape
+    - scope=scope
+    - color=color
+  - values:
+    - position:baseline=baseline
+    - position:above=interlinear above
+    - position:below=interlinear below
+    - position:outer-top=outside at top
+    - position:outer-bottom=outside at bottom
+    - position:outer-left=outside at left
+    - position:outer-right=outside at right
+    - shape:line-hrz=horizontal straight line
+    - shape:line-ne=diagonal up line
+    - shape:line-se=dialong down line
+    - shape:line-vrt=vertical straight line
+    - shape:line-hrz-2=horizontal double straight line
+    - shape:scrape=scraped off
+    - shape:erasure=erased
+    - shape:underline=underline
+    - shape:underline-dot=dotted underline
+    - shape:underline-2=double underline
+    - shape:scribble=scribble
+    - shape:dot=dot
+    - shape:check=check mark
+    - shape:circle-dot=circle with dot
+    - shape:curve=curved line
+    - shape:curly-90=curly brace rotated down
+    - shape:nb=notabene
+    - shape:cross=cross
+    - scope:comma=comma
+    - scope:question-upper=upper part question mark
+    - scope:exclam-upper=upper part exclamation mark
+    - scope:period=period
+    - scope:letter=letter
+    - scope:word=word
+    - scope:line=line
+    - scope:line-2=two lines
+    - scope:line-3=three lines
+    - scope:epigram=entire epigram
+    - color:black=black
+    - color:dark-brown=dark brown
+    - color:orange=orange
+    - color:light-orange=light orange
+    - color:red=red
+
+Notes:
+
+- epigram and page numbers are open sets (you enter the number), so they have no entries in `values`.
+- the outer position might also be more granular e.g. using `nw`, `n`, `ne`, instead of just `top`, and the like for all the other "directions".
+- I am not sure about "illegible" for shape. This is the shape of the sign used to represent a correction.
+- I am not sure about "upper" in upper part question/exclamation: it refers to position or sign?
