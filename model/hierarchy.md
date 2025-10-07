@@ -451,6 +451,11 @@ This list currently excludes text-related parts as it is not yet defined whether
   - 📚 physical-state-features
   - 📚 physical-state-reporters
 
+In the _snapshot_ part, thesauri for names and values follow a specific convention:
+
+- `names` are entries where `id`=entry ID and `value`=entry label, as usual in all thesauri. For instance, `id`=`clr` and `value`=`color`.
+- `values` are composite-like entries where `id`=name-id + `:` + value-id and `value`=label. For instance, `id`=`clr:r` and value=`red`. So these entries represent closed sets of values for specific feature names (=the keys in the features map).
+
 #### Operation Features
 
 As for the snapshot features, we can provide one or more of these definitions:
