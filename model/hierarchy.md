@@ -179,7 +179,7 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 - `undisclosed`: the item is not (or not yet) meant for publishing
 - `lost` (for carriers and possibly others)
 
->We can use a flag for `lost` because this allows browsing and filtering carrier items according to these types at a glance (`lost` being something no longer existing, this is a capital distinction to be made), and because this is a single, binary feature for which a categories part would be too much. Also, a `lost` flag might possibly apply to other items, too.
+> We can use a flag for `lost` because this allows browsing and filtering carrier items according to these types at a glance (`lost` being something no longer existing, this is a capital distinction to be made), and because this is a single, binary feature for which a categories part would be too much. Also, a `lost` flag might possibly apply to other items, too.
 
 In a publishing flow, where data move from the backend database (edited with Cadmus) to some frontend presentation, there will be rules to determine when an item in the database is to be published: e.g. the item must be complete and not be undisclosed.
 
@@ -213,11 +213,12 @@ In a publishing flow, where data move from the backend database (edited with Cad
   - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
 
->The proposed page rotation feature (right or left) is a property of the whole support, so it will not be encoded as an [operation feature](#operation-features). If this is only applied to snapshots, we could add it to its metadata or provide a specific categories for the support; anyway it's easier to just add the rotation to the entries of the `categories:support` part, and use it for snapshots only. This will keep all the support properties in the same set, and avoid a full part for just a couple of entries.
+> The proposed page rotation feature (right or left) is a property of the whole support, so it will not be encoded as an [operation feature](#operation-features). If this is only applied to snapshots, we could add it to its metadata or provide a specific categories for the support; anyway it's easier to just add the rotation to the entries of the `categories:support` part, and use it for snapshots only. This will keep all the support properties in the same set, and avoid a full part for just a couple of entries.
 
 Categories thesauri:
 
 - 📚 `categories_content`:
+
   - copy type:
     - rough (Rohfassung)
     - clean (Reinschrift)
@@ -256,7 +257,7 @@ Categories thesauri:
   - rotation (Drehung): added from snapshot diplomatic properties:
     - right (Rechtsdrehung)
     - left (Linksdrehung)
-  
+
 #### Carrier
 
 - flags: lost.
@@ -284,7 +285,7 @@ Categories thesauri:
 
 Categories thesauri:
 
- 📚 `categories_text`:
+📚 `categories_text`:
 
 - epigram (Epigramm)
 - epigram collection (Epigrammsammlung)
@@ -356,25 +357,25 @@ For epigram version the group ID is the epigram's EID.
 
 #### Parts Matrix
 
-| part         | snapshot | carrier              | version | lines  | epigram | collection |
-| ------------ | -------- | -------------------- | ------- | ------ | ------- | ---------- |
-| categories   | content  | content support text | topic   | topic  | topic   | seq        |
-| comment      | X        | X                    |         |        | X       | X          |
-| dates        | X        | X                    | X       | X      |         |            |
-| events       |          |                      | X       | X      |         |            |
-| external IDs | X        | X                    |         |        | X       | X          |
-| flags        |          |                      | text    | text   |         |            |
-| hands (GVE)  |          |                      | X       | X      |         |            |
-| links        | X        |                      | X auth  | X auth |         | X          |
-| measurements |          | X                    |         |        |         |            |
-| metadata     | X        | X                    | X       | X      | X       | X          |
-| note         | X        | X hist               | X hist  | X hist | X       | X          |
-| references   | X        | X                    | X       |        | X       | X          |
-| shelfmarks   | X        | X                    |         |        |         |            |
-| states       |          | X                    | X       | X      |         |            |
-| text         |          |                      | X       | X      |         |            |
-| apparatus=   |          |                      | X       | X      |         |            |
-| comment=     |          |                      | X       | X      |         |            |
+| part         | snapshot        | carrier              | version | lines  | epigram | collection |
+| ------------ | --------------- | -------------------- | ------- | ------ | ------- | ---------- |
+| categories   | content support | content support text | topic   | topic  | topic   | seq        |
+| comment      | X               | X                    |         |        | X       | X          |
+| dates        | X               | X                    | X       | X      |         |            |
+| events       |                 |                      | X       | X      |         |            |
+| external IDs | X               | X                    |         |        | X       | X          |
+| flags        |                 |                      | text    | text   |         |            |
+| hands (GVE)  |                 |                      | X       | X      |         |            |
+| links        | X               |                      | X auth  | X auth |         | X          |
+| measurements |                 | X                    |         |        |         |            |
+| metadata     | X               | X                    | X       | X      | X       | X          |
+| note         | X               | X hist               | X hist  | X hist | X       | X          |
+| references   | X               | X                    | X       |        | X       | X          |
+| shelfmarks   | X               | X                    |         |        |         |            |
+| states       |                 | X                    | X       | X      |         |            |
+| text         |                 |                      | X       | X      |         |            |
+| apparatus=   |                 |                      | X       | X      |         |            |
+| comment=     |                 |                      | X       | X      |         |            |
 
 #### Thesauri List
 
@@ -458,7 +459,7 @@ For instance, say we want to have 2 features, one for color and another for size
 - ID=`clr`, label=`color`
 - ID=`sz`, label=`size`
 
->On passage, in real-world we do not usually adopt abbreviated IDs like "clr" or "sz"; we use the full name (see [thesauri naming conventions](https://vedph.github.io/cadmus-doc/models/thesauri.html#naming-conventions)), "color" and "size", unless this is too long. Here I'm just using these abbreviations so we can easily differentiate between IDs and values in the example.
+> On passage, in real-world we do not usually adopt abbreviated IDs like "clr" or "sz"; we use the full name (see [thesauri naming conventions](https://vedph.github.io/cadmus-doc/models/thesauri.html#naming-conventions)), "color" and "size", unless this is too long. Here I'm just using these abbreviations so we can easily differentiate between IDs and values in the example.
 
 Now, say that the size is free, as we want to enter a free measurement here; while the color is limited to a set including only red, green, blue. This means that we will include a "dictionary" of available colors for the feature with the ID=`clr`, while providing nothing for the other one (`sz`):
 
