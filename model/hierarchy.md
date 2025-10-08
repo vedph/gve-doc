@@ -161,12 +161,21 @@ See [code](https://github.com/vedph/gve-core/blob/master/Cadmus.Gve.Parts/GveSna
 #### Hands Part
 
 - `hands` (`GveHand[]`):
-  - `eid` (`string`)
+  - `eid` (`string` 📚 `gve-hand-eids`): the thesaurus is used when you do not need to link the owner ID and have just a closed list, like here.
   - `ownerId` (`AssertedCompositeId`)
   - `tag` (`string` 📚 `gve-hand-tags`)
   - `tool` (`string` 📚 `gve-hand-tools`)
   - `color` (`string` 📚 `gve-hand-colors`)
   - `notes` (dictionary of strings)
+
+Thesauri:
+
+- 📚 `gve-hand-eids`:
+  - schlegel=Schlegel
+  - schiller=Schiller
+  - geist=Geist
+  - riemer=Riemer
+  - unknown=unknown
 
 ### Items
 
