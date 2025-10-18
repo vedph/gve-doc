@@ -1,0 +1,1332 @@
+{
+  "result": {
+    "steps": [
+      {
+        "operation": {
+          "id": "c705f7c65a",
+          "rank": 0,
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "delete Z",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "reason",
+              "value": "don't like Z",
+              "setPolicy": 0
+            }
+          ],
+          "sources": [],
+          "diplomatics": {
+            "g": "<g id=\"del-z\"><line x1=\"64\" y1=\"170\" x2=\"88\" y2=\"100\" stroke=\"red\" stroke-width=\"6\"/></g>",
+            "isNewTextHidden": false
+          }
+        },
+        "inputTag": "v0",
+        "outputTag": "v1",
+        "result": "ARDC",
+        "featureSet": {
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "delete Z",
+              "setPolicy": 0
+            }
+          ],
+          "nodeFeatures": {
+            "v1_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ]
+          }
+        },
+        "refNodeIds": [3]
+      },
+      {
+        "operation": {
+          "id": "66aed192fc",
+          "rank": 0,
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace R with V",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": true,
+              "name": "version",
+              "value": "alpha",
+              "setPolicy": 1
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "x",
+              "value": "48",
+              "setPolicy": 1
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "y",
+              "value": "65",
+              "setPolicy": 1
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "style",
+              "value": "font-size:36px;fill:gray",
+              "setPolicy": 1
+            }
+          ],
+          "sources": [],
+          "diplomatics": {
+            "g": "<g id=\"rep-RV\"><line x1=\"44\" y1=\"170\" x2=\"56\" y2=\"96\" stroke=\"gray\" stroke-width=\"6\"/></g>",
+            "isNewTextHidden": false
+          }
+        },
+        "inputTag": "v1",
+        "outputTag": "v2",
+        "result": "AVDC",
+        "featureSet": {
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "delete Z",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace R with V",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": true,
+              "name": "version",
+              "value": "alpha",
+              "setPolicy": 1
+            }
+          ],
+          "nodeFeatures": {
+            "v1_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v2_6": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "66aed192fc",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "48",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "65",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:gray",
+                "setPolicy": 1
+              }
+            ],
+            "v2_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ]
+          }
+        },
+        "refNodeIds": [2]
+      },
+      {
+        "operation": {
+          "id": "e5610844bd",
+          "rank": 0,
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace V with B",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "reason",
+              "value": "like B",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "x",
+              "value": "74",
+              "setPolicy": 1
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "y",
+              "value": "70",
+              "setPolicy": 1
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "style",
+              "value": "font-size:36px;fill:orange",
+              "setPolicy": 1
+            }
+          ],
+          "sources": [],
+          "diplomatics": {
+            "g": "<g id=\"rep-VB\"><line x1=\"44\" y1=\"64\" x2=\"72\" y2=\"80\" stroke=\"orange\" stroke-width=\"6\"/></g>",
+            "isNewTextHidden": false
+          }
+        },
+        "inputTag": "v2",
+        "outputTag": "v3",
+        "result": "ABDC",
+        "featureSet": {
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "delete Z",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace R with V",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace V with B",
+              "setPolicy": 0
+            }
+          ],
+          "nodeFeatures": {
+            "v1_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v2_6": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "66aed192fc",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "48",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "65",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:gray",
+                "setPolicy": 1
+              }
+            ],
+            "v2_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v3_7": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "e5610844bd",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "like B",
+                "setPolicy": 0
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "74",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "70",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:orange",
+                "setPolicy": 1
+              }
+            ],
+            "v3_6": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "66aed192fc",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "48",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "65",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:gray",
+                "setPolicy": 1
+              }
+            ],
+            "v3_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ]
+          }
+        },
+        "refNodeIds": [6]
+      },
+      {
+        "operation": {
+          "id": "503c1e3a94",
+          "rank": 0,
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace R with P",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": true,
+              "name": "version",
+              "value": "beta",
+              "setPolicy": 1
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "x",
+              "value": "24",
+              "setPolicy": 1
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "y",
+              "value": "18",
+              "setPolicy": 1
+            },
+            {
+              "isNegated": false,
+              "isGlobal": false,
+              "isShortLived": false,
+              "name": "style",
+              "value": "font-size:36px;fill:blue",
+              "setPolicy": 1
+            }
+          ],
+          "sources": [],
+          "diplomatics": {
+            "g": "<g id=\"rep-RP\"><line x1=\"56\" y1=\"96\" x2=\"32\" y2=\"52\" stroke=\"blue\" stroke-width=\"6\"/></g>",
+            "isNewTextHidden": false
+          }
+        },
+        "inputTag": "v1",
+        "outputTag": "v4",
+        "result": "APDC",
+        "featureSet": {
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "delete Z",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace R with V",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace V with B",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace R with P",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": true,
+              "name": "version",
+              "value": "beta",
+              "setPolicy": 1
+            }
+          ],
+          "nodeFeatures": {
+            "v1_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v2_6": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "66aed192fc",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "48",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "65",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:gray",
+                "setPolicy": 1
+              }
+            ],
+            "v2_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v3_7": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "e5610844bd",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "like B",
+                "setPolicy": 0
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "74",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "70",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:orange",
+                "setPolicy": 1
+              }
+            ],
+            "v3_6": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "66aed192fc",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "48",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "65",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:gray",
+                "setPolicy": 1
+              }
+            ],
+            "v3_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v4_8": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "503c1e3a94",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "24",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "18",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:blue",
+                "setPolicy": 1
+              }
+            ],
+            "v4_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ]
+          }
+        },
+        "refNodeIds": [2]
+      },
+      {
+        "operation": {
+          "id": "ea8ffab3d4",
+          "rank": 0,
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "swap D and C",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": true,
+              "name": "version",
+              "value": "gamma",
+              "setPolicy": 1
+            }
+          ],
+          "sources": [],
+          "diplomatics": {
+            "g": "<g id=\"swap\"><path style=\"fill:none;stroke:green;stroke-width:3\" d=\"M 140,160 A 24,8 0 0 2 130,166 24,8 0 0 2 106,156\" /><text x=\"84\" y=\"180\" style=\"font-size:36px\" fill=\"green\">C</text><line x1=\"120\" y1=\"170\" x2=\"160\" y2=\"120\" stroke=\"green\" stroke-width=\"6\"/></g>",
+            "isNewTextHidden": false
+          }
+        },
+        "inputTag": "v3",
+        "outputTag": "v5",
+        "result": "ABCD",
+        "featureSet": {
+          "features": [
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "delete Z",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace R with V",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace V with B",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "replace R with P",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": false,
+              "name": "log",
+              "value": "swap D and C",
+              "setPolicy": 0
+            },
+            {
+              "isNegated": false,
+              "isGlobal": true,
+              "isShortLived": true,
+              "name": "version",
+              "value": "gamma",
+              "setPolicy": 1
+            }
+          ],
+          "nodeFeatures": {
+            "v1_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v2_6": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "66aed192fc",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "48",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "65",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:gray",
+                "setPolicy": 1
+              }
+            ],
+            "v2_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v3_7": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "e5610844bd",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "like B",
+                "setPolicy": 0
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "74",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "70",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:orange",
+                "setPolicy": 1
+              }
+            ],
+            "v3_6": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "66aed192fc",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "48",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "65",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:gray",
+                "setPolicy": 1
+              }
+            ],
+            "v3_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v4_8": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "503c1e3a94",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "24",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "18",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:blue",
+                "setPolicy": 1
+              }
+            ],
+            "v4_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ],
+            "v5_7": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "e5610844bd",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "like B",
+                "setPolicy": 0
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "74",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "70",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:orange",
+                "setPolicy": 1
+              }
+            ],
+            "v5_6": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "opid",
+                "value": "66aed192fc",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "x",
+                "value": "48",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "y",
+                "value": "65",
+                "setPolicy": 1
+              },
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "style",
+                "value": "font-size:36px;fill:gray",
+                "setPolicy": 1
+              }
+            ],
+            "v5_3": [
+              {
+                "isNegated": false,
+                "isGlobal": false,
+                "isShortLived": false,
+                "name": "reason",
+                "value": "don't like Z",
+                "setPolicy": 0
+              }
+            ]
+          }
+        },
+        "refNodeIds": [4]
+      }
+    ],
+    "chainDump": ": \r\nv0: ARZDC\r\nv1: ARDC\r\nv2: AVDC\r\nv3: ABDC\r\nv4: APDC\r\nv5: ABCD\r\n",
+    "chainTags": ["", "v0", "v1", "v2", "v3", "v4", "v5"],
+    "taggedNodes": {
+      "v1": [
+        {
+          "id": 1,
+          "index": 0,
+          "label": "A",
+          "data": "A",
+          "sourceTag": ""
+        },
+        {
+          "id": 2,
+          "index": 1,
+          "label": "R",
+          "data": "R",
+          "sourceTag": ""
+        },
+        {
+          "id": 4,
+          "index": 2,
+          "label": "D",
+          "data": "D",
+          "sourceTag": ""
+        },
+        {
+          "id": 5,
+          "index": 3,
+          "label": "C",
+          "data": "C",
+          "sourceTag": ""
+        }
+      ],
+      "v2": [
+        {
+          "id": 1,
+          "index": 0,
+          "label": "A",
+          "data": "A",
+          "sourceTag": ""
+        },
+        {
+          "id": 6,
+          "index": 1,
+          "label": "V",
+          "data": "V",
+          "sourceTag": "v2",
+          "features": [
+            {
+              "name": "opid",
+              "value": "66aed192fc",
+              "setPolicy": 1
+            },
+            {
+              "name": "x",
+              "value": "48",
+              "setPolicy": 1
+            },
+            {
+              "name": "y",
+              "value": "65",
+              "setPolicy": 1
+            },
+            {
+              "name": "style",
+              "value": "font-size:36px;fill:gray",
+              "setPolicy": 1
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "index": 2,
+          "label": "D",
+          "data": "D",
+          "sourceTag": ""
+        },
+        {
+          "id": 5,
+          "index": 3,
+          "label": "C",
+          "data": "C",
+          "sourceTag": ""
+        }
+      ],
+      "v3": [
+        {
+          "id": 1,
+          "index": 0,
+          "label": "A",
+          "data": "A",
+          "sourceTag": ""
+        },
+        {
+          "id": 7,
+          "index": 1,
+          "label": "B",
+          "data": "B",
+          "sourceTag": "v3",
+          "features": [
+            {
+              "name": "opid",
+              "value": "e5610844bd",
+              "setPolicy": 1
+            },
+            {
+              "name": "reason",
+              "value": "like B",
+              "setPolicy": 0
+            },
+            {
+              "name": "x",
+              "value": "74",
+              "setPolicy": 1
+            },
+            {
+              "name": "y",
+              "value": "70",
+              "setPolicy": 1
+            },
+            {
+              "name": "style",
+              "value": "font-size:36px;fill:orange",
+              "setPolicy": 1
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "index": 2,
+          "label": "D",
+          "data": "D",
+          "sourceTag": ""
+        },
+        {
+          "id": 5,
+          "index": 3,
+          "label": "C",
+          "data": "C",
+          "sourceTag": ""
+        }
+      ],
+      "v4": [
+        {
+          "id": 1,
+          "index": 0,
+          "label": "A",
+          "data": "A",
+          "sourceTag": ""
+        },
+        {
+          "id": 8,
+          "index": 1,
+          "label": "P",
+          "data": "P",
+          "sourceTag": "v4",
+          "features": [
+            {
+              "name": "opid",
+              "value": "503c1e3a94",
+              "setPolicy": 1
+            },
+            {
+              "name": "x",
+              "value": "24",
+              "setPolicy": 1
+            },
+            {
+              "name": "y",
+              "value": "18",
+              "setPolicy": 1
+            },
+            {
+              "name": "style",
+              "value": "font-size:36px;fill:blue",
+              "setPolicy": 1
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "index": 2,
+          "label": "D",
+          "data": "D",
+          "sourceTag": ""
+        },
+        {
+          "id": 5,
+          "index": 3,
+          "label": "C",
+          "data": "C",
+          "sourceTag": ""
+        }
+      ],
+      "v5": [
+        {
+          "id": 1,
+          "index": 0,
+          "label": "A",
+          "data": "A",
+          "sourceTag": ""
+        },
+        {
+          "id": 7,
+          "index": 1,
+          "label": "B",
+          "data": "B",
+          "sourceTag": "v3",
+          "features": [
+            {
+              "name": "reason",
+              "value": "like B",
+              "setPolicy": 0
+            },
+            {
+              "name": "opid",
+              "value": "e5610844bd",
+              "setPolicy": 1
+            },
+            {
+              "name": "reason",
+              "value": "like B",
+              "setPolicy": 0
+            },
+            {
+              "name": "x",
+              "value": "74",
+              "setPolicy": 1
+            },
+            {
+              "name": "y",
+              "value": "70",
+              "setPolicy": 1
+            },
+            {
+              "name": "style",
+              "value": "font-size:36px;fill:orange",
+              "setPolicy": 1
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "index": 2,
+          "label": "C",
+          "data": "C",
+          "sourceTag": ""
+        },
+        {
+          "id": 4,
+          "index": 3,
+          "label": "D",
+          "data": "D",
+          "sourceTag": ""
+        }
+      ]
+    }
+  }
+}

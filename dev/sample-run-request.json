@@ -1,0 +1,251 @@
+{
+  "text": [
+    {
+      "id": 1,
+      "label": "A",
+      "index": 0,
+      "data": "A"
+    },
+    {
+      "id": 2,
+      "label": "R",
+      "index": 1,
+      "data": "R"
+    },
+    {
+      "id": 3,
+      "label": "Z",
+      "index": 2,
+      "data": "Z"
+    },
+    {
+      "id": 4,
+      "label": "D",
+      "index": 3,
+      "data": "D"
+    },
+    {
+      "id": 5,
+      "label": "C",
+      "index": 4,
+      "data": "C"
+    }
+  ],
+  "operations": [
+    {
+      "rank": 0,
+      "features": [
+        {
+          "isNegated": false,
+          "isGlobal": true,
+          "isShortLived": false,
+          "name": "log",
+          "value": "delete Z",
+          "setPolicy": 0
+        },
+        {
+          "isNegated": false,
+          "isGlobal": false,
+          "isShortLived": false,
+          "name": "reason",
+          "value": "don't like Z",
+          "setPolicy": 0
+        }
+      ],
+      "sources": [],
+      "id": "c705f7c65a",
+      "type": 1,
+      "atAsIndex": false,
+      "at": 3,
+      "run": 1,
+      "toAsIndex": false,
+      "to": 0,
+      "toRun": 0,
+      "diplomatics": {
+        "g": "<g id=\"del-z\"><line x1=\"64\" y1=\"170\" x2=\"88\" y2=\"100\" stroke=\"red\" stroke-width=\"6\"/></g>"
+      }
+    },
+    {
+      "rank": 0,
+      "features": [
+        {
+          "isNegated": false,
+          "isGlobal": true,
+          "isShortLived": false,
+          "name": "log",
+          "value": "replace R with V",
+          "setPolicy": 0
+        },
+        {
+          "isNegated": false,
+          "isGlobal": true,
+          "isShortLived": true,
+          "name": "version",
+          "value": "alpha",
+          "setPolicy": 1
+        },
+        {
+          "name": "x",
+          "value": "48",
+          "setPolicy": 1
+        },
+        {
+          "name": "y",
+          "value": "65",
+          "setPolicy": 1
+        },
+        {
+          "name": "style",
+          "value": "font-size:36px;fill:gray",
+          "setPolicy": 1
+        }
+      ],
+      "sources": [],
+      "id": "66aed192fc",
+      "type": 0,
+      "atAsIndex": false,
+      "at": 2,
+      "run": 1,
+      "toAsIndex": false,
+      "to": 0,
+      "toRun": 0,
+      "value": "V",
+      "diplomatics": {
+        "g": "<g id=\"rep-RV\"><line x1=\"44\" y1=\"170\" x2=\"56\" y2=\"96\" stroke=\"gray\" stroke-width=\"6\"/></g>"
+      }
+    },
+    {
+      "rank": 0,
+      "features": [
+        {
+          "isNegated": false,
+          "isGlobal": true,
+          "isShortLived": false,
+          "name": "log",
+          "value": "replace V with B",
+          "setPolicy": 0
+        },
+        {
+          "isNegated": false,
+          "isGlobal": false,
+          "isShortLived": false,
+          "name": "reason",
+          "value": "like B",
+          "setPolicy": 0
+        },
+        {
+          "name": "x",
+          "value": "74",
+          "setPolicy": 1
+        },
+        {
+          "name": "y",
+          "value": "70",
+          "setPolicy": 1
+        },
+        {
+          "name": "style",
+          "value": "font-size:36px;fill:orange",
+          "setPolicy": 1
+        }
+      ],
+      "sources": [],
+      "id": "e5610844bd",
+      "type": 0,
+      "atAsIndex": false,
+      "at": 6,
+      "run": 1,
+      "toAsIndex": false,
+      "to": 0,
+      "toRun": 0,
+      "value": "B",
+      "diplomatics": {
+        "g": "<g id=\"rep-VB\"><line x1=\"44\" y1=\"64\" x2=\"72\" y2=\"80\" stroke=\"orange\" stroke-width=\"6\"/></g>"
+      }
+    },
+    {
+      "rank": 0,
+      "features": [
+        {
+          "isNegated": false,
+          "isGlobal": true,
+          "isShortLived": false,
+          "name": "log",
+          "value": "replace R with P",
+          "setPolicy": 0
+        },
+        {
+          "isNegated": false,
+          "isGlobal": true,
+          "isShortLived": true,
+          "name": "version",
+          "value": "beta",
+          "setPolicy": 1
+        },
+        {
+          "name": "x",
+          "value": "24",
+          "setPolicy": 1
+        },
+        {
+          "name": "y",
+          "value": "18",
+          "setPolicy": 1
+        },
+        {
+          "name": "style",
+          "value": "font-size:36px;fill:blue",
+          "setPolicy": 1
+        }
+      ],
+      "sources": [],
+      "id": "503c1e3a94",
+      "type": 0,
+      "inputTag": "v1",
+      "atAsIndex": false,
+      "at": 2,
+      "run": 1,
+      "toAsIndex": false,
+      "to": 0,
+      "toRun": 0,
+      "value": "P",
+      "diplomatics": {
+        "g": "<g id=\"rep-RP\"><line x1=\"56\" y1=\"96\" x2=\"32\" y2=\"52\" stroke=\"blue\" stroke-width=\"6\"/></g>"
+      }
+    },
+    {
+      "rank": 0,
+      "features": [
+        {
+          "isNegated": false,
+          "isGlobal": true,
+          "isShortLived": false,
+          "name": "log",
+          "value": "swap D with C",
+          "setPolicy": 0
+        },
+        {
+          "isNegated": false,
+          "isGlobal": true,
+          "isShortLived": true,
+          "name": "version",
+          "value": "gamma",
+          "setPolicy": 1
+        }
+      ],
+      "sources": [],
+      "id": "ea8ffab3d4",
+      "type": 6,
+      "inputTag": "v3",
+      "atAsIndex": false,
+      "at": 4,
+      "run": 1,
+      "toAsIndex": false,
+      "to": 5,
+      "toRun": 1,
+      "diplomatics": {
+        "g": "<g id=\"swap\"><path style=\"fill:none;stroke:green;stroke-width:3\" d=\"M 140,160 A 24,8 0 0 2 130,166 24,8 0 0 2 106,156\" /><text x=\"84\" y=\"180\" style=\"font-size:36px\" fill=\"green\">C</text><line x1=\"120\" y1=\"170\" x2=\"160\" y2=\"120\" stroke=\"green\" stroke-width=\"6\"/></g>"
+      }
+    }
+  ]
+}
