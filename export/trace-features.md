@@ -89,7 +89,7 @@ Currently there are these types of trace features:
   - `$opid` for `Y`
   - `$seg-out` for `Y`
 
-## Move Before/After
+### Move Before/After
 
 - input: the segment to be moved; also, the anchor node gets an anchor feature.
 - output: the added segment nodes.
@@ -101,7 +101,7 @@ Currently there are these types of trace features:
 - `v1`:
   - `$anchor` for `C`
 
-## Swap
+### Swap
 
 - input: the segments to be swapped: one in `seg-in` and another in `seg2-in`.
 - output: the swapped segments: one in `seg-out` and another in `seg2-out`.
@@ -115,7 +115,7 @@ Currently there are these types of trace features:
   - `$seg2-out` for `AR`
   - `$seg2-out` for `DC`
 
-## Annotate
+### Annotate
 
 - input: the segment to annotate.
 - output: the segment annotated. This is equal to the input segment.
