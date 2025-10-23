@@ -34,11 +34,9 @@ The main code repositories are:
 
 The GVE backend essentially consists of the snapshot model and its core chain data structure. The only language used for backend is C#.
 
-The technical documentation about these components is temporarily located at <http://www.fusisoft.it/docs/gve/index.html>. The [full reference](http://www.fusisoft.it/docs/gve/api/Cadmus.Gve.Parts.html) can be found there, while the conceptual documentation has been included and refactored in this site.
-
 ### Backend Core
 
-The core GVE components are hosted in a single C# library, [Gve Text](http://www.fusisoft.it/docs/gve/api/Gve.Text.html), which has no dependencies on any project-specific component.
+The core GVE components are hosted in a single C# library, `Gve Text`, which has no dependencies on any project-specific component.
 
 All the other backend components essentially are infrastructure.
 
@@ -46,17 +44,17 @@ All the other backend components essentially are infrastructure.
 
 These components provide infrastructure for the GVE shell frontend, used to develop and test the frontend snapshot editor components, and the GVE chain demo.
 
-- [GVE shell API](http://www.fusisoft.it/docs/gve/api/Gve.Api.html): API endpoints for the GVE shell frontend. This frontend is a web UI used to develop and test GVE frontend components used in the snapshot editor. The backend API provide chain transformation functionality.
-- [GVE demo app](http://www.fusisoft.it/docs/gve/api/Gve.Demo.html): a Blazor web application used for playing with the chain data structure. Using Blazor allows to directly access the C# core without an intermediate API layer.
+- [GVE demo app](https://gve-demo.fusi-soft.com/): a Blazor web application used for playing with the chain data structure. Using Blazor allows to directly access the C# core without an intermediate API layer.
 
 ### Cadmus Infrastructure
 
 These components provide infrastructure for using the GVE model from within [Cadmus](https://myrmex.github.io/overview/cadmus). This allows reusing this modular web-based editor to enter data for the whole edition, including but not limited to the snapshots.
 
-- [Cadmus part for GVE snapshot](http://www.fusisoft.it/docs/gve/api/Cadmus.Gve.Parts.html): a Cadmus part representing a GVE snapshot. Essentially it is just a wrapper for the snapshot in a form usable by the Cadmus editor.
-- [Cadmus part seeders for GVE snapshot](http://www.fusisoft.it/docs/gve/api/Cadmus.Seed.Gve.Parts.html): a mock data seeder for the Cadmus part for GVE snapshot. Usually, every part in Cadmus has a corresponding seeder, which is used to generate mock data to be used in the editor.
-- [Cadmus GVE services](http://www.fusisoft.it/docs/gve/api/Cadmus.Gve.Services.html): services providing the GVE models to the Cadmus infrastructure.
-- [Cadmus GVE API](http://www.fusisoft.it/docs/gve/api/CadmusGveApi.html): API endpoints for the Cadmus GVE editor.
+- core:
+- Cadmus part for GVE snapshot: a Cadmus part representing a GVE snapshot. Essentially it is just a wrapper for the snapshot in a form usable by the Cadmus editor.
+- Cadmus part seeders for GVE snapshot: a mock data seeder for the Cadmus part for GVE snapshot. Usually, every part in Cadmus has a corresponding seeder, which is used to generate mock data to be used in the editor.
+- Cadmus GVE services: services providing the GVE models to the Cadmus infrastructure.
+- Cadmus GVE API: API endpoints for the Cadmus GVE editor.
 
 ## GVE Frontend
 

@@ -102,7 +102,7 @@ We will be using this source text: <http://purl.flvc.org/fsu/fd/FSULearBook_012>
 
 ▶️ 1. open the **snapshot editor** test page from menu `Demo/Snapshot editor`.
 
-▶️ 2. click on the `Image` tab and **add the facsimile image** [limerick.png](http://www.fusisoft.it/xfer/limerick.png) from URL <http://www.fusisoft.it/xfer/limerick.png> as the background image (facsimile) for the snapshot, with these parameters (reset image metadata before picking it and size will be automatically filled: there is a red `X` button for this purpose):
+▶️ 2. click on the `Image` tab and **add the facsimile image** [limerick.png](https://github.com/vedph/gve-doc/blob/main/model/img/limerick.png) from URL <https://github.com/vedph/gve-doc/blob/main/model/img/limerick.png> as the background image (facsimile) for the snapshot, with these parameters (reset image metadata before picking it and size will be automatically filled: there is a red `X` button for this purpose):
 
 - width = 670
 - height = 381
@@ -155,7 +155,7 @@ You can click on each generated version to follow our hypothetical reconstructio
 
 ### Visual Data
 
-Let's show how we can draw visuals on top of a facsimile image. If you want to directly skip to data entry using an already-made image, goto step 6. The first steps show you how to draw on top of your facsimile; for them, you will need to download the [mock facsimile image](http://www.fusisoft.it/xfer/limerick.png).
+Let's show how we can draw visuals on top of a facsimile image. If you want to directly skip to data entry using an already-made image, goto step 6. The first steps show you how to draw on top of your facsimile; for them, you will need to download the [mock facsimile image](https://github.com/vedph/gve-doc/blob/main/model/img/limerick.png).
 
 ▶️ 1. **adjust image size**: open [limerick.png](limerick.png) in any editor like the online [Photopea](https://www.photopea.com/), or the downloadable [Krita](https://krita.org/en), [GIMP](https://www.gimp.org/), etc. Any image editor, even the smaller ones like [Paint.NET](https://www.getpaint.net/index.html), will be enough. Look at the image properties to get its exact pixel size and resolution. It is suggested that you change the resolution to a typical screen based value, like 96. Ensure that this is the image resolution, and save a copy of it. You should now have a 670x381 image with a 96 pixels/inch resolution.
 

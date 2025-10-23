@@ -61,7 +61,7 @@ In the GVE UI, we can just paste this text to get the identifiers assigned to ea
 - Y offset = 40
 - ln h-offset = 26
 
-👉 Finally, we add a **background image** from some URL (e.g. <http://www.fusisoft.it/xfer/limerick.png>), so that we can see the facsimile behind our snapshot. Its parameters are:
+👉 Finally, we add a **background image** from some URL (e.g. <https://github.com/vedph/gve-doc/blob/main/model/img/limerick.png>), so that we can see the facsimile behind our snapshot. Its parameters are:
 
 - width = 670
 - height = 381
