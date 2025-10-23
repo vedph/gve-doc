@@ -102,7 +102,7 @@ We will be using this source text: <http://purl.flvc.org/fsu/fd/FSULearBook_012>
 
 ▶️ 1. open the **snapshot editor** test page from menu `Demo/Snapshot editor`.
 
-▶️ 2. click on the `Image` tab and **add the facsimile image** [limerick.png](https://github.com/vedph/gve-doc/blob/main/model/img/limerick.png) from URL <https://github.com/vedph/gve-doc/blob/main/model/img/limerick.png> as the background image (facsimile) for the snapshot, with these parameters (reset image metadata before picking it and size will be automatically filled: there is a red `X` button for this purpose):
+▶️ 2. click on the `Image` tab and **add the facsimile image** [limerick.png](https://raw.githubusercontent.com/vedph/gve-doc/main/model/img/limerick.png) from URL <https://raw.githubusercontent.com/vedph/gve-doc/main/model/img/limerick.png> as the background image (facsimile) for the snapshot, with these parameters (reset image metadata before picking it and size will be automatically filled: there is a red `X` button for this purpose):
 
 - width = 670
 - height = 381
