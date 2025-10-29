@@ -7,15 +7,21 @@ nav_order: 5
 
 - [Entities Hierarchy](#entities-hierarchy)
   - [Overview](#overview)
+    - [Carriers](#carriers)
+    - [Snapshots](#snapshots)
+    - [Epigram Versions †](#epigram-versions-)
+    - [Epigrams](#epigrams)
+    - [Collections](#collections)
+    - [Sparse Lines](#sparse-lines)
   - [Cadmus for VEdition](#cadmus-for-vedition)
     - [GVE Parts](#gve-parts)
       - [Snapshot Part](#snapshot-part)
       - [Hands Part](#hands-part)
     - [Items](#items)
       - [Flags](#flags)
-      - [Snapshot Item](#snapshot-item)
       - [Carrier Item](#carrier-item)
-      - [Epigram Version Item and Lost Lines Item](#epigram-version-item-and-lost-lines-item)
+      - [Snapshot Item](#snapshot-item)
+      - [Sparse Lines Item](#sparse-lines-item)
       - [Epigram Item](#epigram-item)
       - [Collection Item](#collection-item)
       - [Parts Matrix](#parts-matrix)
@@ -34,13 +40,31 @@ The diagram below summarizes the main entities in this project:
 
 ![alt text](img/entities.png)
 
-Starting from the material side (top of the diagram), everything starts with our **carriers**. A carrier is defined as "the concrete, physical object that contains, among other things, the textual witnesses and is then digitally reproduced and described in the edition". In the diagram we are representing two notebook carriers, named H55 and H54.
+### Carriers
 
-These notebooks contain many texts. In the diagram we focus on a single epigram, which happens to be found in both these notebooks. Each corresponds to a version of the "same" epigram, but even before that, at the lowest level of our model hierarchy there are the [snapshots](textual), a highly structured and computable digital model representing the **textual situation** specific to that carrier. The "textual situation" is defined as "the transmitted sum of all variants of textual versions on a text carrier". The snapshot is not just a container of variations of a text, but a compact model capable of generating all of them with their metadata, via operations which represent the scholars' interpretation of the annotations chaotically scattered on the carrier. As such, it can also be used to animate the history of the making of this specific text across all its supposed stages, as hinted by all the annotations on the carrier. So, when we are interested in getting into the details of autograph texts, a carrier will usually contain multiple snapshots, each referred to a specific text.
+Starting from the material side (top of the diagram), everything starts with our **carriers**. A carrier is defined as "the concrete, physical object that contains, among other things, the textual witnesses and is then digitally reproduced and described in the edition".
 
-At a higher level, typically scholarly critical judgement usually ends up defining a final **epigram version** from each snapshot.
+In the diagram we are representing two notebook carriers, named H55 and H54. So, the first of our entities is the material one, the _carrier_, which will be given all the metadata required to represent it as a physical document preserved in some archive.
 
-Let us provide a less abstract example: the below picture was taken from a spreadsheet collecting all the epigram versions from all the carriers:
+### Snapshots
+
+These notebooks contain many texts. In the diagram we focus on a single epigram, which happens to be found in both these notebooks. At the lowest level, the text in each carrier is represented by a [snapshot](textual), a highly structured and computable digital model representing the **textual situation**, i.e. “the transmitted sum of all variants of textual versions on a text carrier”.
+
+The snapshot is not just a container of variations of a text, but a compact model capable of generating all of them with their metadata, via operations which represent the scholars’ interpretation of the annotations chaotically scattered on the carrier. Also, in addition to the snapshot textual data, we might want to provide more metadata to each text, like e.g. a comprehensive comment, shelfmark numbers, bibliographic references, etc. In this context, the snapshot model would just be a subset of this larger entity representing the textual situations in each carrier. Given that the snapshot model is still at its core, we name this entity _snapshot_ from its most important part.
+
+### Epigram Versions †
+
+Above the snapshot level, in theory one could think of a _single_ text version, defined by scholarly judgment, for each of the textual situations. This might be the **epigram version** layer represented in the diagram.
+
+Yet, in VEdition this is not typically the case; in most texts, the variations are too fluid, and their analysis is often so difficult that thinking about such a reconstructed text would be impossible. So, this layer would probably be discarded; as seen above, additional metadata for the snapshot will still be available at that lower level.
+
+### Epigrams
+
+At a higher level instead, we identify all those snapshots in their respective carriers as variations of the same text. Even though it is not possible to reconstruct this text, nonetheless we will probably want to add more metadata to the entity representing it.
+
+From a practical point of view, avoiding duplicating all the metadata we would have to repeat in each snapshot we consider a variant of the same epigram is a sufficient reason to define an epigram entity. This entity happens not to have a text, but it collects all the metadata shared among all its variations as witnessed by snapshots.
+
+Let us provide a less abstract example: the picture below was taken from a spreadsheet collecting all the epigram versions from all the carriers:
 
 ![alt text](img/xls-epigrams.png)
 
@@ -48,22 +72,35 @@ As you can see, each column starting from C corresponds to a carrier (H55, M1, M
 
 Now, the very fact that we are aligning the same texts in the same row, and assigning them a shared numeric identifier, implies that we are recognizing them as instances of the same class, the abstract **epigram**. The epigram is defined as "all textual versions that are “related to each other through textual identity and distinguishable through textual variance” (GGA 224)". In our model, the "epigram" is thus an abstraction, which is conveniently used to hold metadata shared among all the epigrams: it corresponds to the row in the spreadsheet table, which is identified by your epigram identifier. "Real" epigrams (=epigram versions) are in columns; but they are all lined up in the same row because we consider all these texts as alternatives of a single unit. This unit is our abstraction, the primary reason for lining them up in the same row; so all what we say about the row is meant to apply to all the columns in it.
 
-So, looking again at our diagram, each snapshot is connected to an epigram version, which is the text critically reconstructed as the final stage of the creative process detailed by the snapshot. This is the second (mid) layer in our diagram.
+In the above diagram, the two epigram versions from snapshots in carriers H55 and H54 are linked to a single epigram. Anyway, probably the final one will drop the mid layer of epigram version and just link epigrams to their snapshots. Texts will reside at the level of the snapshot, together with all their diplomatic data (most of the material data will rather belong to carriers); epigrams will just be a collection of metadata which happens to be shared among the subset of the snapshots representing the “same” text.
 
-In turn, multiple epigram versions are instances of an abstraction, the epigram, which appears in yet another layer (bottom). In our diagram example, the two epigram versions from snapshots in carriers H55 and H54 are linked to a single epigram. It should be noticed that in this project, due to the peculiar nature of Venetian Epigrams, the epigram has no text at all: it is just an abstract container for metadata shared among epigram versions, each arising from a different carrier.
+### Collections
 
-Finally, on this abstract layer we find a **collection**. This is a more specialized IT term fit to the entity represented in the digital model, and essentially corresponding to what is defined as an **order or sequence** ("the arrangement of all textual witnesses as found on a textual carrier"[^1]). The term "collection" here is used with a purely IT sense, meaning any number of items belonging to an _ordered_ set. What corresponds to this collection may vary: it might just be an idea of the author for organizing some epigrams, derived from what he writes about them elsewhere; or it might be what emerges from marks added to the notebooks (e.g. numbers) for each epigram, hinting at some plan for building an ordered collection of them; or something material, like the physical sequence in which they appear. Whatever the specific nature, we adopt a single, more abstract model for them.
+On top of this abstract layer we find a **collection**. This is a more specialized IT term fit to the entity represented in the digital model, and essentially corresponding to what is defined as an **order or sequence** ("the arrangement of all textual witnesses as found on a textual carrier"[^1]). The term "collection" here is used with a purely IT sense, meaning any number of items belonging to an _ordered_ set. What corresponds to this collection may vary: it might just be an idea of the author for organizing some epigrams, derived from what he writes about them elsewhere; or it might be what emerges from marks added to the notebooks (e.g. numbers) for each epigram, hinting at some plan for building an ordered collection of them; or something material, like the physical sequence in which they appear. Whatever the specific nature, we adopt a single, more abstract model for them.
 
-⚙️ A collection contains texts in a given order. The order is represented by a sequence. From a purely IT standpoint, a _collection_ is an abstract data type that groups multiple data elements, which can be of the same or different types. That's the most generic, umbrella term and can include sets, lists, arrays, etc. A "set" is a specialization which differs because its elements are all unique. Among collections, some are ordered: these are "sequence", "list", and "array". A sequence can be finite or infinite (e.g. the sequence of numbers). Lists and arrays are both ordered, but lists are dynamically resized, while arrays are static but more memory-efficient. So, "collection" is more abstract: it's a conceptual container that doesn't enforce rules about order, uniqueness, or mutability. It's like saying "a vehicle" without specifying whether it's a car, bike, or spaceship. Instead:
+It should be added that in this generic model, a collection is not necessarily ordered; or it might be ordered in multiple ways. From the point of view of modular architecture, this means separating these two notions: the collection is the overarching entity, and it can sort its items in no way (when not sorted), or in just 1 way, or in multiple ways. This implies that the model for zero or more ordering’s assigned to the items of a collection will be repeated for each different order.
+This ensures we have a consistent model without redundancies (i.e. repetitions), and it is also the practical reason for which the collection is a Cadmus “item” (in the technical sense of this term in that framework), while sequences are parts of that item, even if the details of this implementation are still to be defined. So, we can say that those items belong to a collection and say this only once; then, we can add that this collection can be ordered in zero or more different sequences. Anyway, this can be easily regarded as a modeling detail. We can adopt a synecdoche and name these collections “sequences”: from the user’s point of view, nothing changes. Yet internally we distinguish between the collection in the technical sense from how we can arrange items in it.
+
+⚙️ From a purely IT standpoint, a _collection_ is an abstract data type that groups multiple data elements, which can be of the same or different types. That's the most generic, umbrella term and can include sets, lists, arrays, etc. A "set" is a specialization which differs because its elements are all unique. Among collections, some are ordered: these are "sequence", "list", and "array". A sequence can be finite or infinite (e.g. the sequence of numbers). Lists and arrays are both ordered, but lists are dynamically resized, while arrays are static but more memory-efficient. So, "collection" is more abstract: it's a conceptual container that doesn't enforce rules about order, uniqueness, or mutability. It's like saying "a vehicle" without specifying whether it's a car, bike, or spaceship. Instead:
 
 - a set is a collection with constraints: no duplicates, no order.
 - a sequence is a collection with structure: order matters, duplicates allowed.
 - a list is a sequence with flexibility (dynamic size).
 - an array is a sequence with rigidity (fixed size).
 
-In this generic model, a "collection" is not necessarily ordered; or it might be ordered in multiple ways. From the point of view of a modular architecture, this means separating these two notions: the collection is the overarching entity, and it can sort its items in no way (when not sorted), or in just 1 way, or in multiple ways. This implies that the model for zero or more ordering's assigned to the items of a collection will be repeated for each different order. This ensures we have a consistent model without redundancies (i.e. repetitions), and it is also the practical reason for which the collection is a Cadmus item, while sequences are parts of that item, even if the details of this implementation are still to be defined. So, we can say that those items belong to a collection, and say this only once; then, we can add that this collection can be ordered in zero or more different sequences. Anyway, this can be easily regarded as a modeling detail. We can adopt a synecdoche and name these collections "sequences": from the user's point of view, nothing changes. Yet, internally we distinguish between the collection in the technical sense from how we can arrange items in it.
+### Sparse Lines
+
+Finally, a corner-case entity (not included in the diagram) is represented by sparse lines of text, which happen to be disseminated in some carriers. These are not snapshots with all their complex annotations and transformations, but just text fragments. As such, their model is aligned with that of the epigram version, which here is probably going to be dropped.
 
 ## Cadmus for VEdition
+
+So, in the end, we would have these entities:
+
+1. _carriers_: the material carriers for texts, mostly notebooks, but also single sheets.
+2. _snapshots_: highly compact structures which represent multiple alteration stages of the “same” text as a creative process witnessed by annotations on top of the base text.
+3. _lines_: sparse lines found in carriers.
+4. _epigrams_: abstractions (with no text) which reflect our consideration of multiple snapshots as being different versions of the “same” text.
+5. _collections_: virtual or material groups of epigrams (mostly ordered).
 
 Given that our modeling is highly complex, though necessarily open to changes, especially at this early stage; and that we need a quick and effective infrastructure to lean our snapshot on, we are going to adopt [Cadmus](https://vedph.github.io/cadmus-doc) to represent all our entities in a single database, with a uniform data architecture.
 
@@ -79,6 +116,8 @@ This produces a sort of layered annotation system, where each layer contains a s
 - it allows using the same abstract source model to _generate multiple outputs_, whether it is a TEI document (in one or more different schemas), an RDF graph, etc.
 
 [^1]: Strictly speaking, for a collection it is not necessary that the witnesses belong to a single textual carrier. In theory, one could even envisage a case where someone is planning a collection by picking texts from different carriers. The definition quoted here anyway refers to the most typical case.
+
+---
 
 ### GVE Parts
 
@@ -192,7 +231,56 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 
 In a publishing flow, where data move from the backend database (edited with Cadmus) to some frontend presentation, there will be rules to determine when an item in the database is to be published: e.g. the item must be complete and not be undisclosed.
 
+#### Carrier Item
+
+- flags: lost.
+
+- _identity_:
+  - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
+  - [shelfmarks](https://github.com/vedph/cadmus-codicology/blob/master/docs/cod-shelfmarks.md)
+  - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
+- _material_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`
+  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md); default size `mm`.
+  - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
+- _content_:
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`content`
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`text`: branches for:
+    - manuscripts (epigram, epigram collection, letter...)
+    - prints (literary magazine, edition volume)
+  - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md) with topic categories.
+- _history_:
+  - [chronotopes](https://github.com/vedph/cadmus-general/blob/master/docs/chronotopes.md) for both origin and provenance (use tags).
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md):`hist`
+- _editorial_:
+  - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
+  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+Categories thesauri:
+
+📚 `categories_text`:
+
+- epigram (Epigramm)
+- epigram collection (Epigrammsammlung)
+- letter (Brief)
+- travel journal (Reisetagebuch)
+- working notebook (Arbeitsheft)
+- index (Index)
+- note (Notat)
+- letter recipients list (Liste Briefempfänger)
+- calculations (Berechnungen)
+- sketches (Skizzen)
+- itinerary (Reiseplan)
+- scientific descriptions (Naturwissenschaftliche Beschreibung)
+- list of words (Wörterlisten)
+- remarks on epigram meter (Bemerkungen zur Metrik)
+- print (Druck):
+  - literary magazine (Literaturzeitschrift)
+  - edition volume (Editionsband)
+
 #### Snapshot Item
+
+The _group ID_ of each snapshot item is the epigram's EID. This immediately links each snapshot to the abstract epigram it is an instance of.
 
 - _identity_:
   - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
@@ -267,56 +355,7 @@ Categories thesauri:
     - right (Rechtsdrehung)
     - left (Linksdrehung)
 
-#### Carrier Item
-
-- flags: lost.
-
-- _identity_:
-  - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
-  - [shelfmarks](https://github.com/vedph/cadmus-codicology/blob/master/docs/cod-shelfmarks.md)
-  - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
-- _material_:
-  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`
-  - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md); default size `mm`.
-  - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
-- _content_:
-  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`content`
-  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`text`: branches for:
-    - manuscripts (epigram, epigram collection, letter...)
-    - prints (literary magazine, edition volume)
-  - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md) with topic categories.
-- _history_:
-  - [chronotopes](https://github.com/vedph/cadmus-general/blob/master/docs/chronotopes.md) for both origin and provenance (use tags).
-  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md):`hist`
-- _editorial_:
-  - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
-  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
-
-Categories thesauri:
-
-📚 `categories_text`:
-
-- epigram (Epigramm)
-- epigram collection (Epigrammsammlung)
-- letter (Brief)
-- travel journal (Reisetagebuch)
-- working notebook (Arbeitsheft)
-- index (Index)
-- note (Notat)
-- letter recipients list (Liste Briefempfänger)
-- calculations (Berechnungen)
-- sketches (Skizzen)
-- itinerary (Reiseplan)
-- scientific descriptions (Naturwissenschaftliche Beschreibung)
-- list of words (Wörterlisten)
-- remarks on epigram meter (Bemerkungen zur Metrik)
-- print (Druck):
-  - literary magazine (Literaturzeitschrift)
-  - edition volume (Editionsband)
-
-#### Epigram Version Item and Lost Lines Item
-
-For epigram version the group ID is the epigram's EID. It is still to be determined whether we need the epigram version item or not.
+#### Sparse Lines Item
 
 - _identity_:
   - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
@@ -363,24 +402,26 @@ For epigram version the group ID is the epigram's EID. It is still to be determi
 
 #### Parts Matrix
 
-| part         | snapshot             | carrier              | version | lines  | epigram | collection |
-| ------------ | -------------------- | -------------------- | ------- | ------ | ------- | ---------- |
-| categories   | content support lang | content support text | text    | text   |         | seq        |
-| chronotopes  |                      | X                    | X       | X      |         |            |
-| comment      | X                    | X                    |         |        | X       | X          |
-| external IDs | X                    | X                    |         |        | X       | X          |
-| hands (GVE)  |                      |                      | X       | X      |         |            |
-| links        | X                    |                      | X auth  | X auth |         | seq        |
-| measurements |                      | X                    |         |        |         |            |
-| metadata     | X                    | X                    | X       | X      | X       | X          |
-| note         | X                    | X hist               | X hist  | X hist | X       | X          |
-| references   | X                    | X                    | X       | X      | X       | X          |
-| shelfmarks   | X                    | X                    |         |        |         |            |
-| snapshot     | X                    |                      |         |        |         |            |
-| states       |                      | X                    | X       | X      |         |            |
-| text         |                      |                      | X       | X      |         |            |
-| apparatus=   |                      |                      | X       | X      |         |            |
-| comment=     |                      |                      | X       | X      |         |            |
+This table represents the distribution of parts in each item. Items correspond to our entities, and are shown in columns; parts correspond to self-contained, independent and reusable models which are composed into items, and are shown in rows. At each intersection of a row and a column, the resulting cell contains `X` meaning that the corresponding part is present in that item, and/or a role identifier (like `content`, `support`, `hist`, etc.) meaning that the corresponding part is present in that item with this specific role. It may also happen that multiple instance of the same part are present in the same item; in this case, the cell contains the role identifiers of each part.
+
+| part         | snapshot             | carrier              | lines  | epigram | collection |
+| ------------ | -------------------- | -------------------- | ------ | ------- | ---------- |
+| categories   | content support lang | content support text | text   |         | seq        |
+| chronotopes  |                      | X                    | X      |         |            |
+| comment      | X                    | X                    |        | X       | X          |
+| external IDs | X                    | X                    |        | X       | X          |
+| hands (GVE)  |                      |                      | X      |         |            |
+| links        | X                    |                      | X auth |         | seq        |
+| measurements |                      | X                    |        |         |            |
+| metadata     | X                    | X                    | X      | X       | X          |
+| note         | X                    | X hist               | X hist | X       | X          |
+| references   | X                    | X                    | X      | X       | X          |
+| shelfmarks   | X                    | X                    |        |         |            |
+| snapshot     | X                    |                      |        |         |            |
+| states       |                      | X                    | X      |         |            |
+| text         |                      |                      | X      |         |            |
+| apparatus=   |                      |                      | X      |         |            |
+| comment=     |                      |                      | X      |         |            |
 
 #### Thesauri List
 
