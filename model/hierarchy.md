@@ -404,28 +404,36 @@ Categories thesauri:
 
 This table represents the distribution of parts in each item. Items correspond to our entities, and are shown in columns; parts correspond to self-contained, independent and reusable models which are composed into items, and are shown in rows. At each intersection of a row and a column, the resulting cell contains `X` meaning that the corresponding part is present in that item, and/or a role identifier (like `content`, `support`, `hist`, etc.) meaning that the corresponding part is present in that item with this specific role. It may also happen that multiple instance of the same part are present in the same item; in this case, the cell contains the role identifiers of each part.
 
-| part         | snapshot             | carrier              | lines  | epigram | collection |
-| ------------ | -------------------- | -------------------- | ------ | ------- | ---------- |
-| categories   | content support lang | content support text | text   |         | seq        |
-| chronotopes  |                      | X                    | X      |         |            |
-| comment      | X                    | X                    |        | X       | X          |
-| external IDs | X                    | X                    |        | X       | X          |
-| hands (GVE)  |                      |                      | X      |         |            |
-| links        | X                    |                      | X auth |         | seq        |
-| measurements |                      | X                    |        |         |            |
-| metadata     | X                    | X                    | X      | X       | X          |
-| note         | X                    | X hist               | X hist | X       | X          |
-| references   | X                    | X                    | X      | X       | X          |
-| shelfmarks   | X                    | X                    |        |         |            |
-| snapshot     | X                    |                      |        |         |            |
-| states       |                      | X                    | X      |         |            |
-| text         |                      |                      | X      |         |            |
-| apparatus=   |                      |                      | X      |         |            |
-| comment=     |                      |                      | X      |         |            |
+| part           | snapshot             | carrier              | lines  | epigram | collection |
+| -------------- | -------------------- | -------------------- | ------ | ------- | ---------- |
+| categories     | content support lang | content support text | text   |         | seq        |
+| chronotopes    |                      | X                    | X      |         |            |
+| comment        | X                    | X                    |        | X       | X          |
+| external IDs   | X                    | X                    |        | X       | X          |
+| hands (GVE)    |                      |                      | X      |         |            |
+| links          | X                    |                      | X auth |         | seq        |
+| measurements   |                      | X                    |        |         |            |
+| metadata       | X                    | X                    | X      | X       | X          |
+| note           | X                    | X hist               | X hist | X       | X          |
+| references     | X                    | X                    | X      | X       | X          |
+| shelfmarks     | X                    | X                    |        |         |            |
+| snapshot (GVE) | X                    |                      |        |         |            |
+| states         |                      | X                    | X      |         |            |
+| text           |                      |                      | X      |         |            |
+| apparatus=     |                      |                      | X      |         |            |
+| comment=       |                      |                      | X      |         |            |
+
+On passage, this table clearly shows the architectural design principles of Cadmus in action: here we are effectively reusing most of the models (the parts), thanks to their self-contained and generalistic design; and we are dynamically building entities models by composition (aggregating parts), which allows for unlimited expansion. Modularity here is the key for dynamic, composite models, which also paves the way for a grassroots approach where each project using this system contributes to a catalog of models and editor UIs which can be reused by other projects.
+
+In this project we are effectively using 16 parts for 5 entity types, either material or immaterial, textual and non-textual, and only 2 of those parts were designed specifically for it (those marked by GVE). All the others were brought in from this virtual catalog. In the end, almost 50 parts are used to represent these 5 entities; but they are all instances of the 16 part types we introduced in this set. Given this modularity, we will be able to further expand the models by either adding new entities, or introducing new parts in the existing ones, without having to modify existing data.
 
 #### Thesauri List
 
-This list currently excludes text-related parts as it is not yet defined whether they will be required.
+This list contains all the thesauri which might be potentially defined for the parts chosen to represent our entities. Each thesaurus is a closed taxonomy, not in the sense that it can't be modified, but in the sense that it corresponds to a UI where users are not free to type any value but rather pick it from a set.
+
+For each part type, the list of its thesauri IDs is given.
+
+>This list currently excludes text-related parts as it is not yet defined whether they will be required.
 
 - categories (carrier, topic, seq):
   - 📚 categories
