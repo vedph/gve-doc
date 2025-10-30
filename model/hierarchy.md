@@ -304,6 +304,7 @@ The _group ID_ of each snapshot item is the epigram's EID. This immediately link
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`lang`: languages (German, Italian, Latin, Ancient Greek)
   - [snapshot](#snapshot-part) (GVE)
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md) with topic categories.
+  - [hands](#hands-part) (GVE)
 - _history_:
   - [historical dates](https://github.com/vedph/cadmus-general/blob/master/docs/asserted-historical-dates.md)
 - _editorial_:
@@ -410,7 +411,7 @@ This table represents the distribution of parts in each item. Items correspond t
 | chronotopes    |                      | X                    | X      |         |            |
 | comment        | X                    | X                    |        | X       | X          |
 | external IDs   | X                    | X                    |        | X       | X          |
-| hands (GVE)    |                      |                      | X      |         |            |
+| hands (GVE)    | X                    |                      | X      |         |            |
 | links          | X                    |                      | X auth |         | seq        |
 | measurements   |                      | X                    |        |         |            |
 | metadata       | X                    | X                    | X      | X       | X          |
@@ -425,7 +426,7 @@ This table represents the distribution of parts in each item. Items correspond t
 
 On passage, this table clearly shows the architectural design principles of Cadmus in action: here we are effectively reusing most of the models (the parts), thanks to their self-contained and generalistic design; and we are dynamically building entities models by composition (aggregating parts), which allows for unlimited expansion. Modularity here is the key for dynamic, composite models, which also paves the way for a grassroots approach where each project using this system contributes to a catalog of models and editor UIs which can be reused by other projects.
 
-In this project we are effectively using 16 parts for 5 entity types, either material or immaterial, textual and non-textual, and only 2 of those parts were designed specifically for it (those marked by GVE). All the others were brought in from this virtual catalog. In the end, almost 50 parts are used to represent these 5 entities; but they are all instances of the 16 part types we introduced in this set. Given this modularity, we will be able to further expand the models by either adding new entities, or introducing new parts in the existing ones, without having to modify existing data.
+In this project we are effectively using 16 parts for 5 entity types, either material or immaterial, textual and non-textual, and only 2 of those parts were designed specifically for it (those marked by GVE). All the others were brought in from this virtual catalog. In the end, 50 parts are used to represent these 5 entities; but they are all instances of the 16 part types we introduced in this set. Given this modularity, we will be able to further expand the models by either adding new entities, or introducing new parts in the existing ones, without having to modify existing data.
 
 Also, while the database is capable to represent virtually any entity, either material or immaterial, textual, meta-textual, or non-textual at all, its data architecture remains uniform and open to unlimited expansion both on data quantity and quality.
 
