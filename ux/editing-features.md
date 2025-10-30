@@ -2,7 +2,7 @@
 title: Editing Features
 layout: default
 parent: User Experience
-nav_order: 4
+nav_order: 5
 ---
 
 # Editing Features

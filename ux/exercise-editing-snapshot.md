@@ -2,7 +2,7 @@
 title: Exercise - Editing Snapshot
 layout: default
 parent: User Experience
-nav_order: 5
+nav_order: 6
 ---
 
 # Exercise - Editing Snapshot

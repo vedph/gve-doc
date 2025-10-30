@@ -19,6 +19,7 @@ The top-level component here is the snapshot editor. This provides a complete UI
 
 In turn, the snapshot editor is composed by a lot of other components, covering all the snapshot features.
 
-- [editing snapshots](./usr-snapshot)
-- [editing operations](./usr-operation)
-- [editing features](./usr-features)
+- [VEdition guidelines](./guidelines.md)
+- [editing snapshots](./editing-snapshots)
+- [editing operations](./editing-operations)
+- [editing features](./editing-features)
