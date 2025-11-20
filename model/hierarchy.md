@@ -12,7 +12,6 @@ nav_order: 5
     - [Epigram Versions †](#epigram-versions-)
     - [Epigrams](#epigrams)
     - [Collections](#collections)
-    - [Sparse Lines](#sparse-lines)
   - [Cadmus for VEdition](#cadmus-for-vedition)
     - [GVE Parts](#gve-parts)
       - [Snapshot Part](#snapshot-part)
@@ -21,7 +20,6 @@ nav_order: 5
       - [Flags](#flags)
       - [Carrier Item](#carrier-item)
       - [Snapshot Item](#snapshot-item)
-      - [Sparse Lines Item](#sparse-lines-item)
       - [Epigram Item](#epigram-item)
       - [Collection Item](#collection-item)
       - [Parts Matrix](#parts-matrix)
@@ -48,7 +46,9 @@ In the diagram we are representing two notebook carriers, named H55 and H54. So,
 
 ### Snapshots
 
-These notebooks contain many texts. In the diagram we focus on a single epigram, which happens to be found in both these notebooks. At the lowest level, the text in each carrier is represented by a [snapshot](textual), a highly structured and computable digital model representing the **textual situation**, i.e. “the transmitted sum of all variants of textual versions on a text carrier”.
+These notebooks contain many texts. In the diagram we focus on a single epigram, which happens to be found in both these notebooks. Also, sparse lines of text, which happen to be disseminated in some carriers, are considered snapshots too.
+
+At the lowest level, the text in each carrier is represented by a [snapshot](textual), a highly structured and computable digital model representing the **textual situation**, i.e. “the transmitted sum of all variants of textual versions on a text carrier”.
 
 The snapshot is not just a container of variations of a text, but a compact model capable of generating all of them with their metadata, via operations which represent the scholars’ interpretation of the annotations chaotically scattered on the carrier. Also, in addition to the snapshot textual data, we might want to provide more metadata to each text, like e.g. a comprehensive comment, shelfmark numbers, bibliographic references, etc. In this context, the snapshot model would just be a subset of this larger entity representing the textual situations in each carrier. Given that the snapshot model is still at its core, we name this entity _snapshot_ from its most important part.
 
@@ -87,10 +87,6 @@ This ensures we have a consistent model without redundancies (i.e. repetitions),
 - a sequence is a collection with structure: order matters, duplicates allowed.
 - a list is a sequence with flexibility (dynamic size).
 - an array is a sequence with rigidity (fixed size).
-
-### Sparse Lines
-
-Finally, a corner-case entity (not included in the diagram) is represented by sparse lines of text, which happen to be disseminated in some carriers. These are not snapshots with all their complex annotations and transformations, but just text fragments. As such, their model is aligned with that of the epigram version, which here is probably going to be dropped.
 
 ## Cadmus for VEdition
 
@@ -226,6 +222,7 @@ Here we list the Cadmus items with their parts, as defined for the GVE editor in
 - `revised`: the item has been revised
 - `undisclosed`: the item is not (or not yet) meant for publishing
 - `lost` (for carriers and possibly others)
+- `sparse` (for sparse lines)
 
 > We can use a flag for `lost` because this allows browsing and filtering carrier items according to these types at a glance (`lost` being something no longer existing, this is a capital distinction to be made), and because this is a single, binary feature for which a categories part would be too much. Also, a `lost` flag might possibly apply to other items, too.
 
@@ -356,27 +353,6 @@ Categories thesauri:
     - right (Rechtsdrehung)
     - left (Linksdrehung)
 
-#### Sparse Lines Item
-
-- _identity_:
-  - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
-  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md) 🔗 carrier
-  - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md):`auth`
-- _material_:
-  - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
-- _content_:
-  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`text`
-  - [token-based text](https://github.com/vedph/cadmus-general/blob/master/docs/token-text.md)
-  - [apparatus layer](https://github.com/vedph/cadmus-philology/blob/master/docs/fr.apparatus.md)
-  - [comment layer](https://github.com/vedph/cadmus-general/blob/master/docs/fr.comment.md) with topic categories.
-  - [hands](#hands-part) (GVE)
-- _history_:
-  - [chronotopes](https://github.com/vedph/cadmus-general/blob/master/docs/chronotopes.md)
-  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md):`hist`
-- _editorial_:
-  - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
-  - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
-
 #### Epigram Item
 
 - _identity_:
@@ -405,24 +381,24 @@ Categories thesauri:
 
 This table represents the distribution of parts in each item. Items correspond to our entities and are shown in columns; parts correspond to self-contained, independent and reusable models which are composed into items, and are shown in rows. At each intersection of a row and a column, the resulting cell contains `X` meaning that the corresponding part is present in that item, and/or a role identifier (like `content`, `support`, `hist`, etc.) meaning that the corresponding part is present in that item with this specific role. It may also happen that multiple instances of the same part are present in the same item; in this case, the cell contains the role identifiers of each part.
 
-| part           | snapshot             | carrier              | lines  | epigram | collection |
-| -------------- | -------------------- | -------------------- | ------ | ------- | ---------- |
-| categories     | content support lang | content support text | text   |         | seq        |
-| chronotopes    |                      | X                    | X      |         |            |
-| comment        | X                    | X                    |        | X       | X          |
-| external IDs   | X                    | X                    |        | X       | X          |
-| hands (GVE)    | X                    |                      | X      |         |            |
-| links          | X                    |                      | X auth |         | seq        |
-| measurements   |                      | X                    |        |         |            |
-| metadata       | X                    | X                    | X      | X       | X          |
-| note           | X                    | X hist               | X hist | X       | X          |
-| references     | X                    | X                    | X      | X       | X          |
-| shelfmarks     | X                    | X                    |        |         |            |
-| snapshot (GVE) | X                    |                      |        |         |            |
-| states         |                      | X                    | X      |         |            |
-| text           |                      |                      | X      |         |            |
-| apparatus=     |                      |                      | X      |         |            |
-| comment=       |                      |                      | X      |         |            |
+| part           | snapshot             | carrier              | epigram | collection |
+| -------------- | -------------------- | -------------------- | ------- | ---------- |
+| categories     | content support lang | content support text |         | seq        |
+| chronotopes    |                      | X                    |         |            |
+| comment        | X                    | X                    | X       | X          |
+| external IDs   | X                    | X                    | X       | X          |
+| hands (GVE)    | X                    |                      |         |            |
+| links          | X                    |                      |         | seq        |
+| measurements   |                      | X                    |         |            |
+| metadata       | X                    | X                    | X       | X          |
+| note           | X                    | X hist               | X       | X          |
+| references     | X                    | X                    | X       | X          |
+| shelfmarks     | X                    | X                    |         |            |
+| snapshot (GVE) | X                    |                      |         |            |
+| states         |                      | X                    |         |            |
+| text           |                      |                      |         |            |
+| apparatus=     |                      |                      |         |            |
+| comment=       |                      |                      |         |            |
 
 On passage, this table clearly shows the architectural design principles of Cadmus in action: here we are effectively reusing most of the models (the parts), thanks to their self-contained and generalistic design; and we are dynamically building entities models by composition (aggregating parts), which allows for unlimited expansion. Modularity here is the key for dynamic, composite models, which also paves the way for a grassroots approach where each project using this system contributes to a catalog of models and editor UIs which can be reused by other projects.
 
@@ -436,7 +412,7 @@ This list contains all the thesauri which might be potentially defined for the p
 
 For each part type, the list of its thesauri IDs is given.
 
->This list currently excludes text-related parts as it is not yet defined whether they will be required.
+> This list currently excludes text-related parts as it is not yet defined whether they will be required.
 
 - categories (carrier, topic, seq):
   - 📚 categories
@@ -542,75 +518,3 @@ So, once we have these definitions say for the diplomatic features, the diplomat
 - the list of features is a closed set, a dropdown list with only "color" and "size";
 - when you pick "color", the value is a dropdown list too, with only "red", "green", "blue";
 - when you pick "size", the value is a textbox where you are free to type.
-
-Here we represent these features using this convention:
-
-```txt
-- diplomatic features
-  - names:
-    - clr=color
-    - sz=size
-  - values:
-    - clr:r=red
-    - clr:g=green
-    - clr:b=blue
-```
-
-This represents a single definition set, in a specific language; just replicate this structure to cover more languages.
-
-- diplomatic features:
-  - names:
-    - epigram-nr=epigram number
-    - page-nr=page number
-    - position=position
-    - shape=shape
-    - scope=scope
-    - color=color
-  - values:
-    - position:baseline=baseline
-    - position:above=interlinear above
-    - position:below=interlinear below
-    - position:outer-top=outside at top
-    - position:outer-bottom=outside at bottom
-    - position:outer-left=outside at left
-    - position:outer-right=outside at right
-    - shape:line-hrz=horizontal straight line
-    - shape:line-ne=diagonal up line
-    - shape:line-se=dialong down line
-    - shape:line-vrt=vertical straight line
-    - shape:line-hrz-2=horizontal double straight line
-    - shape:scrape=scraped off
-    - shape:erasure=erased
-    - shape:underline=underline
-    - shape:underline-dot=dotted underline
-    - shape:underline-2=double underline
-    - shape:scribble=scribble
-    - shape:dot=dot
-    - shape:check=check mark
-    - shape:circle-dot=circle with dot
-    - shape:curve=curved line
-    - shape:curly-90=curly brace rotated down
-    - shape:nb=notabene
-    - shape:cross=cross
-    - scope:comma=comma
-    - scope:question-upper=upper part question mark
-    - scope:exclam-upper=upper part exclamation mark
-    - scope:period=period
-    - scope:letter=letter
-    - scope:word=word
-    - scope:line=line
-    - scope:line-2=two lines
-    - scope:line-3=three lines
-    - scope:epigram=entire epigram
-    - color:black=black
-    - color:dark-brown=dark brown
-    - color:orange=orange
-    - color:light-orange=light orange
-    - color:red=red
-
-Notes:
-
-- epigram and page numbers are open sets (you enter the number), so they have no entries in `values`.
-- the outer position might also be more granular e.g. using `nw`, `n`, `ne`, instead of just `top`, and the like for all the other "directions".
-- I am not sure about "illegible" for shape. This is the shape of the sign used to represent a correction.
-- I am not sure about "upper" in upper part question/exclamation: it refers to position or sign?
