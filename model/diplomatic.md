@@ -6,16 +6,25 @@ nav_order: 2
 ---
 
 - [Diplomatic Model](#diplomatic-model)
-  - [Animation](#animation)
-    - [Animations and Steps](#animations-and-steps)
+  - [Graphical Approach](#graphical-approach)
+    - [Animation](#animation)
     - [GSAP Model](#gsap-model)
     - [Animation Model](#animation-model)
+  - [Symbolic Approach](#symbolic-approach)
 
 # Diplomatic Model
 
 On the diplomatic side, our model should provide an at least approximate graphical representation of the snapshot.
 
-First, note that this is not a requirement for the textual side of the model; we could just implement this without its graphical counterpart, which in some cases might be less relevant or too costly. So this is just an additional part of the model, which is anyway designed to preserve the separation between these two layers.
+>Note that this is not a requirement for the textual side of the model; we could just implement this without its graphical counterpart, which in some cases might be less relevant or too costly. So this is just an additional part of the model, which is anyway designed to preserve the separation between these two layers.
+
+In the course of evolution of the project, two alternative strategies for representing visuals have been defined.
+
+The original strategy is purely graphical, and more faithful in reproducing the facsimile image, literally re-drawing on top of it (via SVG), and positioning added text according to diplomatic metadata. Animations are used to represent the temporal flow of operations. This method, while accurate, can be complex and time-consuming, unless driven by a more automated data flow for imaging.
+
+To enhance efficiency and provide more granular data at the visual level, a new, symbolic approach has been introduced abstracting the visualization process. Instead of redrawing each sign, operations are described using rendition features (like “diagonal line”, “box”, “cross”, "below and to the left", “shifted right”, etc.), while the visualization engine uses this visual grammar to do the math to properly size and position each element.
+
+## Graphical Approach
 
 As we have seen, the core of the textual model is represented by the chain structure, and by operations acting on it. Each operation is an act executed on the text, and in most cases corresponding to some graphical representation in the snapshot.
 
@@ -40,15 +49,13 @@ As annotations are modeled as operations, this means that we can add the graphic
 
 So, this model not only links visuals to each operation, but also attaches optional metadata on the diplomatic side, both to the operation as a whole, or to any parts of its visuals. Yet, the model is very simple, because it rests on just text: SVG code for the visuals, and name=value pairs for features.
 
-## Animation
+### Animation
 
 Additionally, this bidimensional, geometric model can be further extended by adding the dimension of _time_ in the form of animations.
 
 In depicting our interpretations of a snapshot, tracing back text versions to the actions performed by its author, animations can play a significant semantic role in the context of this model. Of course, they belong to the same realm of interpretation we have already distinguished in that model, but a digital publication can greatly benefit from them.
 
 With reference to our architecture, animations must be designed no longer at the level of each single operation, but rather within the scope of the whole snapshot. For instance, think about a `B`  inserted between `A` and `C`: we might want to animate this insertion by moving `B` between these two letters, which in turn would require to be moved in opposite directions, so to make space for the new one. So, this goes beyond the scope of a single operation, and is rather contained in the snapshot as a whole.
-
-### Animations and Steps
 
 As we have seen, a chain contains the representation of many versions of what we consider the "same" text, as defined by a set of operations. Each operation generates a new state for the text, representing a **step** towards the "final" state for the text, as reconstructed by our interpretation.
 
@@ -97,3 +104,13 @@ The animation model here can be designed in compliance with a basic usage of GSA
     - `position`: this is just a string.
 
 >A timeline can be easily transformed into a set of instructions for GSAP. Essentially, a tween is created with the timeline's function corresponding to its type (`to`, `from`, `fromTo`), which gets as parameters selector, vars and position from the corresponding tween's properties. In tweens, both label and note have no usage, except facilitating the users work in editing the timeline.
+
+## Symbolic Approach
+
+While the graphical approach provides a faithful representation of visuals, for scalability reasons it is better fit to a flow where imaging is managed with some level of automation. For instance, in a HTR-based scenario one could leverage the regions defined by this process to support the digitization of signs and their connection with operations.
+
+Anyway, especially those scholars more versed in traditional philology having to redraw non-textual signs on top of the facsimile and manually position text on it (via features like `x` and `y`) would be time-consuming, and possibly distracting when they mostly focus on text.
+
+Also, it could be interesting to provide a more computable, and thus more abstract, representation of visuals, so that one could also analyze the distribution of their features among carriers and their relationship with their meaning. A specific visual representation might be typical of a period, a set of documents, a hand, etc; and from a paleographic point of view, one might be even interested in collecting, classifying, and quantifying the distribution of signs with their meanings.
+
+So, an alternative approach has been designed, whose model relies on operation features and on a sort of catalog of visuals with their animations.
