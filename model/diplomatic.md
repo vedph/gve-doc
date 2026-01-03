@@ -169,6 +169,8 @@ As for _hints_, these can be text, freely sized and positioned like added text, 
 
 So, we could never be able to predict all the shapes of all the hints found on a sheet, especially when crossing project borders (which is implied by the generic vocation of this system). This implies that our model must be open and capable of representing any drawings.
 
-Nonetheless, it is also true that, especially within a single project's borders, hints can be easily grouped into repeatedly used types. Many of them also have a nearly universal use, like the diagonal line on top of a word, meaning its deletion.
+Nonetheless, it is also true that, especially within a single project's borders, hints can be easily grouped into repeatedly used types. Many of them also have a nearly universal use, like the line on top of a word, meaning its deletion.
 
-So, even if each diagonal line drawn on the sheet is unique, and corresponds to a unique act happened in time, it can easily be traced back to a single pattern: the symbol for a diagonal line. This is an abstraction, but the departures from its ideal appearance can be easily discarded as irrelevant, just like when listening to a speech we discard allophonic variants and identify the immaterial phonemes behind these surface expressions.
+So, even if each line drawn on the sheet is unique, and corresponds to a unique act happened in time, it can easily be traced back to a single pattern: the symbol for a line. This is an abstraction, but the departures from its ideal appearance can be easily discarded as irrelevant, just like when listening to a speech we discard allophonic variants and identify the immaterial phonemes behind these surface expressions.
+
+Sure, to provide more details, we could multiply these symbols: for instance, we could have one type for the horizontal line (`—`); another for the diagonal line raising from left to right (`/`); and yet another one for the diagonal line lowering from to left to right (`\`). The level of detail depends only on the project's nature and purposes.
