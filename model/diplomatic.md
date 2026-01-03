@@ -11,6 +11,8 @@ nav_order: 2
     - [GSAP Model](#gsap-model)
     - [Animation Model](#animation-model)
   - [Symbolic Approach](#symbolic-approach)
+    - [Pragmatic Signs Classification](#pragmatic-signs-classification)
+    - [Symbolic Rendition Logic](#symbolic-rendition-logic)
 
 # Diplomatic Model
 
@@ -113,4 +115,43 @@ Anyway, especially those scholars more versed in traditional philology having to
 
 Also, it could be interesting to provide a more computable, and thus more abstract, representation of visuals, so that one could also analyze the distribution of their features among carriers and their relationship with their meaning. A specific visual representation might be typical of a period, a set of documents, a hand, etc; and from a paleographic point of view, one might be even interested in collecting, classifying, and quantifying the distribution of signs with their meanings.
 
-So, an alternative approach has been designed, whose model relies on operation features and on a sort of catalog of visuals with their animations.
+So, an alternative approach has been designed, whose model relies on operation features and on a sort of catalog of visuals with their animations. Here, it is no longer the user, but the software which draws signs on a surface on their behalf, following directions provided by features and taking care of all the heavy math to size and position them.
+
+### Pragmatic Signs Classification
+
+The symbolic approach is a more abstract model based on a pragmatic classification of signs. The best way to illustrate it is starting with the real-world image in Figure 1:
+
+![signs on carrier](img/wund.png)
+
+- Figure 1 - A couple of words on an autograph sheet
+
+This image shows the end of a line ("... Wund:"); below and slightly to the left of the final word "Wund:", a replacement word "Wunder." has been written.
+
+So, let us consider the types of these signs. The most obvious type is the **base text** itself: here "Wund:" is part of it.
+
+After the base text was written, many other signs were added later. One of them is a diagonal line crossing this word; this line hints at the _deletion_ of it. So, the meaning of this sign is an editing operation; it literally _hints_ at it. We call these signs **hints** right because of this. They are the visual counterpart (when there is any) of editing operations.
+
+Another type of sign is then the word which was meant to replace "Wund:": "Wunder.", written below and to the left of it. With reference to the base text, which is our starting point, this is **added text**.
+
+So, we are _removing_ Wund, and _adding_ Wunder. In simpler terms, we are _replacing_ "Wund:" with "Wunder.". That's our editing operation. The line hints at it, and the new text added by it is written below.
+
+In fact, a replacement is a higher-level operation which could be represented with a delete coupled with an insert. Operations in our model are the mean by which scholars formalize their interpretation of the carrier and indirectly modify the chain data structure, which in turn generates text versions. The creative process being reconstructed is a sequence of such operations, which belong to the subjective layer of interpretation. So, right because of being the middleman between chain data and scholars, operations are modeled at higher level, which better fits a human point of view. Thus, we are not limited to just delete and insert, but we include operations like replace, move, swap, and annotate.
+
+Among operations, only insert and replace add new text. So, whenever they are used, new text nodes will be added to the chain.
+
+Thus, in our example we have a single replacement operation, having two visual counterparts:
+
+- the diagonal line on top of the old word. This is a _hint_.
+- the new text written below and to the left of the old word. This is _added text_.
+
+So, from the point of view of our visualization, we define three types of signs on the carrier: base text; text added by operations; and hints which visually correspond to them.
+
+These are the entities involved in the visual presentation of our snapshot. Added text and hints taken together are also known as **added elements**, because they were added later with reference to the base text.
+
+>"Element" in the context of visualization is a specific term belonging to its XML-based encoding, as the visualization relies on SVG.
+
+It should be noticed that the distinction between hints and added text is not a visual one; as for all the signs in this classification, it is functional to the rendering logic. For instance, it may well happen that a hint is represented by text, like the number of an epigram written on its corner, or a textual annotation. Even then, the hint is different because it is just the optional visual counterpart of an operation, and does not represent text which becomes part of the epigram's text. So, it may have the appearance of text, or more frequently be just some freehand drawing; but in both cases, it never represents a part of the text being transformed.
+
+So, in our example the replacement operation's _hint_ is only the line above the old word, while the new word replacing it is _added text_, and becomes part of the epigram's text in the text version(s) following it.
+
+### Symbolic Rendition Logic
