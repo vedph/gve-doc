@@ -20,6 +20,7 @@ nav_order: 2
       - [Rendition Features](#rendition-features)
       - [Feature Adapter](#feature-adapter)
   - [Software Tools](#software-tools)
+    - [Symbolic Visualization Example](#symbolic-visualization-example)
 
 # Diplomatic Model
 
@@ -267,9 +268,11 @@ In the same way we can also represent another detail: the fact that the displace
 
 >Note that offsets can be specified not only in pixels, which is the most granular unit, but also in units relative to the text size: `th` for text height, and `tw` for text width. This allows users to provide an approximate value even without measuring the distance in a more precise way.
 
-This solution preserves the general RBR-based logic, by simply overriding the RBR via an operation's feature, not differently from when we override the default font properties of an added text to customize it. So in the end, all what users do is specifying the operations representing the creative process. Their visualization is totally computed by software, orchestrating default settings, operation's features, and visuals catalogs.
+Finally, we need yet another feature for the box itself: as we have seen, the hint is picked from a catalog and resized to fit its RBR. Given that the default size is the RBR's size, and the default position is the RBR's center, this means we will get a rectangle exactly equal to the RBR. This will probably result in a rectangle which overlaps with the text it should contain. We rather need a bit larger rectangle, so that it fully encompasses its text without touching it. To this end, all what we need to do is change the scale of the hint, setting it e.g. to `1.1` (=110%). This will make it 10% bigger than the RBR, while still centering it because of its `o` position. The result will be a box drawn around the text, at a certain distance from it, exactly as we wanted.
 
-From the user's standpoint, this approach is far more efficient than the graphical one; users just focus on the reconstruction of the creative process, specifying operations and adding to them also some abstract rendition features designed to be general, human-friendly, and yet powerful enough to drive the rendition computed by software. Operations here literally drive not only the transformation of text over time, but also the drawing of all the visuals which represent its evolution, as documented by the carrier. Just like the text changes operation after operations, so visuals accumulate on our virtual sheet reflecting them. At the end of the process, those visuals will be the faithful, yet more symbolic representation of the signs in our sheet, accumulated over time, one after another.
+So, besides rendition details, this solution for displacement preserves the general RBR-based logic, by simply overriding the RBR via an operation's feature, not differently from when we override the default font properties of an added text to customize it. In the end, all what users do is specifying the operations representing the creative process. Their visualization is totally computed by software, orchestrating default settings, operation's features, and visuals catalogs.
+
+From the user's standpoint, this approach is far more efficient and even more detailed than the graphical one, as symbolic visuals also provide a basis for studying their distribution. Users just focus on the reconstruction of the creative process, specifying operations and adding to them also some abstract rendition features designed to be general, human-friendly, and yet powerful enough to drive the rendition computed by software. Operations here literally drive not only the transformation of text over time, but also the drawing of all the visuals which represent its evolution, as documented by the carrier. Just like the text changes operation after operations, so visuals accumulate on our virtual sheet reflecting them. At the end of the process, those visuals will be the faithful, yet more symbolic representation of the signs in our sheet, accumulated over time, one after another.
 
 Focusing on a dynamic process, rather than just comparing different static stages, is the core of our model; this is nearer to the reality of the making of the text, and the same holds for both the textual and graphical sides of the model, which reflects the reality of its material counterpart. Essentially, once you write a sign on a sheet of paper, it stays there forever. You might draw a stroke on it, overwrite it, or whatever else hints to its change; but yet, the sign is there, and we are just adding new signs.
 
@@ -302,7 +305,7 @@ The hint's `svg` property is a string representing the SVG content of a hint. Th
     - when the hint's placeholder element has a `class` attribute equal to `fit`, the text's size is calculated so that its content fits the container element with the `placeholder` ID. For instance, the SVG code of the hint might represent a callout for insertion, where the balloon is a rectangle with id=`placeholder`, and the line ends into the handle point. This way, the text being added will appear inside the balloon. So, here the text must fit into the container.
     - else, the text value and the settings for drawing it determine the resulting size of `text`. This implies that all the SVG elements containing this `text` element, including the root `g` element, must scale to fit it inside them. So, this is the inverse case with reference to the default one: here the container must fit the text.
 
-Also, the SVG code in the hint's `svg` property can include **placeholder variables**, which are wrapped in `{{...}}` ("whiskers") and are represented by the name of the feature we want to get the value from. For instance, `<rect width="100" height="50" fill="{{r_color}}" />` has a placeholder `{{r_color}}` meaning that we will have to replace it with the value of a feature named `r_color` (or with nothing, when that feature is not found).
+Also, the SVG code in the hint's `svg` property can include **placeholder variables**, which are wrapped in `{{...}}` ("whiskers") and are represented by the name of the feature we want to get the value from. For instance, `<rect width="100" height="50" fill="{{r_color}}" />` has a placeholder `{{r_color}}` meaning that we will have to replace it with the value of a feature named `r_color` (or with nothing, when that feature is not found). This allows greater flexibility in reusing hints, as you can pick a generic hint and then change its appearance by means of other features.
 
 Finally, the hint's `animation` property defines its enter animation. It can include:
 
@@ -331,6 +334,34 @@ The GSAP animation targets the hint's root `g` element, i.e. the whole hint.
 
 - [GSAP Documentation](https://greensock.com/docs/)
 - [DrawSVG Plugin](https://greensock.com/docs/v3/Plugins/DrawSVGPlugin): plugin for animating SVG.
+
+As an example, consider this simple hint representing a diagonal stroke, encoded as JSON:
+
+```json
+{
+  "diagonal-stroke": {
+    "svg": "<g><line x1=\"0\" y1=\"0\" x2=\"300\" y2=\"100\" stroke=\"{{r_fore-color}}\" stroke-width=\"2\" /></g>",
+    "animation": "#fade-in",
+  },
+}
+```
+
+This SVG fragment contains just a root `g` (=group) element with a child `line` element representing a line, starting at 0,0 and going down to 300,100. The design size for hints here is set to 300×100, so this line is equal to the diagonal of its bounding rectangle. Of course, the design size is just an arbitrary size chosen by the catalog's author; the hint will then be resized according to the RBR.
+
+The corresponding animation is defined in the animations catalog with ID `fade-in` and this content:
+
+```js
+return new Promise(resolve => {
+  gsap.fromTo(targetEl,
+    { opacity: 0 },
+    { opacity: 1, duration: 1, onComplete: resolve }
+  );
+});
+```
+
+As you can see, the code fragment is really minimalist, as most of the complex animation logic is delegated to GSAP. In this code, `targetEl` is the element to be animated (=the root `g` element of the hint's SVG content), and `gsap` is the imported GSAP object allowing access to animation logic. Here we animate the opacity of the target element from 0 (=invisible) to 1 (=fully visible) within a 1-second interval. The effect of this is gradually revealing the element with a "fade-in" animation.
+
+At any rate, the purpose of the visuals catalog is right to shield users from the complexity of these technologies. Normal users do not need to fuss with SVG (for drawing hints) or JavaScript (for animating their entrance); they just pick a rendition feature from a list in the editor, and the rendition software will take care of all the rest. Also, as shown by this example, usually hints and animations are so generic that they can be easily reused across projects, so that creating them will not be a very frequent requirement, unless you deal with highly custom shapes. Additionally, a [hint designer tool](#software-tools) is also provided to help in creating visuals catalogs.
 
 #### Rendition Features
 
@@ -448,7 +479,7 @@ The visualization of a GVE snapshot data model is very complex, and yet it is a 
 
 As for any DH project, the point of VEdition is not only provide a solution perfectly fit to its object, but also to generalize it so to offer to the community a paradigmatic model with its software tools. So, just like we provide a full-featured web-based editor for creating data using our model, we also provide reusable tools to visualize them using this complex logic.
 
-As these tools must be integrated in any frontend, from a simple vanilla HTML page to a full-fledged web app, we need to implement them using the most neutral and reusable technologies. In this case, the task of visualizing a snapshot is delegated to a custom web component. **Custom Web Components** allow developers to define new HTML elements that encapsulate their own structure, style, and behavior, making them reusable across any web environment. Because they rely solely on standardized browser APIs -- Custom Elements, Shadow DOM, and HTML Templates -- they remain framework‑agnostic and can be embedded seamlessly in contexts ranging from static HTML pages to complex frontend frameworks. This ensures strong encapsulation (avoiding CSS or JavaScript conflicts), high reusability, and long‑term technological neutrality, which is essential for DH tools meant to be adopted by diverse communities and infrastructures. In the end, all what it takes to use a custom web component is importing its JavaScript code once, and then use its tag just like any other standard HTML tag.
+As these tools must be integrated in any frontend, from a simple vanilla HTML page to a full-fledged web app, we need to implement them using the most neutral and reusable technologies. In this case, the task of visualizing a snapshot is delegated to a custom web component. **[Custom Web Components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)** allow developers to define new HTML elements that encapsulate their own structure, style, and behavior, making them reusable across any web environment. Because they rely solely on standardized browser APIs -- Custom Elements, Shadow DOM, and HTML Templates -- they remain framework‑agnostic and can be embedded seamlessly in contexts ranging from static HTML pages to complex frontend frameworks. This ensures strong encapsulation (avoiding CSS or JavaScript conflicts), high reusability, and long‑term technological neutrality, which is essential for DH tools meant to be adopted by diverse communities and infrastructures. In the end, all what it takes to use a custom web component is importing its JavaScript code once, and then use its tag just like any other standard HTML tag.
 
 So, in the context of the GVE system these are the main software components:
 
@@ -461,6 +492,97 @@ In more detail, currently 3 custom web components are available:
 
 - the web component for the **original (graphical) visualization**, currently integrated in the editor.
 - the web component for the **symbolic visualization**, to be completed and then integrated in the editor.
-- the web component for **editing visual catalogs** of hints with their animations (hints editor). This is added to provide a more effective tool to design hints visually with SVG code, create and test GSAP-based animations, manage hint variables for placeholder resolution, and save/load hint data to/from JSON files.
+- the web component for **editing visual catalogs** of hints with their animations (_hint designer_). This is added to provide a more effective tool to design hints visually with SVG code, create and test GSAP-based animations, manage hint variables for placeholder resolution, and save/load hint data to/from JSON files.
 
-🚀 Once completed, we will provide a link to these components and their documentation. Meanwhile, you can experiment with the hints editor in the vanilla HTML page at <http://gve-hint-designer.surge.sh>. If you inspect the page's source code, you will see that all what it takes to embed in it the full-blown editor is adding its tag like `<gve-hint-designer></gve-hint-designer>`. The demo contains a bit more code just to load some preset data (hints and animations) to play with.
+🚀 Once completed, we will provide a link to these components and their documentation. Meanwhile, you can experiment with the hint designer in the vanilla HTML page at <http://gve-hint-designer.surge.sh>. If you inspect the page's source code, you will see that all what it takes to embed in it the full-blown editor is adding its tag like `<gve-hint-designer></gve-hint-designer>`. The demo contains a bit more code just to load some preset data (hints and animations) to play with.
+
+### Symbolic Visualization Example
+
+Let us summarize and see how the symbolic visualization model is used with a mock example. This uses a very simple fake text, but designed so that it covers all operation types, and shows many visual features derived from real-world documents in the VEdition project.
+
+Suppose we have a facsimile from our carrier like that of Figure 4:
+
+![mock text](img/sample-in-this-test.png)
+
+- Figure 4 - mock text facsimile
+
+In our reconstruction, we go through 4 stages:
+
+▶️ (1) the base text is:
+
+```txt
+In this text I show all operation
+    types.
+It is not complex nor long.
+    This too, is another line
+```
+
+▶️ (2) then, a red-ink hand makes these changes:
+
+- change `In this text I show` into `This text shows` in line 1.
+- swap `complex` with `long` in line 3.
+
+🚩 The resulting alteration stage is (let us name it `alpha`):
+
+```txt
+This text shows all operation
+    types.
+It is not long nor complex.
+    This too, is another line
+```
+
+▶️ (3) then, a green-ink hand makes these changes:
+
+- extend `types` with `AND SOME STUFF` in line 2, and immediately after replace `STUFF` with `HINTS`.
+- move `too` at the end of line 4.
+
+🚩 The resulting alteration stage is (let us name it `beta`):
+
+```txt
+This text shows all operation
+    types AND SOME HINTS.
+It is not long nor complex.
+    This is another line TOO.
+```
+
+▶️ (4) finally, a blue-ink hand just adds an epigram number (`12`) at the top-left corner. This does not alter the epigram's text; it just adds a textual annotation.
+
+Now, let us formalize this reconstruction using **operations** while also providing rendition features for them, in order to represent its visual appearance. For each operation, we list the corresponding output version tag (`v1`, `v2`, etc.) in brackets, followed by the DSL representing the operation and its features.
+
+>💡 You can see the backend data for this example by playing with the online chain demo at <https://gve-demo.fusi-soft.com/snapshot>: just pick the `rendition features` preset, click the button to load it, then click `Run`. You can look at the features injected by operations in text under the `Steps` tab. You will see the rendition features among the other ones, after each version.
+
+▶️ (`v1`) **annotate**: `35: [r_char-offsets="35:x=100 70:x=100"]`: this initial annotation operation is used only to provide indents for even lines. Here a character offsets feature provides a 100 pixels offset to the right for the first character of each even line.
+
+▶️ (`v2`) **delete**: `1x3- [r_hints=diagonal-stroke r_fore-color=red]`: delete the initial `In` and its space. This operation's hint is a diagonal stroke on the deleted text. So, a rendition feature picks a hint named `diagonal-stroke` from the catalog, and sets the foreground color to red. As the hint uses a variable named `r_fore-color` for the color of the line it draws, this means that the hint will be displayed in that color.
+
+▶️ (`v3`) **replace**: `4=T [r_t-position=n r_fore-color=red r_font-size=14]`: replace the lowercase `t` with `T` in `this` as this has become the initial word of the sentence. The operation needs no hints, because in the facsimile the added text is enough to imply the replacement. So, the rendition features target the added text: its position (north), foreground color (red), and size (smaller than 16 which was used for the base text).
+
+▶️ (`v4`) **delete**: `14x2- [r_hints=diagonal-stroke r_fore-color=red]`: delete `I` and its following space from line 1. Again, the deletion is visually represented by a red diagonal stroke, whence the corresponding features to pick and color that hint.
+
+▶️ (`v5`) **insert**: `(v5) 19+]s [r_t-position=ne r_fore-color=red r_font-size=14]`: add `s` after `show` to turn it into a third person (`shows`). This operation just adds text and has no hints. So again, it just includes features for position (northeast), foreground color and smaller size.
+
+▶️ (`v6`) **annotate**: `64x4: @swap-complex-long [note=1 r_hints=note-interlinear-above r_fore-color=red]`: now we start a macro-operation, because the next operations are logically grouped. That's why we are assigning them a group ID, which is just an arbitrary name: `swap-complex-long`, hinting at the fact that the group represents a swap operation, decomposed in its single visuals, as they were written one at a time. Here we want to swap `complex` with `long` in line 3. To do this, the author just wrote small numbers on top of 3 words: 1, 2, 3 on `long`, `nor`, and `complex`. We are going to do the same, so the first operation just adds the number 1 on top of `long`. This is an "interlinear note above" hint, whose SVG code contains a placeholder variable named `note`. So, we use the `note` feature to specify the note added by this operation (consisting in number `1`), pick the required hint, and specify its color. The rendition software will take care of fetching the hint's drawing, replacing placeholder variables with values (in this case from the feature named `note`), and override the default color.
+
+▶️ (`v7`) **annotate**: `60x3: @swap-complex-long [note=2 r_hints=note-interlinear-above r_fore-color=red]`: we now move to the next number, `2`, doing the same as before. Note that this operation belongs to the same group, thus implicitly defining a macro-operation.
+
+▶️ (`v8`) **annotate**: `52x7: @swap-complex-long [note=3 r_hints=note-interlinear-above r_fore-color=red]`: finally, we complete the macro-operation by adding the last number, `3`, just like we did for the others. So until now we have just added annotations with hints, mimicking the process we reconstructed.
+
+▶️ (`v9`) **swap**: `52x7<>64x4 [r_fore-color=red *version^=alpha]`: we now swap the words in the text, effectively changing it. This time we have no hints, as the swap has been suggested by all the previous hints (the numbers on the words). Anyway, this ends the red hand's work, so we mark the output of this last operation as an alteration stage, named `alpha`.
+
+▶️ (`v10`) **delete**: `40- @add-stuff [r_hints=diagonal-stroke r_fore-color=green]` we now start the work of the green hand. The first operation is deleting the dot after `types` as we are going to extend this sentence. The deletion is visually represented by a diagonal stroke, but this time it's green. So we have a rendition feature to pick that hint, and another to set its color.
+
+▶️ (`v11`) **insert**: `39+]" AND SOME STUFF." @add-stuff [r_t-position=e r_t-offset-y=0.4th r_fore-color=green]`: we now extend the sentence by adding a space followed by `AND SOME STUFF` after word `types`. So, our operation has features for position (east), color (green), and also a horizontal offset, because as you can see there is a gap before the addition.
+
+▶️ (`v12`) **annotate**: `107x6: @stuff-hints [r_hints=box r_fore-color=green]`: now, we are going to replace `STUFF.` with `HINTS.`, mimicking the reconstructed process, where the hand first wrote `STUFF` and immediately after he repented and replaced it with `HINTS`. The problem here is that the hand chose to write `HINTS` in the space above the first line of the epigram, instead of just above or below it, between lines. Maybe he did not feel comfortable in writing in a small interlinear space, or was thinking about additional changes which would have required more space. So, in order to clarify his intent, he visually linked the two words by boxing both. So, he first drew a box around STUFF; then wrote the new word above; and then drew another box around it. We are replaying the same operations here, so we start with the first box with an annotation operation. This annotation belongs to a macro-operation too, named `stuff-hints`. It just picks the box hint, and tells it to use green color.
+
+▶️ (`v13`) **replace**: `107x6=HINTS.@stuff-hints [r_t-position=n r_fore-color=green r_position=n r_t-displaced-span=21x7 r_t-offset-y=-30]`: after having boxed the old word, `STUFF` and its dot, we replace it with `HINTS` and its dot. Now, here we have a displacement: as explained above, hints are positioned relative to their RBR, which is the operation's affected text. In this case, the RBR would be `STUFF.`, the text being replaced. Yet, `HINTS.` was rather written above the whole epigram; to represent this, we use a "displaced span" feature which overrides the original RBR with that of another text, the first part of `all operation` in the first line. This way, `HINTS.` will be displayed right above them (position is north), but offset up as there is more vertical space between it and the first line.
+
+▶️ (`v14`) **annotate**: `113x6: @stuff-hints [r_hints=box r_fore-color=green]`: finally, we complete this macro-operation by boxing the newly added text, `HINTS.`: we thus pick the box hint, and make it green.
+
+▶️ (`v15`) **delete**: `75x5- @mov-too`: the last action by the green hand is moving `too` at the end of line 4. Note that in the facsimile there is no hint on the original word; the hand just added text at the end of the line. Yet, the movement is implied by the fact that the text added here is the same. So, the operation here reflects this situation: we just delete `too` and its comma, as implied by the addition, without any hints. This is the first part of a macro-operation named `mov-too`.
+
+▶️ (`v16`) **insert**: `94+]" TOO."@mov-too [r_t-position=e r_t-offset-x=20 r_t-offset-y=0.4th r_fore-color=green *version^=beta]`: the second part is adding `TOO` with a dot at the end. The operation belongs to the same group, the position is east, with a small offset to the right to reflect the gap in the facsimile; and the color is green. Also, the output of this operation defines another alteration stage, named `beta`. As for the vertical offset of about half the height of text, this is due to the fact that when something is positioned east or west, it is vertically centered with reference to the RBR. So, this would have the undesired effect of raising the baseline of the added text, and we compensate for this by applying this offset.
+
+▶️ (`v17`) **annotate**: `1: [note=12 r_t-fore-color=blue r_fore-color=blue r_hints=note-underline r_h-scale-x=2 r_h-rotation=-45]`: finally, the last hand, blue, just adds number twelve to the epigram. This is written on a diagonal baseline at the top-left corner of the whole epigram. So, to represent this we pick a hint named `note-underline`, representing an underlined textual hint, and specify its `note` placeholder variable value via `note` equal to `12`. The color is blue, and the text is rotated by minus 45 degrees. Also, we scale the hint to 200%, because we are using as RBR the first character of the epigram, and this being a single character the resulting width would be too narrow.
+
+So, we have here defined all the operations of our reconstructed process, one after another, transforming a text into a couple of alteration stages (`alpha` and `beta`), while fully representing their visuals in a symbolic and highly compact way, via operation features. Now, given that each hint has an entrance animation, you can imagine a visualization where the software starts with the base text, and then progressively "replays" the process step by step, drawing added text and hints on the virtual sheet surface, up to the end, where the resulting picture will be the a symbolic, yet faithful representation of the facsimile. We have thus recovered the dimension of time, and integrated it in an interactive visualization similar to a movie, showing the text being transformed under our eyes.
