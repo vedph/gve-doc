@@ -461,4 +461,6 @@ In more detail, currently 3 custom web components are available:
 
 - the web component for the **original (graphical) visualization**, currently integrated in the editor.
 - the web component for the **symbolic visualization**, to be completed and then integrated in the editor.
-- the web component for **editing visual catalogs** of hints with their animations. This is added to provide a more effective tool to design hints visually with SVG code, create and test GSAP-based animations, manage hint variables for placeholder resolution, and save/load hint data to/from JSON files.
+- the web component for **editing visual catalogs** of hints with their animations (hints editor). This is added to provide a more effective tool to design hints visually with SVG code, create and test GSAP-based animations, manage hint variables for placeholder resolution, and save/load hint data to/from JSON files.
+
+🚀 Once completed, we will provide a link to these components and their documentation. Meanwhile, you can experiment with the hints editor in the vanilla HTML page at <http://gve-hint-designer.surge.sh>. If you inspect the page's source code, you will see that all what it takes to embed in it the full-blown editor is adding its tag like `<gve-hint-designer></gve-hint-designer>`. The demo contains a bit more code just to load some preset data (hints and animations) to play with.
