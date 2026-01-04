@@ -15,7 +15,9 @@ nav_order: 2
     - [Symbolic Rendition Logic](#symbolic-rendition-logic)
       - [Visuals Catalogs](#visuals-catalogs)
       - [Computing Visuals](#computing-visuals)
+      - [Positioning and Sizing Added Elements](#positioning-and-sizing-added-elements)
       - [Rendition Features](#rendition-features)
+      - [Feature Adapter](#feature-adapter)
 
 # Diplomatic Model
 
@@ -235,6 +237,8 @@ Of course, given that this visualization is totally feature-driven, and features
 
 >This implies that in cases where the reference text is split across multiple lines, there will be multiple RBR's, one per line. The software takes care of this detail anyway, by using the same rendition logic multiple times for each of these RBR's, where it is sound. For instance, a stroke on top of a text representing its deletion will be repeated for each RBR, thus covering the whole text; but a hint with a text annotation will be displayed only once, despite multiple RBR's.
 
+#### Positioning and Sizing Added Elements
+
 Once we have defined the RBR, we can then define the position of added elements in relative terms, with a very intuitive model, just like we say that "Wunder." is "below and to the left of" the word it replaces. The software defines a dozen of **relative positions** which can be specified via a rendition feature, as usual, and use abbreviations from cardinal points (Figure 3).
 
 ![relative positions](img/relative-positions.png)
@@ -243,7 +247,7 @@ Once we have defined the RBR, we can then define the position of added elements 
 
 So, in our example the word "Wunder." position is `sw`. So in the end positioning an element is essentially equal to positioning its bounding rectangle with reference to the RBR, like in Figure 3. The `o` position represents the `origin` of the rectangle, i.e. its center.
 
-As most hints (like e.g. lines or boxes) are drawn on top of reference text, the default position is `o`. Also, for hints the RBR is not only the source for their position, but also for their size. By default, hints are effectively sized as their RBR: a hint is picked from a catalog, where it has an intrinsic design size, but then it is shrunk or enlarged to fit the RBR size. The effect of this adjustment is that everything which is designed to be drawn on top of reference text fully covers it, as expected. For instance, the diagonal line on top of "Wund:" in Figure 2 will fully conver that text, right because it is the diagonal of its RBR.
+As most hints (like e.g. lines or boxes) are drawn on top of reference text, the default position is `o`. Also, for hints the RBR is not only the source for their position, but also for their **size**. By default, hints are effectively sized as their RBR: a hint is picked from a catalog, where it has an intrinsic design size, but then it is shrunk or enlarged to fit the RBR size. The effect of this adjustment is that everything which is designed to be drawn on top of reference text fully covers it, as expected. For instance, the diagonal line on top of "Wund:" in Figure 2 will fully conver that text, right because it is the diagonal of its RBR.
 
 This is why the default position for hints is `o`, and the default size is the size of the RBR: this will result in a default behavior which covers the whole reference text. For instance, suppose we would like to draw a box around a word. This happens in our VEdition texts, especially to visually connect two portions of text which are distant, like a replacement word which instead of being above or below a line is far from it, at the top of the whole epigram. This is just due to the accidental circumstance of lack of space, and to make it clear that this word is going to replace one word far below, inside the epigram's text, both the original word and the new one are boxed.
 
@@ -255,7 +259,19 @@ In this case, the model provides a perfect parallel to reality: we can represent
 
 Now, this example was not chosen by chance: if we think about it, it has an additional complication: the text being added is **displaced**, far from its reference text; and as we have seen, the position of any added element is always determined by that of its RBR. So, how can we represent this displacement without introducing ad-hoc logic, which would disrupt the elegant generalization of this predictable rendition logic?
 
-The solution is in the logic itself: all added elements still continue to be positioned with reference to the base text; only, here it is the base text to use as the reference which changes. Instead of using the RBR of the replaced text, we will be using the RBR of the text which happens to be found right below the added text, because in our case the added text was written a the top of the epigram. In other terms, it was written above the first line of it, aligned to some specific portion of that line. So, all what we need to do is to override the RBR of the operation with another one, provided by one of its rendition features. Thus, the replacement operation will carry a rendition feature which specifies which portion of the base text should be rather used to compute the RBR: this will effectively displace the added text, positioning it right where we want it. This saves the general RBR-based logic, by simply overriding the RBR via an operation's feature, not differently from when we override the default font properties of an added text to customize it.
+The solution is in the logic itself: all added elements still continue to be positioned with reference to the base text; only, here it is the base text to use as the reference which changes. Instead of using the RBR of the replaced text, we will be using the RBR of the text which happens to be found right below the added text, because in our case the added text was written a the top of the epigram. In other terms, it was written above the first line of it, aligned to some specific portion of that line. So, all what we need to do is to override the RBR of the operation with another one, provided by one of its rendition features. Thus, the replacement operation will carry a rendition feature which specifies which portion of the base text should be rather used to compute the RBR: this will effectively displace the added text, positioning it right where we want it.
+
+In the same way we can also represent another detail: the fact that the displaced text is added far above the epigram's first line, so that it's clear that it is not really referring to that line. Again, this is easy to represent by just adding another rendition feature, which specifies a vertical offset from the originally computed position. If our relative position is `n` (=north, i.e. at the top of the displaced RBR), our vertical offset will subtract a certain value to move it upper (the origin of our Cartesian plane is at the top-left corner, so decreasing its Y coordinate will mean moving an element up). So in the end we will add a couple of features: one which displaces the RBR, and another which offsets the computed position up, thus faithfully reflecting what is found on our sheet.
+
+>Note that offsets can be specified not only in pixels, which is the most granular unit, but also in units relative to the text size: `th` for text height, and `tw` for text width. This allows users to provide an approximate value even without measuring the distance in a more precise way.
+
+This solution preserves the general RBR-based logic, by simply overriding the RBR via an operation's feature, not differently from when we override the default font properties of an added text to customize it. So in the end, all what users do is specifying the operations representing the creative process. Their visualization is totally computed by software, orchestrating default settings, operation's features, and visuals catalogs.
+
+From the user's standpoint, this approach is far more efficient than the graphical one; users just focus on the reconstruction of the creative process, specifying operations and adding to them also some abstract rendition features designed to be general, human-friendly, and yet powerful enough to drive the rendition computed by software. Operations here literally drive not only the transformation of text over time, but also the drawing of all the visuals which represent its evolution, as documented by the carrier. Just like the text changes operation after operations, so visuals accumulate on our virtual sheet reflecting them. At the end of the process, those visuals will be the faithful, yet more symbolic representation of the signs in our sheet, accumulated over time, one after another.
+
+Focusing on a dynamic process, rather than just comparing different static stages, is the core of our model; this is nearer to the reality of the making of the text, and the same holds for both the textual and graphical sides of the model, which reflects the reality of its material counterpart. Essentially, once you write a sign on a sheet of paper, it stays there forever. You might draw a stroke on it, overwrite it, or whatever else hints to its change; but yet, the sign is there, and we are just adding new signs.
+
+The same happens for our model. On the textual side, we have seen that the chain structure contains a set of nodes and a set of links, and any operation just adds items to those sets. Once any item is added, it stays there forever. On the graphical side, any sign we add to our drawing surface, whether it is text or any line or shape, gets accumulated operation after operation, until we reach the final stage where all the signs on the carrier are represented. So again, once a sign is added, it stays there forever; we just add more and more signs during the process. The enter animation of each hint or added text further emphasizes the continuity of this transformation process, fully embracing the flux of time and literally re-playing it below the user's eyes.
 
 #### Rendition Features
 
@@ -293,3 +309,63 @@ The following text rendition features are applicable only to _added text_ (=text
 - `r_t-displaced-span`: a span of base text with format `IDxN` where `ID`=node ID and `N`=count of chars to include, to be used as the RBR instead of the default RBR. This works exactly like a displaced hint, but is applied to added text.
 
 > All these features can be combined. Also, in backend all rendition features have their lifespan limited to the version generated by their operation. This avoids accumulating them in the output context, ensuring that they are valid only for the immediate output of the operation containing them.
+
+Additionally, another layer of abstraction can make operation metadata even more efficient. Side by side with those abstract, yet still lower-level rendition features, which directly specify position, color, font size, and the like, the symbolic approach also allows for the definition of higher-level features, acting as a shortcut towards multiple lower-level counterparts.
+
+For instance, consider a real-world example like the numbers later added to some epigrams, to define a collection by specifying their relative order in it. Now, in many cases, this number was made in the context of a single session by a single hand, and thus it typically features a similar appearance and position.
+
+Let us say that in our case the number is written with a smaller text, a brown ink, rotated by about -45 degrees, at the top-left of the epigram, rather offset from it: in this case, we would just have an annotation operation, and users could pick from a list a higher-level feature like `epigram-nr`, entering its number as its value (like `epigram-nr`=`12`), in all the epigrams using the same type of mark.
+
+Then, an adapter software layer would be used before visualization, translating this single feature into multiple lower-level features defining the hint to show (a note with a textual placeholder, here filled with `12`), its position and offsets, color, rotation, and scale. This results in an even more abstract and thus more economic annotation strategy.
+
+#### Feature Adapter
+
+The feature adapter is a software service which can be used when hosting the rendition web component in the context of your page, right to provide this translation from higher-level features into the basic rendition features listed above. This adapter starts with a set of features, and transforms it into another set of features. So, it is completely transparent to the rendition component, and is applied to data which feed it before they are passed to the component itself.
+
+The feature adapter works in two steps:
+
+1. **match** the features which must be adapted.
+2. **process** each match.
+
+Both these steps are configured by the adapter settings.
+
+The features to be matched are defined by a small DSL with this syntax:
+
+- 1 or more **clauses**, separated by logical operators: `AND`, `OR`, `AND NOT`, `OR NOT`. These follow the standard precedence in boolean algebra: so first NOT, then AND, then OR.
+- **whitespace** separate tokens.
+- clauses can be grouped with **brackets** `()` for precedence.
+- each **clause** has format:
+  1. **name**: the feature name.
+  2. **operator**: the value comparison operator to use. This can be:
+     - `=` equals.
+     - `!=` not-equals.
+     - `^=` starts-with.
+     - `$=` ends-with.
+     - `*=` contains.
+     - `?=` matches-wildcards `?` and `*`.
+     - `~` matches-pattern: matches regular expression.
+     - `==` numeric-equals: first cast to numeric value, and if this succeeds compare for equals, else return false.
+     - `<>` numeric-not-equals: first cast to numeric value, and if this succeeds compare for equals, else return false.
+     - `>` numeric-greater-than: first cast to numeric value, and if this succeeds compare for greater-than, else return false.
+     - `<` numeric-less-than: first cast to numeric value, and if this succeeds compare for less-than, else return false.
+     - `>` numeric-greater-than-or-equal: first cast to numeric value, and if this succeeds compare for greater than or equal, else return false.
+     - `<` numeric-less-than-or-equal: first cast to numeric value, and if this succeeds compare for less-than-or-equal, else return false.
+  3. **value**: the value. Its content depends on the operator used. If the value includes spaces, it is wrapped in `""`.
+
+>In clause, operator and value can be omitted if all what we want to match is the feature name.
+
+For instance:
+
+- `note` matches a feature with name=`note`, whatever its value.
+- `note^=corrected` matches a feature with name=`note` and value starting with `corrected`.
+- `note^=corrected AND (color=red OR color=green)` matches a feature with name=`note` and value starting with `corrected` and either a feature named `color` with value equal to `red` or a feature named `color` with value equal to `green`.
+
+Additionally, each clause can be wrapped in square brackets when you want to capture its name and value, similar to what happens in a regular expression when capturing groups in the matched text. So, `[note^=corrected]` means that we want to capture into a numbered group (1, 2, 3... in the order the captured clauses are specified) the name and value for the matched note feature. Then, in the feature replacement stage, we will use this number prefixed by `$` as a placeholder for the captured name or value, e.g.:
+
+- `$1.name`=captured feature name.
+- `$1.value`=captured feature value.
+
+To name a group, rather than using the ordinal number, you can specify the name after `[` and before `:`. For instance, `[corr:note^=corrected]` captures the matched feature into a group named `corr`. So, in this case we would have:
+
+- `$corr.name`=captured feature name.
+- `$corr.value`=captured feature value.
