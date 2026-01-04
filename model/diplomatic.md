@@ -16,8 +16,10 @@ nav_order: 2
       - [Visuals Catalogs](#visuals-catalogs)
       - [Computing Visuals](#computing-visuals)
       - [Positioning and Sizing Added Elements](#positioning-and-sizing-added-elements)
+      - [Hint Model](#hint-model)
       - [Rendition Features](#rendition-features)
       - [Feature Adapter](#feature-adapter)
+  - [Software Tools](#software-tools)
 
 # Diplomatic Model
 
@@ -273,6 +275,63 @@ Focusing on a dynamic process, rather than just comparing different static stage
 
 The same happens for our model. On the textual side, we have seen that the chain structure contains a set of nodes and a set of links, and any operation just adds items to those sets. Once any item is added, it stays there forever. On the graphical side, any sign we add to our drawing surface, whether it is text or any line or shape, gets accumulated operation after operation, until we reach the final stage where all the signs on the carrier are represented. So again, once a sign is added, it stays there forever; we just add more and more signs during the process. The enter animation of each hint or added text further emphasizes the continuity of this transformation process, fully embracing the flux of time and literally re-playing it below the user's eyes.
 
+#### Hint Model
+
+While added text is just text rendered as such, combining the default settings with its rendition features, hints have a more complex model. Each hint essentially is an SVG fragment representing something to be rendered on the component text rendition area and corresponding to a specific operation. As we have seen, hints are defined in a catalog, and linked to operations via a specific rendition feature (`r_hints`: see [below](#rendition-features)), which contains the IDs of all the hints to use for that operation. For instance, `r_hints` = `alpha beta` means that we want to apply 2 hints with ID `alpha` and `beta`, in this order.
+
+The hint has these **properties**:
+
+- `svg`: SVG code for hint's visuals, always having a root g element.
+- `position`: relative position for the hint.
+- `offsetX`: absolute (10) or proportional (`0.5th` = half text height, `0.5tw` = half text width).
+- `offsetY`: absolute (10) or proportional (`0.5th` = half text height, `0.5tw` = half text width)
+- `scaleX`: horizontal scale: `1` = match bounds width, `1.1` = 110% of bounds width.
+- `scaleY`: vertical scale: `1` = match bounds height, `1.1` = 110% of bounds height.
+- `rotation`: optional hint's rotation (`0`=none).
+- `animation`: JS code for animating the hint's entrance via GSAP.
+- `displacedRefSpan`: a span of base text with format IDxN where ID=node ID and N=count of chars to include, to be used as the RBR instead of the default RBR.
+
+The hint's `svg` property is a string representing the SVG content of a hint. The SVG content has these characteristics:
+
+- by convention, its **root element** is always a `g` element. This allows to manipulate the whole hint as a single entity (e.g. for transforming or animating it). So, there is no `svg` root; this is just a code fragment.
+- inside this root `g` element we can have **any SVG code** with groups, shapes, lines, text, etc. Apart from sizing and positioning it, and possibly overriding some of its properties dynamically (e.g. color, text decorations, etc.), the component will just render it as it is.
+- it may contain a **handle** element with `id`=`handle`. This represents the "handle" for the SVG code, i.e. the point in it which is used as _the reference for positioning it_. If there is no such handle element, then the component just uses the _bounding rectangle_ for the whole SVG (i.e. its root `g` element, which is always present). Often, in the hint SVG code the handle element has opacity=0 so it is not visible; but this is up to the SVG code you get from the hint. Anyway, the setting `showHintHandles` can force such hidden handles to be displayed setting their opacity to 1 for diagnostic purposes.
+- it may contain a **placeholder** element with `id`=`placeholder`. This is usually an SVG shape, like a rectangle including a `text` SVG element which represents the text to draw, or directly a `text` element. Whatever the placeholder element is, in the end it either is a `text` element, or it contains a `text` element. This text element has this behavior:
+  - its _text value_ is resolved at runtime: in the hint SVG, it is just the _name of the variable_ containing the text. This is equal to the name of a _feature_ which is supposed to be provided by the same operation the hints belongs to. If a feature with this name is not found, the text value will just be the feature name, so that users will be able to understand that there are issues in their data.
+  - as for its _size_:
+    - when the hint's placeholder element has a `class` attribute equal to `fit`, the text's size is calculated so that its content fits the container element with the `placeholder` ID. For instance, the SVG code of the hint might represent a callout for insertion, where the balloon is a rectangle with id=`placeholder`, and the line ends into the handle point. This way, the text being added will appear inside the balloon. So, here the text must fit into the container.
+    - else, the text value and the settings for drawing it determine the resulting size of `text`. This implies that all the SVG elements containing this `text` element, including the root `g` element, must scale to fit it inside them. So, this is the inverse case with reference to the default one: here the container must fit the text.
+
+Also, the SVG code in the hint's `svg` property can include **placeholder variables**, which are wrapped in `{{...}}` ("whiskers") and are represented by the name of the feature we want to get the value from. For instance, `<rect width="100" height="50" fill="{{r_color}}" />` has a placeholder `{{r_color}}` meaning that we will have to replace it with the value of a feature named `r_color` (or with nothing, when that feature is not found).
+
+Finally, the hint's `animation` property defines its enter animation. It can include:
+
+- the JavaScript code fragment using the GSAP library for animating the hint's SVG.
+- the identifier of a preset animation using the GSAP library for animating the hint's SVG, prefixed by `#`. So, if the string starts with `#`, it is assumed that it just contains the ID of a preset animation which must be retrieved to get the corresponding JavaScript code. Such preset animations can be defined in the component's settings.
+
+>⚙️ We use GSAP for animations because it's robust and powerful, and has many powerful plugins available. Note that while plugins first were limited to paid subscriptions, they are now _freely available_ for everyone. All what is required to use a plugin is registering it once in code, e.g.:
+
+```ts
+// register a plugin for use
+gsap.registerPlugin(DrawSVGPlugin);
+console.log("DrawSVG plugin registered:", gsap.plugins.drawSVG !== undefined);
+```
+
+The GSAP animation targets the hint's root `g` element, i.e. the whole hint.
+
+>⚠️ Note that the rendering component is a custom web component, so that it uses Shadow DOM and we thus need to _explicitly provide a reference to this element_ to the GSAP code (otherwise, GSAP would not be able to use `getElementById`). So, the rendering component:
+
+- creates the hint's `g` element.
+- creates a JS function wrapping the JS animation code got from the hint, and receiving these parameters:
+  - `gsap`: the global instance of the GSAP library, defined once outside this JS code;
+  - `hintEl`: the created hint's root `g` element;
+  - `rootEl`: the root `svg` element of the whole text rendition area, should it ever be required by the GSAP animation code.
+
+💡 As for GSAP reference, see:
+
+- [GSAP Documentation](https://greensock.com/docs/)
+- [DrawSVG Plugin](https://greensock.com/docs/v3/Plugins/DrawSVGPlugin): plugin for animating SVG.
+
 #### Rendition Features
 
 The rendition features defined cover almost all the visualization aspects it could be useful to customize. Here's their list:
@@ -300,17 +359,30 @@ The rendition features defined cover almost all the visualization aspects it cou
 - `r_hints`: this feature is used to link the operation to any number of hints. The value is a space-delimited list of hint IDs, in the order they should be rendered for that operation.
 - `r_hint-vars`: this has no effect on text; it is just a rendition feature used to define a set of variables to be used by hints placeholders. Each variable has format `name=value`, and is separated with space. For instance, `color=red bold=1` to pass variables `color`=`red` and `bold`=`1` to the hints being rendered for the operation being processed.
 
-The following text rendition features are applicable only to _added text_ (=text nodes added by insert/replace operations):
+The following text rendition features are applicable only to **added text** (=text nodes added by insert/replace operations):
 
 - `r_t-position`: the relative position of added text.
 - `r_t-offset-x`: the X offset for the added text, relative to the computed `r_t-position`.
 - `r_t-offset-y`: the Y offset for the added text, relative to the computed `r_t-position`.
 - `r_t-solid`: a boolean value (`1` or `0`), telling whether the added text behaves as "solid" (thus triggering elements spreading when added in a place where there is not enough room for it) or not (which is the default).
-- `r_t-displaced-span`: a span of base text with format `IDxN` where `ID`=node ID and `N`=count of chars to include, to be used as the RBR instead of the default RBR. This works exactly like a displaced hint, but is applied to added text.
+- `r_t-displaced-span`: a span of base text with format `IDxN` where `ID`=node ID and `N`=count of chars to include, to be used as the RBR instead of the default RBR.
 
 > All these features can be combined. Also, in backend all rendition features have their lifespan limited to the version generated by their operation. This avoids accumulating them in the output context, ensuring that they are valid only for the immediate output of the operation containing them.
 
-Additionally, another layer of abstraction can make operation metadata even more efficient. Side by side with those abstract, yet still lower-level rendition features, which directly specify position, color, font size, and the like, the symbolic approach also allows for the definition of higher-level features, acting as a shortcut towards multiple lower-level counterparts.
+The following rendition features are applied to **hints** only to override its corresponding property:
+
+- `r_h-position`: override hint's `position` property.
+- `r_h-offset-x`: override hint's `offsetX` property.
+- `r_h-offset-y`: override hint's `offsetY` property.
+- `r_h-scale-x`: override hint's `scaleX` property.
+- `r_h-scale-y`: override hint's `scaleY` property.
+- `r_h-rotation`: override hint's `rotation` property.
+- `r_h-solid`: override hint's `solid` property.
+- `r_h-displaced-span`: override hint's `desplacedRefSpan` property (for displaced hints).
+
+>By default, the hint rendition features apply to ALL the hints in the operation (those listed by the `r_hints` rendition feature), unless the property value starts with `@` followed by a space delimited list of hint IDs, ended by `:`; in this case, it applies ONLY to those hints matching the list. For instance, `r_h-position`=`e` applies to ALL hints overriding their `position` property to `e`; while `@alpha beta:e` applies ONLY to hints with IDs `alpha` and `beta`, overriding their `position` property to `e`.
+
+Additionally, another layer of abstraction can make operation metadata even more efficient. Side by side with those abstract, yet still lower-level rendition features, which directly specify position, color, font size, and the like, the symbolic approach also allows for the definition of **higher-level features**, acting as a shortcut towards multiple lower-level counterparts.
 
 For instance, consider a real-world example like the numbers later added to some epigrams, to define a collection by specifying their relative order in it. Now, in many cases, this number was made in the context of a single session by a single hand, and thus it typically features a similar appearance and position.
 
@@ -369,3 +441,24 @@ To name a group, rather than using the ordinal number, you can specify the name 
 
 - `$corr.name`=captured feature name.
 - `$corr.value`=captured feature value.
+
+## Software Tools
+
+The visualization of a GVE snapshot data model is very complex, and yet it is a crucial part of the system, focused on representing a process over time rather than based on comparing multiple static versions of a text. This is also why animation plays a semantic role in it, rather than just being a fancy addition: it embodies time and allows to unwind the text transformation process under our eyes.
+
+As for any DH project, the point of VEdition is not only provide a solution perfectly fit to its object, but also to generalize it so to offer to the community a paradigmatic model with its software tools. So, just like we provide a full-featured web-based editor for creating data using our model, we also provide reusable tools to visualize them using this complex logic.
+
+As these tools must be integrated in any frontend, from a simple vanilla HTML page to a full-fledged web app, we need to implement them using the most neutral and reusable technologies. In this case, the task of visualizing a snapshot is delegated to a custom web component. **Custom Web Components** allow developers to define new HTML elements that encapsulate their own structure, style, and behavior, making them reusable across any web environment. Because they rely solely on standardized browser APIs -- Custom Elements, Shadow DOM, and HTML Templates -- they remain framework‑agnostic and can be embedded seamlessly in contexts ranging from static HTML pages to complex frontend frameworks. This ensures strong encapsulation (avoiding CSS or JavaScript conflicts), high reusability, and long‑term technological neutrality, which is essential for DH tools meant to be adopted by diverse communities and infrastructures. In the end, all what it takes to use a custom web component is importing its JavaScript code once, and then use its tag just like any other standard HTML tag.
+
+So, in the context of the GVE system these are the main software components:
+
+- core logic in backend.
+- web API surface exposing the core logic, which can be consumed by any software.
+- web app with a full-fledged editor for entering snapshot and other data, based on the [Cadmus](https://vedph.github.io/cadmus-doc) system.
+- custom web components for snapshot visualization.
+
+In more detail, currently 3 custom web components are available:
+
+- the web component for the **original (graphical) visualization**, currently integrated in the editor.
+- the web component for the **symbolic visualization**, to be completed and then integrated in the editor.
+- the web component for **editing visual catalogs** of hints with their animations. This is added to provide a more effective tool to design hints visually with SVG code, create and test GSAP-based animations, manage hint variables for placeholder resolution, and save/load hint data to/from JSON files.
