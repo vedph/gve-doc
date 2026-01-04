@@ -231,7 +231,7 @@ So, to make it general and simple enough, the rendition logic reflecting this re
 
 ![reference bounding rectangle for "Wund:"](img/wund-rbr.png)
 
-- Figure 2: the RBR for "Wund:" (in red)
+- Figure 2: the concept of the RBR for "Wund:" (in red): in rendition, it rather refers to the rendered text for that image
 
 Of course, given that this visualization is totally feature-driven, and features are based on operations, the concept of "reference" text is determined by the operation's type and the text it affects. For instance, in a replacement or in a delete operation the reference text is the text being removed; in a move or swap operation is the text(s) being moved; in an insert operation it is the "anchor" text before or after which the text is added.
 
