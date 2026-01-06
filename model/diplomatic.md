@@ -20,7 +20,7 @@ nav_order: 2
       - [Rendition Features](#rendition-features)
       - [Feature Adapter](#feature-adapter)
   - [Software Tools](#software-tools)
-    - [Symbolic Visualization Example](#symbolic-visualization-example)
+  - [Symbolic Visualization Example](#symbolic-visualization-example)
 
 # Diplomatic Model
 
@@ -33,6 +33,8 @@ In the course of evolution of the project, two alternative strategies for repres
 The original strategy is purely graphical, and more faithful in reproducing the facsimile image, literally re-drawing on top of it (via SVG), and positioning added text according to diplomatic metadata. Animations are used to represent the temporal flow of operations. This method, while accurate, can be complex and time-consuming, unless driven by a more automated data flow for imaging.
 
 To enhance efficiency and provide more granular data at the visual level, a new, symbolic approach has been introduced abstracting the visualization process. Instead of redrawing each sign, operations are described using rendition features (like “diagonal line”, “box”, “cross”, "below and to the left", “shifted right”, etc.), while the visualization engine uses this visual grammar to do the math to properly size and position each element.
+
+>This page reflects the current state of the model and software. The new visualization approach is anyway designed to superceed the old one, as the old one can be implemented within the same model in the context of an imaging-driven flow. In this case, one would create a visuals catalog directly from the facsimile and then consume it just like it were a general-purpose, more abstract catalog.
 
 ## Graphical Approach
 
@@ -496,7 +498,7 @@ In more detail, currently 3 custom web components are available:
 
 🚀 Once completed, we will provide a link to these components and their documentation. Meanwhile, you can experiment with the hint designer in the vanilla HTML page at <http://gve-hint-designer.surge.sh>. If you inspect the page's source code, you will see that all what it takes to embed in it the full-blown editor is adding its tag like `<gve-hint-designer></gve-hint-designer>`. The demo contains a bit more code just to load some preset data (hints and animations) to play with.
 
-### Symbolic Visualization Example
+## Symbolic Visualization Example
 
 Let us summarize and see how the symbolic visualization model is used with a mock example. This uses a very simple fake text, but designed so that it covers all operation types, and shows many visual features derived from real-world documents in the VEdition project.
 
