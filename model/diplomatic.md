@@ -6,27 +6,23 @@ nav_order: 2
 ---
 
 - [Diplomatic Model](#diplomatic-model)
-  - [Graphical Approach](#graphical-approach)
-    - [Animation](#animation)
-    - [GSAP Model](#gsap-model)
-    - [Animation Model](#animation-model)
-  - [Symbolic Approach](#symbolic-approach)
-    - [Pragmatic Signs Classification](#pragmatic-signs-classification)
-    - [Symbolic Rendition Logic](#symbolic-rendition-logic)
-      - [Visuals Catalogs](#visuals-catalogs)
-      - [Computing Visuals](#computing-visuals)
-      - [Positioning and Sizing Added Elements](#positioning-and-sizing-added-elements)
-      - [Hint Model](#hint-model)
-      - [Rendition Features](#rendition-features)
-      - [Feature Adapter](#feature-adapter)
+  - [Pragmatic Signs Classification](#pragmatic-signs-classification)
+  - [Symbolic Rendition Logic](#symbolic-rendition-logic)
+    - [Visuals Catalogs](#visuals-catalogs)
+    - [Computing Visuals](#computing-visuals)
+    - [Positioning and Sizing Added Elements](#positioning-and-sizing-added-elements)
+    - [Hint Model](#hint-model)
+    - [Rendition Features](#rendition-features)
+    - [Feature Adapter](#feature-adapter)
   - [Software Tools](#software-tools)
-  - [Symbolic Visualization Example](#symbolic-visualization-example)
+  - [Mock Example](#mock-example)
+  - [Real-World Example](#real-world-example)
 
 # Diplomatic Model
 
 On the diplomatic side, our model should provide an at least approximate graphical representation of the snapshot.
 
->Note that this is not a requirement for the textual side of the model; we could just implement this without its graphical counterpart, which in some cases might be less relevant or too costly. So this is just an additional part of the model, which is anyway designed to preserve the separation between these two layers.
+>Note that this is not a requirement for the textual side of the model; we could just implement this without its graphical counterpart. This is just an additional part of the model, which is anyway designed to preserve the separation between these two layers.
 
 In the course of evolution of the project, two alternative strategies for representing visuals have been defined.
 
@@ -34,100 +30,11 @@ The original strategy is purely graphical, and more faithful in reproducing the 
 
 To enhance efficiency and provide more granular data at the visual level, a new, symbolic approach has been introduced abstracting the visualization process. Instead of redrawing each sign, operations are described using rendition features (like “diagonal line”, “box”, “cross”, "below and to the left", “shifted right”, etc.), while the visualization engine uses this visual grammar to do the math to properly size and position each element.
 
->This page reflects the current state of the model and software. The new visualization approach is anyway designed to superceed the old one, as the old one can be implemented within the same model in the context of an imaging-driven flow. In this case, one would create a visuals catalog directly from the facsimile and then consume it just like it were a general-purpose, more abstract catalog.
-
-## Graphical Approach
-
-As we have seen, the core of the textual model is represented by the chain structure, and by operations acting on it. Each operation is an act executed on the text, and in most cases corresponding to some graphical representation in the snapshot.
-
-For instance, consider our usual mock snapshot:
-
-![diplomatic features on snapshot](img/diplomatic.png)
-
-Here I have highlighted each portion of visuals with a different color, corresponding to the operations represented by the snapshot:
-
-- the red bar on top of `Z` represents its deletion.
-- the yellow bar on top of `R`, continued to the left up to a `V`, represents a replacement: `R` is replaced by `V`. The visuals here are 3: two segments and a `V` letter.
-- the orange bar on top of `V` and the `B` drawn above it are the visuals corresponding to another replacement. This time, `V` is replaced by `B`.
-- the magenta arrow on top of `DC` represents a movement operation: `C` is moved before `D`, or alternatively, `D` and `C` are swapped. As in many other cases, here the choice depends on the one which best fits our interpretation.
-
-So, at this level of abstraction, any annotation in our snapshot can be graphically represented by a set of visuals, corresponding to any mixture of geometric shapes and/or text, whatever its complexity.
-
-As annotations are modeled as operations, this means that we can add the graphical representation of each operation as a set of visuals linked to it. This is essentially what is done by the diplomatic portion of the model, which adds these metadata to operations:
-
-- `g`: the SVG `g` element graphically representing the operation this diplomatic information is attached to. SVG being XML, this is just a string in the object model. SVG here is the ideal candidate for this graphical representation, because it's a W3C standard for vector and interactive graphics in HTML pages. As an XML dialect, SVG can represent any geometrical form or text, with all its visual features, just with some text; and this is compatible with both HTML and XML, including of course TEI. Also, it can be made interactive and animated by controlling each of its elements via JavaScript. An SVG `g` element is a group, which may contain any type and number of shapes or texts, or even other groups. So, a single `g` element for each operation can represent any complex visuals for it, as a single unit.
-- `features`: a set of generic features attached to the operation as a whole and related to its diplomatic aspects. For instance, we might want to add information about ink, size, etc. Features are modeled as already seen for the textual portion (name/value pairs).
-- `element features`: this is a dictionary of features sets, keyed under SVG element IDs. The dictionary allows to attach features to a specific element of the operation visuals, rather than to their whole set. To this end, you assign an arbitrarily chosen ID to every SVG element you want to attach features to, and then add as many features as needed to it under the key of its ID. For instance, we might want to add a specific set of features to only the orange bar among the two visuals building the group representing the replacement of `V` with `B`.
-
-So, this model not only links visuals to each operation, but also attaches optional metadata on the diplomatic side, both to the operation as a whole, or to any parts of its visuals. Yet, the model is very simple, because it rests on just text: SVG code for the visuals, and name=value pairs for features.
-
-### Animation
-
-Additionally, this bidimensional, geometric model can be further extended by adding the dimension of _time_ in the form of animations.
-
-In depicting our interpretations of a snapshot, tracing back text versions to the actions performed by its author, animations can play a significant semantic role in the context of this model. Of course, they belong to the same realm of interpretation we have already distinguished in that model, but a digital publication can greatly benefit from them.
-
-With reference to our architecture, animations must be designed no longer at the level of each single operation, but rather within the scope of the whole snapshot. For instance, think about a `B`  inserted between `A` and `C`: we might want to animate this insertion by moving `B` between these two letters, which in turn would require to be moved in opposite directions, so to make space for the new one. So, this goes beyond the scope of a single operation, and is rather contained in the snapshot as a whole.
-
-As we have seen, a chain contains the representation of many versions of what we consider the "same" text, as defined by a set of operations. Each operation generates a new state for the text, representing a **step** towards the "final" state for the text, as reconstructed by our interpretation.
-
-While there is a new step for each operation, usually not all these steps represent what we consider as a true **version** of the text. Anyway, in the model this is just a detail, implemented with a specific metadatum which tags some of the steps as representing a version.
-
-The purpose of animations is visally hinting at the transition between two steps; so, animations are tightly coupled with steps. This has a number of implications, which help shape the model of animations in a simpler tool:
-
-- each animation is _tagged_ with the step ID corresponding to its target state. For instance, if an animation must animate the transition between `v3` and `v4`, its tag will be `v4`. While many operations can stem from the same step (for instance, two different variants branching from the same base at different times), each operation always produces a different, uniquely identified step. This is what is used to link animations with steps.
-
-- each animation deals with _all the visuals present in the snapshot up to its reference step, included_. So, if an animation refers to `v4`, and the steps preceding it are `v0`, `v1`, `v2` and `v3`, all the visuals introduced by these steps will be present and available for the animation. As the animation is a transition between the state represented by its source step and that represented by its target step, this in practice means that it is going to provide entrance- (and possibly side-) effects for the visuals in the target step. Thus, in our example we can assume that the visuals up to `v3` are all present and visible in the snapshot, while those of `v4` are present (as injected by executing the operation leading to `v4`), but not yet visible. It is the task of the animation to bring them into visibility with the desired transitions. For instance, a line representing a stroke on a letter to mean its deletion might be progressively revealed like a pen's trait, with a point which stretches into a segment, becoming longer until it reaches its final dimension. In this case, we start with this invisible segment, and apply an animation which gives the live effect of "drawing" it.
-
->In an autograph, visuals in fact accumulate on the snapshot as they get added to it step by step. Once added, unless we aim for some more abstract visualization their place no longer changes. So, introducing animation here is just a matter of animating the transition between a step with existing visuals to another one with additional visuals. This reflects the physical nature of the model: a snapshot is a set of graphical signs on a material support, and once these signs are traced, there is no way of undoing this action. Of course one can change his mind and graphically represent this by e.g. drawing a stroke on them, or even overwriting them; but once a visual is there, the very fact of its presence cannot be deleted.
-
-- _animations are an optional feature_: the model can work even without them, and still retain its essential representative power. This allows different projects to choose whether to add this additional layer of data, or just be happy with the basic one. A snapshot without animations is just a sequence of still frames; whereas one with animations provides transitions between these stills, by means of value interpolation. Metaphorically, this allows moving from a gallery of single shots to a movie. When properly used, such animations convey more meaning rather than just being a fancy addition: they can help in leading the reader's attention to the crucial stages of a transformation happening right before his eyes, thus helping in understanding the evolution of a text along the time axis by actually using time for this purpose.
-
-### GSAP Model
-
-Animations are complex; yet, given that we don't need (nor desire) overtly complex features in our general-purpose model, we can leverage some existing software libraries to define a generic model for them.
-
-Among the freeware libraries targeting web, one of the most popular and well-suited for these requirements is represented by [GSAP](https://gsap.com). The basic concepts and entities used there can be easily imported in our model.
-
-GSAP is based on _tweens_. A **tween** is just a _property setter_, capable of animating any property, like for instance the position of an element, its size, rotation, color, etc. Its name clearly comes from the fact that animation essentially interpolates _between_ two different states of an object.
-
-In GSAP, a tween object is created with a function specifying either its start point (`from`, assuming the current state as the end point), or its end point (`to`, assuming the current state as the start point), or both (`fromTo`).
-
-Each of these functions gets these [arguments](https://gsap.com/docs/v3/GSAP/Tween):
-
-1. a `selector` to define the target element(s).
-2. a `vars` object, with all the properties/values pairs you want to animate (e.g. `rotation: 360`). This can also include some special properties, whose names are reserved to specify animation behaviors, like `duration`, `delay`, `ease`, etc.
-
-In turn, tweens are contained in **timelines**, which can be further configured with `vars`, as for tweens. Timelines orchestrate the animations represented by tweens, coordinating their timing and order.
-
-To add a tween to a timeline, the timeline object has corresponding methods (`to`, `from`, `fromTo`). This adds a third optional parameter, [position](https://gsap.com/docs/v3/GSAP/Timeline#positioning-animations-in-a-timeline), a string with its own syntax, used to precisely control where things are placed.
-
-### Animation Model
-
-The animation model here can be designed in compliance with a basic usage of GSAP:
-
-- `timelines` (`AnimationTimeline`): a dictionary of 1 or more timelines, keyed under version tags. Each version can thus have its own animation, as it's selecting and reordering a subset of operations on the chain. Each timeline contains a set of tweens.
-  - `tweens` (`AnimationTween`):
-    - `label`: a human-friendly label for the tween.
-    - `note`: a free text note about the tween.
-    - `type`: whether it animates from current state to another one (`to`), vice-versa (`from`), or specifying both initial and final states (`fromTo`).
-    - `selector`, usually the target element ID. This can be the ID of any of the elements in the SVG code of any operation with a visual representation in the whole snapshot.
-    - `vars` (`AnimationVars`, a map where keys are strings and values are strings, numbers, or booleans): a free object with variables to be animated, whose values can be scalar or other objects. As GSAP is JavaScript-based, the object can be encoded as a JSON string. Anyway currently we limit the logic to scalars, as it seems there is no need for more complex values here.
-    - `position`: this is just a string.
-
->A timeline can be easily transformed into a set of instructions for GSAP. Essentially, a tween is created with the timeline's function corresponding to its type (`to`, `from`, `fromTo`), which gets as parameters selector, vars and position from the corresponding tween's properties. In tweens, both label and note have no usage, except facilitating the users work in editing the timeline.
-
-## Symbolic Approach
-
-While the graphical approach provides a faithful representation of visuals, for scalability reasons it is better fit to a flow where imaging is managed with some level of automation. For instance, in a HTR-based scenario one could leverage the regions defined by this process to support the digitization of signs and their connection with operations.
-
-Anyway, especially those scholars more versed in traditional philology having to redraw non-textual signs on top of the facsimile and manually position text on it (via features like `x` and `y`) would be time-consuming, and possibly distracting when they mostly focus on text.
-
 Also, it could be interesting to provide a more computable, and thus more abstract, representation of visuals, so that one could also analyze the distribution of their features among carriers and their relationship with their meaning. A specific visual representation might be typical of a period, a set of documents, a hand, etc; and from a paleographic point of view, one might be even interested in collecting, classifying, and quantifying the distribution of signs with their meanings.
 
 So, an alternative approach has been designed, whose model relies on operation features and on a sort of catalog of visuals with their animations. Here, it is no longer the user, but the software which draws signs on a surface on their behalf, following directions provided by features and taking care of all the heavy math to size and position them.
 
-### Pragmatic Signs Classification
+## Pragmatic Signs Classification
 
 The symbolic approach is a more abstract model based on a pragmatic classification of signs. The best way to illustrate it is starting with the real-world image in Figure 1:
 
@@ -164,7 +71,7 @@ It should be noticed that the distinction between hints and added text is not a 
 
 So, in our example the replacement operation's _hint_ is only the line above the old word, while the new word replacing it is _added text_, and becomes part of the epigram's text in the text version(s) following it.
 
-### Symbolic Rendition Logic
+## Symbolic Rendition Logic
 
 From a practical standpoint, the logic for rendering text and added text is essentially the same: in both cases we are just drawing text, belonging to the text being transformed.
 
@@ -175,7 +82,7 @@ This implies that:
 - **base text** can be rendered with a simpler logic, essentially equal to that which dictates the arrangement of characters in lines on a sheet of paper. Characters follow each other on the same line, until the next line starts. Of course, this layout can occasionally be modified; for instance, whatever the reasons, a portion of the text might be written with a different size, or along an offset or rotated baseline. Anyway, these are occasional departures which can be implemented by overriding the default logic.
 - **added text** instead is placed and sized freely, reflecting its appearance on the carrier.
 
-#### Visuals Catalogs
+### Visuals Catalogs
 
 As for **hints**, these can be text (not belonging to the text being transformed), freely sized and positioned like added text, or more often pure geometrical elements, like lines and shapes. So, their appearance is totally unpredictable, as in theory everything could be drawn on a sheet. This is why in the original approach the diplomatic metadata of an operation includes an SVG code fragment, which represents the visual appearance of its hint.
 
@@ -205,7 +112,7 @@ So, each hint progressively unveils itself, rather than abruptly appearing: this
 
 Here too, we can leverage the same approach for an even more efficient representation: rather than providing a specific animation for each hint instance, we can reuse animations just like we reuse hints. So, the hints catalog stays side by side with an **animations catalog**, and each hint just reuses an animation from it, except when the hint's structure is so peculiar that it requires its own animation.
 
-#### Computing Visuals
+### Computing Visuals
 
 So, the first ingredient for our visualization is a catalog of visual assets, including SVG code fragments for hints drawings, and JavaScript code fragments for their animations.
 
@@ -242,7 +149,7 @@ Of course, given that this visualization is totally feature-driven, and features
 
 >This implies that in cases where the reference text is split across multiple lines, there will be multiple RBR's, one per line. The software takes care of this detail anyway, by using the same rendition logic multiple times for each of these RBR's, where it is sound. For instance, a stroke on top of a text representing its deletion will be repeated for each RBR, thus covering the whole text; but a hint with a text annotation will be displayed only once, despite multiple RBR's.
 
-#### Positioning and Sizing Added Elements
+### Positioning and Sizing Added Elements
 
 Once we have defined the RBR, we can then define the position of added elements in relative terms, with a very intuitive model, just like we say that "Wunder." is "below and to the left of" the word it replaces. The software defines a dozen of **relative positions** which can be specified via a rendition feature, as usual, and use abbreviations from cardinal points (Figure 3).
 
@@ -280,7 +187,7 @@ Focusing on a dynamic process, rather than just comparing different static stage
 
 The same happens for our model. On the textual side, we have seen that the chain structure contains a set of nodes and a set of links, and any operation just adds items to those sets. Once any item is added, it stays there forever. On the graphical side, any sign we add to our drawing surface, whether it is text or any line or shape, gets accumulated operation after operation, until we reach the final stage where all the signs on the carrier are represented. So again, once a sign is added, it stays there forever; we just add more and more signs during the process. The enter animation of each hint or added text further emphasizes the continuity of this transformation process, fully embracing the flux of time and literally re-playing it below the user's eyes.
 
-#### Hint Model
+### Hint Model
 
 While added text is just text rendered as such, combining the default settings with its rendition features, hints have a more complex model. Each hint essentially is an SVG fragment representing something to be rendered on the component text rendition area and corresponding to a specific operation. As we have seen, hints are defined in a catalog, and linked to operations via a specific rendition feature (`r_hints`: see [below](#rendition-features)), which contains the IDs of all the hints to use for that operation. For instance, `r_hints` = `alpha beta` means that we want to apply 2 hints with ID `alpha` and `beta`, in this order.
 
@@ -293,7 +200,7 @@ The hint has these **properties**:
 - `scaleX`: horizontal scale: `1` = match bounds width, `1.1` = 110% of bounds width.
 - `scaleY`: vertical scale: `1` = match bounds height, `1.1` = 110% of bounds height.
 - `rotation`: optional hint's rotation (`0`=none).
-- `animation`: JS code for animating the hint's entrance via GSAP.
+- `animation`: JS code for animating the hint's entrance via [GSAP](https://gsap.com).
 - `displacedRefSpan`: a span of base text with format IDxN where ID=node ID and N=count of chars to include, to be used as the RBR instead of the default RBR.
 
 The hint's `svg` property is a string representing the SVG content of a hint. The SVG content has these characteristics:
@@ -332,10 +239,15 @@ The GSAP animation targets the hint's root `g` element, i.e. the whole hint.
   - `hintEl`: the created hint's root `g` element;
   - `rootEl`: the root `svg` element of the whole text rendition area, should it ever be required by the GSAP animation code.
 
-💡 As for GSAP reference, see:
-
-- [GSAP Documentation](https://greensock.com/docs/)
-- [DrawSVG Plugin](https://greensock.com/docs/v3/Plugins/DrawSVGPlugin): plugin for animating SVG.
+>💡 Among the freeware libraries targeting web, one of the most popular and well-suited for these requirements is represented by [GSAP](https://gsap.com). The basic concepts and entities used there can be easily imported in our model. GSAP is based on _tweens_. A **tween** is just a _property setter_, capable of animating any property, like for instance the position of an element, its size, rotation, color, etc. Its name clearly comes from the fact that animation essentially interpolates _between_ two different states of an object.
+>In GSAP, a tween object is created with a function specifying either its start point (`from`, assuming the current state as the end point), or its end point (`to`, assuming the current state as the start point), or both (`fromTo`).
+>Each of these functions gets these [arguments](https://gsap.com/docs/v3/GSAP/Tween):
+>1. a `selector` to define the target element(s).
+>2. a `vars` object, with all the properties/values pairs you want to animate (e.g. `rotation: 360`). This can also include some special properties, whose names are reserved to specify animation behaviors, like `duration`, `delay`, `ease`, etc.
+>In turn, tweens are contained in **timelines**, which can be further configured with `vars`, as for tweens. Timelines orchestrate the animations represented by tweens, coordinating their timing and order.
+>To add a tween to a timeline, the timeline object has corresponding methods (`to`, `from`, `fromTo`). This adds a third optional parameter, [position](https://gsap.com/docs/v3/GSAP/Timeline#positioning-animations-in-a-timeline), a string with its own syntax, used to precisely control where things are placed. As for GSAP reference, see:
+>- [GSAP Documentation](https://greensock.com/docs/)
+>- [DrawSVG Plugin](https://greensock.com/docs/v3/Plugins/DrawSVGPlugin): plugin for animating SVG.
 
 As an example, consider this simple hint representing a diagonal stroke, encoded as JSON:
 
@@ -365,7 +277,7 @@ As you can see, the code fragment is really minimalist, as most of the complex a
 
 At any rate, the purpose of the visuals catalog is right to shield users from the complexity of these technologies. Normal users do not need to fuss with SVG (for drawing hints) or JavaScript (for animating their entrance); they just pick a rendition feature from a list in the editor, and the rendition software will take care of all the rest. Also, as shown by this example, usually hints and animations are so generic that they can be easily reused across projects, so that creating them will not be a very frequent requirement, unless you deal with highly custom shapes. Additionally, a [hint designer tool](#software-tools) is also provided to help in creating visuals catalogs.
 
-#### Rendition Features
+### Rendition Features
 
 The rendition features defined cover almost all the visualization aspects it could be useful to customize. Here's their list:
 
@@ -416,7 +328,7 @@ The following rendition features are applied to **hints** only to override its c
 
 >By default, the hint rendition features apply to ALL the hints in the operation (those listed by the `r_hints` rendition feature), unless the property value starts with `@` followed by a space delimited list of hint IDs, ended by `:`; in this case, it applies ONLY to those hints matching the list. For instance, `r_h-position`=`e` applies to ALL hints overriding their `position` property to `e`; while `@alpha beta:e` applies ONLY to hints with IDs `alpha` and `beta`, overriding their `position` property to `e`.
 
-#### Feature Adapter
+### Feature Adapter
 
 Additionally, another layer of abstraction can make operation metadata even more efficient. Side by side with those abstract, yet still lower-level rendition features, which directly specify position, color, font size, and the like, the symbolic approach also allows for the definition of **higher-level features**, acting as a shortcut towards multiple lower-level counterparts.
 
@@ -497,9 +409,13 @@ In more detail, currently 3 custom web components are available:
 - the web component for the **symbolic visualization**, to be completed and then integrated in the editor.
 - the web component for **editing visual catalogs** of hints with their animations (_hint designer_). This is added to provide a more effective tool to design hints visually with SVG code, create and test GSAP-based animations, manage hint variables for placeholder resolution, and save/load hint data to/from JSON files.
 
-🚀 Once completed, we will provide a link to these components and their documentation. Meanwhile, you can experiment with the hint designer in the vanilla HTML page at <http://gve-hint-designer.surge.sh>. If you inspect the page's source code, you will see that all what it takes to embed in it the full-blown editor is adding its tag like `<gve-hint-designer></gve-hint-designer>`. The demo contains a bit more code just to load some preset data (hints and animations) to play with.
+🚀 You can experiment with the hint designer in the vanilla HTML page at <http://gve-hint-designer.surge.sh>. If you inspect the page's source code, you will see that all what it takes to embed in it the full-blown editor is adding its tag like `<gve-hint-designer></gve-hint-designer>`. The demo contains a bit more code just to load some preset data (hints and animations) to play with.
 
-## Symbolic Visualization Example
+---
+
+## Mock Example
+
+🚀 Demo: <http://gve-rendition.surge.sh>
 
 Let us summarize and see how the symbolic visualization model is used with a mock example. This uses a very simple fake text, but designed so that it covers all operation types, and shows many visual features derived from real-world documents in the VEdition project.
 
@@ -589,3 +505,92 @@ Now, let us formalize this reconstruction using **operations** while also provid
 ▶️ (`v17`) **annotate**: `1: [note=12 r_t-fore-color=blue r_fore-color=blue r_hints=note-underline r_h-scale-x=2 r_h-rotation=-45]`: finally, the last hand, blue, just adds number twelve to the epigram. This is written on a diagonal baseline at the top-left corner of the whole epigram. So, to represent this we pick a hint named `note-underline`, representing an underlined textual hint, and specify its `note` placeholder variable value via `note` equal to `12`. The color is blue, and the text is rotated by minus 45 degrees. Also, we scale the hint to 200%, because we are using as RBR the first character of the epigram, and this being a single character the resulting width would be too narrow.
 
 So, we have here defined all the operations of our reconstructed process, one after another, transforming a text into a couple of alteration stages (`alpha` and `beta`), while fully representing their visuals in a symbolic and highly compact way, via operation features. Now, given that each hint has an entrance animation, you can imagine a visualization where the software starts with the base text, and then progressively "replays" the process step by step, drawing added text and hints on the virtual sheet surface, up to the end, where the resulting picture will be the a symbolic, yet faithful representation of the facsimile. We have thus recovered the dimension of time, and integrated it in an interactive visualization similar to a movie, showing the text being transformed under our eyes.
+
+---
+
+## Real-World Example
+
+🚀 Demo: <http://gve-rendition.surge.sh/?sample=h5-48>
+
+This is a real example from Venetian Epigram 48-H5 as per our project numbering. Figure 5 shows a symbolic facsimile, with added line numbering for reference. There are two hands, one in pencil (orange), and another in red ink. As for the numbers over words in line 5, they are ultimately red, but in this case the second hand just wrote with red ink on top of pencil to confirm the reordering represented by these numbers.
+
+![facsimile](img/h5-48-facs.png)
+
+- Figure 5 - text facsimile
+
+▶️ (1) the base text is:
+
+```txt
+Wie von der künſtlichen Hand geſchnitzt , das liebe Figürchen ,
+Weıch und ohne Gebein , wie die Molluſka nur ſchwimmt ;
+Alles iſt Glied , und alles Gelenk , und alles gefällig ,
+Alles nach Maaßen gebaut , alles nach Willkühr bewegt ;
+Menſchen und Thiere hab ich gekannt , ſo Vögel als Fiſche ,
+Manches beſonder Gewürm , Wunder der großen Natur ;
+Und doch ſtaun ich dich an , Bettine , liebliches Wunder ;
+Dann du biſt alles zugleich und biſt ein Engel dazu .
+```
+
+In our reconstruction, the first operation is a simple change in punctuation: at the end of line 4, the hand re­places semicolon with colon.
+
+>Of course, for the whole reconstruction the ordering of operations within a hand is just conventional, even if it often follows the logic of the revisor as it appears from diplomatic evidence.
+
+Then it reorders words in line 5. This is done by just adding ordinal numbers on top of the words. Finally, it adds an annotation at the left of the first line, “sten”. This is the correct ending for the word “künstlichen”. This ends the alteration stages by the orange hand.
+
+Now, the red hand’s operations start. First, the red hand clarifies the intent of the pre­vious hand, by inser­ting “st” at the right place. Then it adds a dot on the “i” of “Weich” (as it was missing), and confirms the reordering in line 5, by redrawing the numbers in red. Then, in the last line it replaces “Dann” with “Die”; removes “bist” and “und” before the second “bist”; and adds “und” before “ein Engel”.
+
+Finally, later an ● epigram number was added, with black ink.
+
+Now, let’s describe all this in our model, for both textual and graphical layers, via operations.
+
+- **orange hand**:
+
+▶️ (`v1`) **annotate**: 65: `[r_char-offsets="65:x=100 179:x=100 295:x=100 406:x=100" *log:="Indent lines."]`: the first operation outputs a new version, v1, and it is just an initial setup to indent lines. As we have seen, base text layout has no indentation, so we need to customize it before start. That’s why we use an annotation operation, which only adds features, without changing the text. In this case we add a horizontal offset to the first character of each even line in the epigram, thus indenting them. The offsets feature contains multiple pairs, each with character identifier and offset value. Also we constantly add a _log_ feature, with a short description about the intent of the operation, to make the code more reada­ble.
+
+▶️ (`v2`) 233=: `[r_hints=diagonal-stroke-down r_h-scale-x=1.2 r_h-offset-x=-6 r_fore-color=orange r_t-position=n r_t-value="." comment="The hand deleted the semicolon's comma, adding a dot to transform it into a colon." *log:="At end of line 4, delete comma of semicolon, thus transforming it into a dot. This means replacing semicolon with colon."]`: now we start transforming the text, repla­cing the semicolon with a colon. Note that visually this is complex: the hand here traced a stroke on the comma, and then added a dot above the existing one, to mean a colon. A comment feature explains this to end users; but we also want to visualize it. So, we first pick a hint, the diagonal stroke down, which represents the stroke on comma. But then, we want to display only _one_ dot above it, even though we are replacing the semicolon `;` with colon `:`, which has _two_ dots. To this end, we add a `r_t-value` feature which chan­ges the operation’s value. This allows us to display another text instead of that pro­vi­ded by the replacement operation: a dot, instead of the colon. This anyway is for visu­alization only; the text is still transformed into a colon. It just appears as a dot. So in the end, we get to write a colon. This way, we can faithfully represent our visuals, while still correctly encoding text changes.
+
+▶️ (`v3`) **annotate**: `235x8: @reorder [note=1 r_hints=note-interlinear-above r_fore-color=orange *log:="Add number 1 above 'Menschen'."]`: next, we are going to reorder words in line 5. We thus replay the reconstructed ac­tions, adding a hint with a number above each word. The first is “Menschen”. So we add a hint whose content is specified by the note feature, and here is just the number 1, still with orange color. Numbers are added one at a time, but they all belong to ● the same logical group, thus building a sort of macro-operation, here named `reorder` (this is just an arbitrary name).
+
+▶️ (`v4`) **annotate**: `255x3: @reorder [note=2 r_hints=note-interlinear-above r_fore-color=orange *log:="Add number 2 above 'hab'"]`: the same happens for all the other numbers. This is number 2, above “hab”.
+
+▶️ (`v5`) **annotate**: `259x3: @reorder [note=3 r_hints=note-interlinear-above r_fore-color=orange *log:="Add number 3 above 'ich'."]`: again for number 3, above “ich”.
+
+▶️ (`v6`) **annotate**: `263x7: @reorder [note=4 r_hints=note-interlinear-above r_fore-color=orange *log:="Add number 4 above 'gekannt'."]`: again for number 4, above "gekannt".
+
+▶️ (`v7`) **annotate**: `244x3: @reorder [note=5 r_hints=note-interlinear-above r_fore-color=orange *log:="Add number 5 above 'und' before 'Thiere'."]`: again for number 5, above "und".
+
+▶️ (`v8`) **annotate**: `248x6: @reorder [note=6 r_hints=note-interlinear-above r_fore-color=orange *log:="Add number 6 above 'Thiere'."]`: finally for number 6, above "Thiere".
+
+▶️ (`v9`) `255x16>[244 @reorder [*log:="Move 'hab ich gekannt_' before 'und Thiere'."]`: until now, we just added signs on our virtual sheet, to represent annotations hinting at a reordering. Now, we effecti­vely transform the text by moving it, so that it matches the order specified by numbers. So, here we move “hab ich ge­kannt” before “und Thiere”. Note that we have no hints for this move operation: they were added right before, one after another, with the annotation operations.
+
+▶️ (`v10`) 1: `[r_hints=note note=|ſten r_fore-color=orange r_h-position=w r_h-offset-x=-20 r_h-offset-y=2 r_h-scale-x=1.5 *version^=alteration1 *log:="Add annotation '|ſten' before the first line."]`: finally, we add the annotation “sten” at the left of the first line. This is not very perspicuous, but it is hinting at the fact that the word “künstlichen” should be corrected. With the output of this operation we complete the first alteration stage, corresponding to changes by the orange hand. A `version` property here assigns “alteration stage 1” to the output of this operation. We thus promote this specific output to an alteration stage; all the pre­vious versions were just steps towards this stage.
+
+- **red hand**:
+
+▶️ (`v11`) `22+[ſt [r_hints=half-psi r_t-position=n r_fore-color=red r_font-size=20 r_t-offset-y=-6 *log:="Add 'ſt' before 'en' in 'künstlichen' with callout whence 'künſtlichſten'."]`: the other hand first makes the last cor­rection explicit, by adding “st” at the top of a callout sign. This sign is repre­sented by the hint named _half-psi_, while the added text appears above (north), a bit smaller (font-size), and offset up (offset-y). Also the color now is red.
+
+▶️ (`v12`) `67: [r_hints=i-dot r_fore-color=red *log:="Add dot on 'i' of 'Weich'."]`: The red hand now adds the missing dot above the “i” of “Weich”. So, this is just a hint, named _i-dot_, written over the letter.
+
+▶️ (`v13`) `235x8: @reorder2 [note=1 r_hints=note-interlinear-above r_fore-color=red reason=confirmation *log:="Rewrite number 1 above 'Menschen'."]`: then, the red hand confirms the word reordering already suggested by the pre­vious hand, by literally re-writing the same numbers with red chalk. So, again we do the same, replaying what happe­ned, number after number. This time, the color will be red, and the macro-opera­tion name is “reorder2”. Also, we have a _reason_ feature, which says that the reason of this annotation is a confirmation.
+
+▶️ (`v14`) `255x3: @reorder2 [note=2 r_hints=note-interlinear-above r_fore-color=red reason=confirmation *log:="Rewrite number 2 above 'hab'."]`: The same happens for all numbers: 2 above “hab”.
+
+▶️ (`v15`) `259x3: @reorder2 [note=3 r_hints=note-interlinear-above r_fore-color=red reason=confirmation *log:="Rewrite number 3 above 'ich'."]`: 3 above "ich".
+
+▶️ (`v16`) `263x7: @reorder2 [note=4 r_hints=note-interlinear-above r_fore-color=red reason=confirmation *log:="Rewrite number 4 above 'gekannt'."]`: 4 above "gekannt".
+
+▶️ (`v17`) `244x3: @reorder2 [note=5 r_hints=note-interlinear-above r_fore-color=red reason=confirmation *log:="Rewrite number 5 above 'und' before 'Thiere'."]`: 5 above "und".
+
+▶️ (`v18`) `248x6: @reorder2 [note=6 r_hints=note-interlinear-above r_fore-color=red reason=confirmation *log:="Rewrite number 6 above 'Thiere'."]`: 6 above "Thiere". Note that here we do not end the macro-operation with the actual change in order, because this already happened before. Here we are just _confirming_ that change.
+
+▶️ (`v19`) `406x4=Die [r_hints=horizontal-stroke r_fore-color=red r_t-position=n r_font-size=20 *log:="Replace 'Dann' with 'Die' in last line."]`: finally, in the last line, we replace “Dann” with “Die”. The hint here is a horizontal stroke on the deleted word, while the added text appears above it (whence position north), and a bit smaller (font-size 20).
+
+▶️ (`v20`) `414x5- @die-du [r_hints=horizontal-stroke r_fore-color=red *log:="Delete first 'biſt_' from last line."]`: we also do a couple of related deletions: first we delete the first “bist” from the last line, again with the same horizontal stroke.
+
+▶️ (`v21`) `434x4- @die-du [r_hints=horizontal-stroke r_fore-color=red *log:="Delete 'und_' before 'biſt ein Engel'."]`: second, we delete “und” before “bist ein Engel”. Again, the same horizontal stroke hints at the deletion.
+
+▶️ (`v22`) `443+["und " [r_hints=snake r_h-offset-x=-6 r_fore-color=red r_t-position=n r_font-size=20 *version^=alteration2 *log:="Insert 'und_' before 'ein Engel'."]`: finally, we add “und” before “ein Engel”. Here we have another hint, named “snake” for its shape, acting as a callout. Note that this hint among its properties already has a vertical scale equal to 200%. This is required and it’s part of it, because hints are sized as their RBR, which would make the snake just as tall as the text. Instead, we want it to ex­tend above and below the text; and this is accomplished by the scale and the center position. Also, the added text is a bit smaller, and red. This completes the second alteration stage: so, a `version` feature tells us that the output of this operation corresponds to that stage.
+
+▶️ (`v23`) `14x4: [r_hints=note note=37. r_t-position=n r_t-offset-y=-20 *log:="Add epigram number 37 above the first line."]`: after all this, later the epigrams get numbered. This epigram gets number 37, with a default black ink. So, we have a final annotation operation above the first line of the epigram, at a certain distance from it (whence the vertical offset), with a note hint and a value equal to 37 plus a dot.
+
+We thus replayed all the actions of the text transformation process, generating a new text version at each step, promoting a couple of those versions to alteration stages, and accumulating all the signs corresponding to our operations on our virtual sheet.
