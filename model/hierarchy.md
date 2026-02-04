@@ -313,7 +313,6 @@ The _group ID_ of each snapshot item is the epigram's EID. This immediately link
 Categories thesauri:
 
 - 📚 `categories_content`:
-
   - copy type:
     - rough (Rohfassung)
     - clean (Reinschrift)
@@ -388,7 +387,7 @@ This table represents the distribution of parts in each item. Items correspond t
 | comment        | X                    | X                    | X       | X          |
 | external IDs   | X                    | X                    | X       | X          |
 | hands (GVE)    | X                    |                      |         |            |
-| links          | X                    |                      |         | seq        |
+| links          | X                    | X                    | X       | links seq  |
 | measurements   |                      | X                    |         |            |
 | metadata       | X                    | X                    | X       | X          |
 | note           | X                    | X hist               | X       | X          |
@@ -396,9 +395,6 @@ This table represents the distribution of parts in each item. Items correspond t
 | shelfmarks     | X                    | X                    |         |            |
 | snapshot (GVE) | X                    |                      |         |            |
 | states         |                      | X                    |         |            |
-| text           |                      |                      |         |            |
-| apparatus=     |                      |                      |         |            |
-| comment=       |                      |                      |         |            |
 
 On passage, this table clearly shows the architectural design principles of Cadmus in action: here we are effectively reusing most of the models (the parts), thanks to their self-contained and generalistic design; and we are dynamically building entities models by composition (aggregating parts), which allows for unlimited expansion. Modularity here is the key for dynamic, composite models, which also paves the way for a grassroots approach where each project using this system contributes to a catalog of models and editor UIs which can be reused by other projects.
 
