@@ -123,76 +123,6 @@ These parts are specific to the GVE project.
 
 See [code](https://github.com/vedph/gve-core/blob/master/Cadmus.Gve.Parts/GveSnapshotPart.cs) for more details.
 
-- `snapshot` (`Snapshot`):
-  - `size` (`Size`): size in pixels:
-    - `width` (`double`)
-    - `height` (`double`)
-  - `style` (`string`): snapshot CSS style.
-  - `defs` (`string`): optional SVG `defs` element code.
-  - `image` (`SnapshotImage`): background image:
-    - `url`\* (`string`)
-    - `canvas` (`Rectangle`):
-      - `x` (`double`)
-      - `y` (`double`)
-      - `width` (`double`)
-      - `height` (`double`)
-    - `opacity` (`double`)
-  - `text` (`CharChainNode[]`):
-    - `id` (`int`)
-    - `index` (`int`)
-    - `label` (`string`)
-    - `data` (`char`)
-    - `sourceTag` (`string`)
-    - `features` (`Feature[]`):
-      - `name`\* (`string`)
-      - `value` (`string`)
-      - `setPolicy`\* (`int`)
-  - `textStyle` (`string`): CSS style for base text layer.
-  - `textOptions` (`SvgBaseTextOptions`):
-    - `lineHeightOffset` (`double`)
-    - `charSpacingOffset` (`double`)
-    - `spcWidthOffset` (`double`)
-    - `offset` (`Point`):
-      - `x` (`double`)
-      - `y` (`double`)
-    - `minLineHeights` (dictionary of doubles keyed by shorts)
-  - `operations` (`CharChainOperationSource[]`):
-    - `rank` (`short`)
-    - `groupId` (`string`)
-    - `features` (`OperationFeature[]`):
-      - `name` (`string`)
-      - `value` (`string`)
-      - `setPolicy` (`FeatureSetPolicy`)
-      - `isNegated` (`bool`)
-      - `isGlobal` (`bool`)
-      - `isShortLived` (`bool`)
-    - `sources` (`OperationSource[]`):
-      - `id`\* (`string`)
-      - `type` (`string`)
-      - `rank` (`short`)
-      - `note` (`string`)
-    - `diplomatics` (`OperationDiplomatics`):
-      - `g` (string): SVG for the graphical representation of the operation.
-      - `isNewTextHidden` (`bool`)
-      - `features` (`Feature[]`):
-        - `name` (`string`)
-        - `value` (`string`)
-        - `setPolicy` (`FeatureSetPolicy`)
-      - `elementFeatures` (dictionary with key=string and value=list of `Feature`'s)
-    - `id`\* (`string`)
-    - `type`\* (`OperationType`)
-    - `inputTag` (`string`)
-    - `outputTag` (`string`)
-    - `atAsIndex` (`bool`)
-    - `at` (`int`)
-    - `run` (`int`)
-    - `toAsIndex` (`bool`)
-    - `to` (`int`)
-    - `toRun` (`int`)
-    - `value` (`string`): the primary value argument for this operation.
-  - `opStyle` (`string`): CSS style for the operation layer.
-  - `timelines` (dictionary with `string` keys and `AnimationTimeline` value):
-
 #### Hands Part
 
 - `hands` (`GveHand[]`):
@@ -392,7 +322,7 @@ This table represents the distribution of parts in each item. Items correspond t
 | metadata       | X                    | X                    | X       | X          |
 | note           | X                    | X hist               | X       | X          |
 | references     | X                    | X                    | X       | X          |
-| shelfmarks     | X                    | X                    |         |            |
+| shelfmarks     |                      | X                    |         |            |
 | snapshot (GVE) | X                    |                      |         |            |
 | states         |                      | X                    |         |            |
 
