@@ -177,7 +177,6 @@ In a publishing flow, where data move from the backend database (edited with Cad
 - _material_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`
   - [measurements](https://github.com/vedph/cadmus-general/blob/master/docs/physical-measurements.md)
-  - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`content`
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`text` (e.g. epigram, letter...)
@@ -198,6 +197,7 @@ The _group ID_ of each snapshot item is the epigram's EID. This immediately link
   - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
 - _material_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`support`
+  - [preservation states](https://github.com/vedph/cadmus-general/blob/master/docs/physical-states.md)
 - _content_:
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`content`
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`lang`: languages (German, Italian, Latin, Ancient Greek)
@@ -250,7 +250,7 @@ This table represents the distribution of parts in each item. Items correspond t
 | references     | X                    | X                    | X       | X          |
 | shelfmarks     |                      | X                    |         |            |
 | snapshot (GVE) | X                    |                      |         |            |
-| states         |                      | X                    |         |            |
+| states         | X                    |                      |         |            |
 
 On passage, this table clearly shows the architectural design principles of Cadmus in action: here we are effectively reusing most of the models (the parts), thanks to their self-contained and generalistic design; and we are dynamically building entities models by composition (aggregating parts), which allows for unlimited expansion. Modularity here is the key for dynamic, composite models, which also paves the way for a grassroots approach where each project using this system contributes to a catalog of models and editor UIs which can be reused by other projects.
 
