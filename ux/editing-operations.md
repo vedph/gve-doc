@@ -58,6 +58,8 @@ Each source has:
 
 ## Diplomatic
 
+⚠️ Obsolete, no longer present.
+
 The diplomatic tab refers to the visuals connected to the operation. For instance, a stroke on a letter might be the visual representation corresponding to a delete operation.
 
 Operation visuals can be defined by any geometrical shape and/or text on top of the carrier surface. Technically, they are represented by a single [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG) `g` (=group) element, which can include any number and type of SVG descendant elements. So here you can enter any valid SVG code, provided that it has a single `g` element as its unique root element.

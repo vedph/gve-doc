@@ -15,6 +15,10 @@ nav_order: 2
     - [Displacement](#displacement)
     - [Text Rendition Features](#text-rendition-features)
       - [Hint Rendition Features](#hint-rendition-features)
+  - [Using Features](#using-features)
+    - [Metadata](#metadata)
+    - [Renditional Features](#renditional-features)
+    - [Non-Renditional Features](#non-renditional-features)
 
 Here we collect some practical guidelines agreed for the VEdition project.
 
@@ -203,3 +207,67 @@ By default, the hint rendition features apply to all the hints in the operation 
 - `r_h-rotation`: override hint's `rotation` property.
 - `r_h-solid`: override hint's `solid` property.
 - `r_h-displaced-span`: override hint's `desplacedRefSpan` property for displaced hints.
+
+## Using Features
+
+Here are some general hints about using operation features.
+
+### Metadata
+
+These are the main metadata of a feature:
+
+- `negated`: a negated feature means that any existing feature with the same name should be removed. In other terms, this is used to delete an existing feature from the target set if present.
+- `global`: a boolean value indicating whether this feature globally refers to the operation context as a whole, rather than to its affected nodes. When a feature isn't global, it will be assigned to the nodes targeted by its operation, rather than to the whole text features set. As operations are executed, they accumulate on nodes and/or the whole text, unless their set policy dictates a different behavior. In the end, this will produce a rich set of highly granular metadata, mapped either to specific portions of the text or to the text as a whole.
+- `short-lived`: a boolean value indicating whether this instance is short-lived. When true, this means that the feature will be removed on the next update, i.e. when the next operation in the sequence is executed.
+
+### Renditional Features
+
+- **(almost) everything is an operation**: in the model, everything but the base text (which is the first input) is an operation. So, whatever annotation or change you want to represent, it must be an operation, with its features. This is true also for basic layout aspects like indentations: to add indents, just add a single initial annotation operation which adds horizontal offsets to the first character of each indented line.
+
+- **variable value syntax**: the value of features may change its syntax according to the feature selected. For instance, the `r_char-offsets` feature used to set indents has a syntax where the ID of each character is followed by `:` and the horizontal (`x`) or vertical (`y`) indent, e.g. `65:x=100 179:x=100 295:x=100 406:x=100`.
+
+- **adding text**: when you have to add text, consider its role in the snapshot:
+  - if it is part of the _text_, like an insertion or new text instead of an existing one (=a replacement), the text is just the value of the corresponding add or replace operation. The relative position of the text is defined by the `r_t-position` property, optionally shifted by the corresponding offset properties.
+  - else, the text is just part of a _hint_. Some hints are designed in such a way to display text, drawing it from other features. For instance, the `note` hint displays a textual note, assuming that its text value is found in an additional `note` property. The position within the hint is defined in the hint itself as a drawing; the position of the whole hint is defined by `r_h-position`, optionally shifted by the corresponding offset properties.
+
+For instance, the `note` hint is defined as follows:
+
+```js
+note: {
+  svg: '<g><text x="0" y="0" font-family="Arial" font-size="14" fill="{{r_fore-color}}" id="placeholder">{{note}}</text></g>',
+  position: "n",
+  offsetX: 0,
+  offsetY: 0,
+  scaleX: 1,
+  scaleY: 1,
+  rotation: 0,
+  animation: "#scale-in",
+},
+```
+
+Its `svg` property shows that there is a group (`g`) including a `text` element, where some values are constant, and others are drawn from features with a specified name.
+
+For instance, attributes like `font-family` and `font-size` here have constant values, even if nothing prevents us from making them variables, and let these variables be set by a corresponding feature.
+
+Instead, `fill` has a variable named `r_fore-color` as its name (all variables by convention are included between `{{...}}`); the same holds for `note`, which is the content of the note. This means that the effective values for these variables will be extracted from additional features named after the variables themselves. In practice, this means that when you add the `note` hint, you _must_ add also:
+
+- a `r_fore-color` feature for the color of the note.
+- a `note` feature with the text of the note.
+
+- **customizing rendition**: rendition can be variously customized by adding more features which override the default settings of each hint or text. For instance, when you set `r_fore-color` equals to `red` you are overriding (=replacing) changing the default foreground color (black) with red; often this also affects hints, where a custom color is applicable, like for the note example shown above.
+
+- **hints have variable count**: for each operation there can be zero or more hints. In most cases, each operation has one hint (e.g. a delete operation with a visual hint represented by a diagonal stroke on the text being deleted), but this is not a requirement. For instance, if a hand adds 3 numbers above 3 words to represent their reordering, we will typically represent this first with 3 distinct annotation operations each with a note hint (whose value is the number), followed by (usually) a move operation which effectively reorders the text. This move operation will have no hints, because its effect is already visually represented by all the previous annotations on the sheet, which added the numbers above words.
+
+### Non-Renditional Features
+
+Most of the features are renditional, while others are pure metadata with no implied visuals. Currently, these are:
+
+- **epigram number** (`epigram-nr`): the number assigned to the epigram. There can be multiple numbers, represented by multiple properties of this type.
+- **page beginning** (`page-beg`): a feature attached to the first character of the text starting a new page.
+- **page number** (`page-nr`): the number of the current page. This typically is coupled with `page-beg`, whose value is just boolean, to specify the number of the new page. This distinction is made so that the model can also be used without explicit page numbers.
+- **reason** (`reason`): the reason for the operation. This is an editorial annotation; for instance, one might want to state that the reason for a word replacement is metrical.
+- **immediate** (`immediate`): added when the editor thinks that the operation was executed immediately after a previous action. For instance, the author might write a base text with an incorrect or incomplete word, and immediately after fix it, before continuing to write the rest of the text.
+- **comment** (`comment`): an editorial comment of any sort. Note that this is totally distinct from notes: `r_note` and other similarly named rendition features represent textual annotations found on the snapshot, while this is a pure comment from the editor. The `note` feature exists as a shortcut to provide text for a note hint (see above about adding text).
+- **log** (`log`): this logs the purpose of the operation. It is recommended to always include the log, with a global scope and as a single feature, so that each operation gets a sort of short description about its meaning.
+- **parallel** (`parallel`): added when the editor regards the change represented by the operation as thought by its author a potential alternative to the previous text, rather than a correction.
+- **stage name** (`version`): this assigns an alteration stage name to the version output by the operation which receives this feature. This means that its output is the final state of the alteration stage with that name; the following operation (if any) will belong to the next stage.
