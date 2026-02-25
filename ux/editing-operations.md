@@ -1,10 +1,3 @@
----
-title: Editing Operations
-layout: default
-parent: User Experience
-nav_order: 4
----
-
 # Editing Operations
 
 The operation editor is used to edit a single snapshot operation. Its UI is divided in 5 tabs:

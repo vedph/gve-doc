@@ -1,10 +1,3 @@
----
-title: Core Library
-layout: default
-parent: User Experience
-nav_order: 1
----
-
 # Core Library
 
 The `gve-core` Angular library contains core frontend components to be used by GVE client apps. As already remarked, the frontend UI for editing and visualizing snapshots is highly modular, and is built by aggregating many components together. These components are organized into software libraries.

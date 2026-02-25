@@ -1,10 +1,3 @@
----
-title: Editing Features
-layout: default
-parent: User Experience
-nav_order: 5
----
-
 # Editing Features
 
 Features are generic metadata essentially modeled as name=value pairs. Sets of these features are edited via a features set editor, which in turn uses a single feature editor to edit each feature in the set.

@@ -1,10 +1,3 @@
----
-title: Exercise - Editing Snapshot
-layout: default
-parent: User Experience
-nav_order: 6
----
-
 # Exercise - Editing Snapshot
 
 - [Exercise - Editing Snapshot](#exercise---editing-snapshot)

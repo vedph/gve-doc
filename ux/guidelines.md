@@ -2,7 +2,7 @@
 title: VEdition Guidelines
 layout: default
 parent: User Experience
-nav_order: 2
+nav_order: 3
 ---
 
 # Guidelines

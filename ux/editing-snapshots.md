@@ -1,10 +1,3 @@
----
-title: Editing Snapshots
-layout: default
-parent: User Experience
-nav_order: 3
----
-
 # Editing Snapshots
 
 The snapshot editor is used to fully edit a snapshot, and as such it's the topmost UI component in its library. All the other components in the library are either directly or indirectly used by it. Essentially, it allows you to edit all the parts of a `Snapshot` object.
