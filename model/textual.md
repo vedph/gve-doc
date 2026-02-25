@@ -25,17 +25,17 @@ Ideally, the main requirements of this model are:
 2. in this process, we want to **preserve** as distinct, structured data our _ingredients_ (text and annotations), _recipes_ (annotation selection and ordering) and _outcomes_ (text versions).
 3. we want to represent the snapshot annotations both in their **textual and visual form**. This is because the graphical representation of each annotation is semantic information, which should be encoded next to the textual variant it represents. By preserving both these layers of data we provide a richer model, which can be inspected by scholars using our digital edition as a tool, or just leveraged by more casual users as another way of looking at the text and its creation process.
 
-A good model should meet all these requirements using the simplest possible structure, which implies _raising the abstraction level_ so that even the finest details can find a generalized and consistent representation.
+A good model should meet all these requirements using the simplest possible structure, which implies _raising the abstraction level_ so that even the finest details can find a generalized and consistent representation. A single data structure should be able to represent multiple text versions with all their metadata, on both textual and visual layers.
 
 This also allows our model to lay the foundation of a paradigmatic approach, leading from a single case study to a reusable tool.
 
 ## Core Chain Model
 
-Our model core is represented by a general purpose data structure we call 🔖 **chain**. The task of this data structure is _representing multiple linear combinations of a set of entities_. We represent these entities as **nodes** of a **graph**, connecting them into linear sequences.
+Our model core is represented by a general purpose data structure called 🔖 **chain**. The task of this data structure is _representing multiple linear combinations of a set of entities_. We represent these entities as **nodes** of a **graph**, connecting them into linear sequences.
 
 In our specific case, our entities are characters, and their linear combinations build a sequence representing a text. So, a chain has the power of representing multiple texts (i.e. multiple versions of what we regard as the "same" text in the course of its composition) at the same time; and this is right what a snapshot on a carrier does.
 
-In technical terms, we could describe this structure as a _tagged multigraph linked list_:
+⚙️ In technical terms, we could describe this structure as a _tagged multigraph linked list_:
 
 - it's a _linked list_ because each node has at most one child in each version of the list.
 - it's a _multigraph_ because it allows multiple edges (links) between nodes.

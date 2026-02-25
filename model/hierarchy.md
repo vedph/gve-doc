@@ -2,7 +2,7 @@
 title: Entities Hierarchy
 layout: default
 parent: Model
-nav_order: 5
+nav_order: 3
 ---
 
 - [Entities Hierarchy](#entities-hierarchy)
@@ -67,17 +67,9 @@ So, the lower we go into this hierarchy, the higher the number of alternative te
 
 Finally, epigram versions are materially or virtually chained into sequences, which represent collections of compositions. These can be defined by their material sequence, like in a printed edition; or by various numberings found on the carriers and hinting at different selections and ordering of sets of compositions.
 
->Collection is a more specialized IT term fit to the entity represented in the digital model, and essentially corresponding to what is defined as an **order or sequence** ("the arrangement of all textual witnesses as found on a textual carrier"[^1]). The term "collection" here is used with a purely IT sense, meaning any number of items belonging to an _ordered_ set. What corresponds to this collection may vary: it might just be an idea of the author for organizing some epigrams, derived from what he writes about them elsewhere; or it might be what emerges from marks added to the notebooks (e.g. numbers) for each epigram, hinting at some plan for building an ordered collection of them; or something material, like the physical sequence in which they appear. Whatever the specific nature, we adopt a single, more abstract model for them.
+>Collection is a more specialized IT term fit to the entity represented in the digital model, and essentially corresponding to what is defined as an order or sequence ("the arrangement of all textual witnesses as found on a textual carrier"[^1]). The term "collection" here is used with a purely IT sense, meaning any number of items belonging to an _ordered_ set. What corresponds to this collection may vary: it might just be an idea of the author for organizing some epigrams, derived from what he writes about them elsewhere; or it might be what emerges from marks added to the notebooks (e.g. numbers) for each epigram, hinting at some plan for building an ordered collection of them; or something material, like the physical sequence in which they appear. Whatever the specific nature, we adopt a single, more abstract model for them.
 
-It should be added that in this generic model, a collection is not necessarily ordered; or it might be ordered in multiple ways. From the point of view of modular architecture, this means separating these two notions: the collection is the overarching entity, and it can sort its items in no way (when not sorted), or in just 1 way, or in multiple ways. This implies that the model for zero or more ordering’s assigned to the items of a collection will be repeated for each different order.
-This ensures we have a consistent model without redundancies (i.e. repetitions), and it is also the practical reason for which the collection is a Cadmus “item” (in the technical sense of this term in that framework), while sequences are parts of that item, even if the details of this implementation are still to be defined. So, we can say that those items belong to a collection and say this only once; then, we can add that this collection can be ordered in zero or more different sequences. Anyway, this can be easily regarded as a modeling detail. We can adopt a synecdoche and name these collections “sequences”: from the user’s point of view, nothing changes. Yet internally we distinguish between the collection in the technical sense from how we can arrange items in it.
-
->⚙️ From a purely IT standpoint, a _collection_ is an abstract data type that groups multiple data elements, which can be of the same or different types. That's the most generic, umbrella term and can include sets, lists, arrays, etc. A "set" is a specialization which differs because its elements are all unique. Among collections, some are ordered: these are "sequence", "list", and "array". A sequence can be finite or infinite (e.g. the sequence of numbers). Lists and arrays are both ordered, but lists are dynamically resized, while arrays are static but more memory-efficient. So, "collection" is more abstract: it's a conceptual container that doesn't enforce rules about order, uniqueness, or mutability. It's like saying "a vehicle" without specifying whether it's a car, bike, or spaceship. Instead:
->
-> - a set is a collection with constraints: no duplicates, no order.
-> - a sequence is a collection with structure: order matters, duplicates allowed.
-> - a list is a sequence with flexibility (dynamic size).
-> - an array is a sequence with rigidity (fixed size).
+---
 
 ## Cadmus for VEdition
 
@@ -257,3 +249,9 @@ On passage, this table clearly shows the architectural design principles of Cadm
 In this project we are effectively using 35 parts for 4 entity types, either material or immaterial, textual and non-textual, and only 2 of those parts were designed specifically for it (those marked by GVE). Given this modularity, we will be able to further expand the models by either adding new entities, or introducing new parts in the existing ones, without having to modify existing data.
 
 Also, while the database is capable to represent virtually any entity, either material or immaterial, textual, meta-textual, or non-textual at all, its data architecture remains uniform and open to unlimited expansion both on data quantity and quality.
+
+These entities are mostly **linked** as follows:
+
+- **snapshot → carrier**: each snapshot item refers to its carrier in its ID and title, so adding a link here is redundant and is avoided just to speed up the work of operators.
+- **snapshot → epigram**: each snapshot item is a manuscript or print attesting a materially unique version of an epigram. Snapshots are linked to their epigram via their group ID, which is equal to the epigram's number. Epigrams here are just abstraction, i.e. the sum of all the metadata which can be shared among a set of epigram versions.
+- **collection → snapshot**: each collection has an ordered set of links pointing to the selected snapshots, possibly deep linking also a specific alteration stage in them.
