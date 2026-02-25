@@ -214,11 +214,15 @@ Here are some general hints about using operation features.
 
 ### Metadata
 
-These are the main metadata of a feature:
+The following are the main metadata of a feature:
 
-- `negated`: a negated feature means that any existing feature with the same name should be removed. In other terms, this is used to delete an existing feature from the target set if present.
-- `global`: a boolean value indicating whether this feature globally refers to the operation context as a whole, rather than to its affected nodes. When a feature isn't global, it will be assigned to the nodes targeted by its operation, rather than to the whole text features set. As operations are executed, they accumulate on nodes and/or the whole text, unless their set policy dictates a different behavior. In the end, this will produce a rich set of highly granular metadata, mapped either to specific portions of the text or to the text as a whole.
-- `short-lived`: a boolean value indicating whether this instance is short-lived. When true, this means that the feature will be removed on the next update, i.e. when the next operation in the sequence is executed.
+- **set policy**:
+  - _multiple_ (operator `=` in DSL), which can occur 0-N times in its set. When a feature with the same name already exists in the target set, a multiple feature is added, too. For instance, there might be two distinct reasons for an operation, like "confirmation" combined with "metrical"; in this case, a `reason` feature would be added multiple times to the same set.
+  - _single_ (operator `:=` in DSL), which can occur 0-1 times in its set. When a feature with the same name already exists in the target set, the single feature replaces the one with the same name.
+  - _first-single_ (operator `==` in DSL), which is treated as _single_ the first time it is added to the set, and then as _multiple_. This can be used to replace a _set_ of features with another one. For instance, one might want to add a new set of reasons in the next step, removing the previous ones.
+- **global** (prefix `*` in DSL): a global feature is a feature attached to the chain data context as a whole, rather than to specific nodes in it. When a feature isn't global, it will be assigned to the nodes targeted by its operation, rather than to the whole text features set. As operations are executed, they accumulate on nodes and/or the whole text, unless their set policy dictates a different behavior. In the end, this will produce a rich set of highly granular metadata, mapped either to specific portions of the text or to the text as a whole. For non-global features, target nodes are determined by the operation type: for instance, a deletion targets the node being deleted, while an insertion targets the nodes being inserted.
+- **short-lived** (suffix `^` in DSL): once added, the feature will be removed the next time features get updated (i.e. at the next operation). This is useful for instance when adding the `*version^` feature, which should tag a single output as representative of a named text version.
+- **negated** (prefix `!` in DSL): a negated feature means that any existing feature with the same name should be removed. In other terms, this is used to delete an existing feature from the target set if present.
 
 ### Renditional Features
 
