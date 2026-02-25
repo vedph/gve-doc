@@ -318,14 +318,14 @@ Note that features get accumulated as each operation is executed on the chain. S
 
 💡 **Quick DSL Reference**:
 
-- replace: `AxR=VALUE [FEATURES]`
-- delete: `AxR- [FEATURES]`
-- add before: `A+[VALUE [FEATURES]`
-- add after: `A+]VALUE [FEATURES]`
-- move before: `A>[VALUE [FEATURES]`
-- move after: `A>[VALUE [FEATURES]`
-- swap: `AxN<>AxN [FEATURES]`
-- annotate: `A: [FEATURES]`
+- replace: `AxR=VALUE @GROUP [FEATURES]`
+- delete: `AxR- @GROUP [FEATURES]`
+- add before: `A+[VALUE @GROUP [FEATURES]`
+- add after: `A+]VALUE @GROUP [FEATURES]`
+- move before: `A>[VALUE @GROUP [FEATURES]`
+- move after: `A>[VALUE @GROUP [FEATURES]`
+- swap: `AxN<>AxN @GROUP [FEATURES]`
+- annotate: `A: @GROUP [FEATURES]`
 
 - features:
   - `*`global
