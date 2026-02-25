@@ -16,9 +16,9 @@ nav_order: 2
     - [Text Rendition Features](#text-rendition-features)
       - [Hint Rendition Features](#hint-rendition-features)
   - [Using Features](#using-features)
-    - [Metadata](#metadata)
-    - [Renditional Features](#renditional-features)
-    - [Non-Renditional Features](#non-renditional-features)
+    - [Using Features Metadata](#using-features-metadata)
+    - [Using Renditional Features](#using-renditional-features)
+    - [Using Non-Renditional Features](#using-non-renditional-features)
 
 Here we collect some practical guidelines agreed for the VEdition project.
 
@@ -212,7 +212,7 @@ By default, the hint rendition features apply to all the hints in the operation 
 
 Here are some general hints about using operation features.
 
-### Metadata
+### Using Features Metadata
 
 The following are the main metadata of a feature:
 
@@ -224,7 +224,7 @@ The following are the main metadata of a feature:
 - **short-lived** (suffix `^` in DSL): once added, the feature will be removed the next time features get updated (i.e. at the next operation). This is useful for instance when adding the `*version^` feature, which should tag a single output as representative of a named text version.
 - **negated** (prefix `!` in DSL): a negated feature means that any existing feature with the same name should be removed. In other terms, this is used to delete an existing feature from the target set if present.
 
-### Renditional Features
+### Using Renditional Features
 
 - **(almost) everything is an operation**: in the model, everything but the base text (which is the first input) is an operation. So, whatever annotation or change you want to represent, it must be an operation, with its features. This is true also for basic layout aspects like indentations: to add indents, just add a single initial annotation operation which adds horizontal offsets to the first character of each indented line.
 
@@ -262,16 +262,16 @@ Instead, `fill` has a variable named `r_fore-color` as its name (all variables b
 
 - **hints have variable count**: for each operation there can be zero or more hints. In most cases, each operation has one hint (e.g. a delete operation with a visual hint represented by a diagonal stroke on the text being deleted), but this is not a requirement. For instance, if a hand adds 3 numbers above 3 words to represent their reordering, we will typically represent this first with 3 distinct annotation operations each with a note hint (whose value is the number), followed by (usually) a move operation which effectively reorders the text. This move operation will have no hints, because its effect is already visually represented by all the previous annotations on the sheet, which added the numbers above words.
 
-### Non-Renditional Features
+### Using Non-Renditional Features
 
 Most of the features are renditional, while others are pure metadata with no implied visuals. Currently, these are:
 
+- **comment** (`comment`): an editorial comment of any sort. Note that this is totally distinct from notes: `r_note` and other similarly named rendition features represent textual annotations found on the snapshot, while this is a pure comment from the editor. The `note` feature exists as a shortcut to provide text for a note hint (see above about adding text).
 - **epigram number** (`epigram-nr`): the number assigned to the epigram. There can be multiple numbers, represented by multiple properties of this type.
+- **immediate** (`immediate`): added when the editor thinks that the operation was executed immediately after a previous action. For instance, the author might write a base text with an incorrect or incomplete word, and immediately after fix it, before continuing to write the rest of the text.
+- **log** (`log`): this logs the purpose of the operation. It is recommended to always include the log, with a global scope and as a single feature, so that each operation gets a sort of short description about its meaning.
 - **page beginning** (`page-beg`): a feature attached to the first character of the text starting a new page.
 - **page number** (`page-nr`): the number of the current page. This typically is coupled with `page-beg`, whose value is just boolean, to specify the number of the new page. This distinction is made so that the model can also be used without explicit page numbers.
-- **reason** (`reason`): the reason for the operation. This is an editorial annotation; for instance, one might want to state that the reason for a word replacement is metrical.
-- **immediate** (`immediate`): added when the editor thinks that the operation was executed immediately after a previous action. For instance, the author might write a base text with an incorrect or incomplete word, and immediately after fix it, before continuing to write the rest of the text.
-- **comment** (`comment`): an editorial comment of any sort. Note that this is totally distinct from notes: `r_note` and other similarly named rendition features represent textual annotations found on the snapshot, while this is a pure comment from the editor. The `note` feature exists as a shortcut to provide text for a note hint (see above about adding text).
-- **log** (`log`): this logs the purpose of the operation. It is recommended to always include the log, with a global scope and as a single feature, so that each operation gets a sort of short description about its meaning.
 - **parallel** (`parallel`): added when the editor regards the change represented by the operation as thought by its author a potential alternative to the previous text, rather than a correction.
+- **reason** (`reason`): the reason for the operation. This is an editorial annotation; for instance, one might want to state that the reason for a word replacement is metrical.
 - **stage name** (`version`): this assigns an alteration stage name to the version output by the operation which receives this feature. This means that its output is the final state of the alteration stage with that name; the following operation (if any) will belong to the next stage.
