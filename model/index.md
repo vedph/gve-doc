@@ -7,9 +7,7 @@ nav_order: 1
 
 # Model
 
-This conceptual documentation refers to the representation of a manuscript text mostly or exclusively written by the author's hand himself. All the terms used here are just a technical commodity for the sake of this documentation.
-
-The autograph is central to GVE because it represents its starting point: for Goethe's epigrams, we effectively start from notebook sheets by the author's hand. There can be several versions of the same epigram in this form, whether they come from a single sheet with annotated variants, or from different sheets, or a mixture of both.
+Goethe's Venetian Epigrams are a very peculiar work, attested by a moltitude of epigrams scattered and often repeated, with or without variations, across multiple supports, here named "text carriers", whatever their material reality (notebooks, single sheets, letters, etc.). Given this situation, there is no possible notion of the text of each epigram; we rather have a constellation of texts without any authoritative reference edition.
 
 ## Basic Terminology
 
@@ -21,7 +19,7 @@ The main challenge in modeling the content of these carriers is that they do not
 
 In fact, graphically the snapshot does not just represent a text, but it includes many corrections, rethinkings, or refactorings of it, in the form of various types of 🔖 **annotations** (deletions, insertions, transpositions, side notes, etc.) on top of a text.
 
-The snapshot is thus a sort of picture taken from the author's mind in relation to the text being composed at a given point in time. This does not necessarily imply that this is the end stage of the creative process underlying the text. The process may well have gone further on; but this is not reflected by the snapshot, which just represents a picture which froze an instant of this process at a given time.
+The snapshot is thus a sort of picture taken in relation to the text being composed at a given point in time. This does not necessarily imply that this is the end stage of the creative process underlying the text. The process may well have gone further on; but this is not reflected by the snapshot, which just represents a picture which froze an instant of this process at a given time.
 
 The snapshot is thus far from being the representation of an undisputed linear text; it's an even chaotic bunch of text and annotations on some carrier. It is up to the reader to make sense of these annotations, and try to deduce one or more versions of the text from his interpretation.
 
@@ -31,9 +29,7 @@ When for whatever reason an authoritative version of the final outcome of all th
 
 In a digital edition instead, we have the power to handle all the rich and complex data preserved by our snapshot, without resorting to compromises. We can represent all the ingredients (text and annotations), all the recipes (annotation selection and ordering), and all their outcomes (resulting versions), while still keeping each as a separate layer, so that everyone can evaluate our text reconstruction, and even provide his own alternatives.
 
-When an authoritative version of the final outcome of all these operations in the text is lacking, in a traditional (paper) edition usually we are forced to forge one, representing the best effort in interpreting our carrier's content.
-
-In a digital edition instead, we have the power to handle all the rich and complex data preserved by our snapshot, without resorting to compromises.  We can represent all the ingredients (text with annotations), all the recipes (annotation selection and ordering), and all their outcomes (resulting versions), while keeping each as a separate layer, so that everyone can evaluate our text reconstruction, and even provide his own alternatives. This scenario is depicted in this diagram:
+This scenario is depicted in this diagram:
 
 ![stages](img/stages.png)
 
