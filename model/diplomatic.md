@@ -168,6 +168,21 @@ Once we have defined the RBR, we can then define the position of added elements 
 
 So, in our example the word "Wunder." position is `sw`. So in the end positioning an element is essentially equal to positioning its bounding rectangle with reference to the RBR, like in Figure 3. The `o` position represents the `origin` of the rectangle, i.e. its center.
 
+Thus, position is defined as follows:
+
+- for added text, it is set by the `r_t-position` rendition feature.
+- for hints, it is set by the hint's `position` property, which can be overridden by the `r_h-position` rendition feature. Also, when hints include a **handle** element, their position is not defined by their bounding rectangle, but rather by the bounding rectangle of this handle element. Other than that, in the end it always is a bounding rectangle to use for positioning with reference to the RBR, whether it is computed like for other elements, or overridden by the handle.
+
+Additionally, once the initial position has been computed, it can be **offset** by a specified amount:
+
+- for added text, the offset is set by `r_t-offset-x` and `r_t-offset-y` rendition features.
+- for hints, this is set by hint's properties `offsetX` and `offsetY`, which can be overridden by `r_h-offset-x` and `r_h-offset-y` hint rendition features.
+
+Offsets use either a simple number, e.g. `10`, or a suffixed number, using these suffixes for metrics derived from the reference text bounds:
+
+- `th` = reference text bounds height.
+- `tw` = reference text bounds width.
+
 As most hints (like e.g. lines or boxes) are drawn on top of reference text, the **default position** is `o`. Also, for hints the RBR is not only the source for their position, but also for their **size**. By default, hints are effectively sized as their RBR: a hint is picked from a catalog, where it has an intrinsic design size, but then it is shrunk or enlarged to fit the RBR size. The effect of this adjustment is that everything which is designed to be drawn on top of reference text fully covers it, as expected. For instance, the diagonal line on top of "Wund:" in Figure 2 will fully conver that text, right because it is the diagonal of its RBR.
 
 This is why the default position for hints is `o`, and the default size is the size of the RBR: this will result in a _default behavior which covers the whole reference text_. For instance, suppose we would like to draw a box around a word. This happens in our VEdition texts, especially to visually connect two portions of text which are distant, like a replacement word which instead of being above or below a line is far from it, at the top of the whole epigram. This is just due to the accidental circumstance of lack of space, and to make it clear that this word is going to replace one word far below, inside the epigram's text, both the original word and the new one are boxed.
