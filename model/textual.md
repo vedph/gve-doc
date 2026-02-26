@@ -31,6 +31,8 @@ This also allows our model to lay the foundation of a paradigmatic approach, lea
 
 ## Core Chain Model
 
+- 🚀 [core demo](https://gve-demo.fusi-soft.com/snapshot)
+
 Our model core is represented by a general purpose data structure called 🔖 **chain**. The task of this data structure is _representing multiple linear combinations of a set of entities_. We represent these entities as **nodes** of a **graph**, connecting them into linear sequences.
 
 In our specific case, our entities are characters, and their linear combinations build a sequence representing a text. So, a chain has the power of representing multiple texts (i.e. multiple versions of what we regard as the "same" text in the course of its composition) at the same time; and this is right what a snapshot on a carrier does.
@@ -326,6 +328,8 @@ Note that features get accumulated as each operation is executed on the chain. S
 - move after: `A>[VALUE @GROUP [FEATURES]`
 - swap: `AxN<>AxN @GROUP [FEATURES]`
 - annotate: `A: @GROUP [FEATURES]`
+
+>Wrap values in `""` when they include whitespace.
 
 - features:
   - `*`global

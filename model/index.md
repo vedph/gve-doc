@@ -7,6 +7,8 @@ nav_order: 1
 
 # Model - Introduction
 
+- 🎥 [video](https://www.youtube.com/watch?v=6fdIUpomJZw)
+
 Let us start by introducing the essential terminology of the digital model, while describing our edition's scenario.
 
 Goethe's Venetian Epigrams (here VE for short) are a very peculiar work, attested by a moltitude of epigrams scattered and often repeated, with or without variations, across multiple supports, here named 🔖 **text carriers**, whatever their material reality (notebooks, single sheets, letters, etc.). Given this situation, there is no possible notion of the text of each epigram; we rather have a constellation of texts, without any authoritative reference edition.
