@@ -21,6 +21,7 @@ nav_order: 3
       - [Epigram Item](#epigram-item)
       - [Collection Item](#collection-item)
       - [Parts Matrix](#parts-matrix)
+  - [Data Flow](#data-flow)
 
 # Entities Hierarchy
 
@@ -255,3 +256,17 @@ These entities are mostly **linked** as follows:
 - **snapshot → carrier**: each snapshot item refers to its carrier in its ID and title, so adding a link here is redundant and is avoided just to speed up the work of operators.
 - **snapshot → epigram**: each snapshot item is a manuscript or print attesting a materially unique version of an epigram. Snapshots are linked to their epigram via their group ID, which is equal to the epigram's number. Epigrams here are just abstraction, i.e. the sum of all the metadata which can be shared among a set of epigram versions.
 - **collection → snapshot**: each collection has an ordered set of links pointing to the selected snapshots, possibly deep linking also a specific alteration stage in them.
+
+## Data Flow
+
+The main data flow for VEdition can be summarized in this diagram:
+
+![flow](img/flow.png)
+
+Reading it from left to right:
+
+1. users concurrently enter data via the Cadmus GVE editor, hosted in an IISG institutional VM.
+2. data are stored by Cadmus in a standard NoSql document-based database (MongoDB). The model here essentially deals with 4 entity types: on the material side, the epigram versions including snapshots and the text carriers; on the immaterial side, the epigrams. Between these two realms there are collections, which can be either material or immaterial.
+3. additionally, users also maintain an independent Zotero-based bibliography, and Cadmus links to it to provide bibliographic data.
+4. these two databases can be directly used by a frontend app (=the VEdition's website), and/or indirectly via an intermediate data export which provides a sort of view-model for data, best fit to the requirements of the app. Zotero data too can either be accessed directly or cached into this intermdiate database, thus avoiding potential issues with Zotero services availability.
+5. both the Cadmus editor and the frontend app are containerized with Docker images. This makes it very easy to port them in any environment and ensures a longer duration in time, because the software is completely containerized with all its dependencies and configurations, and servers use it like a black box.
