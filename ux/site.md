@@ -74,7 +74,7 @@ graph LR
 ### 🌐 Carrier
 
 - carrier metadata
-- pages (IIIF?) + snapshots
+- pages (IIIF) + snapshots
 - 🔗 → snapshot
 
 ### 🌐 Snapshots
@@ -86,7 +86,7 @@ graph LR
 
 - snapshot metadata
 - snapshot rendition
-- snapshot image (IIIF?)
+- snapshot image (IIIF)
 - 🔗 → epigram
 - 🔗 → carrier
 
