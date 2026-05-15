@@ -9,9 +9,9 @@ layout: home
 
 Welcome to the _VEdition_ technical documentation. Currently, these pages are mostly targeted to internal use, and provide the theorical foundation of the model and some instructions about using its software.
 
-VEdition will provide a new digital edition of Goethe's Venetian epigrams (here GVE for short); given the highly peculiar nature of this text, this digital-born project also aims to propose a new digital model and software tools for authorial philology applied to similar scenarios.
+VEdition will provide a new digital edition of Goethe's Venetian epigrams (here GVE for short). Given the highly peculiar nature of this text, this digital-born project also aims to propose a new digital model and software tools for authorial philology applied to similar scenarios.
 
-So, beyond the central case study provided by VEdition, GVE proposes:
+So, beyond the central case study provided by VEdition, GVE in Digital Humanities proposes:
 
 - a new digital model for a dynamic, compact and transformative representation of text, both on textual and visual layers.
 - a full-stack open source software solution to create edition data using this model, highly customizable and modular so that it can be easily tailored to each specific project.
