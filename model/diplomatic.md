@@ -2,7 +2,7 @@
 title: Diplomatic Model
 layout: default
 parent: Model
-nav_order: 2
+nav_order: 3
 ---
 
 - [Diplomatic Model](#diplomatic-model)

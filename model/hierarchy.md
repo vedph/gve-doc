@@ -2,7 +2,7 @@
 title: Entities Hierarchy
 layout: default
 parent: Model
-nav_order: 3
+nav_order: 4
 ---
 
 - [Entities Hierarchy](#entities-hierarchy)

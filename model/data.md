@@ -1,8 +1,15 @@
-# Data
+---
+title: Edition Data
+layout: default
+parent: Model
+nav_order: 1
+---
+
+# Edition Data
 
 ## VEdition Architecture
 
-Data for the VE edition is very peculiar, and represents an extreme case in authorial philology. Nonetheless, the solution adopted here may have a more general impact on editing such texts, right because its purpose is to provide models and tooling for one of the most complex scenarios, strong enough to cope with VE and yet easy to scale down.
+Data for the VE edition is very peculiar, and represents an extreme case in authorial philology. Nonetheless, the solution adopted here may have a more general impact on editing such texts, right because its purpose is to provide models and tooling for one of the most complex scenarios, strong enough to cope with VE, yet easy to scale down.
 
 In a more traditional approach, one of the most popular models is based on a systematic comparison of different stages of what is regarded as the same text. Each stage is a text document on its own, and gets marked to explicitly define its differences with what is usually taken as a comparison.
 
@@ -43,7 +50,7 @@ So, in this architecture the notion of "text" is rather sparse:
 
 For consistency and generalization, this model applies to all texts, even in the case of printed editions or simple manuscripts with no annotations, where a version is just a single text, and thus there is no true alteration. The alteration stage is just the representation of a text derived from the version, whether it is just a reading of it, or it's a complex reconstruction based on the analysis of hands and annotations on a manuscript.
 
-## Switching Focus
+## Embracing Change
 
 Thus, VEdition data are highly peculiar because here we cannot define a linear evolution of a work, not even with branching. This is rather a constellation of texts, grouped into variations on a same epigram, scattered across multiple text carriers and variously assembled in different collections. Rather than a genetic tree, here we deal with a graph of interconnected texts.
 
@@ -53,8 +60,16 @@ In this context, an approach based on a systematic comparison of statically defi
 
 Additionally, this approach would not be ideal with relation to the highly dynamic nature of this "work". This is not a unitary literary work progressing over time, but rather a set of variations of a set of related texts; and manuscripts do witness an extensive alteration process in the creation of most of them. These alterations can be reconstructed from annotations, which hint at the genetic process behind each text version, rather than on its "final" stage, which in most cases is not even defined.
 
-In such an elusive scenario, where everything dynamically changes like within a living organism, we need a dramatic focus shift to embrace this dynamism, rather than fighting it. Instead of trying to systematically align all these slippery "ghost" texts and leave to readers to task to mentally figure out the creative process behind their network of differences, we switch focus from the effect to the cause. All our alterations are the effect of a creative process which transforms a text: and that's exactly what we're going to target.
+In such an elusive scenario, where everything dynamically changes like within a living organism, we need a dramatic focus shift to embrace this dynamism, rather than fighting it. Instead of trying to systematically align all these slippery "ghost" texts and leave to readers to task to mentally figure out the creative process behind their network of differences, we switch focus from the _effect_ to the _cause_. All our alterations are the effect of a creative process which transforms a text: and that's exactly what we're going to target.
 
 Our carriers with all their chaotic annotations are the witness of a creative process, and all the variations we collect and align are just its effects. In this digital edition, time can no longer be our enemy, but our ally. The same time which accumulated all those changes on a text, making it a puzzle for scholarly interpretation, can be the key to a more effective model of the creative process behind all this complexity.
 
 Of course, this approach primarily stems from the nature of the core VEdition material, which is represented by often deeply annotated manuscripts. Printed texts here, which are relatively marginal, are just subsumed into this more expressive model for the sake of consistency.
+
+## Modeling Strategy
+
+So, in our model we are going to represent all the entities described above (Figure 1), with a special focus to snapshots, which are the most complex one, composed of a lot of moving parts.
+
+This is why modeling in this project has been developed bottom-up, starting with _snapshots_ and their alterations, and then integrating them within the larger network of entities which orbit around them, like versions, epigrams, carriers and collections.
+
+The core here are texts, which in the end are modeled as alteration stages (in turn grouping alterations). The version is just a set of alteration stages; the carrier is what materially contains it; the epigram is an abstraction grouping multiple versions; and the collection is a material or immaterial group of version's alteration stages.

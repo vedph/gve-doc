@@ -7,6 +7,8 @@ layout: home
 
 ![banner](img/banner.jpg)
 
+> ⚠️ This documentation is work in progress and is undergoing refactoring!
+
 Welcome to the _VEdition_ technical documentation. Currently, these pages are mostly targeted to internal use, and provide the theorical foundation of the model and some instructions about using its software.
 
 VEdition will provide a new digital edition of Goethe's Venetian epigrams (here GVE for short). Given the highly peculiar nature of this text, this digital-born project also aims to propose a new digital model and software tools for authorial philology applied to similar scenarios.
@@ -27,4 +29,4 @@ As they get a more stable state, the corresponding software repositories are get
 
 The software solution is designed for containerization and distributed in Docker images. So, it can be easily run off the shelf both in a web server and in a local machine, whatever its platform (Unix, MacOS, Windows).
 
-Data produced by the editor can be represented with JSON data, or even plain text, and is stored in a standard document-based database (MongoDB), leveraging the power of the full-fledged [Cadmus content creation framework](https://vedph.github.io/cadmus-doc/).
+Data produced by the editor can be represented with JSON data, or even plain text, and is stored in a standard document-based database (MongoDB), leveraging the power of the full-fledged [Cadmus content creation framework](https://vedph.github.io/cadmus-doc/), even if the model is completely independent from it.
