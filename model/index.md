@@ -1,10 +1,3 @@
----
-title: Model
-layout: default
-parent: Home
-nav_order: 1
----
-
 # Model - Introduction
 
 - 🎥 [video](https://www.youtube.com/watch?v=6fdIUpomJZw)

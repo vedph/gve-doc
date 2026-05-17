@@ -1,11 +1,13 @@
 ---
 title: Architecture
 layout: default
-parent: Model
+parent: Home
 nav_order: 1
 ---
 
 # VEdition Architecture
+
+- 🎥 [presentation](https://www.youtube.com/watch?v=6fdIUpomJZw): this video summarizes most of the model's documentation.
 
 Data for the VE edition is very peculiar, and represents an extreme case in authorial philology. Nonetheless, the solution adopted here may have a more general impact on editing such texts, right because its purpose is to provide models and tooling for one of the most complex scenarios, strong enough to cope with VE, yet easy to scale down.
 

@@ -1,7 +1,7 @@
 ---
 title: Snapshot
 layout: default
-parent: Model
+parent: Home
 nav_order: 2
 ---
 
