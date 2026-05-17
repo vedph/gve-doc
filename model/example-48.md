@@ -2,7 +2,7 @@
 title: Example H5-48
 layout: default
 parent: Model
-nav_order: 4
+nav_order: 5
 ---
 
 # Example: H5-48
@@ -45,6 +45,8 @@ Now, the red hand's operations start. First, the red hand clarifies the intent o
 Finally, later an ● epigram number was added, with black ink.
 
 Now, let's describe all this in our model, for both textual and graphical layers, via operations.
+
+## Operations
 
 - **orange hand**:
 
@@ -140,5 +142,3 @@ and its operations are:
 443×0+["und " [r_hints=snake r_h-offset-x=-6 r_fore-color=red r_t-position=n r_font-size=20 *version^=alteration2 *log:="Insert `und_` before `ein Engel`."]
 14×4: [r_hints=note note=37. r_t-position=n r_t-offset-y=-20 *log:="Add epigram number 37 above the first line."]
 ```
-
-This is all what is required to build the model and see it rendered in action. In fact, the visual editor also allows you to enter the full model data in this DSL compact form, as an alternative to the graphical UI.

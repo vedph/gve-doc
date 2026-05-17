@@ -2,7 +2,7 @@
 title: Editor
 layout: default
 parent: Model
-nav_order: 5
+nav_order: 6
 ---
 
 # Editor Model
