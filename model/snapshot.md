@@ -9,7 +9,10 @@ nav_order: 2
   - [Operations and Alterations](#operations-and-alterations)
   - [Alteration Stages](#alteration-stages)
   - [Interpreting Signs](#interpreting-signs)
-  - [Singularity and Multiplicity: the Chain](#singularity-and-multiplicity-the-chain)
+  - [Single vs. Multiple: Chain](#single-vs-multiple-chain)
+    - [Chain Operations](#chain-operations)
+  - [Objective vs. Subjective](#objective-vs-subjective)
+  - [Visual vs. Textual](#visual-vs-textual)
 
 # Snapshot
 
@@ -80,7 +83,7 @@ Modeling such a snapshot is challenging as we need to compose multiple **tension
 - _objective/subjective_: the objective layer of the carrier vs. the subjective interpretation of it;
 - _visual/textual_: the gra­phical dimension of the signs vs. the tex­tual nature of the signified data;
 
-## Singularity and Multiplicity: the Chain
+## Single vs. Multiple: Chain
 
 As for single vs. multiple texts, the snapshot requires a _single_ data structure to represent _multiple_ texts.
 
@@ -203,3 +206,20 @@ When speaking of time, we are not implying a historical interpretation which ord
 Rather, time here is the focus of the model (a process being a sequence of operations over time) in the sense of being an additional feature of it, where information accumulates both on both the visual and textual layers. Every editing operation adds information for the next state of the text; so earlier states are those with fewer information, and later states are those with more. This has some resemblance with information theory applied to time in physics viewed as the 'cumulative record' of what happened.
 
 So, rather than having a distinct document to represent each alteration stage and comparing all such documents within a given epigram's version to elicit its transformation process from this comparison, the snapshot model focuses on the process which is their ultimate cause. This approach not only fits our scenario, but it also provides a highly compact way of representing multiple texts within a single data structure.
+
+### Chain Operations
+
+In this model, operations are the core of the snapshot's representation: they represent the formal language used by scholars to describe their reconstruction about the transformations of a given text; the "recipe" to build all alterations starting from a base text. Then, these alterations are just computed by the system.
+
+This role of operations as a core interpretative device has important consequences for their design:
+
+- we need **higher-order edit operations**. In raw text processing, we can represent any change with only two operations: insert and delete. These are the two core operations in diffing, when comparing two versions of a text. Yet, as operations are the interface between scholars and the underlying data model, we want the most human-friendly interface. For instance, when we replace a word with another, we describe this process as a unit, even if in editing a digital text this implies two lower-order operations: deleting the old word, and inserting the new one in its place. The same is true for other higher-order operations: we thus provide not only delete and insert, but also replace, move, and even swap. This way, we can provide a full set of tools for a description which can mimick what we would say when talking about the changes applied to a text: e.g. "this word was deleted"; "this word was replaced by a new one"; "this word was moved before this other word"; etc.
+- we want to be able to **encode a virtually unlimited set of metadata** (e.g. the reason of a change, a comment on it, its source, etc.) to be later transferred into their output. In other terms, we need the recipe to build not only texts, but also their annotations. Of course, in this scenario there is not even a text to annotate, until we generate it; and even more important, the representational device is the operation, because our model focuses on the process. So, it's the operation we want to describe, rather than its effect.
+
+## Objective vs. Subjective
+
+TODO
+
+## Visual vs. Textual
+
+TODO
