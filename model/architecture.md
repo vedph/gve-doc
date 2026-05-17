@@ -1,13 +1,11 @@
 ---
-title: Edition Data
+title: Architecture
 layout: default
 parent: Model
 nav_order: 1
 ---
 
-# Edition Data
-
-## VEdition Architecture
+# VEdition Architecture
 
 Data for the VE edition is very peculiar, and represents an extreme case in authorial philology. Nonetheless, the solution adopted here may have a more general impact on editing such texts, right because its purpose is to provide models and tooling for one of the most complex scenarios, strong enough to cope with VE, yet easy to scale down.
 
