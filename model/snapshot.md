@@ -5,6 +5,12 @@ parent: Model
 nav_order: 2
 ---
 
+- [Snapshot](#snapshot)
+  - [Operations and Alterations](#operations-and-alterations)
+  - [Alteration Stages](#alteration-stages)
+  - [Interpreting Signs](#interpreting-signs)
+  - [Singularity and Multiplicity: the Chain](#singularity-and-multiplicity-the-chain)
+
 # Snapshot
 
 "Snapshot" is the IT term we use for the epigram's version entity as a digital model capable of representing multiple alterations of a single text with all its metadata, at both textual and visual levels.
@@ -74,7 +80,7 @@ Modeling such a snapshot is challenging as we need to compose multiple **tension
 - _objective/subjective_: the objective layer of the carrier vs. the subjective interpretation of it;
 - _visual/textual_: the gra­phical dimension of the signs vs. the tex­tual nature of the signified data;
 
-## The Chain Data Structure
+## Singularity and Multiplicity: the Chain
 
 As for single vs. multiple texts, the snapshot requires a _single_ data structure to represent _multiple_ texts.
 
@@ -126,7 +132,7 @@ x -->|v0| t
 x -->|v1| t
 ```
 
-- _Figure 2 - Deleting a word_
+- _Figure 3 - Deleting a word_
 
 This results in a new version of our text: "a text", corresponding to alteration `v1`. We cre­ated it by just adding links and reusing nodes, guided by a delete operation.
 
@@ -135,13 +141,13 @@ If you start from the first character to the left, and follow links with a speci
 - `v0`: "a sample text"
 - `v1`: "a text"
 
-Again, say that in our manuscript the "x" letter of "text" is circled, and at the top of the text there is an isolated circled "s" letter. Our interpretation of these signs (two circles around two letters) is that they hint at a replace operation, which changes "text" into "test" (Figure 3).
+Again, say that in our manuscript the "x" letter of "text" is circled, and at the top of the text there is an isolated circled "s" letter. Our interpretation of these signs (two circles around two letters) is that they hint at a replace operation, which changes "text" into "test" (Figure 4).
 
 ![manuscript](img/asampletext.png)
 
-- _Figure 3: a mock manuscript with annotations hinting at changes_
+- _Figure 4: a mock manuscript with annotations hinting at changes_
 
-We are thus going to use a replace operation to add a new set of links for alteration `v2`, which also implies the addition of a new "s" node to the set of character nodes (Figure 4).
+We are thus going to use a replace operation to add a new set of links for alteration `v2`, which also implies the addition of a new "s" node to the set of character nodes (Figure 5).
 
 ```mermaid
 flowchart LR;
@@ -167,7 +173,7 @@ x -->|v1| t
 s2(s) -->|v2| t
 ```
 
-- Figure 4: Replacing a character ("x" → "s") in "text"
+- Figure 5: Replacing a character ("x" → "s") in "text"
 
 Now we have 3 texts:
 
@@ -194,4 +200,6 @@ So, the text represented by a chain evolves from low to high complexity: it star
 
 When speaking of time, we are not implying a historical interpretation which orders one operation exactly after another, as it were going to reflect the real sequence of events occurred in the text making process. There is a tendency towards a historically plausible reconstruction, and usually we can group operations into sets which define alteration stages; but the order within each alteration stage is just conventional.
 
-Rather, time here is the focus of the model in the sense of being an additional feature of it, where information accumulates both on both the visual and textual layers. Every editing operation adds information for the next state of the text; so earlier states are those with fewer information, and later states are those with more. This has some resemblance with information theory applied to time in physics viewed as the 'cumulative record' of what happened.
+Rather, time here is the focus of the model (a process being a sequence of operations over time) in the sense of being an additional feature of it, where information accumulates both on both the visual and textual layers. Every editing operation adds information for the next state of the text; so earlier states are those with fewer information, and later states are those with more. This has some resemblance with information theory applied to time in physics viewed as the 'cumulative record' of what happened.
+
+So, rather than having a distinct document to represent each alteration stage and comparing all such documents within a given epigram's version to elicit its transformation process from this comparison, the snapshot model focuses on the process which is their ultimate cause. This approach not only fits our scenario, but it also provides a highly compact way of representing multiple texts within a single data structure.
