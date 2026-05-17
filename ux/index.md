@@ -1,10 +1,3 @@
----
-title: User Experience
-layout: default
-parent: Home
-nav_order: 2
----
-
 # User Experience
 
 This section of the documentation refers to the frontend GUI designed and implemented to provide a user-friendly, collaborative and web-based content creation system for data shaped according to our [model](../model/index).

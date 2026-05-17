@@ -1,10 +1,3 @@
----
-title: VEdition Guidelines
-layout: default
-parent: User Experience
-nav_order: 3
----
-
 # Guidelines
 
 - [Guidelines](#guidelines)
