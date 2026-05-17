@@ -309,11 +309,11 @@ Here the hint's SVG code is:
 </g>
 ```
 
->Note: to avoid issues in visualizing this page, we replace placeholder "whiskers" (which are 2 opening braces and 2 closing braces) with square brackets. In real code you must use braces!
+> ⚠️ Note: to avoid issues in visualizing this page, we replace placeholder "whiskers" (which are 2 opening braces and 2 closing braces) with square brackets. In real code you must use braces!
 
 This is a very simple hint: it just contains a line starting from the bottom-right corner of the reference rectangle, and running up to its top-right corner. Its stroke width is 2, and its stroke color is defined by a placeholder variable, named `r_fore-color`. This means that at runtime the renderer will look for a feature with this name in the operation, and use it to get the line's color. This is very convenient, because it allows us to contextually change the color of a hint: you just add another feature with the color, and the hint (here the line) will use it.
 
-Also, note a couple of interesting properties:
+Also, note some interesting properties:
 
 - the position is `o` = origin. This way the rectangle including the line will be positioned exactly on top of the rectangle including the reference text.
 - the horizontal scale is set to 110% (`1.1`) because we want the line to stretch a bit beyond both edges of the text.
