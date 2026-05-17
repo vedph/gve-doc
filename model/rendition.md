@@ -274,6 +274,46 @@ To name a group, rather than using the ordinal number, you can specify the name 
 
 ## Hints Designer
 
-The hints designer is another custom web component provided by the snapshot rendition GVE library to assist in designing hints for your project.
+The hints designer is another custom web component provided by the snapshot rendition GVE library to assist in designing hints for your project. Of course, hints being ultimately just SVG and JSON code, you can also encode them manually.
+
+At any time during your project creation you may find new visuals which you want to add to your visual grammar. In this case, you just have to literally draw their (often simplified) appearance in your favorite SVG editor like [InkScape](https://inkscape.org), and then add it to the hints catalog with its metadata, encoded with JSON.
+
+The hints catalog is defined in the backend profile for your edition, under the `settings.hints` key (see [customization](/usage/customize.md)).
+
+In it, each hint is a JSON object where you specify its properties as described about [hints rendition](#hints-rendition). For instance, here is the diagonal stroke up hint:
+
+```json
+"diagonal-stroke-up": {
+  "svg": "<g>\n  <line x1=\"0\" y1=\"100\" x2=\"300\" y2=\"0\" stroke=\"{{r_fore-color}}\" stroke-width=\"2\" />\n</g>",
+  "position": "o",
+  "offsetX": 0,
+  "offsetY": 0,
+  "scaleX": 1.1,
+  "scaleY": 1,
+  "rotation": 0,
+  "animation": "#wipe-right"
+}
+```
+
+This represents a diagonal line stroke to be drawn on top of some portion of the base text, typically to represent its deletion.
+
+First, note that all hints in the catalog have a fixed design-time size, here 300x100 (this is defined in rendition settings). The design size is fixed because hints get resized at runtime, so we just provide a size to start with.
+
+Here the hint's SVG code is:
+
+```xml
+<g>
+  <line x1="0" y1="100"
+        x2="300" y2="0"
+        stroke="{{r_fore-color}}" stroke-width="2" />
+</g>
+```
+
+This is a very simple hint: it just contains a line starting from the bottom-right corner of the reference rectangle, and running up to its top-right corner. Its stroke width is 2, and its stroke color is defined by a placeholder variable, named `r_fore-color`. This means that at runtime the renderer will look for a feature with this name in the operation, and use it to get the line's color. This is very convenient, because it allows us to contextually change the color of a hint: you just add another feature with the color, and the hint (here the line) will use it.
+
+Also, note a couple of interesting properties:
+
+- the horizontal scale is set to 110% (`1.1`) because we want the line to stretch a bit beyond both edges of the text.
+- the entrance animation is wipe-right, so the line will be "drawn" from left to right.
 
 TODO
