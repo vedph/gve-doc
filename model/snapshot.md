@@ -237,7 +237,7 @@ These features are designed to be injected in the operation's output text, eithe
 
 ### Operation Types
 
-there are 8 **types** of operations (listed with their corresponding operator in their text-based representation):
+there are 8 **types** of operations (listed with their corresponding operator in their DSL-based representation):
 
 - replace (`=`): e.g. `1x2=X`.
 - delete (`-`): e.g. `1x2-`.
