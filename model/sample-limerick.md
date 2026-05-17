@@ -1,10 +1,3 @@
-- [Limerick Example](#limerick-example)
-  - [Setting Base Text](#setting-base-text)
-  - [Adding Operations](#adding-operations)
-  - [Inspecting Results](#inspecting-results)
-  - [Adding Diplomatic Data](#adding-diplomatic-data)
-  - [Conclusion](#conclusion)
-
 # Limerick Example
 
 💡 If you prefer to look at a short video, here you can find a shorter version of this page:

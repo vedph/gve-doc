@@ -1,7 +1,7 @@
 ---
 title: Rendition
 layout: default
-parent: Home
+parent: Model
 nav_order: 3
 ---
 
