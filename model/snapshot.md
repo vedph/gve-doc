@@ -23,6 +23,10 @@ A snapshot essentially consists of two parts:
 - the base text, which is the starting point of the transformation.
 - the editing operations which act on text to produce alterations.
 
+🌐 Quick links:
+
+- 🚀 [chain demo](https://gve-demo.fusi-soft.com/snapshot): a very raw UI used to develop and test the chain data structure.
+
 ## Operations and Alterations
 
 As outlined about our edition's [architecture](architecture.md), in our approach we need a dramatic focus shift, from the annotated manuscript (the effect, virtually representing multiple alterations of an epigram's version) to the cause (the **process** which generated it).
@@ -191,6 +195,8 @@ In the end, the chain is just a container of two sets:
 - the **set of nodes**, where each node is a single character;
 - the **set of links**, each tagged with its alteration label (`v0`, `v1`, `v2`, etc.).
 
+>⚙️ In technical terms, we could describe this structure as a _tagged multigraph linked list_: it's a _linked list_ because each node has at most one child in each version of the list; it's a _multigraph_ because it allows multiple edges (links) between nodes; it's _tagged_ because each version of the list (each set of links) has a unique tag.
+
 The chain is designed to mimick what happens in real world with an autograph manuscript: in most cases, when we write with a pen on a sheet of paper, every sign written on it stays there forever. We cannot undo our drawing. Sure, we can write new signs on top of it, like the stroke on "sample" to say we want it deleted; or add new signs, like the circled "s", to say we want to replace "text" with "test". Yet, the original word "sample" is still there; and so is "text".
 
 In the same way, every node added to the chain set is unique, just like the unique act of writing which happened at a given time on that sheet of paper; it stays there forever, even when it is no longer included in later alterations. For instance, the 6 nodes for "sample" are not removed from the chain's set after the delete operation. They are still there; but they are no longer linked by the set of `v1` links, which bypass this word completely.
@@ -209,7 +215,11 @@ So, rather than having a distinct document to represent each alteration stage an
 
 ### Chain Operations
 
-In this model, operations are the core of the snapshot's representation: they represent the formal language used by scholars to describe their reconstruction about the transformations of a given text; the "recipe" to build all alterations starting from a base text. Then, these alterations are just computed by the system.
+In this model, operations are the core of the snapshot's representation: they represent the formal language used by scholars to describe their reconstruction about the transformations of a given text; the **recipe** to build all alterations starting from a base text. Then, these alterations are just computed by the system.
+
+The manuscript provides all the ingredients for building text, all displayed at the same time on the same table. It's up to scholarly interpretation to reconstruct a recipe (=a sequence of operations) for handling them in the best way to represent the text making process behind all its alternative alterations.
+
+This model always includes all the ingredients, as we want to fully represent our data at the snapshot level. We do not want any of our interpretations to have destructive effects on our data: just like the snapshot presents all the ingredients mixed together, we want to collect and preserve all of them as distinct entities. This will not only ensure that our model fully represents our data; but also that we can add as many interpretations as we want on top of them, or even allow others use the same data to come out with their own interpretations. So, the chain here represents a model which allows scholars to define a recipe for combining ingredients to get any number of distinct text versions, while still containing all the ingredients in the same box. In a sense, if you think of a text as a string (a linear sequence of) characters, it is like getting a _time-enabled string_, i.e. a single data structure with the ability of representing not just a single sequence, but many different ones, all within the same box.
 
 This role of operations as a core interpretative device has important consequences for their design:
 
@@ -263,4 +273,6 @@ So, in both cases, besides adding these two operations, which affect the textual
 
 Thus, this model defines a clear boundary between the textual layer and its visual counterparts; both are expressed within the operation, and with maximum granularity, while preserving the distinction between their appearance and their interpretation for the text.
 
-This defines a fully symbolic diplomatic model, where visuals are encoded for their essential components, using a sort of **visual grammar** of signs, while still leveraging the same model for them. Just like you encode a "reason" feature, e.g. a replacement for metrical reasons, you encode all the visuals representing that replacement. Not only this allows to encode the appearance of the manuscript, but it also uses a set of conventional descriptors for their signs, which can be equally leveraged for further analysis (e.g. clustering visuals features like shape and position according to their meaning). This is somewhat similar to what happens when you adopt a set of descriptors in an iconographic description of an image: you pick from a closed vocabulary a set of items which in your theorical framework are capable of defining the main features of that image.
+This defines a fully symbolic diplomatic model, where visuals are encoded for their essential components, using a sort of **visual grammar** of signs, while still leveraging the same model for them. Just like you encode a "reason" feature, e.g. a replacement for metrical reasons, you encode all the visuals representing that replacement. Not only this allows to encode the appearance of the manuscript, but it also uses a set of conventional descriptors for their signs, which can be equally leveraged for further analysis (e.g. clustering visuals features like shape and position according to their meaning).
+
+This is similar to what happens when you adopt a set of descriptors in an iconographic description of an image: you pick from a closed vocabulary a set of items which in your theorical framework are capable of defining the main features of that image.
