@@ -23,22 +23,24 @@ The easiest way to customize both facets and thesauri is loading the VEdition ed
 
 ## Snapshot Customization
 
-For snapshots, which are the core of the GVE model, customization can be very deep. Most of its relevant settings are found in these sections of the JSON profile document:
+For snapshots, which are the core of the GVE model, customization can be very deep. Most of its relevant settings are found in two sections of the JSON profile document: thesauri and settings.
 
-- **thesauri**: 2 thesauri define the vocabulary of your operation facets: `snapshot-feat-names@en` and `snapshot-feat-values@en`. The former is a list of all the facets names; the latter is a list of all the values for each named facet, when this must be restricted to a closed set of values.
+### Thesauri
+
+Among thesauri, the most relevant ones define the vocabulary of your operation facets: `snapshot-feat-names@en` and `snapshot-feat-values@en`. The former is a list of all the facets names; the latter is a list of all the values for each named facet, when this must be restricted to a closed set of values.
 
 For instance, the `log` feature is designed to carry a short summary of the operation; so it's just free text. You have the entry for its name in the first thesaurus, but no entries for its values in the second thesaurus:
 
 ```json
 {
-    "id": "snapshot-feat-names@en",
-    "entries": [
-      {
-        "id": "log",
-        "value": "log"
-      },
-      // ... etc.
-    ]
+  "id": "snapshot-feat-names@en",
+  "entries": [
+    {
+      "id": "log",
+      "value": "log"
+    }
+    // ... etc.
+  ]
 }
 ```
 
@@ -46,52 +48,68 @@ Instead, ink or pencil colors in VEdition are conventionally defined in a closed
 
 ```json
 {
-    "id": "snapshot-feat-names@en",
-    "entries": [
-      {
-        "id": "r_fore-color",
-        "value": "foreground color"
-      },
-      // ... etc.
-    ]
+  "id": "snapshot-feat-names@en",
+  "entries": [
+    {
+      "id": "r_fore-color",
+      "value": "foreground color"
+    }
+    // ... etc.
+  ]
 }
 ```
 
 Also, you have these values for that entry in the values thesaurus:
 
 ```json
-{
+[
+  {
     "id": "r_fore-color:black",
     "value": "black"
-},
-{
+  },
+  {
     "id": "r_fore-color:blue",
     "value": "blue"
-},
-{
+  },
+  {
     "id": "r_fore-color:brown",
     "value": "brown"
-},
-{
+  },
+  {
     "id": "r_fore-color:darkgreen",
     "value": "darkgreen"
-},
-{
+  },
+  {
     "id": "r_fore-color:lightblue",
     "value": "lightblue"
-},
-{
+  },
+  {
     "id": "r_fore-color:orange",
     "value": "orange"
-},
-{
+  },
+  {
     "id": "r_fore-color:pink",
     "value": "pink"
-},
-{
+  },
+  {
     "id": "r_fore-color:red",
     "value": "red"
-},
+  }
+]
 ```
 
 Note the conventional syntax used for entry identifiers here: the ID of the feature name entry (`r_fore-color`) plus colon is a constant prefix. This allows the UI to link those entries as values for the foreground color.
+
+### Settings
+
+The settings section can be used by any parts in the Cadmus editor. Each part's settings is keyed under its part type ID, which for the snapshot part is `it.vedph.gve.snapshot`.
+
+This setting key is a complex JSON object providing some of the most used settings for the model and its UI:
+
+- `fontSize`: the default text font size.
+- `fontFamily`: the default text font family.
+- `foreColor`: the default text foreground color.
+- `debug`: `true` to emit debug information in the browser console. Used for diagnostic purposes.
+- `hints`: the definitions of all the hints used in the snapshot rendition.
+- `animations`: the definitions of all the animations used in the snapshot rendition.
+- `gveHintDesignerVariables`: an object whose `variables` property is a dictionary of preset variables used in the hints designer UI.

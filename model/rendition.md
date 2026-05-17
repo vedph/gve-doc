@@ -13,6 +13,7 @@ nav_order: 3
   - [Added Text Rendition](#added-text-rendition)
   - [Hints Rendition](#hints-rendition)
   - [Feature Adapter](#feature-adapter)
+  - [Hints Designer](#hints-designer)
 
 # Rendition Model
 
@@ -270,3 +271,9 @@ To name a group, rather than using the ordinal number, you can specify the name 
 
 - `$corr.name`=captured feature name.
 - `$corr.value`=captured feature value.
+
+## Hints Designer
+
+The hints designer is another custom web component provided by the snapshot rendition GVE library to assist in designing hints for your project.
+
+TODO
