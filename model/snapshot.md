@@ -15,6 +15,7 @@ nav_order: 2
   - [Visual vs. Textual](#visual-vs-textual)
   - [Diplomatic Model](#diplomatic-model)
     - [Signs Classification](#signs-classification)
+    - [Visual Grammar](#visual-grammar)
 
 # Snapshot
 
@@ -311,3 +312,40 @@ Added text and hints taken together are also known as 🔖 **added elements**, b
 It should be noticed that the distinction between _hints_ and _added text_ is not a visual one; as for all the signs in this classification, it is a logical and functional one. For instance, it may well happen that a hint is represented by text, like the number of an epigram written on its corner, or a textual annotation. Even then, the hint is different because it's only the optional visual counterpart of an operation, and does not represent text which becomes part of the epigram's text. So, it may have the appearance of text, or more often be just some freehand drawing; but in both cases, it never represents a part of the text being transformed.
 
 So, in our example the replacement operation's _hint_ is only the line above the old word, while the new word replacing it is _added text_, and becomes part of the epigram's text in the next alteration.
+
+Among text elements, _base text_ is the entry point for the transformation, typically written with a regular and predictable layout (e.g. along the lines of a notebook); while _added text_ was introduced later, in an unpredictable way and at any position (usually wherever there is space near to the text being transformed), following the text making process.
+
+This implies that:
+
+- **base text** can be rendered with a simpler logic, essentially equal to that which dictates the arrangement of characters in lines on a sheet of paper. Characters follow each other on the same line, until the next line starts. Anyway, this layout can occasionally be modified; for instance, whatever the reasons, a portion of the text might be written with a different size, or along an offset or rotated baseline. At any rate, these are occasional departures which can be implemented by overriding the default text features.
+- **added text** instead is placed and sized freely, reflecting its appearance on the carrier.
+
+### Visual Grammar
+
+Besides added text, the visual grammar of this model allows any type of signs for its hints, from a simple dot or line to a more complex drawing. Hints appearance is totally unpredictable, as everything could be drawn on a sheet.
+
+So, we could never predict all the shapes of all the hints found on a sheet, especially when crossing project borders (which is implied by the generic vocation of this system). This implies that our model must be **open** and capable of representing any drawings.
+
+Nonetheless, it is also true that, especially within a single project's borders, hints can be easily grouped into repeatedly used **types**. Many of them also have a nearly universal use, like the line on top of a word, meaning its deletion.
+
+So, even if each line drawn on the sheet is unique, and corresponds to a unique act happened in time, it can easily be traced back to a single pattern: the symbol for a line. This is an abstraction; but the real-world departures from its ideal appearance can be easily discarded as irrelevant, just like when listening to a speech we discard allophonic variants and identify the immaterial phonemes behind these surface expressions.
+
+Of course, to provide more details we can multiply these symbols: for instance, we can have one type for the horizontal line (`—`); another for the diagonal line raising from left to right (`/`); and yet another one for the diagonal line lowering from to left to right (`\`). The level of detail depends only on the project's nature and purposes.
+
+Anyway, whatever our choice, in the end we define a sort of **catalog** of signs representing hint types, like "horizontal line", "diagonal line up", "diagonal line down", "cross", etc. These are abstract types, discarding the single details of each specific stroke drawn on the paper; but they capture their essential nature, dropping accidental features, while preserving all the different types required by our model.
+
+Thus, the first ingredient for our visualization is a catalog of hints, each with its own appearance and a set of metadata. Most of these metadata concur to define the behavior of each hint with reference to its rendition, like sizing, positioning, rotation, scale, etc.
+
+Among them, hints are also connected to their entrance **animation** in the visualization stage. Given the focus on dynamic transformation, animation here is not just a fancy feature, but it is crucial for the semantics of a visualization which fully embraces the flux of time.
+
+In fact, whatever the approach, graphical or symbolic, a crucial aspect of this model is time: we focus on the transformation process happening during time, step after step, replaying what writers did, at least according to our reconstruction and its conventions. In visualization, time means animations, for each state transition.
+
+In a traditional approach, we deal with a statically defined previous stage, and a next one. We then represent this transformation in terms of its effects, by diffing two stages and emphasizing their differences. For instance, comparison shows us that in stage two something has been deleted; and something has been added. The process remain hidden behind its surface effects; and when faced with tens of stages, figuring it out becomes hard.
+
+In VEdition instead, we replay all the steps between two alteration stages, operation after operation. For instance, we first transform a text by deleting some portion of it: visually, a hint like a diagonal line enters the stage via an animation to represent this. Then, we add some other text, which visually corresponds to this new text entering the stage, again via an animation. So we can literally see the text transforming under our eyes, until it gets to the next alteration stage.
+
+This is why not only each operation is linked to any number of visual hints; but also why each hint in turn is linked to an enter animation.
+
+So, each hint progressively unveils itself, rather than abruptly appearing: this fits the continuous flow of changes occurring along time, and usually mimicks the act of drawing that hint. For instance, a diagonal line can enter via a "wipe-right" animation, which mimicks the effect of drawing it from left to right with a pen on paper.
+
+Here too, we leverage the same approach for an even more efficient representation: rather than providing a specific animation for each hint instance, we typically reuse animations, just like we reuse hints. So, the hints catalog stays side by side with an **animations catalog**, and each hint just reuses an animation from it, except when the hint's structure is so peculiar that it requires its own animation.
