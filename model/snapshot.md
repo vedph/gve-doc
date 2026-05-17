@@ -74,7 +74,7 @@ Modeling such a snapshot is challenging as we need to compose multiple **tension
 - _objective/subjective_: the objective layer of the carrier vs. the subjective interpretation of it;
 - _visual/textual_: the gra­phical dimension of the signs vs. the tex­tual nature of the signified data;
 
-## Chain Data Structure
+## The Chain Data Structure
 
 As for single vs. multiple texts, the snapshot requires a _single_ data structure to represent _multiple_ texts.
 
@@ -177,11 +177,21 @@ Now we have 3 texts:
 
 So, with this single data structure, named **chain**, we can efficiently represented an unlimited number of strings by linking character nodes in different ways.
 
-At its core, the chain is just a container of two sets:
+In the end, the chain is just a container of two sets:
 
 - the **set of nodes**, where each node is a single character;
 - the **set of links**, each tagged with its alteration label (`v0`, `v1`, `v2`, etc.).
 
-The chain has been designed to mimick what happens in real world with an autograph manuscript: in most cases, when we write with a pen on a sheet of paper, every sign written on it stays there forever. We cannot undo our drawing. Sure, we can write new signs on top of it, like the stroke on "sample" to say we want it deleted; or add new signs, like the circled "s", to say we want to replace "text" with "test". Yet, the original word "sample" is still there; and so is "text".
+The chain is designed to mimick what happens in real world with an autograph manuscript: in most cases, when we write with a pen on a sheet of paper, every sign written on it stays there forever. We cannot undo our drawing. Sure, we can write new signs on top of it, like the stroke on "sample" to say we want it deleted; or add new signs, like the circled "s", to say we want to replace "text" with "test". Yet, the original word "sample" is still there; and so is "text".
 
-In the same way, every node added to the chain set is unique, just like the unique act of writing which happened at a given time on that sheet of paper; it stays there forever, even when it is no longer included in later alterations. For instance, the 6 nodes for "sample" are not removed from the chain's set after the delete operation. They are still there, but they are no longer linked by the set of `v1` links, which bypass this word completely.
+In the same way, every node added to the chain set is unique, just like the unique act of writing which happened at a given time on that sheet of paper; it stays there forever, even when it is no longer included in later alterations. For instance, the 6 nodes for "sample" are not removed from the chain's set after the delete operation. They are still there; but they are no longer linked by the set of `v1` links, which bypass this word completely.
+
+This persistence is true also for links: whenever a new alteration is made by an operation, a totally new set of links gets added to the links set. These new links are tagged for the new alteration, and live in the chain set together with all the other links.
+
+With reference to these sets, operations are the interface between scholars and the chain data structure. It is the operations which change the chain; and change goes in a unique direction, consisting of additions to its sets: new links, and possibly new nodes.
+
+So, the text represented by a chain evolves from low to high complexity: it starts with the base text, and then new links and nodes get accumulated over time, as nothing gets removed.
+
+When speaking of time, we are not implying a historical interpretation which orders one operation exactly after another, as it were going to reflect the real sequence of events occurred in the text making process. There is a tendency towards a historically plausible reconstruction, and usually we can group operations into sets which define alteration stages; but the order within each alteration stage is just conventional.
+
+Rather, time here is the focus of the model in the sense of being an additional feature of it, where information accumulates both on both the visual and textual layers. Every editing operation adds information for the next state of the text; so earlier states are those with fewer information, and later states are those with more. This has some resemblance with information theory applied to time in physics viewed as the 'cumulative record' of what happened.
