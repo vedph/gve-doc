@@ -10,7 +10,9 @@ nav_order: 2
   - [Alteration Stages](#alteration-stages)
   - [Interpreting Signs](#interpreting-signs)
   - [Single vs. Multiple: Chain](#single-vs-multiple-chain)
-    - [Chain Operations](#chain-operations)
+    - [Operations](#operations)
+    - [Operation Types](#operation-types)
+    - [Operations DSL](#operations-dsl)
   - [Objective vs. Subjective](#objective-vs-subjective)
   - [Visual vs. Textual](#visual-vs-textual)
   - [Diplomatic Model](#diplomatic-model)
@@ -183,7 +185,7 @@ x -->|v1| t
 s2(s) -->|v2| t
 ```
 
-- Figure 5: Replacing a character ("x" → "s") in "text"
+- _Figure 5: Replacing a character ("x" → "s") in "text"_
 
 Now we have 3 texts:
 
@@ -216,7 +218,7 @@ Rather, time here is the focus of the model (a process being a sequence of opera
 
 So, rather than having a distinct document to represent each alteration stage and comparing all such documents within a given epigram's version to elicit its transformation process from this comparison, the snapshot model focuses on the process which is their ultimate cause. This approach not only fits our scenario, but it also provides a highly compact way of representing multiple texts within a single data structure.
 
-### Chain Operations
+### Operations
 
 In this model, operations are the core of the snapshot's representation: they represent the formal language used by scholars to describe their reconstruction about the transformations of a given text; the **recipe** to build all alterations starting from a base text. Then, these alterations are just computed by the system.
 
@@ -232,6 +234,109 @@ This role of operations as a core interpretative device has important consequenc
 To describe operations, the model uses so-called **features**. Formally, a feature is just a name=value pair, similar to an attribute of an XML tag; just like for attributes, this provides unlimited flexibility in defining new aspects of operations, whether they are freely inserted, or belong to a controlled vocabulary (which is the most frequent case).
 
 These features are designed to be injected in the operation's output text, either at a global level (=referred to the whole text resulting after that operation), or at a node-level (=referred to a specific portion of the resulting text). In both cases, injected features get tagged by their alteration label, as they change over time, even when applied to the same node. This way, the chain can build not only the text of each alteration, but also all the annotations on it or on any portions of it.
+
+### Operation Types
+
+there are 8 **types** of operations (listed with their corresponding operator in their text-based representation):
+
+- replace (`=`): e.g. `1x2=X`.
+- delete (`-`): e.g. `1x2-`.
+- add before (`+[`): e.g. `1x1+[X`.
+- add after (`+]`): e.g. `1x1+]X`.
+- move before (`>[`): e.g. `1x2>[5`.
+- move after (`>]`): e.g. `1x2>]5`.
+- swap (`<>`): e.g. `1x2<>3x3`.
+- annotate (`:`): this is a do-nothing operation which affects only metadata by updating features; e.g. `3x2: [note=sample]`.
+
+All operations thus share a common set of metadata, represented by:
+
+- generic **features**: an open-ended set of any type of features, modeled as generic name=value pairs.
+- **sources** metadata: these metadata are specialized to represent the source for the variant implied by a specific operation. The model of a source item is similar to that of a generic apparatus, and contains:
+  - _ID_: an identifier for the source. For instance, it might be the identifier used for Schiller, or for some other witness.
+  - _type_: the type of source (a person, a witness, etc.).
+  - _rank_: the probability rank attributed to the identification of this source.
+  - _note_: an optional free text note.
+
+Features carried by an operation (and other objects in the snapshot model) are more complex than just a name=value pair. Among its properties, a feature has a specific **set policy**, which drives the behavior of the operation when updating features in their sets.
+
+The set policy can have any of these values:
+
+- **single**: when a feature is added to a set, and a feature with the same name already exists in it, the existing feature gets replaced with the new one. For instance, the certainty rank is a single-policy feature, because logically you can just have a single level of certainty; if you set a new level, you are overwriting the value of the previous one. Also, the version feature is used to mark a specific output as a staged version; so, whenever a new version is defined, the old version value is replaced by it.
+- **multiple**: when added to a set, the feature is just added to the set, whether another one exists with the same name or not. For instance, a `log` feature is used in our examples when we want to trace the operations effects on the generated texts. In this case, each operations logs a new entry and we want to preserve all the entries as they accumulate. So, this is a multiple feature, and whenever a new log entry is added all the existing entries are preserved.
+- **single first**: when added to a set in a batch, and a feature with the same name already exists, the first one being added replaces all the existing ones, while the following ones to be added just get added as multiple. This has meaning only when adding several features at once. Otherwise, it just behaves as single.
+
+>Some features get automatically projected onto their targets when applying an operation. This is the case of probability rank and source features. Source features also provide an example of the single-first policy: as every operation can have multiple sources, we want to replace the sources from previous operations the first time we add a source from the current operation, but then add all the other sources included by that operation. Should we use a single set policy, we would end up preserving only the last-added source, which is not what we want.
+>A special class of automatically injected features, the [trace features](../export/trace-features.md), are used to ease the export process.
+
+### Operations DSL
+
+Even if GVE provides a UI to edit operations, it also allows a text-based representation for them using a minimalist domain-specific language (DSL). This text format is used to represent their basic metadata, including features, but excluding specialized metadata (source and diplomatic). It is mostly used to speed up editing, or for testing or diagnostic purposes in code.
+
+>This implies that in the end one might easily represent the full data of a snapshot -- the base text with all its alterations and annotations, both on textual and visual layers -- in the simplest and most compact way as a plain text: the base text itself, and operations DSL. Everything else is computed by software.
+
+The general text-based syntax for these operations includes these components, from left to right:
+
+(1) `(ITAG:OTAG)`: these are the optional input and/or output **tags**. They represent the input and the output alterations tags in the chain before and after applying the operation. You can specify none, just one, or both. Usually there is no need to specify tags, as the system can generate tags, and automatically increase their number (`v0`, `v1`, `v2`...) after each operation is applied. You might want to specify an input tag to start from an input which does not correspond to the latest generated output, when you have branching.
+
+(2) `ATxRUN` or `@ATxRUN` (where `AT` is required): the **range** of characters to select as the input of the operation. `AT` is either a _node ID_ or index (when prefixed by `@`), and is optionally followed by the run of nodes. If not specified (and when it makes sense according to the operation's type), `RUN` defaults to 1.
+
+>**Node ID**s are numbers starting from 1, automatically assigned to each node from first to last, in the order they get added to the chain. So, if you start with nodes `ARZDC`, you can predict that `A`'s ID will be 1, `R`'s will be 2, etc. Once a node gets an ID, it never changes; so, node IDs are immutable, just like nodes themselves. **Node indexes** instead refer to the 0-based index of a node in the context of a specific version; so, in `v0`=`ARZDC` character `D` has index=3 (and ID=4); but in `v1`=`ARDC` (deletion of `Z`) the same character has index=2 (while still retaining its ID=4). You are free to choose which system to use, but in most cases you will stick to IDs. Indexes can be useful for nodes which get added in complex nestings of operations, when ID prediction could be less handy.
+
+(3) `OPERATOR` (required): the **operator** defines the operation's type. According to the operator, the other relevant parameters are listed in this table:
+
+| type        | operator | at | run | to | to-run | value |
+|-------------|----------|----|-----|----|--------|-------|
+| replace     | `=`      | Y  | Y   | -  | -      | Y     |
+| delete      | `-`      | Y  | Y   | -  | -      | -     |
+| add before  | `+[`     | Y  | -   | -  | -      | Y     |
+| add after   | `+]`     | Y  | -   | -  | -      | Y     |
+| move before | `>[`     | Y  | Y   | Y  | -      | -     |
+| move after  | `>]`     | Y  | Y   | Y  | -      | -     |
+| swap        | `<>`     | Y  | Y   | Y  | Y      | -     |
+| annotate    | `:`      | Y  | Y   | -  | -      | -     |
+
+>Run by default is always 1 except in add where it is 0.
+
+(4) `"VALUE"`: a **text value** for those operations requiring it. For instance, a replacement operation must provide a text to insert for the replaced range defined by `AT` and `RUN`. Alternatively, move operations (move before, move after, swap) have a second pair of coordinates, `TO` and `TORUN`, which work like `AT` and `RUN`. For instance, `1>]3` is a move-after (`>]`) operation, which moves character 1 after character 3.
+
+(5) `^RANK`: a metadatum representing the **probability rank** for the interpretation connected to this operation. A value=0 means unspecified, values above 0 are e.g. 1=highly probable, 2=probable, 3=less probable, etc., using as many levels as you require.
+
+>When not zero, the rank also generates a feature with the same name and a value equal to the rank's value. This allows this metadatum to bubble up into the operation's output, and thus be part of the data attached to each generated version. The rank is thus a _projected feature_, using a single policy. Source features too get projected in a similar way, when present, using a first-single policy.
+
+(6) `[NAME="VALUE"...]`: name=value pairs representing metadata **features**, separated by space. When the feature is flag-like (boolean), you can just use `NAME` without operators and value. Further syntax details:
+
+- the operator separating the name from the value varies according to the set policy of the feature:
+  - `=` represents a **multiple** feature, which can occur 0-N times in its set.
+  - `:=` represents a **single** feature, which can occur 0-1 times in its set.
+  - `==` represents a **first-single** feature, which is treated as single the first time it is added to the set, and then as multiple. This can be used to replace a set of features with another one. For instance, when adding source-related features, the next operation first removes all the features named "source" from the targeted set, and then adds all the new ones.
+- **global feature** names must start with an asterisk (e.g. `*version` for alteration stage names). A global feature is a feature attached to the chain data context as a whole, rather than to specific nodes in it. Specific nodes are determined by the operation type: for instance, a deletion targets the node being deleted, while an insertion targets the nodes being inserted.
+- a feature name prefixed by `!` means that all the features with that name must be **removed**. In this case you just specify the feature name after this prefix.
+- a feature name ending with `^` means that that feature will be short-lived, i.e. once added, it will be removed the next time features get updated (i.e. at the next operation). This is useful for instance when adding the `*version^` feature, which should tag a single output as representative of an alteration stage.
+- a value containing **spaces** must be included in double quotes.
+
+>Features get accumulated as each operation is executed on the chain. So at any stage in the evolution of the text you get all the features accumulated up to it, unless you remove any of them in an operation, according to the set policy used.
+
+💡 **Quick DSL Reference**:
+
+- replace: `AxR=VALUE @GROUP [FEATURES]`
+- delete: `AxR- @GROUP [FEATURES]`
+- add before: `A+[VALUE @GROUP [FEATURES]`
+- add after: `A+]VALUE @GROUP [FEATURES]`
+- move before: `A>[VALUE @GROUP [FEATURES]`
+- move after: `A>[VALUE @GROUP [FEATURES]`
+- swap: `AxN<>AxN @GROUP [FEATURES]`
+- annotate: `A: @GROUP [FEATURES]`
+
+>Wrap values in `""` when they include whitespace.
+
+- features:
+  - `*`global
+  - short-lived`^`
+  - `!`negated
+  - operators:
+    - `=` multiple
+    - `:=` single
+    - `==` first-single
 
 ## Objective vs. Subjective
 

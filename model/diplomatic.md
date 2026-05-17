@@ -5,136 +5,93 @@ parent: Model
 nav_order: 3
 ---
 
-- [Diplomatic Model](#diplomatic-model)
-  - [Pragmatic Signs Classification](#pragmatic-signs-classification)
-  - [Symbolic Rendition Logic](#symbolic-rendition-logic)
-    - [Visuals Catalogs](#visuals-catalogs)
-    - [Computing Visuals](#computing-visuals)
+- [Rendition Model](#rendition-model)
+  - [Web Component](#web-component)
+  - [Elements](#elements)
+  - [Rendition Features](#rendition-features)
     - [Positioning and Sizing Added Elements](#positioning-and-sizing-added-elements)
     - [Hint Model](#hint-model)
-    - [Rendition Features](#rendition-features)
+    - [Rendition Features](#rendition-features-1)
     - [Feature Adapter](#feature-adapter)
   - [Software Tools](#software-tools)
   - [Mock Example](#mock-example)
   - [Real-World Example](#real-world-example)
 
-# Diplomatic Model
+# Rendition Model
 
-On the diplomatic side, our model should provide an at least approximate graphical representation of the snapshot.
+🌐 Quick links:
 
->Note that this is not a requirement for the textual side of the model; we could just implement this without its graphical counterpart. This is an additional part of the model, which is anyway designed to preserve the separation between these two layers.
+- [renderer source code](https://github.com/vedph/gve-snapshot-rendition).
+- 🚀 [hints designer demo](http://gve-hint-designer.surge.sh)
+- 🚀 [real-world epigram rendition example](http://gve-rendition.surge.sh/?sample=h5-48)
+- 🚀 [mock text rendition example](http://gve-rendition.surge.sh)
 
-In the course of evolution of the project, two alternative strategies for representing visuals have been defined.
+## Web Component
 
-The original strategy was purely graphical, and more faithful in reproducing the facsimile image, literally re-drawing on top of it (via SVG), and positioning added text according to diplomatic metadata. Animations were defined for each SVG for which a specific entrance was desired to represent the temporal flow of operations. This method, while accurate, could be complex and time-consuming, unless driven by a more automated data flow for imaging.
+The snapshot model defines the structure and logic of data representing our texts. As already remarked, this definition is an operational one: it gives a machine the recipe to generate all the alterations of a text with their annotations, and also its visual rendition. The purpose of rendition is to provide an interactive representation of the transformations of a text, as defined by edit operations. Changes and visuals by each operation accumulate on the visualization, operation after operation. Users can navigate forward (adding more changes to the original text) or backward (undoing operations back towards the initial base text).
 
-To enhance efficiency and provide more granular data at the visual level, a new, **symbolic approach** has been introduced abstracting the visualization process. Instead of redrawing each sign, operations are described using rendition features (like “diagonal line”, “box”, “cross”, "below and to the left", “shifted right”, etc.), while the visualization engine uses this visual grammar to do the math to properly size and position each element.
+This visual rendition is a subset of the snapshot model, which provides an easy way to display it in the context of any web-based presentation. To this end, the rendition is implemented by a vanilla **custom web component**. As such, it provides an easy way to integrate a fully interactive snapshot visualization in the context of any web page, even when it's just static HTML. All what you need to do is adding a tag for this component, and passing snapshot data (in JSON format) to it. You can also customize much of its appearance and behavior using **settings**.
 
-Also, providing a more computable, and thus more abstract, representation of visuals can also pave the way for new types of analysis; for instance, one could also analyze the distribution of their features among carriers and their relationship with their meaning. A specific visual representation might be typical of a period, a set of documents, a hand, etc; and from a paleographic point of view, one might be even interested in collecting, classifying, and quantifying the distribution of signs with their meanings.
+Rendition settings affect text in order of increasing specificity:
 
-So, an alternative approach has been designed, whose model relies on operation features and on a sort of catalog of visuals with their animations. Here, it is no longer the user, but the software which draws signs on a surface on their behalf, following directions provided by features and taking care of all the heavy math to size and position them.
+1. default settings of the component.
+2. settings overridden by consumer code via data binding.
+3. settings overridden by operation features.
 
-## Pragmatic Signs Classification
+## Elements
 
-The symbolic approach is a more abstract model based on a pragmatic classification of signs. The best way to illustrate it is starting with the real-world image in Figure 1:
+The whole rendition is based on SVG, which is an obvious choice here: it's a W3C standard, adopts vector-based graphics which can be interactively manipulated in the page, and it's an XML dialect.
 
-![signs on carrier](img/wund.png)
+As remarked, the **rendered entities** are:
 
-- Figure 1 - A couple of words on an autograph sheet
+- **base text**: the start input text, rendered all at once at the beginning of the visualization, character by character from left to right, and line by line from top to bottom (text never wraps). Base text appears all at once unless `charAnimationId` setting is set to an animation ID to use for rendering it one character at a time.
+- **added text** is rendered character by character and line by line, but its position and size are calculated according to its reference base text, text rendition properties, and operation features.
+- **hints** are defined by operation features. A hint is an SVG `g` element with any content and optional placeholders.
 
-This image shows the end of a line ("... Wund:"); below and slightly to the left of the final word "Wund:", a replacement word "Wunder." has been written.
+In turn, rendered **SVG elements** are:
 
-So, let us consider the types of these signs. The most obvious type is the **base text** itself: here "Wund:" is part of it.
+- **base elements**: existing since start and rendering base text, they are all SVG `text` elements, 1 per character.
+- **added elements**: added text (1 SVG `text` element per character) and hints (1 SVG `g` element per hint), both added by operations.
+- **text hilites** (temporary): a visualization artifact triggered by user action to hilite some visuals; they depend on existing SVG elements for their size and position, and they do not interact in any other way with them.
 
-After the base text was written, many other signs were added later. One of them is a diagonal line crossing this word; this line hints at the _deletion_ of it. So, the meaning of this sign is an editing operation; it literally _hints_ at it. We call these signs 🔖 **hints** right because of this. They are the visual counterpart (when there is any) of editing operations.
+The only relevant **control characters** evaluated in text as such are:
 
-Another type of sign is the word which was meant to replace "Wund:": "Wunder.", written below and to the left of it. With reference to the base text, which is our starting point, this is **added text**.
+- **LF**: line end.
+- **space**: rendered by offsetting the position of the next character by a specific amount. The amount is calculated according to the width of a reference character, rendered with the current text settings (font family, size, style, etc.). To this end, the component:
+  - uses `m` as the default reference character.
+  - makes the space width a fraction of the computed width of the reference character, once all the current text rendition settings have been applied to it. This is defined by component setting `spaceWidthFraction` which defaults to 0.33 (usually the space is 1/3 of the `m` width).
 
-So, we are _removing_ Wund, and _adding_ Wunder. In simpler terms, we are _replacing_ "Wund:" with "Wunder.". That's our editing operation, with two visual components:
+## Rendition Features
 
-- the line hints at the deletion of the old word;
-- the new text added by the replacement is written below the original word.
+Rendition features are used to override rendering settings. All these features can be combined and affect position and size in various ways, so elements are displayed only after evaluating all of them.
 
->In fact, a replacement is a higher-level operation which could be represented with a delete coupled with an insert. Operations in our model are the mean by which scholars formalize their interpretation of the carrier and indirectly modify the chain data structure, which in turn generates text versions. The creative process being reconstructed is a sequence of such operations, which belong to the subjective layer of interpretation. So, right because of being the middleman between chain data and scholars, operations are modeled at higher level, which better fits a human point of view. Thus, we are not limited to just delete and insert, but we include operations like replace, move, swap, and annotate.
+>All rendition features names start with `r_`:
 
-Among operations, _only insert and replace add new text_. So, whenever they are used, new text nodes will be added to the chain.
+- `r_char-offsets` (applicable only to the first operation): character offsets for rendering some specific text nodes (and thus indirectly also all the character nodes following it, up to line end). Used to change line layout by adding indent, or increasing or decreasing space between lines. Format: for each offset, `ID:y=...,x=...` (where we can specify only `x`, only `y`, or both, in any order; values represent `px` units), where:
+  - `ID`=target character ID. As per the general text layout rules, once we offset this target characters, all the other characters will follow on the same baseline, unless any of them has another offset.
+  - `y`=Y offset to add to the computed character baseline (negative=up, positive=down).
+  - `x`=X offset to add to the computed character baseline (negative=left, positive=right).
+  - both `x` and `y` can be followed by a unit specifier. The default unit is just pixels; otherwise, the value is followed by suffixes `tw`=text character average width (according to the current font and size) or `th`=text character average height.
+- `r_char-offset`: this works as `r_char-offsets`, but it is provided in the features of a single character node. The reason for a multiple-offsets feature (rather than multiple single-offset features) is that when a character gets an offset, this affects not only it, but also all the following characters. So, order of application matters, and this could not be ensured when using multiple features.
+- `r_font-family`: font family.
+- `r_font-size`: font size.
+- `r_fore-color`: foreground color.
+- `r_back-color`: background color.
+- `r_italic`: italic value (boolean).
+- `r_bold`: bold value (boolean).
+- `r_underline`: underline value (0-N=thickness in `px`).
+- `r_overline`: overline value (as for underline).
+- `r_strike`: strikethrough value (as for underline).
+- `r_text-line-style`: the style of overline, underline, or strikethrough: `solid`, `dotted`, `dashed`, `wavy` (as in SVG and CSS; corresponds to SVG `text-decoration-line`).
+- `r_text-line-color`: default color of the overline, underline or strikethrough.
+- `r_rotate`: rotation amount to be applied to each single character.
+- `r_hints`: link the operation to any number of hints. The value is a space-delimited list of hint IDs, in rendition order.
+- `r_hint-vars`: this has no effect on text; it's used to define a set of variables to be consumed by hints placeholders. Each variable has name=value, and is separated with space. For instance, `color=red bold=1` to pass variables `color`=`red` and `bold`=`1` to the hints being rendered for the operation being processed.
 
-Thus, in our example we have a single replacement operation, having two visual counterparts:
+>In backend data, all rendition features have their lifespan limited to the version generated by their operation. This avoids accumulating them in the output context, ensuring that they are valid only for the immediate output of the operation containing them.
 
-- the diagonal line on top of the old word. This is a _hint_.
-- the new text written below and to the left of the old word. This is _added text_.
 
-So, from the point of view of our visualization, we define three types of signs on the carrier: base text; text added by operations; and hints which visually correspond to them.
-
-These are the entities involved in the visual presentation of our snapshot. Added text and hints taken together are also known as 🔖 **added elements**, because they were added later with reference to the base text.
-
->"Element" in the context of visualization is a specific term belonging to its XML-based encoding, as the visualization relies on SVG (which is an XML dialect).
-
-It should be noticed that the distinction between hints and added text is not a visual one; as for all the signs in this classification, it is _functional to the rendering logic_. For instance, it may well happen that a hint is represented by text, like the number of an epigram written on its corner, or a textual annotation. Even then, the hint is different because it is just the optional visual counterpart of an operation, and does not represent text which becomes part of the epigram's text. So, it may have the appearance of text, or more frequently be just some freehand drawing; but in both cases, it never represents a part of the text being transformed.
-
-So, in our example the replacement operation's _hint_ is only the line above the old word, while the new word replacing it is _added text_, and becomes part of the epigram's text in the text version(s) following it.
-
-## Symbolic Rendition Logic
-
-From a practical standpoint, the logic for rendering text and added text is essentially the same: in both cases we are just drawing text, belonging to the text being transformed.
-
-The real difference is essentially in time: the _base text_ is the entry point for the transformation, typically written with a regular and predictable layout; while _added text_ was introduced later, in an unpredictable way and at any position (usually wherever there is space near to the text being transformed), following the creative process.
-
-This implies that:
-
-- **base text** can be rendered with a simpler logic, essentially equal to that which dictates the arrangement of characters in lines on a sheet of paper. Characters follow each other on the same line, until the next line starts. Anyway, this layout can occasionally be modified; for instance, whatever the reasons, a portion of the text might be written with a different size, or along an offset or rotated baseline. At any rate, these are occasional departures which can be implemented by overriding the default text features.
-- **added text** instead is placed and sized freely, reflecting its appearance on the carrier.
-
-### Visuals Catalogs
-
-As for **hints**, these can be text (not belonging to the text being transformed), freely sized and positioned like added text, or more often pure geometrical elements, like lines and shapes. So, their appearance is totally unpredictable, as everything could be drawn on a sheet. This is why in the original approach the diplomatic metadata of an operation includes an SVG code fragment, which represents the visual appearance of its hint.
-
-So, we could never be able to predict all the shapes of all the hints found on a sheet, especially when crossing project borders (which is implied by the generic vocation of this system). This implies that our model must be open and capable of representing any drawings.
-
-Nonetheless, it is also true that, especially within a single project's borders, hints can be easily grouped into repeatedly used **types**. Many of them also have a nearly universal use, like the line on top of a word, meaning its deletion.
-
-So, even if each line drawn on the sheet is unique, and corresponds to a unique act happened in time, it can easily be traced back to a single pattern: the symbol for a line. This is an abstraction, but the departures from its ideal appearance can be easily discarded as irrelevant, just like when listening to a speech we discard allophonic variants and identify the immaterial phonemes behind these surface expressions.
-
-Of course, to provide more details we could multiply these symbols: for instance, we could have one type for the horizontal line (`—`); another for the diagonal line raising from left to right (`/`); and yet another one for the diagonal line lowering from to left to right (`\`). The level of detail depends only on the project's nature and purposes.
-
-Anyway, whatever our choice, in the end we could always define a sort of **catalog of signs** representing hint types, like "horizontal line", "diagonal line up", "diagonal line down", "cross", etc. These would all be abstract types, discarding the single details of each specific stroke drawn on the paper; but they would capture their essential nature, dropping accidental features, while preserving all the different types required by our model.
-
-Thus, the first ingredient for our visualization would be a catalog of hints, each with its own appearance and a set of metadata. Most of these metadata concur to define the behavior of each hint with reference to its rendition, like sizing, positioning, rotation, scale, etc.
-
-Among them, one also connects the hint to its entrance **animation** in the visualization stage. As already remarked, animation here is not just a fancy feature, but it is crucial for the semantics of a visualization which fully embraces the flux of time.
-
-In fact, whatever the approach, graphical or symbolic, a crucial aspect of this model is time: we focus on the transformation process happening during time, step after step, replaying what the writer did, at least according to our reconstruction. In visualization, time means animations, for each state transition.
-
-As we focus on process, animation here is a semantic factor, rather than a fancy decoration. In a traditional approach, we deal with a previous stage, and a next one. We then represent this transformation in terms of its effects, by diffing two stages and emphasizing their differences. For instance, comparison shows us that in stage two something has been deleted; and something has been added. The process remain hidden behind its surface effects; and when faced with tens of stages, figuring it out becomes hard.
-
-In the VEdition approach instead, we replay all the steps between two stages, operation after operation. For instance, we first transform a text by deleting some portion of it: visually, a hint like a diagonal line enters the stage via an animation to represent this. Then, we add some other text, which visually corresponds to this new text entering the stage, again via an animation. So we can literally see the text transforming under our eyes, until it gets to the next alteration stage.
-
-This is why not only each operation is linked to any number of visual hints; but also why each hint in turn is linked to an enter animation.
-
-So, each hint progressively unveils itself, rather than abruptly appearing: this fits the continuous flow of changes occurring along time, and usually mimicks the act of drawing that hint. For instance, a diagonal line can enter via a "wipe-right" animation, which mimicks the effect of drawing it from left to right with a pen on paper.
-
-Here too, we can leverage the same approach for an even more efficient representation: rather than providing a specific animation for each hint instance, we can reuse animations just like we reuse hints. So, the hints catalog stays side by side with an **animations catalog**, and each hint just reuses an animation from it, except when the hint's structure is so peculiar that it requires its own animation.
-
-### Computing Visuals
-
-So, the first ingredient for our visualization is a catalog of visual assets, including SVG code fragments for hints drawings, and JavaScript code fragments for their animations.
-
-The second ingredient is a set of metadata providing a declarative approach to the visualization logic of elements. This metadata is nothing new in the backend model: it is just a set of operation's features, specifically designed for visual rendition, and thus named **rendition features**.
-
->As a general rule, all features starting with a prefix ending with underscore (e.g. `r_`) are conventionally considered to be functional features, which are not usually displayed to end users among text metadata.
-
-The purpose of these features is _overriding_ some of the default properties of the elements being drawn. All elements follow a general logic for their size, position, and transformation, which allows the software to display them on behalf of the user; rendition features just provide specific behavior for them, so that they can reflect the actual sigs on paper.
-
-For instance, when rendering text the software uses a preset font family, size, and style; but you can change any of them using rendition features which specify new values. Rendition features are specified by users, just like any other features belonging to operations. So the operation continues to be the core representational device handed to users.
-
->⚙️ Presets, including not only default rendition parameters but also hints and animations catalogs, are defined in the editor settings, inside the backend Cadmus profile settings.
-
-So, declarative metadata for visualization essentially has two sources:
-
-- the _default metadata_, specified by the settings of the software component used for visualization. These settings are thus specified by the page hosting that component. If not specified, they fallback to default values defined by the component itself.
-- the _custom metadata_ specified by users via rendition features.
-
-In both cases, this metadata is meaningful in relation with the **rendition logic** defined by the visualization component. This logic drives the whole visualization, and makes its elements predictable, so that users can expect a specific outcome when adding a specific set of features.
+TODO
 
 As we have seen, the default rendition logic for _text_ is simple: it just displays one character after another on the same line, until a line-end character is found, using default font properties. Rendition features can be used to customize all the relevant features of such text, including its position by offsetting it. For instance, this is useful to represent indentation or gaps. This is true both for base text and added text.
 
@@ -156,7 +113,7 @@ Of course, given that this visualization is totally feature-driven, and features
 - in a _move_ or _swap_ operation is the text(s) being moved;
 - in an _insert_ operation it is the "anchor" text before or after which the text is added.
 
->This implies that in cases where the reference text is split across multiple lines, there will be multiple RBR's, one per line. The software takes care of this detail, by using the same rendition logic multiple times for each of these RBR's, where it is sound. For instance, a stroke on top of a text representing its deletion will be repeated for each RBR, thus covering the whole text; but a hint with a text annotation will be displayed only once, despite multiple RBR's.
+> This implies that in cases where the reference text is split across multiple lines, there will be multiple RBR's, one per line. The software takes care of this detail, by using the same rendition logic multiple times for each of these RBR's, where it is sound. For instance, a stroke on top of a text representing its deletion will be repeated for each RBR, thus covering the whole text; but a hint with a text annotation will be displayed only once, despite multiple RBR's.
 
 ### Positioning and Sizing Added Elements
 
@@ -199,7 +156,7 @@ The solution is in the logic itself: all added elements still continue to be pos
 
 In the same way we can also represent another detail: the fact that the displaced text is added far above the epigram's first line, so that it's clear that it is not really referring to that line. Again, this is easy to represent by just adding another rendition feature, which specifies a vertical offset from the originally computed position. If our relative position is `n` (=north, i.e. at the top of the displaced RBR), our vertical offset will subtract a certain value to move it upper (the origin of our Cartesian plane is at the top-left corner, so decreasing its Y coordinate will mean moving an element up). So in the end we will add a couple of features: one which displaces the RBR, and another which offsets the computed position up, thus faithfully reflecting what is found on our sheet.
 
->Note that offsets can be specified not only in pixels, which is the most granular unit, but also in units relative to the text size: `th` for text height, and `tw` for text width. This allows users to provide an approximate value even without measuring the distance in a more precise way.
+> Note that offsets can be specified not only in pixels, which is the most granular unit, but also in units relative to the text size: `th` for text height, and `tw` for text width. This allows users to provide an approximate value even without measuring the distance in a more precise way.
 
 Finally, we need yet another feature for the box itself: as we have seen, the hint is picked from a catalog and resized to fit its RBR. Given that the default size is the RBR's size, and the default position is the RBR's center, this means we will get a rectangle exactly equal to the RBR. This will probably result in a rectangle which overlaps with the text it should contain. We rather need a bit larger rectangle, so that it fully encompasses its text without touching it. To this end, all what we need to do is change the scale of the hint, setting it e.g. to `1.1` (=110%). This will make it 10% bigger than the RBR, while still centering it because of its `o` position. The result will be a box drawn around the text, at a certain distance from it, exactly as we wanted.
 
@@ -245,7 +202,7 @@ Finally, the hint's `animation` property defines its enter animation. It can inc
 - the JavaScript code fragment using the GSAP library for animating the hint's SVG.
 - the identifier of a preset animation using the GSAP library for animating the hint's SVG, prefixed by `#`. So, if the string starts with `#`, it is assumed that it just contains the ID of a preset animation which must be retrieved to get the corresponding JavaScript code. Such preset animations can be defined in the component's settings.
 
->⚙️ We use GSAP for animations because it's robust and powerful, and has many powerful plugins available. Note that while plugins first were limited to paid subscriptions, they are now _freely available_ for everyone. All what is required to use a plugin is registering it once in code, e.g.:
+> ⚙️ We use GSAP for animations because it's robust and powerful, and has many powerful plugins available. Note that while plugins first were limited to paid subscriptions, they are now _freely available_ for everyone. All what is required to use a plugin is registering it once in code, e.g.:
 
 ```ts
 // register a plugin for use
@@ -255,7 +212,7 @@ console.log("DrawSVG plugin registered:", gsap.plugins.drawSVG !== undefined);
 
 The GSAP animation targets the hint's root `g` element, i.e. the whole hint.
 
->⚠️ Note that the rendering component is a custom web component, so that it uses Shadow DOM and we thus need to _explicitly provide a reference to this element_ to the GSAP code (otherwise, GSAP would not be able to use `getElementById`). So, the rendering component:
+> ⚠️ Note that the rendering component is a custom web component, so that it uses Shadow DOM and we thus need to _explicitly provide a reference to this element_ to the GSAP code (otherwise, GSAP would not be able to use `getElementById`). So, the rendering component:
 
 - creates the hint's `g` element.
 - creates a JS function wrapping the JS animation code got from the hint, and receiving these parameters:
@@ -263,15 +220,17 @@ The GSAP animation targets the hint's root `g` element, i.e. the whole hint.
   - `hintEl`: the created hint's root `g` element;
   - `rootEl`: the root `svg` element of the whole text rendition area, should it ever be required by the GSAP animation code.
 
->💡 Among the freeware libraries targeting web, one of the most popular and well-suited for these requirements is represented by [GSAP](https://gsap.com). The basic concepts and entities used there can be easily imported in our model. GSAP is based on _tweens_. A **tween** is just a _property setter_, capable of animating any property, like for instance the position of an element, its size, rotation, color, etc. Its name clearly comes from the fact that animation essentially interpolates _between_ two different states of an object.
->In GSAP, a tween object is created with a function specifying either its start point (`from`, assuming the current state as the end point), or its end point (`to`, assuming the current state as the start point), or both (`fromTo`).
->Each of these functions gets these [arguments](https://gsap.com/docs/v3/GSAP/Tween):
->1. a `selector` to define the target element(s).
->2. a `vars` object, with all the properties/values pairs you want to animate (e.g. `rotation: 360`). This can also include some special properties, whose names are reserved to specify animation behaviors, like `duration`, `delay`, `ease`, etc.
->In turn, tweens are contained in **timelines**, which can be further configured with `vars`, as for tweens. Timelines orchestrate the animations represented by tweens, coordinating their timing and order.
->To add a tween to a timeline, the timeline object has corresponding methods (`to`, `from`, `fromTo`). This adds a third optional parameter, [position](https://gsap.com/docs/v3/GSAP/Timeline#positioning-animations-in-a-timeline), a string with its own syntax, used to precisely control where things are placed. As for GSAP reference, see:
->- [GSAP Documentation](https://greensock.com/docs/)
->- [DrawSVG Plugin](https://greensock.com/docs/v3/Plugins/DrawSVGPlugin): plugin for animating SVG.
+> 💡 Among the freeware libraries targeting web, one of the most popular and well-suited for these requirements is represented by [GSAP](https://gsap.com). The basic concepts and entities used there can be easily imported in our model. GSAP is based on _tweens_. A **tween** is just a _property setter_, capable of animating any property, like for instance the position of an element, its size, rotation, color, etc. Its name clearly comes from the fact that animation essentially interpolates _between_ two different states of an object.
+> In GSAP, a tween object is created with a function specifying either its start point (`from`, assuming the current state as the end point), or its end point (`to`, assuming the current state as the start point), or both (`fromTo`).
+> Each of these functions gets these [arguments](https://gsap.com/docs/v3/GSAP/Tween):
+>
+> 1.  a `selector` to define the target element(s).
+> 2.  a `vars` object, with all the properties/values pairs you want to animate (e.g. `rotation: 360`). This can also include some special properties, whose names are reserved to specify animation behaviors, like `duration`, `delay`, `ease`, etc.
+>     In turn, tweens are contained in **timelines**, which can be further configured with `vars`, as for tweens. Timelines orchestrate the animations represented by tweens, coordinating their timing and order.
+>     To add a tween to a timeline, the timeline object has corresponding methods (`to`, `from`, `fromTo`). This adds a third optional parameter, [position](https://gsap.com/docs/v3/GSAP/Timeline#positioning-animations-in-a-timeline), a string with its own syntax, used to precisely control where things are placed. As for GSAP reference, see:
+>
+> - [GSAP Documentation](https://greensock.com/docs/)
+> - [DrawSVG Plugin](https://greensock.com/docs/v3/Plugins/DrawSVGPlugin): plugin for animating SVG.
 
 As an example, consider this simple hint representing a diagonal stroke, encoded as JSON:
 
@@ -279,8 +238,8 @@ As an example, consider this simple hint representing a diagonal stroke, encoded
 {
   "diagonal-stroke": {
     "svg": "<g><line x1=\"0\" y1=\"0\" x2=\"300\" y2=\"100\" stroke=\"{{r_fore-color}}\" stroke-width=\"2\" /></g>",
-    "animation": "#fade-in",
-  },
+    "animation": "#fade-in"
+  }
 }
 ```
 
@@ -289,10 +248,11 @@ This SVG fragment contains just a root `g` (=group) element with a child `line` 
 The corresponding animation is defined in the animations catalog with ID `fade-in` and this content:
 
 ```js
-return new Promise(resolve => {
-  gsap.fromTo(targetEl,
+return new Promise((resolve) => {
+  gsap.fromTo(
+    targetEl,
     { opacity: 0 },
-    { opacity: 1, duration: 1, onComplete: resolve }
+    { opacity: 1, duration: 1, onComplete: resolve },
   );
 });
 ```
@@ -311,7 +271,7 @@ The rendition features defined cover almost all the visualization aspects it cou
   - `x`=X offset to add to the computed character baseline, thus shifting its default position to the right (when the offset is positive) or to the left (when the offset is negative).
 - `r_char-offset`: this works as `r_char-offsets`, but it is provided in the features of a single character node, instead of being an initial setup for multiple characters. For instance, `3:y=10,x=20` means that before rendering the character with ID=3, the baseline will be shifted down by 10 and the X position of the next character will be offset by 20, thus effectively leaving a wider gap between the previous character and the next ones. All the following characters up will follow on this newly defined baseline, unless any of them happens to have another offset.
 
->The logic for these two features, `r_char-offsets` and `r_char-offset`, is equal; the only difference is that the former works on multiple characters at once. This is preferable to having just `r_char-offset` and using it multiple times, because when a character gets an offset, this affects not only it, but also all the following characters. So, order of application matters, and this could not be ensured when using multiple features, unless introducing ad-hoc logic which would be against generalization.
+> The logic for these two features, `r_char-offsets` and `r_char-offset`, is equal; the only difference is that the former works on multiple characters at once. This is preferable to having just `r_char-offset` and using it multiple times, because when a character gets an offset, this affects not only it, but also all the following characters. So, order of application matters, and this could not be ensured when using multiple features, unless introducing ad-hoc logic which would be against generalization.
 
 - `r_font-family`: the font family.
 - `r_font-size`: the font size.
@@ -350,7 +310,7 @@ The following rendition features are applied to **hints** only to override its c
 - `r_h-solid`: override hint's `solid` property.
 - `r_h-displaced-span`: override hint's `desplacedRefSpan` property (for displaced hints).
 
->By default, the hint rendition features apply to ALL the hints in the operation (those listed by the `r_hints` rendition feature), unless the property value starts with `@` followed by a space delimited list of hint IDs, ended by `:`; in this case, it applies ONLY to those hints matching the list. For instance, `r_h-position`=`e` applies to ALL hints overriding their `position` property to `e`; while `@alpha beta:e` applies ONLY to hints with IDs `alpha` and `beta`, overriding their `position` property to `e`.
+> By default, the hint rendition features apply to ALL the hints in the operation (those listed by the `r_hints` rendition feature), unless the property value starts with `@` followed by a space delimited list of hint IDs, ended by `:`; in this case, it applies ONLY to those hints matching the list. For instance, `r_h-position`=`e` applies to ALL hints overriding their `position` property to `e`; while `@alpha beta:e` applies ONLY to hints with IDs `alpha` and `beta`, overriding their `position` property to `e`.
 
 ### Feature Adapter
 
@@ -394,7 +354,7 @@ The features to be matched are defined by a small DSL with this syntax:
      - `<` numeric-less-than-or-equal: first cast to numeric value, and if this succeeds compare for less-than-or-equal, else return false.
   3. **value**: the value. Its content depends on the operator used. If the value includes spaces, it is wrapped in `""`.
 
->In clause, operator and value can be omitted if all what we want to match is the feature name.
+> In clause, operator and value can be omitted if all what we want to match is the feature name.
 
 For instance:
 
@@ -492,7 +452,7 @@ It is not long nor complex.
 
 Now, let us formalize this reconstruction using **operations** while also providing rendition features for them, in order to represent its visual appearance. For each operation, we list the corresponding output version tag (`v1`, `v2`, etc.) in brackets, followed by the DSL representing the operation and its features.
 
->💡 You can see the backend data for this example by playing with the online chain demo at <https://gve-demo.fusi-soft.com/snapshot>: just pick the `rendition features` preset, click the button to load it, then click `Run`. You can look at the features injected by operations in text under the `Steps` tab. You will see the rendition features among the other ones, after each version.
+> 💡 You can see the backend data for this example by playing with the online chain demo at <https://gve-demo.fusi-soft.com/snapshot>: just pick the `rendition features` preset, click the button to load it, then click `Run`. You can look at the features injected by operations in text under the `Steps` tab. You will see the rendition features among the other ones, after each version.
 
 ▶️ (`v1`) **annotate**: `35: [r_char-offsets="35:x=100 70:x=100"]`: this initial annotation operation is used only to provide indents for even lines. Here a character offsets feature provides a 100 pixels offset to the right for the first character of each even line.
 
@@ -557,7 +517,7 @@ Dann du biſt alles zugleich und biſt ein Engel dazu .
 
 In our reconstruction, the first operation is a simple change in punctuation: at the end of line 4, the hand re­places semicolon with colon.
 
->Of course, for the whole reconstruction the ordering of operations within a hand is just conventional, even if it often follows the logic of the revisor as it appears from diplomatic evidence.
+> Of course, for the whole reconstruction the ordering of operations within a hand is just conventional, even if it often follows the logic of the revisor as it appears from diplomatic evidence.
 
 Then it reorders words in line 5. This is done by just adding ordinal numbers on top of the words. Finally, it adds an annotation at the left of the first line, “sten”. This is the correct ending for the word “künstlichen”. This ends the alteration stages by the orange hand.
 

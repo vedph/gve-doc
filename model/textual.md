@@ -1,13 +1,3 @@
-- [Textual Model](#textual-model)
-  - [Model Requirements](#model-requirements)
-  - [Core Chain Model](#core-chain-model)
-    - [Operations](#operations)
-    - [Chain](#chain)
-    - [Metadata](#metadata)
-      - [Features](#features)
-    - [Operations DSL](#operations-dsl)
-    - [Example](#example)
-
 # Textual Model
 
 ## Model Requirements
