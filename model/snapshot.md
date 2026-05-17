@@ -13,6 +13,8 @@ nav_order: 2
     - [Chain Operations](#chain-operations)
   - [Objective vs. Subjective](#objective-vs-subjective)
   - [Visual vs. Textual](#visual-vs-textual)
+  - [Diplomatic Model](#diplomatic-model)
+    - [Signs Classification](#signs-classification)
 
 # Snapshot
 
@@ -39,7 +41,7 @@ In practice, we can describe a process as a sequence of actions in time. With re
 
 - _Figure 1: A process as a sequence of text editing actions_
 
-In our process model we start with a **base text**, and then apply one editing operation after another, accumulating their results.
+In our process model we start with 🔖 **base text**, which is just the first input, and then apply one editing operation after another, accumulating their results.
 
 Each operation has an input and an output, which defines another **alteration** of the text. These alterations accumulate, as the output of an operation is the input of the next one.
 
@@ -188,7 +190,7 @@ Now we have 3 texts:
 - `v1`: "a text"
 - `v2`: "a test"
 
-So, with this single data structure, named **chain**, we can efficiently represented an unlimited number of strings by linking character nodes in different ways.
+So, with this single data structure, named 🔖 **chain**, we can efficiently represented an unlimited number of strings by linking character nodes in different ways.
 
 In the end, the chain is just a container of two sets:
 
@@ -273,6 +275,39 @@ So, in both cases, besides adding these two operations, which affect the textual
 
 Thus, this model defines a clear boundary between the textual layer and its visual counterparts; both are expressed within the operation, and with maximum granularity, while preserving the distinction between their appearance and their interpretation for the text.
 
-This defines a fully symbolic diplomatic model, where visuals are encoded for their essential components, using a sort of **visual grammar** of signs, while still leveraging the same model for them. Just like you encode a "reason" feature, e.g. a replacement for metrical reasons, you encode all the visuals representing that replacement. Not only this allows to encode the appearance of the manuscript, but it also uses a set of conventional descriptors for their signs, which can be equally leveraged for further analysis (e.g. clustering visuals features like shape and position according to their meaning).
+This defines a fully _symbolic_ diplomatic model, where visuals are encoded for their essential components, using a sort of **visual grammar** of signs, while still leveraging the same model for them. Just like you encode a "reason" feature, e.g. a replacement for metrical reasons, you encode all the visuals representing that replacement. Not only this allows to encode the appearance of the manuscript, but it also uses a set of conventional descriptors for their signs, which can be equally leveraged for further analysis. Providing a more computable, and thus more abstract, representation of visuals paves the way for new types of analysis; for instance, one could also analyze the distribution of their features among carriers and their relationship with their meaning. A specific visual representation might be typical of a period, a set of documents, a hand, etc; and from a paleographic point of view, one might be even interested in collecting, classifying, and quantifying the distribution of signs with their meanings.
 
 This is similar to what happens when you adopt a set of descriptors in an iconographic description of an image: you pick from a closed vocabulary a set of items which in your theorical framework are capable of defining the main features of that image.
+
+## Diplomatic Model
+
+The diplomatic model not only encodes essential data for a very faithful diplomatic representation; it also provides an operational model. Just like the textual part of the snapshot model allows the chain to generate all the alterations, its visual part allows rendering components to display them in a highly interactive presentation.
+
+### Signs Classification
+
+In this symbolic diplomatic model, signs get a pragmatic classification which is also functional to their graphical rendition. This can be sampled with Figure 6:
+
+![signs on carrier](img/wund.png)
+
+- _Figure 6: a couple of words on an autograph sheet_
+
+This image shows the end of a line ("... Wund:"); below and slightly to the left of the final word "Wund:", a replacement word "Wunder." has been written.
+
+Let's consider the types of these signs. The most obvious type is the **base text** itself: here "Wund:" is part of it.
+
+After the base text was written, many other signs were added later. One of them is a diagonal line crossing this word; this line hints at the deletion of it. So, the meaning of this sign is an editing operation; it literally "hints" at it. We call these signs 🔖 **hints** right because of this. Hints are the visual counterpart (when there is any) of editing operations.
+
+Another type of sign is the word which was meant to replace "Wund:": "Wunder.", written below and to the left of it. With reference to the base text, which is our starting point, this is 🔖 **added text**. Among operations, only insert and replace add new text. So, whenever they are used, new text nodes will be added to the chain.
+
+So here we are removing Wund, and adding Wunder. In higher-level terms, we are replacing "Wund:" with "Wunder.". That's our editing operation, with two visual components:
+
+- the line hints at the deletion of the old word;
+- the new text added by the replacement is written below the original word.
+
+Added text and hints taken together are also known as 🔖 **added elements**, because with reference to base text they were added later.
+
+>"Element" in the context of visualization is a specific term belonging to its XML-based encoding, as the visualization relies on SVG (which is an XML dialect).
+
+It should be noticed that the distinction between _hints_ and _added text_ is not a visual one; as for all the signs in this classification, it is a logical and functional one. For instance, it may well happen that a hint is represented by text, like the number of an epigram written on its corner, or a textual annotation. Even then, the hint is different because it's only the optional visual counterpart of an operation, and does not represent text which becomes part of the epigram's text. So, it may have the appearance of text, or more often be just some freehand drawing; but in both cases, it never represents a part of the text being transformed.
+
+So, in our example the replacement operation's _hint_ is only the line above the old word, while the new word replacing it is _added text_, and becomes part of the epigram's text in the next alteration.
