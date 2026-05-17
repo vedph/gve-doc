@@ -214,12 +214,51 @@ In this model, operations are the core of the snapshot's representation: they re
 This role of operations as a core interpretative device has important consequences for their design:
 
 - we need **higher-order edit operations**. In raw text processing, we can represent any change with only two operations: insert and delete. These are the two core operations in diffing, when comparing two versions of a text. Yet, as operations are the interface between scholars and the underlying data model, we want the most human-friendly interface. For instance, when we replace a word with another, we describe this process as a unit, even if in editing a digital text this implies two lower-order operations: deleting the old word, and inserting the new one in its place. The same is true for other higher-order operations: we thus provide not only delete and insert, but also replace, move, and even swap. This way, we can provide a full set of tools for a description which can mimick what we would say when talking about the changes applied to a text: e.g. "this word was deleted"; "this word was replaced by a new one"; "this word was moved before this other word"; etc.
-- we want to be able to **encode a virtually unlimited set of metadata** (e.g. the reason of a change, a comment on it, its source, etc.) to be later transferred into their output. In other terms, we need the recipe to build not only texts, but also their annotations. Of course, in this scenario there is not even a text to annotate, until we generate it; and even more important, the representational device is the operation, because our model focuses on the process. So, it's the operation we want to describe, rather than its effect.
+- we want to be able to **encode a virtually unlimited set of metadata** (e.g. the reason of a change, a comment on it, the type of ink used, the source for the change, etc.) to be later transferred into their output. In other terms, we need the recipe to build not only texts, but also their annotations. Of course, in this scenario there is not even a text to annotate, until we generate it; and even more important, the representational device is the operation, because our model focuses on the process. So, it's the operation we want to describe, rather than its effect.
+
+To describe operations, the model uses so-called **features**. Formally, a feature is just a name=value pair, similar to an attribute of an XML tag; just like for attributes, this provides unlimited flexibility in defining new aspects of operations, whether they are freely inserted, or belong to a controlled vocabulary (which is the most frequent case).
+
+These features are designed to be injected in the operation's output text, either at a global level (=referred to the whole text resulting after that operation), or at a node-level (=referred to a specific portion of the resulting text). In both cases, injected features get tagged by their alteration label, as they change over time, even when applied to the same node. This way, the chain can build not only the text of each alteration, but also all the annotations on it or on any portions of it.
 
 ## Objective vs. Subjective
 
-TODO
+The second challenge of the snapshot model is to preserve the essential distinction between 'objective' data and subjective interpretation.
+
+Apart from reading issues, signs on the text carrier represent the objective layer, the data we start from: that's our document, a text with an even chaotic set of annotations, and we want to fully describe it.
+
+Then, the interpretation of these signs is up to scholars, even when it's trivial. Understanding zero, one or more signs as hints to specific operations, grouping operations into alteration stages, defining their relative order, and adding all the supplementary metadata about each single alteration is an interpretative act.
+
+At the base of a snapshot we have a base text, and a set of annotated operations which carry our interpretation, but still distinguish the signs appearance from their interpreted meaning. And this leads us to the third challenge, visual vs. textual layers.
 
 ## Visual vs. Textual
 
-TODO
+Our description of the visual part of each snapshot is not just an indiscriminate graphical depiction of it. This is already provided by a photographic facsimile. In our description we rather attempt an ordered, logical grouping of signs while interpreting their meaning. Yet, each single operation has a clear separation of concerns: the representation of its visual part, and that of its meaning for the text.
+
+If you look again at Figure 4, besides the base text (in black) you can see signs added with another ink (red). Whether it's the same hand adding them with a different ink, or a different hand, it's another matter. Rather, in most cases we can be confident that the red annotations represent a unitary set of changes, like a single editing session.
+
+So, at first we can use this visual evidence to distinguish the "red" alteration stage from the "black" base text.
+
+Then, focusing on the red signs, we see:
+
+- the line on "sample";
+- the circle around "x" of "text";
+- the circled "s" above it.
+
+We then interpret these signs as follows:
+
+- the line hints at the deletion of "sample".
+- the circle around "x" with the added circled "s" taken together hint at replacing "x" with "s", which is a compact way of representing the replacement of the word "text" with "test".
+
+While we can be reasonably confident that both these operations belong to the same stage (primarily because of their ink), there is no way of knowing whether the deletion of "sample" historically preceded the replacement of "text", or vice-versa. So, here we simply adopt the convention to describe operations in reading order: from top to bottom, and from left to right. This convention is only functional to the high granularity of editing operations, which, whatever their real order, require them to be placed one after another in the reconstructed process.
+
+We thus interpret these signs with 2 operations:
+
+- _delete "sample"_: the operation itself is just making this deletion, whatever the signs which hint at it. These signs are kept separated in a distinct feature, whose only purpose is to represent their visual appearance. In this example, these signs happen to be a single horizontal line on top of the word.
+- _replace "text" with "test"_: in this specific case, to get this result all what is required is replacing a single character. That's why the operation encodes exactly this: replace "x" with "s". Again, that's all what is required to be able to generate the new text. Then, on the visual layer, we happen to have 2 hints: a circle around "x" and a circled "s" above.
+
+So, in both cases, besides adding these two operations, which affect the textual layer, we will add distinct features to them to represent the visual layer:
+
+- for _deletion_, a "line hint" feature, with a "red" foreground color feature, with a "position" feature (on top of the deleted word).
+- for _replacement_, a "circle hint" feature with its "position" feature (on top of the replaced "x") and a "circled s" feature with its "position" feature (above and right of "x"); both with a "red" foreground color feature.
+
+Thus, this model defines a clear boundary between the textual layer and its visual counterparts; both are expressed within the operation, and with the maximum granularity, while preserving the distinction between their appearance and their interpretation for the text.
