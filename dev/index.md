@@ -1,10 +1,3 @@
----
-title: Development
-layout: default
-parent: Home
-nav_order: 3
----
-
 # Development
 
 The GVE architecture is based on three main groups of components:

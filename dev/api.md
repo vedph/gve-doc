@@ -1,10 +1,3 @@
----
-title: API
-layout: default
-parent: Development
-nav_order: 1
----
-
 # API
 
 The GVE API provides backend logic for parsing and running chain operations.
