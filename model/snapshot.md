@@ -132,8 +132,8 @@ This results in a new version of our text: "a text", corresponding to alteration
 
 If you start from the first character to the left, and follow links with a specific tag (either `v0` or `v1`), concatenating the characters of nodes connected by them, you get two versions of the same text:
 
-- v0: "a sample text"
-- v1: "a text"
+- `v0`: "a sample text"
+- `v1`: "a text"
 
 Again, say that in our manuscript the "x" letter of "text" is circled, and at the top of the text there is an isolated circled "s" letter. Our interpretation of these signs (two circles around two letters) is that they hint at a replace operation, which changes "text" into "test" (Figure 3).
 
@@ -168,3 +168,20 @@ s2(s) -->|v2| t
 ```
 
 - Figure 4: Replacing a character ("x" → "s") in "text"
+
+Now we have 3 texts:
+
+- `v0`: "a sample text"
+- `v1`: "a text"
+- `v2`: "a test"
+
+So, with this single data structure, named **chain**, we can efficiently represented an unlimited number of strings by linking character nodes in different ways.
+
+At its core, the chain is just a container of two sets:
+
+- the **set of nodes**, where each node is a single character;
+- the **set of links**, each tagged with its alteration label (`v0`, `v1`, `v2`, etc.).
+
+The chain has been designed to mimick what happens in real world with an autograph manuscript: in most cases, when we write with a pen on a sheet of paper, every sign written on it stays there forever. We cannot undo our drawing. Sure, we can write new signs on top of it, like the stroke on "sample" to say we want it deleted; or add new signs, like the circled "s", to say we want to replace "text" with "test". Yet, the original word "sample" is still there; and so is "text".
+
+In the same way, every node added to the chain set is unique, just like the unique act of writing which happened at a given time on that sheet of paper; it stays there forever, even when it is no longer included in later alterations. For instance, the 6 nodes for "sample" are not removed from the chain's set after the delete operation. They are still there, but they are no longer linked by the set of `v1` links, which bypass this word completely.
