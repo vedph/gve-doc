@@ -308,6 +308,7 @@ Typically used to show the insertion (or replacement) point inside the text, add
 - 🎯 insertion anchor
 - ⏯️ wipe-right
 - 🔴 `r_fore-color`: line color
+- ☑️ position: `e`
 - ☑️ Y-scale: 200%
 
 Typically used to show the insertion (or replacement) point inside the text, adding inserted text somewhere above it. Note that as per hints convention, the name refers to the position of the hint in the design grid. In fact, it is mostly used to draw a _right_ edge of some text. This is why it's positioned at the left edge of the hint, so that a hint placed east can "stitch" to the preceding text.
@@ -320,6 +321,7 @@ Typically used to show the insertion (or replacement) point inside the text, add
 
 - 🎯 insertion anchor
 - ⏯️ wipe-right
+- ☑️ position: `w`
 - 🔴 `r_fore-color`: line color
 - ☑️ Y-scale: 200%
 
