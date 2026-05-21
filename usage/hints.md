@@ -51,6 +51,13 @@ This is the catalog of hints for our project. Wherever hint properties are not s
 - Y-scale: 1
 - rotation: 0
 
+In the following list the following icons are used:
+
+- 🎯 hint's main purpose
+- ⏯️ entrance animation for hint
+- 🔴 placeholder variable in hint, must be specified by adding the corresponding feature
+- ☑️ hint's property predefined in its design (only when different from default)
+
 ### Lines
 
 ---
@@ -61,7 +68,7 @@ This is the catalog of hints for our project. Wherever hint properties are not s
 
 - 🎯 deletion hint
 - ⏯️ wipe-right
-- `r_fore-color`: line color.
+- 🔴 `r_fore-color`: line color
 
 Designed to be drawn above text.
 
@@ -73,7 +80,7 @@ Designed to be drawn above text.
 
 - 🎯 deletion hint
 - ⏯️ wipe-right
-- `r_fore-color`: line color.
+- 🔴 `r_fore-color`: line color
 
 Designed to be drawn above text.
 
@@ -85,6 +92,7 @@ Designed to be drawn above text.
 
 - 🎯 deletion hint
 - ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
 
 Designed to be drawn above text.
 
@@ -96,6 +104,7 @@ Designed to be drawn above text.
 
 - 🎯 deletion hint
 - ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
 
 Designed to be drawn above text.
 
@@ -107,6 +116,7 @@ Designed to be drawn above text.
 
 - 🎯 deletion hint
 - ⏯️ wipe-down
+- 🔴 `r_fore-color`: line color
 
 Designed to be drawn above text.
 
@@ -118,7 +128,7 @@ Designed to be drawn above text.
 
 - 🎯 finer-grained deletion hint
 - ⏯️ wipe-right
-- `r_fore-color`: line color
+- 🔴 `r_fore-color`: line color
 
 Designed to be drawn above small portions of text, usually a single character, as a lighter deletion hint, often meant to delete just some traits of a letter.
 
@@ -130,7 +140,7 @@ Designed to be drawn above small portions of text, usually a single character, a
 
 - 🎯 finer-grained deletion hint
 - ⏯️ wipe-right
-- `r_fore-color`: line color
+- 🔴 `r_fore-color`: line color
 
 Designed to be drawn above small portions of text, usually a single character, as a lighter deletion hint, often meant to delete just some traits of a letter.
 
@@ -144,8 +154,9 @@ Designed to be drawn above small portions of text, usually a single character, a
 
 - 🎯 text selection hint
 - ⏯️ wipe-right
-- X-scale: 1.1
-- Y-scale: 1.1
+- 🔴 `r_fore-color`: line color
+- ☑️ X-scale: 1.1
+- ☑️ Y-scale: 1.1
 
 Designed to hint at a selection of text to be logically connected to some operation or other part of the text, or to isolate the text from its context and make it stand out (e.g. an epigram number). The 110% scale is used to avoid having the box "stitched" too tight around the text.
 
@@ -157,6 +168,7 @@ Designed to hint at a selection of text to be logically connected to some operat
 
 - 🎯 text underline hint
 - ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
 
 Designed to underline some text (not at the same time of writing).
 
@@ -168,6 +180,7 @@ Designed to underline some text (not at the same time of writing).
 
 - 🎯 text restoration hint
 - ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
 
 This variation of [line-bottom](#line-bottom) is mostly used to restore a text which was previously deleted.
 
@@ -179,6 +192,7 @@ This variation of [line-bottom](#line-bottom) is mostly used to restore a text w
 
 - 🎯 text overline hint
 - ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
 
 Overline some text (not at the same time of writing).
 
@@ -190,6 +204,7 @@ Overline some text (not at the same time of writing).
 
 - 🎯 text overline hint
 - ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
 
 This is a variation of [line-top](#line-top), provided for consistency, yet not seemingly used in our corpus.
 
@@ -201,6 +216,7 @@ This is a variation of [line-top](#line-top), provided for consistency, yet not 
 
 - 🎯 text segmentation hint
 - ⏯️ wipe-down
+- 🔴 `r_fore-color`: line color
 
 This is mostly used to segment text according to some criterion, typically metrical. Note that as per hints convention, the name refers to the position of the hint in the design grid. In fact, it is mostly used to draw a _right_ edge of some text. This is why it's positioned at the left edge of the hint, so that a hint placed east can "stitch" to the preceding text.
 
@@ -212,6 +228,7 @@ This is mostly used to segment text according to some criterion, typically metri
 
 - 🎯 text segmentation hint
 - ⏯️ wipe-down
+- 🔴 `r_fore-color`: line color
 
 This is mostly used to segment text according to some criterion, typically metrical. Note that as per hints convention, the name refers to the position of the hint in the design grid. In fact, it is mostly used to draw a _left_ edge of some text. This is why it's positioned at the right edge of the hint, so that a hint placed west can "stitch" to the following text.
 
@@ -225,6 +242,7 @@ This is mostly used to segment text according to some criterion, typically metri
 
 - 🎯 compendiary correction
 - ⏯️ wipe-down
+- 🔴 `r_fore-color`: line color
 
 Change a dot into an exclamation mark by adding the vertical trait above it.
 
@@ -236,6 +254,7 @@ Change a dot into an exclamation mark by adding the vertical trait above it.
 
 - 🎯 compendiary correction
 - ⏯️ fade-in
+- 🔴 `r_fore-color`: line color
 
 Add a dot on a dotless `i`.
 
@@ -247,6 +266,7 @@ Add a dot on a dotless `i`.
 
 - 🎯 compendiary correction
 - ⏯️ fade-in
+- 🔴 `r_fore-color`: line color
 
 Add a missing umlaut on a letter.
 
@@ -260,7 +280,8 @@ Add a missing umlaut on a letter.
 
 - 🎯 insertion anchor
 - ⏯️ wipe-down
-- Y-scale: 1.5
+- 🔴 `r_fore-color`: line color
+- ☑️ Y-scale: 1.5
 
 Typically used to show the insertion point inside the text, adding inserted text somewhere above it. The 150% vertical scale is used to make it extend above and below the text. The hint's name derives from its resemblance to the right half of a Greek `ψ` (psi) letter.
 
@@ -272,8 +293,9 @@ Typically used to show the insertion point inside the text, adding inserted text
 
 - 🎯 insertion anchor
 - ⏯️ wipe-right
-- X-scale: 120%
-- Y-scale: 200%
+- 🔴 `r_fore-color`: line color
+- ☑️ X-scale: 120%
+- ☑️ Y-scale: 200%
 
 Typically used to show the insertion (or replacement) point inside the text, adding inserted text somewhere above it.
 
@@ -285,7 +307,8 @@ Typically used to show the insertion (or replacement) point inside the text, add
 
 - 🎯 insertion anchor
 - ⏯️ wipe-right
-- Y-scale: 200%
+- 🔴 `r_fore-color`: line color
+- ☑️ Y-scale: 200%
 
 Typically used to show the insertion (or replacement) point inside the text, adding inserted text somewhere above it. Note that as per hints convention, the name refers to the position of the hint in the design grid. In fact, it is mostly used to draw a _right_ edge of some text. This is why it's positioned at the left edge of the hint, so that a hint placed east can "stitch" to the preceding text.
 
@@ -297,7 +320,8 @@ Typically used to show the insertion (or replacement) point inside the text, add
 
 - 🎯 insertion anchor
 - ⏯️ wipe-right
-- Y-scale: 200%
+- 🔴 `r_fore-color`: line color
+- ☑️ Y-scale: 200%
 
 This is the left counterpart of snake-left provided for consistency, yet not seemingly used in our corpus. Note that as per hints convention, the name refers to the position of the hint in the design grid. In fact, it is mostly used to draw a _left_ edge of some text. This is why it's positioned at the right edge of the hint, so that a hint placed west can "stitch" to the following text.
 
@@ -313,6 +337,8 @@ Callouts are used to link an annotation text to its annotated text. They are _no
 
 - 🎯 textual annotation
 - ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+- 🔴 `note`: text in callout
 
 A textual annotation not belonging to the text, placed above a snake-like callout.
 
@@ -326,7 +352,9 @@ A textual annotation not belonging to the text, placed above a snake-like callou
 
 - 🎯 textual annotation
 - ⏯️ wipe-right
-- position: `n`
-- Y-offset: -10 (=above)
+- 🔴 `r_fore-color`: line color
+- 🔴 `note`: text in callout
+- ☑️ position: `n`
+- ☑️ Y-offset: -10 (=above)
 
 A textual annotation not belonging to the text, placed above it (as an interlinear note) without any further sign.
