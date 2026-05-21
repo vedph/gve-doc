@@ -1,0 +1,6 @@
+.boxed {
+  border: 1px solid #ccc;
+  padding: 6px;
+  border-radius: 4px;
+  background: #fafafa;
+}
