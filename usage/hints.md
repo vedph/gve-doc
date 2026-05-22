@@ -336,6 +336,8 @@ Change a dot into an exclamation mark by adding the vertical trait above it.
 - 🎯 compendiary correction
 - ⏯️ fade-in
 - 🔴 `r_fore-color`: line color
+- ☑️ Y-offset: -16
+- ☑️ Y-scale: 0.3
 
 Add a dot on a dotless `i`.
 
@@ -348,6 +350,8 @@ Add a dot on a dotless `i`.
 - 🎯 compendiary correction
 - ⏯️ fade-in
 - 🔴 `r_fore-color`: line color
+- ☑️ Y-offset: -16
+- ☑️ Y-scale: 0.3
 
 Add a missing umlaut on a letter.
 
