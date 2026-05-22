@@ -442,6 +442,21 @@ A textual annotation not belonging to the text, placed above a snake-like callou
 - 🔴 `r_fore-color`: line color
 - 🔴 `note`: text in callout
 - ☑️ position: `n`
-- ☑️ Y-offset: -10 (=above)
+- ☑️ Y-offset: -10
 
-A textual annotation not belonging to the text, placed above it (as an interlinear note) without any further sign.
+A textual annotation not belonging to the text, placed above it without any further sign.
+
+---
+
+#### note-interlinear-above
+
+<img src="img/note-interlinear-above.svg" alt="label" width="150" height="50">
+
+- 🎯 textual annotation
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+- 🔴 `note`: text in callout
+- ☑️ position: `n`
+- ☑️ Y-offset: 4
+
+A smaller (font size=14) textual annotation not belonging to the text, placed above it (as an interlinear note) without any further sign.
