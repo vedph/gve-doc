@@ -19,7 +19,7 @@ This way, with a few symbols we can economically represent the signs of a whole 
 
 Hints are all non-textual signs on the document which hint at a specific operation. For instance, typically when I draw a line on a word, this line sign means that I want to delete that word. So, the line here hints at a deletion operation.
 
-While you can look at the [conceptual documentation](../model/rendition.md) for more, we can use a metaphor from a drawing application for diagrams (Figure 1). In it, you have a catalog of geometrical shapes on the left: to add one, you just pick it and it appears on the drawing surface.
+While you can look at the [conceptual documentation](../model/rendition.md) for more, we can use an analogy from a drawing application for diagrams (Figure 1). In it, you have a catalog of geometrical shapes on the left: to add one, you just pick it and it appears on the drawing surface.
 
 ![Drawio](img/drawio-sample.png)
 
