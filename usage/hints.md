@@ -66,7 +66,9 @@ So, when you add hints you can think in similar terms: once you have encoded the
 3. optionally resize, rotate or offset it.
 4. add features for that hint, if required, like color.
 
-Most hints already have their properties (including position) preset in the best way for their intended use. In most cases you will at most need to slightly shift their position using offsets, but you are always free to change all its properties at will.
+This is like using a drawing application, but instead of manually doing every step, you just give the renderer text-based directions, like "pick the diagonal-stroke-up hint", "set its color to red": all the rest is taken care by the rendering software.
+
+Additionally, most hints already have their properties (including position) preset in the best way for their intended use. In most cases you will at most need to slightly shift their position using offsets, but you are always free to change all its properties at will.
 
 ## Designing Hints
 
