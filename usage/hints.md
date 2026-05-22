@@ -15,6 +15,10 @@ Just like phonemes are an abstraction and we describe them only with their relev
 
 This way, with a few symbols we can economically represent the signs of a whole corpus, and also implicitly provide their symbolic classification over all texts.
 
+## Understanding Hints
+
+Hints are all non-textual signs on the document which hint at a specific operation. For instance, typically when I draw a line on a word, this line sign means that I want to delete that word. So, the line here hints at a deletion operation.
+
 ## Designing Hints
 
 To design a hint, you typically use a combination of tools:
@@ -28,9 +32,11 @@ For consistency, all the hints belonging to a project are designed in a **fixed-
 
 To **draw a hint** using [InkScape](https://inkscape.org):
 
-1. create a new document and size it accordingly (`File/Document Properties`): by default 300x100, units px everywhere, scale 1.
+1. create a new document and size it accordingly (`File/Document Properties`): by default 300x100, units px everywhere, scale 1 (Figure 1).
 
     ![InkScape document size](img/inkscape-size.png)
+
+   - _Figure 1: setting InkScape document properties_
 
 2. freely draw your hint. Consider that your area represents the bounding box around the text selected by an operation. So for instance if you are going to draw a horizontal stroke all over it, draw a horizontal line from edge to edge, vertically centered. If you want this line to be slightly longer than the text, you will apply an X-scale to it later in the hints designer.
 3. save the document and open it in a code or text editor. Copy the SVG elements found in the document, and ensure they are all wrapped in a single `g` element which will become the root element of the SVG snippet used by hints.
@@ -39,6 +45,28 @@ To **draw a hint** using [InkScape](https://inkscape.org):
 6. when done, save all hints into a JSON file by clicking the "Save data to file" button in the top toolbar. Then, copy it and paste it in your API `seed-profile.json` under `settings/it.vedph.gve.snapshot/hints` property. Remember to update the `snapshot-feat-values` thesaurus accordingly, as this contains the list of all hints users can pick from in the editor.
 
 > 💡 If you want to edit an existing hint in InkScape, select it and click the "Export hint to InkScape SVG" button. This will embed the hint's SVG into a standard InkScape code frame ready to be loaded in that editor, also replacing all placeholders with values to avoid load errors.
+
+## Hints Designer
+
+The hints designer is a W3C custom web component you can use as a tool to help you design hints. In the end, hints are defined in JSON code, so it's easy to get JSON from the component and paste it in place (typically, in the backend settings of your editing environment).
+
+The designer UI (Figure 2) has a top toolbar where you can find the list of all the hints in your catalog. By default, in the demo you will find hints from VEdition's catalog.
+
+Each hint has a name and can be selected from the dropdown. Its visual appearance is displayed below the toolbar. In Figure 2 you see the diagonal stroke up hint, which is simply a diagonal line raising from the bottom-left corner to the top-right corner of the design grid.
+
+>The size of the design grid is a parameter of the designer. By default it is 300x100.
+
+![Hints designer](img/hints-designer.png)
+
+- _Figure 2: the hints designer_
+
+Below the drawing you find:
+
+- buttons to preview the entrance animation for that hint.
+- hint properties: you can change any of these to transform the hint when placing it and set its relative position.
+- SVG: the SVG code fragment representing the hint's appearance. You can have any SVG code, but the root element must always be a single `g` (=group) element.
+- animation: the hint's entrance animation. Usually you pick it from a catalog, which can be enriched with new animations. If you want to add new animations, you must define their JavaScript code fragment and give the animation a name.
+- variables: the values defined for all variables used in hints. If you look at the sample hints in the designer demo, you will find that most of them have placeholders within "whiskers" (i.e. double braces like `{{ ... }}`). These placeholders contain a name, which is the name of the operation's feature to get the placholder's value from. For instance, `{{r_fore-color}}` is a placeholder which will be replaced by the renderer with the value of the feature defining the foreground text color (`r_fore-color`). This way, the hint will get the same color of added text, when there is any. As in most cases the hint is drawn by the same hand which writes new text, drawing the color from the text foreground makes sense. So, placeholders are a way of changing the appearance of hints according to their context. If in the designer you change `r_fore-color` from `red` to `green`, you will see that all the hints change their color, because all of them draw it from that variable.
 
 ## Catalog
 
