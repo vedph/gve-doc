@@ -19,6 +19,55 @@ This way, with a few symbols we can economically represent the signs of a whole 
 
 Hints are all non-textual signs on the document which hint at a specific operation. For instance, typically when I draw a line on a word, this line sign means that I want to delete that word. So, the line here hints at a deletion operation.
 
+While you can look at the [conceptual documentation](../model/rendition.md) for more, we can use a metaphor from a drawing application for diagrams (Figure 1). In it, you have a catalog of geometrical shapes on the left: to add one, you just pick it and it appears on the drawing surface.
+
+![Drawio](img/drawio-sample.png)
+
+- _Figure 1: a drawing application (drawio)_
+
+In the figure I have picked a line, which appears in its default size, highlighted in blue with circular handles, used to transform it. You can make the line longer or shorter by dragging its ends, rotate and scale it at will.
+
+Once you have done with transformations, you move it in place. In the drawing example I have put a text: let's pretend it's our epigram's text, where we want to visually represent a replacement. Assume that in our original document we have "gray" with a diagonal line on its last two letters and the letters "een" written above it. This clearly hints to a replacement: "gray" becomes "green".
+
+As for the text layer, we just care about text: so there we encode the replacement as is: replace "ay" with "een" in "gray", and the result will be a new alteration of the original text: "The bird has green feathers".
+
+As for the visuals, we want to encode the line on "ay". This is the hint to the deletion of the letters which will be replaced by those added above it. To this end, we pick the line from the catalog on the left.
+
+We then resize it to fit the ideal rectangle around the letters being replaced: I have literally drawn it in this figure (dotted yellow rectangle) to make it visible. This is the "reference text bounding rectangle" (RBR) used for sizing and positioning hints in GVE rendition. As we want the line to fully cover these two letters, we start it from the bottom-left corner of this RBR (letter "a") and end it at its top-right corner (letter "y": Figure 2).
+
+![Drawio](img/drawio-gray1.png)
+
+- _Figure 2: placing and sizing the line hint in the RBR_
+
+So we have 1. picked a hint from the catalog, 2. resized it to fit the RBR and 3. placed it inside the RBR so that the center of the rectangle including the line corresponds to the center of the RBR (this is the meaning of the default position `o`=origin in GVE). The result is the line right above the two letters, as we wanted.
+
+Of course, we might place the line everywhere else: it could be above the RBR, to its right or left, below it, etc. You just change the position feature for the hint to move it relative to the RBR.
+
+You might also need to slightly adjust the position by shifting the line either horizontally or vertically. To do this, in the drawing application you can just drag it, or select it and repeatedly tap an arrow key. In GVE, you just set the X or Y offset values (including negative numbers: -Y moves to the top, -X moves to the left).
+
+This general mechanism is very efficient because it works automatically whatever the extent of text you select. The hint is just like the line I pick from the catalog in this drawing application: it's a shape I can transform at will, and then place where I want.
+
+In the renderer, letters "een" which are part of the new text get added automatically, because they are defined within the replacement itself. You just have to specify a position for them, here `n`=north, i.e. above the RBR.
+
+Finally, let's change an attribute of that form. Say that in our original document the hand which made this change used a red ink. So we want the line to be red.
+
+In the drawing application, we ensure that our line is still selected, and pick the red color from the right pane, which lists all the attributes of the selected shape (Figure 3).
+
+![Drawio](img/drawio-gray2.png)
+
+- _Figure 3: setting the line's color to red_
+
+The result is a red line instead of the default color. This corresponds to adding features to an operation to further specify hint's properties. Most hints use placeholders in the SVG code which defines their appearance, which get replaced by values got from other features in the operation. In this case, we can set the foreground text color for the text added ("een"), and this will automatically set also the hint's color, making the line red.
+
+So, when you add hints you can think in similar terms: once you have encoded the textual operation, add its visual signs using hints:
+
+1. pick the hint from the catalog.
+2. optionally set its relative position.
+3. optionally resize, rotate or offset it.
+4. add features for that hint, if required, like color.
+
+Most hints already have their properties (including position) preset in the best way for their intended use. In most cases you will at most need to slightly shift their position using offsets, but you are always free to change all its properties at will.
+
 ## Designing Hints
 
 To design a hint, you typically use a combination of tools:
@@ -32,11 +81,11 @@ For consistency, all the hints belonging to a project are designed in a **fixed-
 
 To **draw a hint** using [InkScape](https://inkscape.org):
 
-1. create a new document and size it accordingly (`File/Document Properties`): by default 300x100, units px everywhere, scale 1 (Figure 1).
+1. create a new document and size it accordingly (`File/Document Properties`): by default 300x100, units px everywhere, scale 1 (Figure 4).
 
     ![InkScape document size](img/inkscape-size.png)
 
-   - _Figure 1: setting InkScape document properties_
+   - _Figure 4: setting InkScape document properties_
 
 2. freely draw your hint. Consider that your area represents the bounding box around the text selected by an operation. So for instance if you are going to draw a horizontal stroke all over it, draw a horizontal line from edge to edge, vertically centered. If you want this line to be slightly longer than the text, you will apply an X-scale to it later in the hints designer.
 3. save the document and open it in a code or text editor. Copy the SVG elements found in the document, and ensure they are all wrapped in a single `g` element which will become the root element of the SVG snippet used by hints.
@@ -50,15 +99,15 @@ To **draw a hint** using [InkScape](https://inkscape.org):
 
 The hints designer is a W3C custom web component you can use as a tool to help you design hints. In the end, hints are defined in JSON code, so it's easy to get JSON from the component and paste it in place (typically, in the backend settings of your editing environment).
 
-The designer UI (Figure 2) has a top toolbar where you can find the list of all the hints in your catalog. By default, in the demo you will find hints from VEdition's catalog.
+The designer UI (Figure 5) has a top toolbar where you can find the list of all the hints in your catalog. By default, in the demo you will find hints from VEdition's catalog.
 
-Each hint has a name and can be selected from the dropdown. Its visual appearance is displayed below the toolbar. In Figure 2 you see the diagonal stroke up hint, which is simply a diagonal line raising from the bottom-left corner to the top-right corner of the design grid.
+Each hint has a name and can be selected from the dropdown. Its visual appearance is displayed below the toolbar. In Figure 5 you see the diagonal stroke up hint, which is simply a diagonal line raising from the bottom-left corner to the top-right corner of the design grid.
 
 >The size of the design grid is a parameter of the designer. By default it is 300x100.
 
 ![Hints designer](img/hints-designer.png)
 
-- _Figure 2: the hints designer_
+- _Figure 5: the hints designer_
 
 Below the drawing you find:
 
