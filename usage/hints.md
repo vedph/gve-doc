@@ -68,7 +68,7 @@ So, when you add hints you can think in similar terms: once you have encoded the
 
 This is like using a drawing application, but instead of manually doing every step, you just give the renderer text-based directions, like "pick the diagonal-stroke-up hint", "set its color to red": all the rest is taken care by the rendering software.
 
-Additionally, most hints already have their properties (including position) preset in the best way for their intended use. In most cases you will at most need to slightly shift their position using offsets, but you are always free to change all its properties at will.
+Additionally, most hints already have their properties (including position) preset in the best way for their intended use. In most cases you will at most need to slightly shift their position using offsets, but you are always free to change all its properties at will. In our analogy, we can compare this with the different preset types of lines you find in the drawing application, e.g. dotted vs. solid line. You can directly pick the dotted line as a shortcut, but you can also pick the line and later change it to dotted.
 
 ## Designing Hints
 
