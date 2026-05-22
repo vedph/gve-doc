@@ -296,6 +296,7 @@ This is a variation of [line-top](#line-top), provided for consistency, yet not 
 - 🎯 text segmentation hint
 - ⏯️ wipe-down
 - 🔴 `r_fore-color`: line color
+- ☑️ position: `e`
 
 This is mostly used to segment text according to some criterion, typically metrical. Note that as per hints convention, the name refers to the position of the hint in the design grid. In fact, it is mostly used to draw a _right_ edge of some text. This is why it's positioned at the left edge of the hint, so that a hint placed east can "stitch" to the preceding text.
 
@@ -308,6 +309,7 @@ This is mostly used to segment text according to some criterion, typically metri
 - 🎯 text segmentation hint
 - ⏯️ wipe-down
 - 🔴 `r_fore-color`: line color
+- ☑️ position: `w`
 
 This is mostly used to segment text according to some criterion, typically metrical. Note that as per hints convention, the name refers to the position of the hint in the design grid. In fact, it is mostly used to draw a _left_ edge of some text. This is why it's positioned at the right edge of the hint, so that a hint placed west can "stitch" to the following text.
 
