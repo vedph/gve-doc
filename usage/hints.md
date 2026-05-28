@@ -5,6 +5,47 @@ parent: Usage
 nav_order: 3
 ---
 
+- [Hints](#hints)
+  - [Understanding Hints](#understanding-hints)
+  - [Designing Hints](#designing-hints)
+  - [Design Canvas](#design-canvas)
+  - [Hints Designer](#hints-designer)
+    - [Editing Hint Properties](#editing-hint-properties)
+    - [Using Placeholders in SVG](#using-placeholders-in-svg)
+    - [Saving Hints Locally](#saving-hints-locally)
+  - [Catalog](#catalog)
+    - [Lines](#lines)
+      - [diagonal-stroke-down](#diagonal-stroke-down)
+      - [diagonal-stroke-up](#diagonal-stroke-up)
+      - [cross-stroke](#cross-stroke)
+      - [horizontal-stroke](#horizontal-stroke)
+      - [vertical-stroke](#vertical-stroke)
+      - [hamburger](#hamburger)
+      - [hotdog](#hotdog)
+    - [Borders](#borders)
+      - [box](#box)
+      - [filled-box](#filled-box)
+      - [line-bottom](#line-bottom)
+      - [line-bottom-dotted](#line-bottom-dotted)
+      - [line-top](#line-top)
+      - [line-top-dotted](#line-top-dotted)
+      - [line-left](#line-left)
+      - [line-right](#line-right)
+    - [Letters](#letters)
+      - [dotless-exclamation](#dotless-exclamation)
+      - [i-dot](#i-dot)
+      - [umlaut](#umlaut)
+    - [Connectors](#connectors)
+      - [half-psi](#half-psi)
+      - [snake](#snake)
+      - [snake-left](#snake-left)
+      - [snake-right](#snake-right)
+    - [Callouts](#callouts)
+      - [snake-callout](#snake-callout)
+    - [Text](#text)
+      - [note-above](#note-above)
+      - [note-interlinear-above](#note-interlinear-above)
+
 # Hints
 
 👉 [Hints Designer Demo](https://gve-hint-designer.surge.sh)
@@ -134,13 +175,177 @@ Each hint has a name and can be selected from the dropdown. Its visual appearanc
 
 - _Figure 5: the hints designer_
 
-Below the drawing you find:
+The hint designer UI has these main panels (from top to bottom):
 
-- buttons to preview the entrance animation for that hint.
-- hint properties: you can change any of these to transform the hint when placing it and set its relative position.
-- SVG: the SVG code fragment representing the hint's appearance. You can have any SVG code, but the root element must always be a single `g` (=group) element.
-- animation: the hint's entrance animation. Usually you pick it from a catalog, which can be enriched with new animations. If you want to add new animations, you must define their JavaScript code fragment and give the animation a name.
-- variables: the values defined for all variables used in hints. If you look at the sample hints in the designer demo, you will find that most of them have placeholders within "whiskers" (i.e. double braces like `{{ ... }}`). These placeholders contain a name, which is the name of the operation's feature to get the placholder's value from. For instance, `{{r_fore-color}}` is a placeholder which will be replaced by the renderer with the value of the feature defining the foreground text color (`r_fore-color`). This way, the hint will get the same color of added text, when there is any. As in most cases the hint is drawn by the same hand which writes new text, drawing the color from the text foreground makes sense. So, placeholders are a way of changing the appearance of hints according to their context. If in the designer you change `r_fore-color` from `red` to `green`, you will see that all the hints change their color, because all of them draw it from that variable.
+- **toolbar**: the main toolbar with all the most important controls for editing hints.
+- **SVG visualization**: the visualization of the SVG hint you are editing. You can zoom using the buttons in the toolbar, or the mouse wheel. You can pan by dragging with the mouse.
+- **animation timeline player**: use the play button to play the enter animation for the SVG being edited. You can use the slider next to it to look at the animation as it unwinds towards its end, going forward or backward and pausing at any point along it.
+- **hint properties**: the metadata of the hint, plus its SVG and JS code. This is where you effectively edit the hint.
+- **hint variables**: the variables you define for previewing hints. Many hints in their SVG code use placeholder variables between `{{` and `}}`, like in `<line x1="0" y1="0" x2="300" y2="100" stroke="{{r_fore-color}}" stroke-width="2" />`; in this case, you can define the `r_fore-color` variable value in this panel. Typically you define here all the variables for all of your hints. This data is volatile, and is used only to allow displaying the hints in the SVG visualization. For instance, we will require to set `r_fore-color` to `red` to see the hint drawn.
+
+In general:
+
+1. **keep it simple**: create a basic hint first, using placeholders wherever this could be useful to make it more reusable (e.g. for changing its color), and pick an animation for each. As for its appearance, the hint is a symbolic visual approximation, mostly designed for reuse, and typically displayed at small size; so keep it simple and readable. Also remember that hints will be stretched to fit the RBR, so draw and configure them accordingly.
+2. **use the catalog**: create reusable animations for common effects (fade, slide, etc.).
+3. **test early**: use the timeline player frequently while developing animations.
+4. **save often**: use the Save data button to backup your work regularly.
+
+### Editing Hint Properties
+
+In the hint properties, you edit all the properties of the hint being edited:
+
+- **position**: the relative position of the hint (default is `o`=origin).
+- **offset X** and **offset Y**: the optional offsets (positive or negative) to shift the hint's position accordingly. Default is 0.
+- **scale X** and **scale Y**: the optional scale ratio for resizing the hint. Default is 1 (=no scaling).
+- **rotation**: the optional rotation in degrees (positive or negative) for the hint. Default is 0 (=no rotation).
+- **solid**: enable solid behavior for the hint.
+- **displaced ref span**: a default reference span for displacing hints. This is rarely used, unless you want to always position a hint e.g. with reference with the initial character(s) of your base text.
+- **SVG**: the SVG code for your hint. This can be any SVG, provided that it is always included in a single, root `g` element. For instance:
+
+```xml
+<g>
+  <line x1="0" y1="0" x2="300" y2="100" stroke="{{r_fore-color}}" stroke-width="2" />
+</g>
+```
+
+This hint's SVG code wraps in a `g` element (required) a single line in a designer whose canvas size is 300x100 (this is set via the web component's settings in the host page). Thus it represents a diagonal line from the top left to the bottom right of the canvas rectangle.
+
+>Hint content can also have handle elements and placeholders (see [rendition](../model/rendition.md) for more).
+
+- **animation**: the animation panel contains the JS code fragment for the enter animation for the hint. Unless you are creating an ad-hoc animation for the hint being edited ("embedded JS"), this is usually drawn from a set of available animations.
+
+The JS code follows this template, where you can assume two variables are defined: `targetEl` is the target element of the animation, i.e. the root `g` element of the hint; `gsap` is the [GSAP](https://gsap.com) object used for animating it:
+
+```js
+return new Promise(resolve => {
+  // targetEl is the animation's target element
+  // gsap is the GSAP object
+});
+```
+
+For instance, this is a simple fade-in animation:
+
+```js
+return new Promise(resolve => {
+  gsap.fromTo(targetEl,
+    { opacity: 0 },
+    { opacity: 1, duration: 2, onComplete: resolve }
+  );
+});
+```
+
+>This code wraps the animation in a `Promise` object which is returned to the consumer code. This is required by the rendition engine architecture. Inside the promise, it uses `gsap` to animate the target element's opacity from 0 (=invisible) to 1 (=fully visible) in 2 seconds. Remember to call resolve on complete by adding `onComplete: resolve`.
+
+📖 For GSAP, see:
+
+- [GSAP Documentation](https://greensock.com/docs/).
+- [DrawSVG Plugin](https://greensock.com/docs/v3/Plugins/DrawSVGPlugin): plugin for animating SVG.
+
+👉 The animations UI is designed so that it reflects the fact that animations depend on hints, i.e. are selected by them. Besides, you can't design and test an animation without having a hint to apply it to. So, this is the logic when you **save an animation**:
+
+- if `embedded JS` is checked, the JS code is saved as the embedded JS for that hint only.
+- otherwise:
+  - if the hint's animation control value does not start with `#` the animation's code is saved into the data's `animations` array with an ID equal to the selected animation in the animations list dropdown (when the "new animation" is off). If `new animation` is on, you will be prompted for a new ID for that animation's code.
+  - else, just save the animation control value into the hint's animation property as a reference (`#` followed by hint). Just ensure that `#` is followed by some identifier, else show an error in the messages pane asking to add an identifier after the `#`.
+
+So, in practice:
+
+- 💡 to **create a new catalog animation**:
+
+1. select or create a hint.
+2. **uncheck** "embedded JS".
+3. **check** "new animation".
+4. write your GSAP animation code in the JS textarea.
+5. click **Save**.
+6. when prompted, enter an ID for the new animation (e.g., `fade-in`).
+
+- 💡 to **update a catalog animation**:
+
+1. select or create a hint.
+2. **uncheck** "embedded JS".
+3. **uncheck** "new animation".
+4. select an animation from the dropdown.
+5. click the **Load animation code** button (⬇) to load its code.
+6. modify the animation code in the JS textarea.
+7. click **Save** and confirm.
+
+⚠️ Warning: updating a catalog animation affects all hints using it!
+
+- 💡 to **use a catalog animation** in a hint:
+
+1. select or create a hint.
+2. **uncheck** "embedded JS".
+3. in the JS textarea, type `#` followed by the animation ID (e.g. `#fade-in`).
+4. click **Save**.
+
+- 💡 to **copy animation code** between animations:
+
+1. select an animation from the dropdown.
+2. click the **load animation code** button (⬇).
+3. the code appears in the JS textarea.
+4. modify it as needed.
+5. either:
+   - **check "new animation"** and save with a new ID, OR
+   - **select a different animation** from the dropdown and save to update it.
+
+💡 **Tip**: the dropdown works even when "embedded JS" is checked, so you can copy animation code to use as embedded JS.
+
+### Using Placeholders in SVG
+
+Placeholders allow you to reuse hints with different values, derived from operation features with the same name, or set via the `r_hint-vars` rendition feature.
+
+1. In your SVG code, use `{{variable_name}}` syntax:
+
+   ```xml
+   <g>
+     <rect fill="{{r_fore-color}}" x="0" y="0" width="100" height="50"/>
+     <text x="50" y="25">{{note}}</text>
+   </g>
+   ```
+
+2. in the **Hint Variables** panel:
+   - click **Add** (➕).
+   - enter the variable name (e.g., `r_fore-color`).
+   - click **Edit** (✏️) to set its value (e.g., `red`).
+
+3. click **Refresh** to see the resolved SVG.
+
+### Saving Hints Locally
+
+At any time, whether you are integrating the designer into a more complex UI and workflow or just using it directly, you can save or load your data using local files.
+
+To save:
+
+1. click the **Save data** button (📥) in the toolbar.
+2. a JSON file (`hint-designer-data.json`) will download. This file contains all hints and animations.
+
+To load:
+
+1. click the **Load data** button (📤) in the toolbar.
+2. select your JSON file. All hints and animations will be loaded.
+
+The component saves/loads data in JSON format, e.g.:
+
+```json
+{
+  "hints": {
+    "hint-id": {
+      "svg": "<g>...</g>",
+      "position": "o",
+      "offsetX": 0,
+      "offsetY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotation": 0,
+      "solid": false,
+      "animation": "#animation-id"
+    }
+  },
+  "animations": {
+    "animation-id": "return new Promise(resolve => { ... });"
+  }
+}
+```
 
 ## Catalog
 
@@ -261,6 +466,20 @@ Designed to be drawn above small portions of text, usually a single character, a
 - ☑️ Y-scale: 1.1
 
 Designed to hint at a selection of text to be logically connected to some operation or other part of the text, or to isolate the text from its context and make it stand out (e.g. an epigram number). The 110% scale is used to avoid having the box "stitched" too tight around the text.
+
+---
+
+#### filled-box
+
+<img src="img/filled-box.svg" alt="label" width="150" height="50">
+
+- 🎯 text selection hint
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+- ☑️ X-scale: 1.1
+- ☑️ Y-scale: 1.1
+
+Designed to "highlight" a text using the specified color at a 30% opacity level. The 110% scale is used to avoid having the box "stitched" too tight around the text.
 
 ---
 
