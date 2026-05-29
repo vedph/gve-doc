@@ -21,7 +21,8 @@ nav_order: 3
 
 - [renderer source code](https://github.com/vedph/gve-snapshot-rendition).
 - 🚀 [hints designer demo](http://gve-hint-designer.surge.sh)
-- 🚀 [real-world epigram rendition example](http://gve-rendition.surge.sh/?sample=h5-48)
+- 🚀 [really messy real-world epigram rendition example (presented to AIUCD 2026)](<http://gve-rendition.surge.sh/?sample=aiucd>)
+- 🚀 [real-world epigram rendition example (H5-48)](http://gve-rendition.surge.sh/?sample=h5-48)
 - 🚀 [mock text rendition example](http://gve-rendition.surge.sh)
 
 ## Web Component

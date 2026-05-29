@@ -475,7 +475,7 @@ Designed to hint at a selection of text to be logically connected to some operat
 
 - 🎯 text selection hint
 - ⏯️ wipe-right
-- 🔴 `r_fore-color`: line color
+- 🔴 `color`: color (this is not the name of a rendition feature, so set it directly via `r_hint-vars`)
 - ☑️ X-scale: 1.1
 - ☑️ Y-scale: 1.1
 
