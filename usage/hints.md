@@ -22,6 +22,8 @@ nav_order: 3
       - [vertical-stroke](#vertical-stroke)
       - [hamburger](#hamburger)
       - [hotdog](#hotdog)
+      - [slash-double](#slash-double)
+      - [backslash-double](#backslash-double)
     - [Borders](#borders)
       - [box](#box)
       - [filled-box](#filled-box)
@@ -450,6 +452,26 @@ Designed to be drawn above small portions of text, usually a single character, a
 - 🔴 `r_fore-color`: line color
 
 Designed to be drawn above small portions of text, usually a single character, as a lighter deletion hint, often meant to delete just some traits of a letter.
+
+---
+
+#### slash-double
+
+<img src="img/slash-double.svg" alt="label" width="150" height="50">
+
+- 🎯 deletion hint
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+
+---
+
+#### backslash-double
+
+<img src="img/backslash-double.svg" alt="label" width="150" height="50">
+
+- 🎯 deletion hint
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
 
 ### Borders
 
