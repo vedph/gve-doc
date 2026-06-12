@@ -24,6 +24,7 @@ nav_order: 3
       - [hotdog](#hotdog)
       - [slash-double](#slash-double)
       - [backslash-double](#backslash-double)
+      - [scribble-wavy](#scribble-wavy)
     - [Borders](#borders)
       - [box](#box)
       - [filled-box](#filled-box)
@@ -47,6 +48,10 @@ nav_order: 3
     - [Text](#text)
       - [note-above](#note-above)
       - [note-interlinear-above](#note-interlinear-above)
+    - [Symbols](#symbols)
+      - [checkmark](#checkmark)
+      - [circle-dotted](#circle-dotted)
+      - [nota-bene](#nota-bene)
 
 # Hints
 
@@ -473,6 +478,18 @@ Designed to be drawn above small portions of text, usually a single character, a
 - ⏯️ wipe-right
 - 🔴 `r_fore-color`: line color
 
+---
+
+#### scribble-wavy
+
+<img src="img/scribble-wavy.svg" alt="label" width="150" height="50">
+
+- 🎯 deletion hint
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+- ☑️ X-scale: 1.1
+- ☑️ Y-scale: 1.1
+
 ### Borders
 
 ---
@@ -720,3 +737,35 @@ A textual annotation not belonging to the text, placed above it without any furt
 - ☑️ Y-offset: 4
 
 A smaller (font size=14) textual annotation not belonging to the text, placed above it (as an interlinear note) without any further sign.
+
+### Symbols
+
+---
+
+#### checkmark
+
+<img src="img/checkmark.svg" alt="label" width="150" height="50">
+
+- 🎯 group identifier
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+
+---
+
+#### circle-dotted
+
+<img src="img/circle-dotted.svg" alt="label" width="150" height="50">
+
+- 🎯 group identifier
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+
+---
+
+#### nota-bene
+
+<img src="img/nota-bene.svg" alt="label" width="150" height="50">
+
+- 🎯 attention symbol
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
