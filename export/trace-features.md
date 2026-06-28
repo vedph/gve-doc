@@ -45,6 +45,8 @@ Currently there are these types of trace features:
 | `$left-anchor` | `OPID TAGIN:TAGOUT IDLIST` | node left of deletion  |
 | `$righ-anchor` | `OPID TAGIN:TAGOUT IDLIST` | node right of deletion |
 
+The "in" features are set in the input alteration; all other features are set in the output alteration.
+
 - `$seg-in`: input _segment_ (=sequence of _contiguous_ nodes) selected by the operation. Value is `OPID TAGIN:TAGOUT N` where `OPID` is the operation ID, `TAGIN` the input version tag, `TAGOUT` the output version tag, and `N` the ordinal number of the node in the segment captured by the operation.
 - `$seg-out`: output segment affected by the operation. Value is the same as `$seg-in`.
 - `$seg2-in`: same as `seg-in`, for the second segment in a swap operation.
@@ -54,20 +56,50 @@ Currently there are these types of trace features:
 
 > Segments are contiguous in a specific alteration only. Operations (except for the annotate operation) alter the order of the nodes, and alterations are their output. That's why to ease later processing it is convenient to store the relative position of each node in a segment for every alteration.
 
-Each operation applies trace features according to its nature.
+Each operation applies trace features according to its nature, as explained below. In what follows, we refer to this snapshot:
+
+- **base text**:
+
+```txt
+In this test I show all operation
+types.
+It is not complex nor long.
+This too, is another line
+```
+
+- **operations**:
+
+```txt
+35: [r_char-offsets="35:x=100 70:x=100" *log^="Set indents"]
+1x3- [r_hints=diagonal-stroke r_fore-color=red *log^="Delete 'In_'"]
+4=T [r_t-position=n r_fore-color=red r_font-size=14 *log^="Replace 'T' with 't' in 'This'"]
+14x2- [r_hints=diagonal-stroke r_fore-color=red *log^="Delete 'I_'"]
+19+]s [r_t-position=ne r_fore-color=red r_font-size=14 *log^="Add 's' after 'show'"]
+64x4: @swap-complex-long [note=1 r_hints=note-interlinear-above r_fore-color=red *log^="Annotate 'complex' with '1'"]
+60x3: @swap-complex-long [note=2 r_hints=note-interlinear-above r_fore-color=red *log^="Annotate 'nor' with '2'"]
+52x7: @swap-complex-long [note=3 r_hints=note-interlinear-above r_fore-color=red *log^="Annotate 'long' with '3'"]
+52x7<>64x4 [r_fore-color=red *version^=alpha *log^="Swap 'complex' with 'long'"]
+39+]" AND SOME STUFF" @add-stuff [r_t-position=e r_fore-color=green *log^="Add '_AND SOME STUFF.' after 'types'"]
+107x5: @stuff-hints [r_hints=box r_fore-color=green *log^="Box 'STUFF'"]
+107x5=HINTS@stuff-hints [r_t-position=n r_fore-color=green r_position=n r_t-displaced-span=21x7 r_t-offset-y=-30 r_hints=box *log^="Replace 'STUFF' with 'HINTS'"]
+112x5: @stuff-hints [r_hints=box r_fore-color=green *log^="Box 'HINTS'"]
+75x5- @mov-too [*log^="Delete 'too,_'"]
+94+]" TOO."@mov-too [r_t-position=e r_t-offset-x=20 r_fore-color=green *version^=beta *log^="Add '_TOO.' after 'line'"]
+1: [note=12 r_t-fore-color=blue r_fore-color=blue r_hints=note-above r_h-scale-x=2 r_h-rotation=-45 *log^="Add '12' at top"]
+```
 
 ### Replace
 
 - `$seg-in`: the segment to be replaced.
 - `$seg-out`: the new segment, which replaced the old one.
 
-💡 Example: `2=B` in replace `R` with `B` in `ARZDC` (`v0`) → `ABZDC` (`v1`):
+💡 Example: replace 't' with 'T' in 'this'" → `This test...` (`v3`):
 
-- `v0`:
-  - `$seg-in` for `R`
-- `v1`:
-  - `opid` for `B`
-  - `$seg-out` for `B`
+- `v2`:
+  - `$seg-in` for `t`
+- `v3`:
+  - `opid` for `T`
+  - `$seg-out` for `T`
 
 ### Delete
 
