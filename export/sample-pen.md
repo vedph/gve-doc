@@ -51,7 +51,7 @@ Tagging the image with numbers should make our interpretation more evident (Figu
 
 - _Figure 2 - Tagged mock autograph_
 
-So, this is the essential data of our snapshot: a base text, and the operations affecting it. We now want to export this into a specific form of TEI, namely the scheme adopted by the Saba 1919 digital edition (which can be displayed in [EVT](http://evt.labcd.unipi.it) 3).
+So, this is the essential data of our snapshot: a base text, and the operations affecting it. We now want to export this into a specific form of TEI, namely the scheme adopted by the Saba 1919 digital edition (which can be displayed in [EVT 3](http://evt.labcd.unipi.it)).
 
 There, for a given multiple-versions text (an epigram, a page, etc.):
 
