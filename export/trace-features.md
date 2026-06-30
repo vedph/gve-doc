@@ -142,30 +142,29 @@ This too, is another line
 
 ### Swap
 
-- ➡️ input: the segments to be swapped: one in `seg-in` and another in `seg2-in`.
-- ⬅️ output: the swapped segments: one in `seg-out` and another in `seg2-out`.
+- ➡️ `$seg-in` and `$seg2-in` are the segments to be swapped
+- ⬅️ `$seg-out` and `seg2-out` are the swapped segments
 
-💡 Example: `1x2<>4x2` = swap `AR` with `DC` in `ARZDC` (`v0`) → `DCZAR` (`v1`):
+💡 Example: swap `complex` with `long` in `not complex nor long` → `not long nor complex` (`v9`):
 
-- `v0`:
-  - `$seg-in` for `AR`
-  - `$seg2-in` for `DC`
-- `v1`:
-  - `$seg2-out` for `AR`
-  - `$seg2-out` for `DC`
+- `v8`:
+  - `$seg-in` for `complex`
+  - `$seg2-in` for `long`
+- `v9`:
+  - `$seg-out` for `long`
+  - `$seg2-out` for `complex`
 
 ### Annotate
 
-- ➡️ input: the segment to annotate.
-- ⬅️ output: the segment annotated. This is equal to the input segment.
+- ➡️ `$seg-in`: the segment to annotate
+- ⬅️ `$seg-out`: the segment annotated (equal to the input segment)
 
-💡 Example: `3: [note=sample]` = annotate `Z` in `ARZDC` (`v0`) → unchanged (`v1`):
+💡 Example: annotate first character with `12` (`v16`):
 
-- `v0`:
-  - `$seg-in` for `Z`
-- `v1`:
-  - `note` = `sample`
-  - `$seg-out` for `Z`
+- `v15`:
+  - `$seg-in` for `I`
+- `v16`:
+  - `$seg-out` for `I`
 
 ## Simple Example
 
