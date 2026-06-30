@@ -106,6 +106,38 @@ In a publishing flow, where data move from the backend database (edited with Cad
   - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
 
+An additional GVE-specific part planned for the carrier refers to their "codicological units" which are just snapshots in this case. Presently this is not yet implemented but its model is:
+
+- `units` (`ContentUnit[]`):
+  - `id`\* (`AssertedCompositeId`):
+    - `target`\*  (`PinTarget`):
+      - `gid` (`string`)
+      - `label` (`string`)
+      - `itemId` (`string`)
+      - `partId` (`string`)
+      - `partTypeId` (`string`)
+      - `roleId` (`string`)
+      - `name` (`string`)
+      - `value` (`string`)
+    - `tag` (`string`)
+    - `features` (`string[]`)
+    - `note` (`string`)
+    - `scope` (`string`)
+    - `assertion` (`Assertion`):
+      - `tag` (`string`)
+      - `rank`\* (`number`)
+      - `note` (`string`)
+      - `references` (`DocReference[]`):
+      - `type` (`string`)
+      - `tag` (`string`)
+      - `citation` (`string`)
+      - `note` (`string`)
+  - `location`\* (`string`): e.g. `1r`
+  - `note` (`string`)
+  - `features` (`NamedValue[]`):
+    - `name`\* (`string`)
+    - `value`\* (`string`)
+
 #### Snapshot Item
 
 >The version of an epigram from a specific carrier. This contains the snapshot model for that portion of the carrier, with all its alteration stages.
@@ -124,7 +156,6 @@ In a publishing flow, where data move from the backend database (edited with Cad
   - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`lang`: languages (German, Italian, Latin, Ancient Greek)
   - [snapshot](#snapshot-part) (GVE)
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md) with topic categories.
-  - [hands](#hands-part) (GVE)
 - _history_:
   - [historical dates](https://github.com/vedph/cadmus-general/blob/master/docs/asserted-historical-dates.md)
 - _editorial_:
@@ -151,12 +182,29 @@ In a publishing flow, where data move from the backend database (edited with Cad
 - _identity_:
   - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
 - _content_:
-  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`seq`
+  - [categories](https://github.com/vedph/cadmus-general/blob/master/docs/categories.md):`seq` This contains the list of marks used to assign snapshots to a sequence on carriers, and possibly a taxonomy for the collection type.
   - [links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md):`seq` 🔗 version
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md) with topic categories.
 - _editorial_:
   - [references](https://github.com/vedph/cadmus-bricks/blob/master/docs/doc-reference.md)
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
+
+As for collections:
+
+- at the snapshot part level, we just add signs wherever they are required, with the only purpose of representing the diplomatic counterpart of the text. We will annotate with hints representing marks like X, dotted circle, or whatever is there.
+- at the collection level, we use a links part to link the collection to 1-N snapshot items, in their order. To deep-link to a specific alteration stage within a target item, e.g. to say that in H5-10 we are targeting its alteration stage 3, we add `3` to the link's tag. If instead we can't or do not want to specify an alteration stage, we just leave the link's tag undefined.
+- the collection item also has a categories part, with a list of signs: e.g. X, dotted circle, etc.: we pick the one used for marking the snapshots belonging to this collection.
+
+This is more convenient than storing collection data inside the snapshot because:
+
+- on the theorical side, collection data conceptually belongs to the collection. The collection is entity which comes into existence after a snapshot is created. It is not an intrinsic property of the snapshot; in fact, the same snapshot might well be included in many different collections. It is the collection which "picks" the snapshots and puts them in a specific order. This can be determined in different ways:
+  - material:
+    - physically collecting the snapshots e.g. in a notebook or in a print.
+    - adding a mark on a snapshot.
+  - immaterial, from any hints which might come from documentation which e.g. witnesses the intent of some person to collect certain snapshots for any given purpose.
+- on the practical side, these metadata are essential to provide various browsing experiences in the frontend. All data which are _inside_ the snapshot part are not _directly_ accessible to third party frontends, because all these data are computed. The snapshot just provides the instructions to generate all the text alterations with all their visuals and annotations; but you need to execute them to get all this. A frontend can certainly do it by just calling the provided APIs functions to get the computation of each snapshot. Anyway, this is an extra step: you do not directly have these data; you have to invoke the API to get them. As collections are essentially ways of linking snapshots together, their metadata are best modeled and stored outside of the snapshots, as relations between them and a collection entity. This way they live in the collection metadata, ready to be consumed or used for any other computation, without requiring extra logic from API. Also, centralizing all metadata about a collection in a single object, the collection, rather than in all its snapshots, avoid duplication and is much more convenient.
+
+This way we keep a clean model: snapshots live on their own; collections happen to collect some of them into a sequence, possibly using a specific mark. All data about the collection is centralized in that entity and does not "pollute" the snapshots. Snapshots may just carry the collection mark, when there is one, like any other sign on their sheet.
 
 #### Parts Matrix
 
@@ -167,7 +215,6 @@ This table represents the distribution of parts in each item. Items correspond t
 | categories     | content support lang | content support text |         | seq        |
 | chronotopes    |                      | X                    |         |            |
 | comment        | X                    | X                    | X       | X          |
-| hands (GVE)    | X                    |                      |         |            |
 | links          | X                    | X                    | X       | links seq  |
 | measurements   |                      | X                    |         |            |
 | metadata       | X                    | X                    | X       | X          |
