@@ -45,7 +45,7 @@ Currently there are these types of trace features:
 | `$left-anchor` | `OPID TAGIN:TAGOUT IDLIST` | node left of deletion  |
 | `$righ-anchor` | `OPID TAGIN:TAGOUT IDLIST` | node right of deletion |
 
-The "in" features are set in the input alteration; all other features are set in the output alteration.
+👉 The "in" features and `$anchor` are set in the _input_ alteration; all other features are set in the _output_ alteration.
 
 - `$seg-in`: input _segment_ (=sequence of _contiguous_ nodes) selected by the operation. Value is `OPID TAGIN:TAGOUT N` where `OPID` is the operation ID, `TAGIN` the input version tag, `TAGOUT` the output version tag, and `N` the ordinal number of the node in the segment captured by the operation.
 - `$seg-out`: output segment affected by the operation. Value is the same as `$seg-in`.
@@ -56,7 +56,7 @@ The "in" features are set in the input alteration; all other features are set in
 
 > Segments are contiguous in a specific alteration only. Operations (except for the annotate operation) alter the order of the nodes, and alterations are their output. That's why to ease later processing it is convenient to store the relative position of each node in a segment for every alteration.
 
-Each operation applies trace features according to its nature, as explained below. In what follows, we refer to this snapshot:
+Each operation applies trace features according to its nature, as explained below. In what follows, we refer to this snapshot unless stated otherwise:
 
 - **base text**:
 
@@ -90,8 +90,8 @@ This too, is another line
 
 ### Replace
 
-- `$seg-in`: the segment to be replaced.
-- `$seg-out`: the new segment, which replaced the old one.
+- ➡️ `$seg-in`: the segment to be replaced.
+- ⬅️ `$seg-out`: the new segment, which replaced the old one.
 
 💡 Example: replace 't' with 'T' in 'this'" → `This test...` (`v3`):
 
@@ -103,8 +103,8 @@ This too, is another line
 
 ### Delete
 
-- `$seg-in`: the segment to be deleted.
-- `$left-anchor`, `$right-anchor`: left/right anchors. The delete operation has no output segment by definition; so, the deleted node, once detached from the version text, will just retain its input segment feature. Anyway, all _deleted_ nodes have a standard `del` feature, whose value is equal to that of the trace features for segments. The `del` feature is not a trace feature because it must persist forever once attached to a node: once a node is deleted, it will never come back in a sequence. In fact, together with `opid`, these feature mark the entrance and exit of a node, as versions define new sequences.
+- ➡️ `$seg-in`: the segment to be deleted.
+- ⬅️ `$left-anchor`, `$right-anchor`: left/right anchors. The delete operation has no output segment by definition; so, the deleted node, once detached from the version text, will just retain its input segment feature. Anyway, all _deleted_ nodes have a standard `del` feature, whose value is equal to that of the trace features for segments. The `del` feature is not a trace feature because it must persist forever once attached to a node: once a node is deleted, it will never come back in a sequence. In fact, together with `opid`, these feature mark the entrance and exit of a node, as versions define new sequences.
 
 💡 Example: delete `In_` in `In this test...` → `this test...` (`v2`):
 
@@ -118,33 +118,32 @@ This too, is another line
 
 ### Add Before/After
 
-- input: the anchor node gets an anchor feature.
-- output: the added segment nodes.
+- ➡️ `$anchor`: the anchor node (the one before/after which something is added).
+- ⬅️ `$seg-out`: the added segment.
 
-💡 Example: `3+[Y` = add `Y` before `Z` in `ARZDC` (`v0`) → `ARYZDC` (`v1`):
+💡 Example: add `s` after `show` → `shows` (`v5`):
 
-- `v0`:
-  - `$anchor` for `Z`
-- `v1`:
-  - `$opid` for `Y`
-  - `$seg-out` for `Y`
+- `v4`:
+  - `$anchor` for `w`
+- `v5`:
+  - `$seg-out` for `s`
 
 ### Move Before/After
 
-- input: the segment to be moved; also, the anchor node gets an anchor feature.
-- output: the added segment nodes.
+- ➡️ `$seg-in`: the segment to be moved; `$anchor`: the anchor node (the one before/after which something is added).
+- ⬅️ `$seg-out`: the added segment.
 
-💡 Example: `3>]5` = move `Z` after `C` in `ARZDC` (`v0`) → `ARDCZ` (`v1`):
+💡 Example (from the digits sample): move `zero` before `one` → `zeroone` (`v6`):
 
-- `v0`:
-  - `$seg-in` for `Z`
-- `v1`:
-  - `$anchor` for `C`
+- `v5`:
+  - `$seg-in` for `zero`; `$anchor` for `o` in `one`
+- `v6`:
+  - `$seg-out` for `zero`
 
 ### Swap
 
-- input: the segments to be swapped: one in `seg-in` and another in `seg2-in`.
-- output: the swapped segments: one in `seg-out` and another in `seg2-out`.
+- ➡️ input: the segments to be swapped: one in `seg-in` and another in `seg2-in`.
+- ⬅️ output: the swapped segments: one in `seg-out` and another in `seg2-out`.
 
 💡 Example: `1x2<>4x2` = swap `AR` with `DC` in `ARZDC` (`v0`) → `DCZAR` (`v1`):
 
@@ -157,8 +156,8 @@ This too, is another line
 
 ### Annotate
 
-- input: the segment to annotate.
-- output: the segment annotated. This is equal to the input segment.
+- ➡️ input: the segment to annotate.
+- ⬅️ output: the segment annotated. This is equal to the input segment.
 
 💡 Example: `3: [note=sample]` = annotate `Z` in `ARZDC` (`v0`) → unchanged (`v1`):
 
