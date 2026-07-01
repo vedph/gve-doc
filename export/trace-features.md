@@ -25,11 +25,11 @@ To this end **trace features** were introduced in the snapshot core. These are [
 Trace features are clearly distinguished from those you add to any operations. All trace features have these **properties**:
 
 - their _name_ starts with `$`, a prefix reserved to trace features.
-- their _value_ is composite. It always includes operation ID, input and output version, and possibly the segment ordinal number for the features requiring it. All these components are separated by space.
+- their _value_ is composite. It always includes operation ID, input and output alteration, and possibly the segment ordinal number for the features requiring it. All these components are separated by space.
 - there can be _multiple trace features of the same type_. This happens when we have branching, so that e.g. the same node can be the input of two different operations belonging to different branches.
 - they are _not copied into the next output_. So, the lifespan of each trace feature is limited: whenever a new operation is executed, it does not inherit trace features from the previous result.
 
-Thanks to these features, at each version we can see all the nodes affected by the operation which generated it, and connect them to the previous or next versions.
+Thanks to these features, at each alteration we can see all the nodes affected by the operation which generated it, and connect them to the previous or next alterations.
 
 ## Types
 
@@ -47,7 +47,7 @@ Currently there are these types of trace features:
 
 👉 The "in" features and `$anchor` are set in the _input_ alteration; all other features are set in the _output_ alteration.
 
-- `$seg-in`: input _segment_ (=sequence of _contiguous_ nodes) selected by the operation. Value is `OPID TAGIN:TAGOUT N` where `OPID` is the operation ID, `TAGIN` the input version tag, `TAGOUT` the output version tag, and `N` the ordinal number of the node in the segment captured by the operation.
+- `$seg-in`: input _segment_ (=sequence of _contiguous_ nodes) selected by the operation. Value is `OPID TAGIN:TAGOUT N` where `OPID` is the operation ID, `TAGIN` the input alteration tag, `TAGOUT` the output alteration tag, and `N` the ordinal number of the node in the segment captured by the operation.
 - `$seg-out`: output segment affected by the operation. Value is the same as `$seg-in`.
 - `$seg2-in`: same as `seg-in`, for the second segment in a swap operation.
 - `$seg2-out`: same as `seg-out`, for the second segment in a swap operation.
@@ -78,13 +78,13 @@ This too, is another line
 64x4: @swap-complex-long [note=1 r_hints=note-interlinear-above r_fore-color=red *log^="Annotate 'complex' with '1'"]
 60x3: @swap-complex-long [note=2 r_hints=note-interlinear-above r_fore-color=red *log^="Annotate 'nor' with '2'"]
 52x7: @swap-complex-long [note=3 r_hints=note-interlinear-above r_fore-color=red *log^="Annotate 'long' with '3'"]
-52x7<>64x4 [r_fore-color=red *version^=alpha *log^="Swap 'complex' with 'long'"]
+52x7<>64x4 [r_fore-color=red *alteration^=alpha *log^="Swap 'complex' with 'long'"]
 39+]" AND SOME STUFF" @add-stuff [r_t-position=e r_fore-color=green *log^="Add '_AND SOME STUFF.' after 'types'"]
 107x5: @stuff-hints [r_hints=box r_fore-color=green *log^="Box 'STUFF'"]
 107x5=HINTS@stuff-hints [r_t-position=n r_fore-color=green r_position=n r_t-displaced-span=21x7 r_t-offset-y=-30 r_hints=box *log^="Replace 'STUFF' with 'HINTS'"]
 112x5: @stuff-hints [r_hints=box r_fore-color=green *log^="Box 'HINTS'"]
 75x5- @mov-too [*log^="Delete 'too,_'"]
-94+]" TOO."@mov-too [r_t-position=e r_t-offset-x=20 r_fore-color=green *version^=beta *log^="Add '_TOO.' after 'line'"]
+94+]" TOO."@mov-too [r_t-position=e r_t-offset-x=20 r_fore-color=green *alteration^=beta *log^="Add '_TOO.' after 'line'"]
 1: [note=12 r_t-fore-color=blue r_fore-color=blue r_hints=note-above r_h-scale-x=2 r_h-rotation=-45 *log^="Add '12' at top"]
 ```
 
@@ -104,7 +104,7 @@ This too, is another line
 ### Delete
 
 - ➡️ `$seg-in`: the segment to be deleted.
-- ⬅️ `$left-anchor`, `$right-anchor`: left/right anchors. The delete operation has no output segment by definition; so, the deleted node, once detached from the version text, will just retain its input segment feature. Anyway, all _deleted_ nodes have a standard `del` feature, whose value is equal to that of the trace features for segments. The `del` feature is not a trace feature because it must persist forever once attached to a node: once a node is deleted, it will never come back in a sequence. In fact, together with `opid`, these feature mark the entrance and exit of a node, as versions define new sequences.
+- ⬅️ `$left-anchor`, `$right-anchor`: left/right anchors. The delete operation has no output segment by definition; so, the deleted node, once detached from the alteration text, will just retain its input segment feature. Anyway, all _deleted_ nodes have a standard `del` feature, whose value is equal to that of the trace features for segments. The `del` feature is not a trace feature because it must persist forever once attached to a node: once a node is deleted, it will never come back in a sequence. In fact, together with `opid`, these feature mark the entrance and exit of a node, as alterations define new sequences.
 
 💡 Example: delete `In_` in `In this test...` → `this test...` (`v2`):
 
@@ -172,7 +172,7 @@ For instance, consider this mock autograph with numbers, where I added an ordina
 
 ![mock autograph](img/mock-autograph-digits.png)
 
-The text versions in this autograph are:
+The text alterations in this autograph are:
 
 - v0 one FIVE six ten three four zero
 - v1 one two FIVE six ten three four zero
@@ -183,35 +183,35 @@ The text versions in this autograph are:
 - v6 zeroone two three four five six
 - v7 zero one two three four five six (beta)
 
-These versions are generated by these operations:
+These alterations are generated by these operations:
 
 1. insert "two" before "FIVE".
 2. replace FIVE with the corresponding title-case word "Five".
 3. replace this with the full lowercased word, "five".
-4. remove "ten". This version 4 is labeled as a staged version, named alpha, i.e. a stage during the text transformation which happens to be considered as a waypoint along the path towards the final state of the text, accumulating the effects of all the operations up to this point.
+4. remove "ten". This alteration 4 is labeled as a staged alteration, named alpha, i.e. a stage during the text transformation which happens to be considered as a waypoint along the path towards the final state of the text, accumulating the effects of all the operations up to this point.
 5. swap "three four" with "five six".
 6. move "zero" from the tail to the head.
-7. insert a space to separate these words. Once we get to this final version 7, we have another staged version, named beta.
+7. insert a space to separate these words. Once we get to this final alteration 7, we have another staged alteration, named beta.
 
-Now, let us focus on staged version alpha (v4) and look at the corresponding trace features:
+Now, let us focus on staged alteration alpha (v4) and look at the corresponding trace features:
 
 ![trace features up to v4](img/digits-trace-v4.png)
 
-We have an anchor before "FIVE" which is the reference point for the insertion of "two"; what gets inserted is found in the next version 1 as an output segment ("two").
+We have an anchor before "FIVE" which is the reference point for the insertion of "two"; what gets inserted is found in the next alteration 1 as an output segment ("two").
 
 Then, "FIVE" is selected as the input segment for the next operation, a replacement, whose output segment is the title-cased word.
 
-The same happens to this "Five", which gets lowercased by another replacement: so, title-case "Five" is the input segment, and in the next version lowercase "five" is the output segment.
+The same happens to this "Five", which gets lowercased by another replacement: so, title-case "Five" is the input segment, and in the next alteration lowercase "five" is the output segment.
 
-Finally, we select "ten" as the input segment of a delete operation. Note that there's no output segment for it; or in other words, the output segment is zero. Then we have "five" selected as a portion of the text involved in the next operation, the swap, which is past version alpha.
+Finally, we select "ten" as the input segment of a delete operation. Note that there's no output segment for it; or in other words, the output segment is zero. Then we have "five" selected as a portion of the text involved in the next operation, the swap, which is past alteration alpha.
 
 We could go on, but that's the point: trace features allow us to track the effect of editing operations in text without having to execute them again from another context, which is loosely coupled to the snapshot model.
 
-Let us look at this list of trace features, from bottom to top, i.e. from version 4 back to version 0, which is the base text. First, we can see that the "ten" input segment was removed; the lowercase "five" segment replaced a title-case "Five"; in turn, this replaced an uppercase "FIVE". Before it, "two" was inserted.
+Let us look at this list of trace features, from bottom to top, i.e. from alteration 4 back to alteration 0, which is the base text. First, we can see that the "ten" input segment was removed; the lowercase "five" segment replaced a title-case "Five"; in turn, this replaced an uppercase "FIVE". Before it, "two" was inserted.
 
 So, trace features coupled with the type and metadata of each operation (operation identifiers are found in the feature value) in most cases are all what a renderer needs to build its output.
 
-> 🚀 You can inspect trace features using the developer's demo at <https://gve-demo.fusi-soft.com>. Just click `Snapshots`, pick the "digits" preset from the list, run operations, and switch to the `Steps` tab. This contains a row for each output (version). You can use the `n-features` column controls to inspect node features, including trace features, for each version up to that corresponding to its row.
+> 🚀 You can inspect trace features using the developer's demo at <https://gve-demo.fusi-soft.com>. Just click `Snapshots`, pick the "digits" preset from the list, run operations, and switch to the `Steps` tab. This contains a row for each output (alteration). You can use the bottom features selector to inspect node features, including trace features, for each alteration.
 
 ## Limerick Example
 
@@ -233,7 +233,7 @@ When using trace features, we get (I replace the alphanumeric operation IDs with
   - `$seg-in`: for the input segment `cried` of the first replace operation (`REP_CRIED`). Its 5 nodes (40-44) have values like `REP_CRIED v0:v1 1` (from `1` to `5`).
 
 - **v1** (output of `REP_CRIED`, replace "cried" with "said"):
-  - `$seg-out` for the output segment `said` of the first replace operation (`REP_CRIED`). Its 4 nodes (151-154) have values like `REP_CRIED v0:v1 1` (from `1` to `4`). The same nodes also carry a standard `opid` feature with the ID of the operation which added them to the chain. As expected, `opid` features get inherited from version to version: once a node has been added, it stays in the chain forever.
+  - `$seg-out` for the output segment `said` of the first replace operation (`REP_CRIED`). Its 4 nodes (151-154) have values like `REP_CRIED v0:v1 1` (from `1` to `4`). The same nodes also carry a standard `opid` feature with the ID of the operation which added them to the chain. As expected, `opid` features get inherited from alteration to alteration: once a node has been added, it stays in the chain forever.
   - `$seg-in`: for the input segment `swans` of `REP_SWANS`. Its 5 nodes (99-103) have values like `REP_SWANS v1:v2 1` (from `1` to `5`).
 
 - **v2** (output of `REP_SWANS`, replace "swans" with "crows"):
@@ -253,9 +253,9 @@ When using trace features, we get (I replace the alphanumeric operation IDs with
 - **v5** (output of `REP_CROWS`, replace "crows" with "owls"):
   - `$seg-out`: for the output segment `owls` of `REP_CROWS`. Its 4 nodes (165-168) have values like `$seg-out:="01ed346709 v4:v5 1` (from `1` to `4`).
 
-So, at each version we can look at the trace features to see which segments were affected by the previous operation (in `seg-out` and `seg2-out`), and which will be affected by the next one (in `seg-in` and `seg2-in`). In the following table, I list each segment defined for all the versions:
+So, at each alteration we can look at the trace features to see which segments were affected by the previous operation (in `seg-out` and `seg2-out`), and which will be affected by the next one (in `seg-in` and `seg2-in`). In the following table, I list each segment defined for all the alterations:
 
-| ver | previous (out)                                 | next (in)                                      |
+| v   | previous (out)                                 | next (in)                                      |
 | --- | ---------------------------------------------- | ---------------------------------------------- |
 | v0  |                                                | cried                                          |
 | v1  | said                                           | swans                                          |
@@ -264,7 +264,7 @@ So, at each version we can look at the trace features to see which segments were
 | v4  | two crows and a hen↓ / four larks and a wren,↓ | crows                                          |
 | v5  | owls                                           |                                                |
 
-As an example, consider how these features would help in later processing like rendering. For instance, by reading backwards we can pick the _output_ segment of each version and find the corresponding _input_ segment (=the input segment with the same operation ID) in its _previous_ version (which is not necessarily equal to the current version - 1, because we might have branching); we then repeat this until we get to the start of the transformation:
+As an example, consider how these features would help in later processing like rendering. For instance, by reading backwards we can pick the _output_ segment of each alteration and find the corresponding _input_ segment (=the input segment with the same operation ID) in its _previous_ alteration (which is not necessarily equal to the current alteration - 1, because we might have branching); we then repeat this until we get to the start of the transformation:
 
 - v5 `owls` is from `crows` (`REP_CROWS` v4>v5 beta);
 - v4 `two crows...` and `four larks...` and are from `four larks...` and `two crows...` (here we have segments pairs as that's a swap: `SWAP` v3>v4);
@@ -272,9 +272,9 @@ As an example, consider how these features would help in later processing like r
 - v2 `crows` is from `swans` (`REP_SWANS` v1>v2);
 - v1 `said` is from `cried` (`REP_CRIED` v0>v1).
 
-If we were to represent the final staged version _beta_ as a simple text with notes about its transformations, we could do as follows:
+If we were to represent the final staged alteration _beta_ as a simple text with notes about its transformations, we could do as follows:
 
-1. determine the _versions range_: every staged version starts from the first version past the previous staged version, and ends with itself. So, for beta we start from the first version past alpha, which corresponds to v4, and ends with v5, which corresponds to beta. Should we rather want version alpha, we would start from the base text (as there is no previous staged version) and end with v3.
+1. determine the _alterations range_: every staged alteration starts from the first alteration past the previous staged alteration, and ends with itself. So, for beta we start from the first alteration past alpha, which corresponds to v4, and ends with v5, which corresponds to beta. Should we rather want alteration alpha, we would start from the base text (as there is no previous staged alteration) and end with v3.
 2. collect all the _output segments_ in that range, i.e.:
    - v5: `owls`;
    - v4: `two crows and a hen↓` / `four larks and a wren,↓`.
@@ -299,7 +299,7 @@ Here we have 6 segments:
 
 That's a trivial output, but it shows how trace features can ease such processes, especially useful in rendition tasks.
 
-Of course, the more the changes, the more the fragmentation; that's the price to pay for a lossy, flattened representation of a more structured model. For instance, if we had no `alpha` staged version, our versions range would include all the operations, which would result into these collected segments:
+Of course, the more the changes, the more the fragmentation; that's the price to pay for a lossy, flattened representation of a more structured model. For instance, if we had no `alpha` staged alteration, our alterations range would include all the operations, which would result into these collected segments:
 
 - v5: `owls`;
 - v4: `two crows and a hen↓` / `four larks and a wren,↓`.
