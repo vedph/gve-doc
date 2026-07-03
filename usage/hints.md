@@ -205,7 +205,6 @@ In the hint properties, you edit all the properties of the hint being edited:
 - **offset X** and **offset Y**: the optional offsets (positive or negative) to shift the hint's position accordingly. Default is 0.
 - **scale X** and **scale Y**: the optional scale ratio for resizing the hint. Default is 1 (=no scaling).
 - **rotation**: the optional rotation in degrees (positive or negative) for the hint. Default is 0 (=no rotation).
-- **solid**: enable solid behavior for the hint.
 - **displaced ref span**: a default reference span for displacing hints. This is rarely used, unless you want to always position a hint e.g. with reference with the initial character(s) of your base text.
 - **SVG**: the SVG code for your hint. This can be any SVG, provided that it is always included in a single, root `g` element. For instance:
 
@@ -344,7 +343,6 @@ The component saves/loads data in JSON format, e.g.:
       "scaleX": 1,
       "scaleY": 1,
       "rotation": 0,
-      "solid": false,
       "animation": "#animation-id"
     }
   },
