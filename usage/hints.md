@@ -22,6 +22,7 @@ nav_order: 3
       - [vertical-stroke](#vertical-stroke)
       - [hamburger](#hamburger)
       - [hotdog](#hotdog)
+      - [pie](#pie)
       - [slash-double](#slash-double)
       - [backslash-double](#backslash-double)
       - [scribble-wavy](#scribble-wavy)
@@ -35,6 +36,8 @@ nav_order: 3
       - [line-left](#line-left)
       - [line-right](#line-right)
     - [Letters](#letters)
+      - [bracket-left](#bracket-left)
+      - [bracket-right](#bracket-right)
       - [dotless-exclamation](#dotless-exclamation)
       - [i-dot](#i-dot)
       - [umlaut](#umlaut)
@@ -458,6 +461,17 @@ Designed to be drawn above small portions of text, usually a single character, a
 
 ---
 
+#### pie
+
+<img src="img/pie.svg" alt="label" width="150" height="50">
+
+- 🎯 selection hint
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+- ☑️ offset-Y: 20
+
+---
+
 #### slash-double
 
 <img src="img/slash-double.svg" alt="label" width="150" height="50">
@@ -591,6 +605,26 @@ This is mostly used to segment text according to some criterion, typically metri
 This is mostly used to segment text according to some criterion, typically metrical.
 
 ### Letters
+
+---
+
+#### bracket-left
+
+<img src="img/bracket-left.svg" alt="label" width="150" height="50">
+
+- 🎯 text segmentation hint
+- ⏯️ wipe-down
+- 🔴 `r_fore-color`: line color
+
+---
+
+#### bracket-right
+
+<img src="img/bracket-right.svg" alt="label" width="150" height="50">
+
+- 🎯 text segmentation hint
+- ⏯️ wipe-down
+- 🔴 `r_fore-color`: line color
 
 ---
 
@@ -747,6 +781,8 @@ A smaller (font size=14) textual annotation not belonging to the text, placed ab
 - 🎯 group identifier
 - ⏯️ wipe-right
 - 🔴 `r_fore-color`: line color
+- ☑️ X-scale: 2
+- ☑️ Y-scale: 2
 
 ---
 
@@ -757,6 +793,8 @@ A smaller (font size=14) textual annotation not belonging to the text, placed ab
 - 🎯 group identifier
 - ⏯️ wipe-right
 - 🔴 `r_fore-color`: line color
+- ☑️ X-scale: 1.5
+- ☑️ Y-scale: 1.5
 
 ---
 
@@ -767,3 +805,5 @@ A smaller (font size=14) textual annotation not belonging to the text, placed ab
 - 🎯 attention symbol
 - ⏯️ wipe-right
 - 🔴 `r_fore-color`: line color
+- ☑️ X-scale: 2
+- ☑️ Y-scale: 2
