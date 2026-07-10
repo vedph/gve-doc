@@ -29,6 +29,7 @@ nav_order: 3
     - [Borders](#borders)
       - [box](#box)
       - [filled-box](#filled-box)
+      - [bowl](#bowl)
       - [line-bottom](#line-bottom)
       - [line-bottom-dotted](#line-bottom-dotted)
       - [line-top](#line-top)
@@ -139,6 +140,23 @@ To **draw a hint** using [InkScape](https://inkscape.org):
     ![InkScape document size](img/inkscape-size.png)
 
    - _Figure 4: setting InkScape document properties_
+
+You can open this SVG file in InkScape to start with:
+
+```xml
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="300"
+   height="100"
+   viewBox="0 0 300 100"
+   version="1.1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <g>
+    TODO: paste here your SVG
+  </g>
+</svg>
+```
 
 2. freely draw your hint. Consider that your area represents the bounding box around the text selected by an operation. So for instance if you are going to draw a horizontal stroke all over it, draw a horizontal line from edge to edge, vertically centered. If you want this line to be slightly longer than the text, you will apply an X-scale to it later in the hints designer.
 3. save the document and open it in a code or text editor. Copy the SVG elements found in the document, and ensure they are all wrapped in a single `g` element which will become the root element of the SVG snippet used by hints.
@@ -531,6 +549,18 @@ Designed to hint at a selection of text to be logically connected to some operat
 - ☑️ Y-scale: 1.1
 
 Designed to "highlight" a text using the specified color at a 30% opacity level. The 110% scale is used to avoid having the box "stitched" too tight around the text.
+
+---
+
+#### bowl
+
+<img src="img/bowl.svg" alt="bowl" width="150" height="50">
+
+- 🎯 text selection hint
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
+- ☑️ X-scale: 1.1
+- ☑️ Y-scale: 1.1
 
 ---
 
