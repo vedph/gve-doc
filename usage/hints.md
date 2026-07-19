@@ -39,6 +39,8 @@ nav_order: 3
     - [Letters](#letters)
       - [bracket-left](#bracket-left)
       - [bracket-right](#bracket-right)
+      - [bracket-square-left](#bracket-square-left)
+      - [bracket-square-right](#bracket-square-right)
       - [dotless-exclamation](#dotless-exclamation)
       - [i-dot](#i-dot)
       - [umlaut](#umlaut)
@@ -651,6 +653,26 @@ This is mostly used to segment text according to some criterion, typically metri
 #### bracket-right
 
 <img src="img/bracket-right.svg" alt="label" width="150" height="50">
+
+- 🎯 text segmentation hint
+- ⏯️ wipe-down
+- 🔴 `r_fore-color`: line color
+
+---
+
+#### bracket-square-left
+
+<img src="img/bracket-square-left.svg" alt="label" width="150" height="50">
+
+- 🎯 text segmentation hint
+- ⏯️ wipe-down
+- 🔴 `r_fore-color`: line color
+
+---
+
+#### bracket-square-right
+
+<img src="img/bracket-square-right.svg" alt="label" width="150" height="50">
 
 - 🎯 text segmentation hint
 - ⏯️ wipe-down
