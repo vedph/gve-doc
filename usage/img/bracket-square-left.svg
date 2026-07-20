@@ -1,3 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="300" height="100" viewBox="0 0 300 100">
-  <g><rect x="0" y="0" width="300" height="100" fill="none" stroke="none"/><path d="m 3.56006,8.56006 v 82.87988 h 15.41564 v -0.421105 h -8.05103 v -82.03767 h 8.05103 v -0.421105 z" style="fill:red;stroke:red;stroke-width:7;stroke-opacity:1" /></g>
+  <g><rect x="0" y="0" width="300" height="100" fill="none" stroke="none"/><path d="M 3.56006,8.56006 V 91.43994 H 18.9757 L 33.873708,91.479598 10.92467,91.018835 V 8.981165 l 10.354846,-0.3071754 13.054955,0.039658 z" style="fill:red;stroke:red;stroke-width:7;stroke-opacity:1" /></g>
 </svg>
