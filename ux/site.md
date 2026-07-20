@@ -10,102 +10,25 @@ These building blocks thus logically come before the UI design because they dict
 
 ```mermaid
 graph LR
-    carriers --> carrier
-    carrier --> snapshots
-    snapshot --> epigram
-    snapshot --> carrier
-    epigrams --> epigram
-    epigram --> snapshots
-    collections --> collection
-    collection --> snapshots
+    carrier --> snapshot
+    carrier --> unit
+    carrier --> unit2[unit]
+    unit --> snapshot
+    snapshot --> alteration
+    epigram --> snapshot
+    collection --> alteration
 ```
 
 - _Figure 1: main relationships among units_
 
-## 📦 Backend Entities
+Figure 1 represents our entities graph:
 
-- snapshot
-  - categories:content
-  - categories:support
-  - categories:lang
-  - comment
-  - hands
-  - links
-  - metadata
-  - note
-  - references
-  - snapshot
-  - states
-- carrier
-  - categories:content
-  - categories:support
-  - categories:text
-  - chronotopes
-  - comment
-  - links
-  - measurements
-  - metadata
-  - note
-  - note:hist??
-  - references
-  - shelfmark
-- epigram
-  - comment
-  - links
-  - metadata
-  - note
-  - references
-- collection
-  - categories:seq
-  - comment
-  - links
-  - links:seq
-  - metadata
-  - note
-  - references
+- the **snapshot** is our core. It is the abstraction representing a set of alterations of an epigram in a given material support. For instance at sheet 3 of notebook X we have the text of an epigram with annotations defining 3 different alteration stages of that text.
+- each snapshot thus defines 1 or more **alterations**. It is the alteration which has text: everything else is an abstraction. While snapshots represent all the steps which end up with a specific alteration stage, we extract only alteration stages as the objects in this graph. The other alterations are just transitional artifacts towards a specific stage, required in the context of the snapshot to show each single operation made by various hands.
+- the **carrier** is the material support of our texts (notebook, printed book, sheet, etc.). The carrier can be described in two ways:
+  - in a stricter way as a sequence of snapshots.
+  - in a more detailed way as a sequence of units, similar to the codicological units of a manuscript. A **unit** is just a part of the carrier (1 or more pages) including a specific content: it might be a snapshot, but also a page with miscellaneous annotations, or a drawing, or even blank. So units are used when we focus on the material description of a carrier; when instead we are interested in which texts are included in it, we just skip this intermediate node to get to snapshots via it.
+- the **collection** is an ordered list of alterations, intentionally collected for a specific presentation. It can be material, e.g. a printed book with a selected sequence of texts, or immaterial, like the one inferred from the same hand assigning numbers to some alterations.
+- the **epigram** is a pure abstraction, which collects all the snapshots we refer to what we consider variations on the "same" epigram. So formally is similar to a collection, but it is unordered.
 
-## Frontend Components
-
-### 🌐 Carriers
-
-- carriers list
-- 🔗 → carrier
-
-### 🌐 Carrier
-
-- carrier metadata
-- pages (IIIF) + snapshots
-- 🔗 → snapshot
-
-### 🌐 Snapshots
-
-- snapshots list
-- 🔗 → snapshot
-
-### 🌐 Snapshot
-
-- snapshot metadata
-- snapshot rendition
-- snapshot image (IIIF)
-- 🔗 → epigram
-- 🔗 → carrier
-
-### 🌐 Epigrams
-
-- epigrams list
-- 🔗 → epigram
-
-### 🌐 Epigram
-
-- epigram metadata
-- list of versions linked to snapshots
-
-### 🌐 Collections
-
-- collections list
-- 🔗 → collection
-
-### 🌐 Collection
-
-- collection metadata
-- 🔗 → snapshots
+Note that the above graph (Figure 1) shows only the _direct_ links among these entities. For instance, a carrier only directly links to units. Then, a unit in turn may link to a snapshot; which in turn always links to 1 or more alterations. So we are free to walk this graph in the direction we prefer, e.g. given a specific alteration we can know the carrier including it.
