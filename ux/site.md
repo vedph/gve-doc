@@ -1,5 +1,7 @@
 # VEdition Site
 
+## Entities Graph
+
 This is a conceptual overview of the site plan. It is not a mockup, as this will come at a later stage. This is mainly a representation of the mapping between our backend data and the types of its presentations to end users. For this reason, you must not think visually, but rather **functionally**: we want to show which data can be presented in each page and how this visualization is functionally linked to the others, by thinking of "user stories".
 
 This documentation represents these functional aspects with simple and flat lists. Each list item represents a "page" as a visualization unit, and contains data features and links.
@@ -31,4 +33,13 @@ Figure 1 represents our entities graph:
 - the **collection** is an ordered list of alterations, intentionally collected for a specific presentation. It can be material, e.g. a printed book with a selected sequence of texts, or immaterial, like the one inferred from the same hand assigning numbers to some alterations.
 - the **epigram** is a pure abstraction, which collects all the snapshots we refer to what we consider variations on the "same" epigram. So formally is similar to a collection, but it is unordered.
 
+## Presentations
+
 Note that the above graph (Figure 1) shows only the _direct_ links among these entities. For instance, a carrier only directly links to units. Then, a unit in turn may link to a snapshot; which in turn always links to 1 or more alterations. So we are free to walk this graph in the direction we prefer, e.g. given a specific alteration we can know the carrier including it.
+
+So, we could e.g. consider multiple views each focused on a specific entity:
+
+- **epigram**: each has a list of alterations with their snapshot, carrier and collections.
+- **carrier**: each has a list of units, each with its snapshot in turn having its alterations; or in a more abstract way, a list snapshots, each with its alterations.
+- **snapshot**: each has its single carrier and epigram; it can have a dynamic view or a static list of alterations with their collections.
+- **collection**: each has a list of alterations with their snapshot, carrier and epigram.
