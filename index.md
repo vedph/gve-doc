@@ -18,15 +18,34 @@ So, beyond the central case study provided by VEdition, GVE in Digital Humanitie
 - a new digital model for a dynamic, compact and transformative representation of text, both on textual and visual layers.
 - a full-stack open source software solution to create edition data using this model, highly customizable and modular so that it can be easily tailored to each specific project.
 
+## Source Code
+
 Currently, software tools are being constantly refined and actively used to enter edition's data. As they get a more stable state, the corresponding software repositories are getting published at the [VeDPH GitHub](https://github.com/vedph/). Currently, these repositories are still private, so you won't be able to open the following links unless you have been granted access to them.
 
 - **backend**:
-  - [gve-core](https://github.com/vedph/gve-core): core models, logic and API for both consuming and creating data.
+  - ⚙️ [gve-core](https://github.com/vedph/gve-core): core models, logic and API for both consuming and creating data.
 - **frontend**:
-  - [gve-snapshot-rendition](https://github.com/vedph/gve-snapshot-rendition): Typescript library with a vanilla custom web component
-  - [gve-shell](https://github.com/vedph/gve-shell): Angular libraries with frontend components for creating.
-  - [cadmus-gve-app](https://github.com/vedph/cadmus-gve-app): Cadmus-based editor frontend.
+  - ⚙️ [gve-snapshot-rendition](https://github.com/vedph/gve-snapshot-rendition): Typescript library with a vanilla custom web component
+  - ⚙️ [gve-shell](https://github.com/vedph/gve-shell): Angular libraries with frontend components for creating.
+  - ⚙️ [cadmus-gve-app](https://github.com/vedph/cadmus-gve-app): Cadmus-based editor frontend.
 
 The software solution is designed for containerization and distributed in Docker images. So, it can be easily run off the shelf both in a web server and in a local machine, whatever its platform (Unix, MacOS, Windows).
 
 Data produced by the editor can be represented with JSON data, or even plain text, and is stored in a standard document-based database (MongoDB), leveraging the power of the full-fledged [Cadmus content creation framework](https://vedph.github.io/cadmus-doc), even if the model is completely independent from it.
+
+## Demo Pages
+
+- **core**:
+  - 🚀 [chain demo](https://gve-demo.fusi-soft.com)
+- **rendition**:
+  - 🚀 [hints designer demo](http://gve-hint-designer.surge.sh)
+  - 🚀 [really messy real-world epigram rendition example (presented at AIUCD 2026)](<http://gve-rendition.surge.sh/?sample=aiucd>)
+  - 🚀 [real-world epigram rendition example (H5-48)](http://gve-rendition.surge.sh/?sample=h5-48)
+  - 🚀 [mock text rendition example](http://gve-rendition.surge.sh)
+
+## Editor
+
+These pages are reserved to the VEdition team:
+
+- 🔒 [production editor](https://progettidh.studigermanici.it/gve-app/home)
+- 🔒 [test editor](https://gve-app.vedition.de/home)
