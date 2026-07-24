@@ -25,6 +25,7 @@ nav_order: 3
       - [pie](#pie)
       - [slash-double](#slash-double)
       - [backslash-double](#backslash-double)
+      - [equals-tilted-up](#equals-tilted-up)
       - [scribble-wavy](#scribble-wavy)
     - [Borders](#borders)
       - [box](#box)
@@ -509,6 +510,15 @@ Designed to be drawn above small portions of text, usually a single character, a
 - 🎯 deletion hint
 - ⏯️ wipe-right
 - 🔴 `r_fore-color`: line color
+
+---
+
+#### equals-tilted-up
+
+<img src="img/equals-tilted-up.svg" alt="label" width="150" height="50">
+
+- 🎯 hyphenation hint
+- ⏯️ wipe-right
 
 ---
 
