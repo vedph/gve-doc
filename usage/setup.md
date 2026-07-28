@@ -11,7 +11,7 @@ nav_order: 1
 
 To setup the editor on a server or local machine, all what you need is [installing Docker](https://vedph.github.io/cadmus-doc/deploy/docker.html) on it.
 
-## Editor
+## Local Editor
 
 To run the editor in your local machine:
 
@@ -43,4 +43,12 @@ If you installed Docker Desktop, you will find the whole stack of Cadmus GVE in 
 
 If you want to **reset** and start from scratch, just delete the stack (from Docker Desktop, or by entering command `sudo docker compose down`) and recreate it as explained above.
 
-> ⚠️ Note that the default script does not activate data persistence beyond the lifetime of Docker containers. So when you delete the stack containers, your data will be lost and you will start from a clean database. This is on purpose until you just play with the editor. To persist data beyond containers lifetime, you must use volumes (see Cadmus deployment documentation).
+> ⚠️ Note that the default script does not activate data persistence beyond the lifetime of Docker containers. So when you delete the stack containers, your data will be lost and you will start from a clean database. This is on purpose until you just play with the editor. To persist data beyond containers lifetime, you must use volumes (see [Cadmus deployment](https://vedph.github.io/cadmus-doc/deploy/)).
+
+## Remote Editor
+
+To setup a Cadmus editor in a remote host, see the [Cadmus deployment documentation](https://vedph.github.io/cadmus-doc/deploy/). Essentially, the procedure is the same: install Docker and run the script, with the additions of server-specific configuration:
+
+- configure security options properly.
+- configure an HTTPS endpoint.
+- define a backup strategy.
