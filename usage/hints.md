@@ -26,6 +26,7 @@ nav_order: 3
       - [slash-double](#slash-double)
       - [backslash-double](#backslash-double)
       - [equals-tilted-up](#equals-tilted-up)
+      - [hook-top-right](#hook-top-right)
       - [scribble-wavy](#scribble-wavy)
     - [Borders](#borders)
       - [box](#box)
@@ -519,6 +520,16 @@ Designed to be drawn above small portions of text, usually a single character, a
 
 - 🎯 hyphenation hint
 - ⏯️ wipe-right
+
+---
+
+#### hook-top-right
+
+<img src="img/hook-top-right.svg" alt="label" width="150" height="50">
+
+- 🎯 attention hint
+- ⏯️ wipe-right
+- 🔴 `r_fore-color`: line color
 
 ---
 
