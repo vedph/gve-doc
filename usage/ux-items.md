@@ -16,4 +16,7 @@ You can combine the **filters** shown in its left pane to variously filter the l
 
 ## Editing Items
 
+When editing an item, the UI shows multiple tabs, among which the following are used in GVE:
 
+- **metadata**: generic metadata about the item, whatever its type: a human-friendly conventional title to quickly identify it, a short description, its facet ("type") and its flags. At any time you can change them and save to update item's metadata.
+- **parts**: the list of parts included in the item, semantically grouped. Among them, the most GVE specific part is the snapshot, implementing the [corresponding model](../model/snapshot.md). When you create a new item, it contains no parts; its facet defines which parts you can add to it picking them from the top dropdown list. To add a part, just pick it from the list and click the plus button next to the dropdown. From this tab you can also edit or delete existing parts.
