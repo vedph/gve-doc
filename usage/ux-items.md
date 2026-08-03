@@ -1,5 +1,5 @@
 ---
-title: Editor: Items
+title: Editor - Items
 layout: default
 parent: Usage
 nav_order: 2

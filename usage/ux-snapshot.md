@@ -1,5 +1,5 @@
 ---
-title: Editor: Snapshot Part
+title: Editor - Snapshot Part
 layout: default
 parent: Usage
 nav_order: 3
@@ -35,3 +35,5 @@ Once you set the base text, this gets displayed here character by character:
 - the **copy coords** button allows you to copy the coordinates of the selected text.
 
 ### Text Tab - Result
+
+The result section contains all text alterations resulting from operations. Every operation gets an input text, and transforms or annotates it in some way, producing an output text.
