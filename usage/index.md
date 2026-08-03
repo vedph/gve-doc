@@ -2,7 +2,7 @@
 title: Usage
 layout: default
 parent: Home
-nav_order: 1
+nav_order: 2
 ---
 
 # Usage

@@ -17,6 +17,8 @@ Although the model is simple, the UI provides a lot of editing functions on top 
 
 ## Text Tab
 
+### Text Tab - Base Text
+
 The text tab contains the collapsible **base text section**, where you enter the base text, usually just once. So, this is usually collapsed to give more room to the UI.
 
 When you create a new snapshot, the first thing you must do is setting the base text by clicking the _base text_ button in this section and then typing or pasting it in the popup.
@@ -29,3 +31,7 @@ Once you set the base text, this gets displayed here character by character:
 - the end of each line is explicitly marked by a **line-feed** character (LF, represented with a down arrow). After this, the next line is displayed below the previous one. Each line is numbered for your convenience, starting from 1.
 - you can type text in the **search box** to highlight all the matches in the displayed text.
 - you can click a character to **select** it. Once this is done, you can Ctrl+click another character to select the whole span of characters from the first to the last clicked. In both cases, the current selection is displayed next to the search box, like `7x3`, where `7` is the ID of the first selected character and `3` is the length of the selected text span.
+- the **copy button** allows you to copy the selected text.
+- the **copy coords** button allows you to copy the coordinates of the selected text.
+
+### Text Tab - Result
