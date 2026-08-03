@@ -1,0 +1,83 @@
+{
+    "frontMatter.taxonomy.contentTypes": [
+        {
+            "name": "default",
+            "pageBundle": false,
+            "fields": [
+                {
+                    "title": "Title",
+                    "name": "title",
+                    "type": "string"
+                },
+                {
+                    "title": "Description",
+                    "name": "description",
+                    "type": "string"
+                },
+                {
+                    "title": "Publishing date",
+                    "name": "date",
+                    "type": "datetime",
+                    "default": "{{now}}",
+                    "isPublishDate": true
+                },
+                {
+                    "title": "Content preview",
+                    "name": "preview",
+                    "type": "image"
+                },
+                {
+                    "title": "Is in draft",
+                    "name": "draft",
+                    "type": "boolean"
+                },
+                {
+                    "title": "Tags",
+                    "name": "tags",
+                    "type": "tags"
+                },
+                {
+                    "title": "Categories",
+                    "name": "categories",
+                    "type": "categories"
+                },
+                {
+                    "title": "layout",
+                    "name": "layout",
+                    "type": "string"
+                },
+                {
+                    "title": "parent",
+                    "name": "parent",
+                    "type": "string"
+                },
+                {
+                    "title": "nav_order",
+                    "name": "nav_order",
+                    "type": "number"
+                }
+            ]
+        }
+    ],
+    "frontMatter.content.pageFolders": [
+        {
+            "path": "[[workspace]]/ux",
+            "title": "ux"
+        },
+        {
+            "path": "[[workspace]]/dev"
+        },
+        {
+            "title": "model",
+            "path": "[[workspace]]/model"
+        },
+        {
+            "title": "usage",
+            "path": "[[workspace]]/usage"
+        },
+        {
+            "title": "export",
+            "path": "[[workspace]]/export"
+        }
+    ]
+}

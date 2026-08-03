@@ -1,5 +1,5 @@
 ---
-title: Editor - Snapshot Part
+title: "Editor - Snapshot Part"
 layout: default
 parent: Usage
 nav_order: 3
@@ -37,3 +37,9 @@ Once you set the base text, this gets displayed here character by character:
 ### Text Tab - Result
 
 The result section contains all text alterations resulting from operations. Every operation gets an input text, and transforms or annotates it in some way, producing an output text.
+
+The result shows a "map" of all the alterations to the right:
+
+- each alteration is **labelled** with the ID of its input and output texts. For instance, `v0 ▶ v1` means that the input is `v0` (=the base text) and the output is `v1`.
+- click the small **copy button** next to this label to copy the corresponding output text.
+- click the text to see its **detail** in the result pane. The detail works much like the base text view: it displays the text character by character, with all the features already described above.
