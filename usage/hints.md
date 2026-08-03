@@ -2,7 +2,7 @@
 title: Hints
 layout: default
 parent: Usage
-nav_order: 3
+nav_order: 6
 ---
 
 - [Hints](#hints)

@@ -1,3 +1,10 @@
+---
+title: Editor
+layout: default
+parent: Usage
+nav_order: 1
+---
+
 # Editor User Experience
 
 Once you land on the editor's homepage, you need to login with your account:

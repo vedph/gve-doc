@@ -1,3 +1,10 @@
+---
+title: Editor: Items
+layout: default
+parent: Usage
+nav_order: 2
+---
+
 # Editor - Items
 
 The items list is the list of all the top-level entities in the database.
