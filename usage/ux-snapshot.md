@@ -42,4 +42,6 @@ The result shows a "map" of all the alterations to the right:
 
 - each alteration is **labelled** with the ID of its input and output texts. For instance, `v0 ▶ v1` means that the input is `v0` (=the base text) and the output is `v1`.
 - click the small **copy button** next to this label to copy the corresponding output text.
-- click the text to see its **detail** in the result pane. The detail works much like the base text view: it displays the text character by character, with all the features already described above.
+- click the text to see its **detail** in the result pane. The detail works much like the base text view: it displays the text character by character, with all the features already described above. Additionally, you can inspect features attached to each alteration text and each character in it. When you click a character, at the bottom you will see (if present):
+  - at the left, all the global features attached to the text as a whole.
+  - at the right, all the features attached to the character you clicked.
