@@ -29,6 +29,8 @@ When editing an item, the UI shows multiple tabs, among which the following are 
 
 ![metadata](img/ed-item-metadata.png)
 
+>👉 The `generate` button is used when you want to generate a batch of items at a time, using the current item as the template for them. So, this is rarely used unless you are going to create multiple items with the same structure at once.
+
 - **parts**: the list of parts included in the item, semantically grouped. Among them, the most GVE specific part is the snapshot, implementing the [corresponding model](../model/snapshot.md). When you create a new item, it contains no parts; its facet defines which parts you can add to it picking them from the top dropdown list. To add a part, just pick it from the list and click the plus button next to the dropdown. From this tab you can also edit or delete existing parts.
 
 ![parts](img/ed-item-parts.png)

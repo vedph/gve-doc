@@ -49,3 +49,9 @@ The result shows a "map" of all the alterations to the right:
 - click the text to see its **detail** in the result pane. The detail works much like the base text view: it displays the text character by character, with all the features already described above. Additionally, you can inspect features attached to each alteration text and each character in it. When you click a character, at the bottom you will see (if present):
   - at the left, all the global features attached to the text as a whole.
   - at the right, all the features attached to the character you clicked.
+
+## Operations Tab
+
+This tab contains the list of the operations which transform the base text, in their execution order. In most cases this is a linear sequence, so that the output of each operation is the input of the next one.
+
+![operations](img/ed-snapshot-ops.png)
