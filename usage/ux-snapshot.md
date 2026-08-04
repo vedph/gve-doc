@@ -147,4 +147,6 @@ When you edit a feature, you typically specify name and value. Typically the nam
 
 ![editing a feature](img/ed-snapshot-op02.png)
 
+Some features when selected can get multiple values, like the hint feature shown here. In this case, if the values are from a closed list, a new selector appears (the one with label "select value"); pick the value and click the `+` button to add it to the composite value textbox. There, each value is separated by a space.
 
+Also, when picking a name the flags are automatically set according to the nature of the selected feature. You can always override them if required, but usually this is not the case, and this automatic setting makes the edit easier and less error-prone.
