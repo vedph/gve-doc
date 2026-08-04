@@ -12,6 +12,7 @@ nav_order: 3
   - [Operations Tab](#operations-tab)
   - [Editing Operation](#editing-operation)
     - [Operation Features](#operation-features)
+  - [Visualizing Operations](#visualizing-operations)
 
 # Editor - Snapshot Part
 
@@ -141,7 +142,7 @@ Operation features are listed under the corresponding panel in the operation edi
 
 - to **add a new feature**, click the `+feature` button;
 - to **edit a feature**, click its pen button;
-- to **remove a feature**, click it trash button.
+- to **remove a feature**, click its trash button.
 
 When you edit a feature, you typically specify name and value. Typically the name is picked from a closed list, specific to each project; the value is either free or picked from a list, according to the name.
 
@@ -150,3 +151,9 @@ When you edit a feature, you typically specify name and value. Typically the nam
 Some features when selected can get multiple values, like the hint feature shown here. In this case, if the values are from a closed list, a new selector appears (the one with label "select value"); pick the value and click the `+` button to add it to the composite value textbox. There, each value is separated by a space.
 
 Also, when picking a name the flags are automatically set according to the nature of the selected feature. You can always override them if required, but usually this is not the case, and this automatic setting makes the edit easier and less error-prone.
+
+## Visualizing Operations
+
+In most cases, your operations not only encode text changes, but also provide a symbolic representation of their visual appearance in the document. This visualization leverages a complex, interactive [rendition](../model/rendition.md) which uses time to add a third dimension in the representation of such evolving texts.
+
+The editor embeds the viewer control to show this visualization whenever you want to check the result of your operations in its full evolution.
