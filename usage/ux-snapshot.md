@@ -40,7 +40,7 @@ The text tab contains the collapsible **base text section**, where you enter the
 
 When you create a new snapshot, the first thing you must do is setting the base text by clicking the _base text_ button in this section and then typing or pasting it in the popup.
 
->⚠️ WARNING: setting the base text has the effect of clearing all the operations! This is required, because all operations depend on it, and become meaningless once you change the base text. If you happen to find out that your base text needs some changes after you have entered operations, you can anyway copy them (with the Copy DSL operations button) and paste them back later (with the Add operations batch button); you will then have to adjust their coordinates according to your changes.
+> ⚠️ WARNING: setting the base text has the effect of clearing all the operations! This is required, because all operations depend on it, and become meaningless once you change the base text. If you happen to find out that your base text needs some changes after you have entered operations, you can anyway copy them (with the Copy DSL operations button) and paste them back later (with the Add operations batch button); you will then have to adjust their coordinates according to your changes.
 
 Once you set the base text, this gets displayed here character by character:
 
@@ -87,7 +87,7 @@ The **top toolbar** contains these controls (from left to right):
 - **add features or sources** to a subset of operations: often, you want to add a feature (like text color) or source (like hand) to a set of operations at once. To this end, you can use this box: just enter the range(s) of operations you target, separated by commas, like `2, 5-7, 9` (=operations 2, 5, 6, 7, 9), and click either the pen-like button to add a feature, or the people-like button to add a source. A corresponding editor will open targeting all the selected operations (these will be highlighted in the list).
 - **add a new operation**: adds a single operation at the bottom of the list. You can then move it if needed.
 
->Note that when adding features/sources to a set of operations, the edited features/sources are blindly added to the target operations, whether they already included them or not. This is because it is perfectly legal to have multiple sources or features, so it is often the user's responsibility to determine this behavior. Thus, be sure you get the intended results when using this command. In most cases this does not pose issues, because this command is typically used when you want to populate a newly entered set of operations all at once with a given feature or source.
+> Note that when adding features/sources to a set of operations, the edited features/sources are blindly added to the target operations, whether they already included them or not. This is because it is perfectly legal to have multiple sources or features, so it is often the user's responsibility to determine this behavior. Thus, be sure you get the intended results when using this command. In most cases this does not pose issues, because this command is typically used when you want to populate a newly entered set of operations all at once with a given feature or source.
 
 The **list of operations** includes one row per operation, with these columns:
 
@@ -120,7 +120,7 @@ When you click the pen button next to an operation or you add a new operation, t
 - **at**, **run**: these coordinates define the input of the operation. Move operations also add **to**, and swap operations add a **to run** too. In most cases the coordinates refer to character identifiers. So, `7x2` means that we select the character with ID 7 and that with the subsequent ID 8. Note that nothing ensures that identifiers will be consecutive. This is very often the case, because the base text adds most of the characters once, and IDs are generated as a progressive number. So, in the base text (`v0`) effectively the first character has ID=1, the second has ID=2, and so forth. Yet, operations can disrupt this order, by deleting, inserting or moving characters. So, _you must not assume that IDs are progressive_; just pick them by inspecting the base text or the result of the operation before the one you are editing. If you need to select a span of characters having non-progressive IDs, check the `idx` (=**index**) option to use a 0-based index instead of an ID. In this case, a coordinate like `7x2` no longer means IDs 7 and 8, but characters at index 7 and 8, whatever their IDs. Note that the index is 0-based, meaning that the first character is 0, the second is 1, and so forth.
 - **value**: here you enter the text value for those operations which introduce new text. These are replace and add operations. So, to replace characters with ID 7 and 8 with a new character "X" you use a replace operation with coordinates 7x2 and value=`X`.
 
->Note that all characters which get added are assigned a new ID, always following the progressive numbering rule. So, if your base text has 100 characters it will start with IDs 1 to 100; if you then add "abc", the characters will be assigned IDs 101, 102, and 103. In this model every added character gets its own unique ID and retains it forever, as it continues to be present in the chain structure even when deleted or replaced. So, even if you delete a character and later re-add it in the same position, the new character is not the same of the original one, and will thus be assigned a new ID. This is consistent with a model typically representing a sheet of paper where once you write something it stays there forever; you can cross it out, overwrite it, or use any other signs meant to efface it, but nonetheless it stays on this sheet even when it is no longer meant to be part of the text.
+> Note that all characters which get added are assigned a new ID, always following the progressive numbering rule. So, if your base text has 100 characters it will start with IDs 1 to 100; if you then add "abc", the characters will be assigned IDs 101, 102, and 103. In this model every added character gets its own unique ID and retains it forever, as it continues to be present in the chain structure even when deleted or replaced. So, even if you delete a character and later re-add it in the same position, the new character is not the same of the original one, and will thus be assigned a new ID. This is consistent with a model typically representing a sheet of paper where once you write something it stays there forever; you can cross it out, overwrite it, or use any other signs meant to efface it, but nonetheless it stays on this sheet even when it is no longer meant to be part of the text.
 
 - **peep window**: this control is displayed at the right of the coordinates, and shows a "window" listing the text characters being selected by them. Whenever you change the coordinates, the window is updated automatically. You can drag the window to look at the characters before or after it, or use the buttons at its left and right edges for the same purpose. The numbers next to these buttons show the count of characters before and after the visible window.
 - **rank**: this numeric value represents the level of certainty you assign to the edited operation. Usually it is 0, meaning you do not care about it. You can set any positive value starting from 1, according to your convention, representing the certainty rank: 1=sure, 2=probable, 3=dubious, etc.
@@ -138,7 +138,7 @@ Operation features are listed under the corresponding panel in the operation edi
 - set policy (which determines the injection behavior of the feature into the output generated by the operation);
 - flags (negated, short-lived, global), each represented by an icon.
 
->See the documentation about the [snapshot model operations](../model/snapshot.md#operations) for an explanation of these additional metadata attached to each feature.
+> See the documentation about the [snapshot model operations](../model/snapshot.md#operations) for an explanation of these additional metadata attached to each feature.
 
 - to **add a new feature**, click the `+feature` button;
 - to **edit a feature**, click its pen button;
@@ -148,12 +148,51 @@ When you edit a feature, you typically specify name and value. Typically the nam
 
 ![editing a feature](img/ed-snapshot-op02.png)
 
-Some features when selected can get multiple values, like the hint feature shown here. In this case, if the values are from a closed list, a new selector appears (the one with label "select value"); pick the value and click the `+` button to add it to the composite value textbox. There, each value is separated by a space.
+Some features when selected can get **multiple values**, like the hint feature shown here. In this case:
 
-Also, when picking a name the flags are automatically set according to the nature of the selected feature. You can always override them if required, but usually this is not the case, and this automatic setting makes the edit easier and less error-prone.
+- if the values are from a closed list, a new selector appears (the one with label "select value"); pick the value and click the `+` button to add it to the composite value textbox. There, each value is separated by a space.
+- for hints, you can have a prefix to target only one of the hint in the target value. By default, hint features apply to all hints selected, unless the property value starts with `@` followed by a space-delimited list of targets, ended by `:`; in this case, it applies only to those hints matching the list. Targets can be:
+
+- _hint key strings_: applies to all hints with that key. E.g., `@alpha beta:e` applies to all hints with key `alpha` or `beta`.
+- _1-based ordinal numbers_: applies to the hint at that position in `r_hints`. E.g., `@1:e` applies only to the first hint, even if multiple hints share the same key.
+- _mixed_: `@1 beta:e` applies to the first hint (by position) and all hints with key `beta`.
+
+> When multiple targets match the same hint, ordinal-based overrides take precedence over key-based overrides, which take precedence over the wildcard (no `@` prefix).
+
+Also, when picking a name **flags are automatically set** according to the nature of the selected feature. You can always override them if required, but usually this is not the case, and this automatic setting makes the edit easier and less error-prone.
 
 ## Visualizing Operations
 
 In most cases, your operations not only encode text changes, but also provide a symbolic representation of their visual appearance in the document. This visualization leverages a complex, interactive [rendition](../model/rendition.md) which uses time to add a third dimension in the representation of such evolving texts.
 
 The editor embeds the viewer control to show this visualization whenever you want to check the result of your operations in its full evolution.
+
+![snapshot rendition](img/ed-snapshot-render.png)
+
+The renderer gets its data updated whenever you run operations or you save the snapshot. Once updated, you can inspect the result by clicking its play button in the top toolbar, or just advance one operation at a time (forward or backward) with the other navigation buttons.
+
+In short, the renderer provides these sections:
+
+- **top toolbar**: from left to right:
+  - _navigation buttons_: first operation, previous staged version, previous version, next version, next staged version, last version;
+  - _play_: click to see the whole transformation advancing automatically;
+  - _reverse_: toggle to invert the time direction;
+  - _auto-forward on group_: toggle to keep moving to the next operation until it belongs to the same group;
+  - _compressed time_: toggle to compress the transformation play time by zeroing animations time;
+  - _zoom in_, _zoom out_, _fit to view_;
+  - _download SVG_: download the current rendition as an SVG image;
+  - _reset layout_: reset the renderer layout after you have variously resized its panels.
+  - _log display_: this displays the value of the log feature when present. The log feature is typically present in each operation and it shortly summarizes what it does. This is suggested to direct users attention to the operations as they are played and quickly explain their purpose.
+  - _alteration tags_ (current tag, alteration ordinal number, and total number of alterations).
+
+- **versions panel**: the list of all the alterations tags. Each has a color, an ordinal number, a tag, and a group ID when present. If you click the colored part all the visuals belonging to it are highlighted with its color. If you click the arrow button you jump to that alteration. If you toggle _staged only_ you will see only staged versions.
+
+- **version text**: the current text (A), the previous one (B, when different from A), and the differences between them. Its toolbar contains these buttons (from left to right):
+  - _copy text_;
+  - _toggle word wrap_;
+  - _increase or decrease font size_;
+  - _pin previous text_ (B): this "pins" the previous text to the currently displayed one so that until you do not unpin it the A text will be always compared to the pinned B text.
+
+- **details**: the details of the last run operation and those of the character you hover on with the mouse. Use this to quickly inspect features injected by operations to annotate their output text.
+
+You can drag the rendition to pan it and use the mouse wheel to zoom in and out (in addition to the zoom buttons).
