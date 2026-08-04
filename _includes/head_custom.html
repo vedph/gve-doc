@@ -1,0 +1,12 @@
+<!-- Medium Zoom CDN & Script Initialization -->
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Targets all images inside page/doc content, excluding SVGs
+    mediumZoom('.main-content img:not([src$=".svg"])', {
+      margin: 24,
+      background: 'rgba(0, 0, 0, 0.8)',
+      scrollOffset: 0
+    });
+  });
+</script>

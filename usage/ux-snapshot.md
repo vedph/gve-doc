@@ -56,13 +56,18 @@ The result shows a "map" of all the alterations to the right:
   - at the left, all the global features attached to the text as a whole.
   - at the right, all the features attached to the character you clicked.
 
+In addition to the map, two dropdown controls at the top left of the results section can be used to:
+
+- pick any given **staged alteration** from the list of all staged alterations. While each operation has its tagged output, only some of them are explicitly tagged by users as "staged", i.e. representing a specific state of the text ideally reconstructed as a waypoint along the full transformation path.
+- pick any **tagged output** from the list of all outputs. Each operation has its tagged output, progressively numbered after `v0` (which is the base text): `v1`, `v2`, etc.
+
 ## Operations Tab
 
 This tab contains the list of the operations which transform the base text, in their execution order. In most cases this is a linear sequence, so that the output of each operation is the input of the next one.
 
 ![operations](img/ed-snapshot-ops.png)
 
-The top toolbar contains these controls (from left to right):
+The **top toolbar** contains these controls (from left to right):
 
 - **feature details toggle**: toggles the display of features details in the list of operations. This is useful to look at all operations with their features at a glance.
 - **autorun toggle**: toggles autorun, which runs operations whenever you save a new one. This is rarely used though, as it might slow down your data entry flow.
@@ -72,3 +77,23 @@ The top toolbar contains these controls (from left to right):
 - **add a batch of operations**: add multiple operations at once, from their DSL-based text representation.
 - **add features or sources** to a subset of operations: often, you want to add a feature (like text color) or source (like hand) to a set of operations at once. To this end, you can use this box: just enter the range(s) of operations you target, separated by commas, like `2, 5-7, 9` (=operations 2, 5, 6, 7, 9), and click either the pen-like button to add a feature, or the people-like button to add a source. A corresponding editor will open targeting all the selected operations (these will be highlighted in the list).
 - **add a new operation**: adds a single operation at the bottom of the list. You can then move it if needed.
+
+The **list of operations** includes one row per operation, with these columns:
+
+- the operation's position (1, 2, etc.). Note that this is not an identifier: if you reorder or delete operations, this number will change.
+- actions buttons for the operation:
+  - edit
+  - delete
+  - run operations up to this operation
+  - clone operation
+  - move operation up
+  - move operation down
+- the operation's ID. This is a unique alphanumeric ID assigned by software to each operation.
+- the operation's type.
+- the operation's coordinates relative to the text it affects:
+  - `at`: the coordinate to the first selected character.
+  - `run`: the number of characters to select starting from `at`.
+- the text value of the operation when it adds new text (i.e. it is a replace or add operation).
+- the group ID (`gid`) of the operation. This is an arbitrary human-friendly ID manually assigned by users to group logically connected operations together.
+- the operation's features.
+- the operation's sources count. Hovering the mouse on the count will show the sources identifiers.
