@@ -73,10 +73,12 @@ The **top toolbar** contains these controls (from left to right):
 - **autorun toggle**: toggles autorun, which runs operations whenever you save a new one. This is rarely used though, as it might slow down your data entry flow.
 - **copy operations DSL**: copies the DSL text representing all the operations entered in this snapshot, one per line. This uses a [domain specific language](../model/snapshot.md#operations-dsl) (DSL) to represent operations and their metadata in a compact, plain-text form. You can also use this feature to clone all the operations at once into another snapshot (via the batch add button).
 - **copy snapshot raw data**: copies the base text and its operation in a machine-ready JSON format. This is mostly used for advanced scenarios or diagnostic purposes.
-- **clear operations**: clear all the operations (you will be prompted for a confirmation).
+- **clear operations**: clear all the operations (you will be prompted for confirmation).
 - **add a batch of operations**: add multiple operations at once, from their DSL-based text representation.
 - **add features or sources** to a subset of operations: often, you want to add a feature (like text color) or source (like hand) to a set of operations at once. To this end, you can use this box: just enter the range(s) of operations you target, separated by commas, like `2, 5-7, 9` (=operations 2, 5, 6, 7, 9), and click either the pen-like button to add a feature, or the people-like button to add a source. A corresponding editor will open targeting all the selected operations (these will be highlighted in the list).
 - **add a new operation**: adds a single operation at the bottom of the list. You can then move it if needed.
+
+>Note that when adding features/sources to a set of operations, the edited features/sources are blindly added to the target operations, whether they already included them or not. This is because it is perfectly legal to have multiple sources or features, so it is often the user's responsibility to determine this behavior. Thus, be sure you get the intended results when using this command. In most cases this does not pose issues, because this command is typically used when you want to populate a newly entered set of operations all at once with a given feature or source.
 
 The **list of operations** includes one row per operation, with these columns:
 
@@ -97,3 +99,9 @@ The **list of operations** includes one row per operation, with these columns:
 - the group ID (`gid`) of the operation. This is an arbitrary human-friendly ID manually assigned by users to group logically connected operations together.
 - the operation's features.
 - the operation's sources count. Hovering the mouse on the count will show the sources identifiers.
+
+## Editing Operation
+
+When you click the pen button next to an operation or you add a new operation, the operation editor becomes visible.
+
+![editing operation](img/ed-snapshot-op01.png)
