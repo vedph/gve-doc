@@ -5,6 +5,14 @@ parent: Usage
 nav_order: 3
 ---
 
+- [Editor - Snapshot Part](#editor---snapshot-part)
+  - [Text Tab](#text-tab)
+    - [Text Tab - Base Text](#text-tab---base-text)
+    - [Text Tab - Result](#text-tab---result)
+  - [Operations Tab](#operations-tab)
+  - [Editing Operation](#editing-operation)
+    - [Operation Features](#operation-features)
+
 # Editor - Snapshot Part
 
 The snapshot part is the core of the GVE edition and implements the [snapshot model](../model/snapshot.md).
@@ -122,7 +130,7 @@ When you click the pen button next to an operation or you add a new operation, t
 
 Operations change or annotate text. Each operation can get metadata from an extensible set of so-called _features_. A feature is a name=value pair linked to an operation. Features not only encode metadata related to the interpretation and annotation of the text, but also represent their visual layer, when you want a symbolic reproduction of it too.
 
-Operation features are listed under the corresponding panel in the operation editor, including:
+Operation features are listed under the corresponding panel in the operation editor (with an optional name filter to filter the list), including:
 
 - name;
 - value;
@@ -131,5 +139,12 @@ Operation features are listed under the corresponding panel in the operation edi
 
 >See the documentation about the [snapshot model operations](../model/snapshot.md#operations) for an explanation of these additional metadata attached to each feature.
 
-To add a new feature, click the **+feature** button. You can use the filter at its left to filter the list of features.
+- to **add a new feature**, click the `+feature` button;
+- to **edit a feature**, click its pen button;
+- to **remove a feature**, click it trash button.
+
+When you edit a feature, you typically specify name and value. Typically the name is picked from a closed list, specific to each project; the value is either free or picked from a list, according to the name.
+
+![editing a feature](img/ed-snapshot-op02.png)
+
 
