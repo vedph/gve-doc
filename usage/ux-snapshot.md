@@ -15,6 +15,12 @@ Although the model is simple, the UI provides a lot of editing functions on top 
 - operations tab: operations applied to the base text.
 - snapshot rendition: visual rendition of the snapshot.
 
+Typically, you fill this part as follows:
+
+1. enter a base text. This is the text you start from. This usually is done only once as the very first task.
+2. enter as many operations as required to describe all the alterations of this text, one after another. Usually, you want also to encode the corresponding visual layer, by adding more features to each operation.
+3. whenever you add operations, you can check their output by running them and looking at the resulting texts and at the snapshot rendition.
+
 ## Text Tab
 
 ### Text Tab - Base Text
@@ -55,3 +61,14 @@ The result shows a "map" of all the alterations to the right:
 This tab contains the list of the operations which transform the base text, in their execution order. In most cases this is a linear sequence, so that the output of each operation is the input of the next one.
 
 ![operations](img/ed-snapshot-ops.png)
+
+The top toolbar contains these controls (from left to right):
+
+- **feature details toggle**: toggles the display of features details in the list of operations. This is useful to look at all operations with their features at a glance.
+- **autorun toggle**: toggles autorun, which runs operations whenever you save a new one. This is rarely used though, as it might slow down your data entry flow.
+- **copy operations DSL**: copies the DSL text representing all the operations entered in this snapshot, one per line. This uses a [domain specific language](../model/snapshot.md#operations-dsl) (DSL) to represent operations and their metadata in a compact, plain-text form. You can also use this feature to clone all the operations at once into another snapshot (via the batch add button).
+- **copy snapshot raw data**: copies the base text and its operation in a machine-ready JSON format. This is mostly used for advanced scenarios or diagnostic purposes.
+- **clear operations**: clear all the operations (you will be prompted for a confirmation).
+- **add a batch of operations**: add multiple operations at once, from their DSL-based text representation.
+- **add features or sources** to a subset of operations: often, you want to add a feature (like text color) or source (like hand) to a set of operations at once. To this end, you can use this box: just enter the range(s) of operations you target, separated by commas, like `2, 5-7, 9` (=operations 2, 5, 6, 7, 9), and click either the pen-like button to add a feature, or the people-like button to add a source. A corresponding editor will open targeting all the selected operations (these will be highlighted in the list).
+- **add a new operation**: adds a single operation at the bottom of the list. You can then move it if needed.
