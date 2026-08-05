@@ -111,9 +111,9 @@ To this end, add an annotate operation with a `char offsets` feature which conta
 2. pick as type `annotate`, set `at`=1 and `run`=1 (conventionally we just target the first character of the text).
 3. click the `+feature` button and under name pick the `char offsets` feature; you can also type any characters of this name in the top search box (which opens when you click the name dropdown) to quickly locate it. Then in `value` type `69:x=100 100:x=100`. Let us dissect this value (look at the [rendition documentation](../model/rendition.md) for more):
 
-- `69:` means that you are targeting character ID 69.
-- `x=100` means that you are setting a horizontal offset equal to 100 pixels (this is just a convenient value, you can change it as you want).
-- again, the next expression after space says to add a horizontal offset equal to 100 to character with ID=100.
+   - `69:` means that you are targeting character ID 69.
+   - `x=100` means that you are setting a horizontal offset equal to 100 pixels (this is just a convenient value, you can change it as you want).
+   - again, the next expression after space says to add a horizontal offset equal to 100 to character with ID=100.
 
 4. save the feature (round check button) and the operation (`save` button). The operation appears in the list. Before looking at the rendition, let us add an alteration to the base text with the next operation.
 
@@ -154,3 +154,11 @@ We thus repeat the above procedure: add a new operation, set type=add-after and 
 If you play the rendition again, it ends with this image:
 
 ![operation 4](img/ex1-04.png)
+
+(5) `;` → `,` after `Termopylae`. Visually, in our manuscript we just have a descending diagonal stroke on the dot above the comma of the semicolon. We now want to encode exactly this on the visual side, while still preserving the effective text alteration, which is a replacement (comma instead of semicolon). So, first we start with the text layer, adding a replace operation at 35 with run 1 (=`;`) with value `,`. Then, we add these features:
+
+- `hints`=`diagonal stroke down`: this is the sign used to mean the deletion of the dot. As for all signs, it comes from our catalog of hints.
+- `log`=`cross out dot of ';' after Termopylae`
+- `foreground color`=`black`: this is the color for the hint. You must always explicitly define a color for it (unless you encode it in the hints catalog).
+- `hint Y offset`=`-0.25th`: this moves the hint up for about one quarter the average character height; otherwise, given its default origin position, the line would extend up to the comma below the dot.
+- `overridden text value`=(empty): this tells the renderer to not display the added text, here comma. This would be pointless, because the comma is already there. So, textually we replace `;` with `,`, but visually we just draw a line on the dot of `;`, without rewriting the comma. This is exactly what we encode with these features.
