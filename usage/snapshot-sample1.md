@@ -177,3 +177,19 @@ So here the operation is of type delete, at 72 with run 1. Its features are:
 - `log`=`delete comma after 'But'`
 
 ![rendition](img/ex1-06.png)
+
+(5) add comma after `said`: we add an add-after operation at 82, with group ID=`move-comma` and these features:
+
+- `position`=`east`: place the comma at the right of `said`.
+- `log`=`add comma after 'said'`
+
+![rendition](img/ex1-07.png)
+
+(6) delete `fish and` plus its following space. Note that we include the space because otherwise the resulting text would have 2 spaces, the one before `fish` and the other after `and`. So we add a delete operation at 108 with run 9 and these features:
+
+- `hints`=`scribble (wavy)`
+- `foreground color`=`black`
+- `hint X scale`=`0.8`: this scales down the scribble drawing width to 80% so that it does not cover the end part of `and`, like in the manuscript. Of course this is just a diplomatic detail and we could omit it as well.
+- `log`=`delete 'fish and_'`
+
+![rendition](img/ex1-08.png)
