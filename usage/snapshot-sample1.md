@@ -1,3 +1,10 @@
+---
+title: Snapshot sample 1
+layout: default
+parent: Usage
+nav_order: 4
+---
+
 # Snapshot Sample 1
 
 ![illustration](img/thermopylae-ill.png)
