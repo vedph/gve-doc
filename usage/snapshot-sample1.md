@@ -4,7 +4,8 @@
 
 > There was an Old Man of Thermopylae,
 > Who never did anything properly;
-> But they said, "If you choose, To boil eggs in your shoes,
+>   But they said, "If you choose,
+>   To boil eggs in your shoes,
 > You shall never remain in Thermopylae".
 
 - adapted from Edward Lear. _A Book of Nonsense._ London: Routledge, Warne & Routledge, 1861. Plate 72.
@@ -65,11 +66,30 @@ Adopting the convention to describe the various operations on this text from top
 
 ## Base Text
 
-Let us start encoding this snapshot. The first step is defining the base text:
+Let us start encoding this snapshot. The first step is defining the base text, representing the starting point for all the transformations:
 
 ```txt
-There was an old Man of Thermopylae;
-Who never did anything properly;
-But they said, "If you choose, To boil eggs in your shoes,
-You shall never remain in Thermopylæ".
+There was an old Man of Termopylae;
+He never dıd anything properly;
+  But they said, "If you choose,
+  To boil fish and figs in our shoe,
+  Never you shall remain in Thermopylae".
 ```
+
+👉 Hands-on:
+
+1. create a new item with title `Thermopylae` and the description you like. Ensure its facet is `snapshot`, and save it.
+2. edit the newly created item, and add a new snapshot part to it.
+3. edit the newly added snapshot part.
+4. in the text tab, expand `base text` and click the `base text` button to enter the new text. In the popup window, paste the above text and click `Set`.
+5. it's a good idea to save the snapshot part by clicking the bottom `save` button.
+
+![base text](img/ex1-01.png)
+
+## Operations
+
+Let us now define the operations following our description.
+
+### Black Hand
+
+(1) `old` → `Old`. Here we literally replace `o` with `O`, adding an `immediate` feature with value `1` (which here represents the true value of a boolean feature).
