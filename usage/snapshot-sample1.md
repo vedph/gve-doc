@@ -1,5 +1,5 @@
 ---
-title: Snapshot sample 1
+title: Snapshot Sample 1
 layout: default
 parent: Usage
 nav_order: 4
@@ -9,11 +9,13 @@ nav_order: 4
 
 ![illustration](img/thermopylae-ill.png)
 
-> There was an Old Man of Thermopylae,
-> Who never did anything properly;
->   But they said, "If you choose,
->   To boil eggs in your shoes,
-> You shall never remain in Thermopylae".
+```txt
+There was an Old Man of Thermopylae,
+Who never did anything properly;
+  But they said, "If you choose,
+  To boil eggs in your shoes,
+You shall never remain in Thermopylae".
+```
 
 - adapted from Edward Lear. _A Book of Nonsense._ London: Routledge, Warne & Routledge, 1861. Plate 72.
 
@@ -97,6 +99,24 @@ He never dıd anything properly;
 
 Let us now define the operations following our description.
 
+### Indentation
+
+Indentation is encoded just like any other aspect of the visual layer, i.e. via features.
+
+To this end, add an annotate operation with a `char offsets` feature which contains an expression defining all the horizontal and/or vertical offsets for all characters which start an indented or otherwise offset text.
+
+👉 Hands-on:
+
+1. in the `operations` tab, click the `add operation` button.
+2. pick as type `annotate`, set `at`=1 and `run`=1 (conventionally we just target the first character of the text).
+3. click the `+feature` button and under name pick the `char offsets` feature; you can also type any characters of this name in the top search box (which opens when you click the name dropdown) to quickly locate it. Then in `value` type `69:x=100 100:x=100`. Let us dissect this value (look at the [rendition documentation](../model/rendition.md) for more):
+
+- `69:` means that you are targeting character ID 69.
+- `x=100` means that you are setting a horizontal offset equal to 100 pixels (this is just a convenient value, you can change it as you want).
+- again, the next expression after space says to add a horizontal offset equal to 100 to character with ID=100.
+
+4. save the feature (round check button) and the operation (`save` button). The operation appears in the list. Before looking at the rendition, let us add an alteration to the base text with the next operation.
+
 ### Black Hand
 
 (1) `old` → `Old`. Here we literally replace `o` with `O`, adding an `immediate` feature with value `1` (which here represents the true value of a boolean feature).
@@ -106,8 +126,12 @@ Let us now define the operations following our description.
 1. in the base text display, check the `o` character you want to replace. This has ID=14. If you click it, the new operation you are going to add will pick the current selection as its coordinates; or you can just go ahead, add a new operation, and then set the coordinates.
 2. in the `operations` tab, click the `add operation` button.
 3. pick as type `replace`, set `at`=14 and `run`=1, and enter the new text `O` in `value`.
-4. let us now add a feature for "immediate": click the `+feature` button and under name pick the `immediate` feature; you can also type any characters of this name in the top search box (which opens when you click the name dropdown) to quickly locate it. Then in value select `1`, which is the only possible value for this feature, which is a boolean feature. Then, click the round checkmark button to add this feature. You will see it in the features list. Finally, click save to save the operation, and the bottom save button to save the whole part if you want to save it; or just the run button of the newly added operation. This will update the rendition section.
-5. in the rendition section, click the play button and look at the `o`: you will see it replaced by an overwritten `O` after a few instants, just like it happened in our manuscript.  
+4. let us now add a couple of features:
+   - _immediate_: click the `+feature` button and under name pick the `immediate` feature. Then in `value` select `1`, which is the only possible value for this feature, which is a boolean feature. Then, click the round checkmark button to add this feature.
+   - _log_: conventionally we always add a log feature to each operation to quickly describe it. So repeat the above procedure, pick `log` as the feature name, and in `value` type something like `uppercase 'old'`.
+   - finally, click `save` to save the operation, and the bottom `save` button to save the whole part if you want to save it; or just the run button of the newly added operation. This will update the rendition section.
+
+5. in the rendition section, click the play button and look at the `o`: you will see it replaced by an overwritten `O` after a few instants, just like it happened in our manuscript.
 
 ![operation 1](img/ex1-02.png)
 
@@ -115,4 +139,6 @@ As for the rendition, there is no need for rendition-oriented features here, bec
 
 ![rendition of operation 1](img/ex1-03.png)
 
-Note on the left the two colored rectangles representing `v0` and `v1`.
+Note the indents, and on the left the 3 colored rectangles representing `v0` (=base text), `v1` (indentations), `v2` (replacement).
+
+> Of course the separation of indentation from base text here is just a matter of convenience to ensure a uniform model. We set the input text as plain text, and then separate its visual aspect (like indents) on the visual layer via a rendition feature.
