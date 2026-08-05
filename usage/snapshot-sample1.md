@@ -117,6 +117,8 @@ To this end, add an annotate operation with a `char offsets` feature which conta
 
 4. save the feature (round check button) and the operation (`save` button). The operation appears in the list. Before looking at the rendition, let us add an alteration to the base text with the next operation.
 
+> The separation of indentation from base text here is just a matter of convenience to ensure a uniform model. We set the input text as plain text, and then separate its visual aspect (like indents) on the visual layer via a rendition feature.
+
 ### Black Hand
 
 (1) `old` → `Old`. Here we literally replace `o` with `O`, adding an `immediate` feature with value `1` (which here represents the true value of a boolean feature).
@@ -141,4 +143,14 @@ As for the rendition, there is no need for rendition-oriented features here, bec
 
 Note the indents, and on the left the 3 colored rectangles representing `v0` (=base text), `v1` (indentations), `v2` (replacement).
 
-> Of course the separation of indentation from base text here is just a matter of convenience to ensure a uniform model. We set the input text as plain text, and then separate its visual aspect (like indents) on the visual layer via a rendition feature.
+(2) `Termopylae` → `Thermopylae`: here we add `h` after `T`. So, we can encode this as an add-after operation. Note that we might as well encode it as a replacement considering the whole word (`Termopylae` → `Thermopylae`), but usually at least in GVE we aim to a representation very close to the visual (diplomatic) layer.
+
+We thus repeat the above procedure: add a new operation, set type=add-after and `at`=25 (the `T` of `Termopylae`). As for features, add:
+
+- `position`=`north-east` because the `h` is positioned at the top-right of `T`.
+- `font size`=`18` to make it smaller. The default font size in this project is 24.
+- `log`=`add 'h' after 'T' in 'Termopylae'`.
+
+If you play the rendition again, it ends with this image:
+
+![operation 4](img/ex1-04.png)
