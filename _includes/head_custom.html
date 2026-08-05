@@ -1,12 +1,28 @@
-<!-- Medium Zoom CDN & Script Initialization -->
+<!-- Medium Zoom CDN & Robust Initialization -->
 <script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js"></script>
+<style>
+  /* Ensures zoomed images sit above Just the Docs headers and sidebar elements */
+  .medium-zoom-overlay,
+  .medium-zoom-image--opened {
+    z-index: 9999 !important;
+  }
+</style>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Targets all images inside page/doc content, excluding SVGs
-    mediumZoom('.main-content img:not([src$=".svg"])', {
+    // Matches common Just the Docs image containers
+    const selector =
+      '.main-content img:not([src$=".svg"]), #main-content img:not([src$=".svg"]), .content img:not([src$=".svg"]), main img:not([src$=".svg"])';
+
+    // Initialize medium-zoom
+    const zoom = mediumZoom(selector, {
       margin: 24,
-      background: 'rgba(0, 0, 0, 0.8)',
-      scrollOffset: 0
+      background: "rgba(0, 0, 0, 0.8)",
+      scrollOffset: 0,
     });
+
+    // Re-attach zoom to images loaded dynamically or lazily
+    setTimeout(() => {
+      zoom.attach(selector);
+    }, 1000);
   });
 </script>
