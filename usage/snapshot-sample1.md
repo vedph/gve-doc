@@ -43,35 +43,37 @@ Adopting the convention to describe the various operations on this text from top
 
 (3) `;` → `,` after `Termopylae`. The semicolon here gets changed into a comma by simply crossing out the dot above the comma in the semicolon. This is a compendiary way of representing this replacement, much more effective in handwriting.
 
-(4) move `,` after `But` so that it appears after `they`. The hand crossed out the first comma and added a second one.
+(4) delete the comma after `But`.
 
-(5) delete `fish and`. The hand scribbled on top of these words to mean their deletion.
+(5) add a comma after `said`. This is logically connected to the previous operation (we are moving the comma).
 
-(6) figs → eggs. The hand here just wrote a smaller `eg` on top of `fi` in `figs`.
+(6) delete `fish and`. The hand scribbled on top of these words to mean their deletion.
 
-(7) `our` → `your`. Here the hand boxed out `our` and added `your` at the right edge of the verse, with the same box, meaning that this new text should replace the original one.
+(7) figs → eggs. The hand here just wrote a smaller `eg` on top of `fi` in `figs`.
 
-(8) `shoe` → `shoes`. Here the hand just added a smaller `s` at the top right of `shoe`.
+(8) `our` → `your`. Here the hand boxed out `our` and added `your` at the right edge of the verse, with the same box, meaning that this new text should replace the original one.
 
-(9) reorder `Never you shall` into `You shall never`. This is very compressed in the manuscript, which just added smaller numbers on top of these words to mean their reordering.
+(9) `shoe` → `shoes`. Here the hand just added a smaller `s` at the top right of `shoe`.
+
+(10) reorder `Never you shall` into `You shall never`. This is very compressed in the manuscript, which just added smaller numbers on top of these words to mean their reordering.
 
 - **blue hand**:
 
-(10) add the missing dot above `i` in `did`.
+(11) add the missing dot above `i` in `did`.
 
-(11) `If` → `Should`. The new word was written above the old one, which was crossed out.
+(12) `If` → `Should`. The new word was written above the old one, which was crossed out.
 
-(12) add a circled dot drawing at the beginning of the epigram, to mark it as an item of some collection.
+(13) add a circled dot drawing at the beginning of the epigram, to mark it as an item of some collection.
 
-(13) add the number `2` on top of the epigram.
+(14) add the number `2` on top of the epigram.
 
 - **green hand**:
 
-(14) annotate `ai` in `remain` as long (a metrical annotation).
+(15) annotate `ai` in `remain` as long (a metrical annotation).
 
-(15) add a vertical stroke after `remain` to mark colometry.
+(16) add a vertical stroke after `remain` to mark colometry.
 
-(16) `2` → `3` as the epigram number. `3` was written to the right of the original number which was crossed out.
+(17) `2` → `3` as the epigram number. `3` was written to the right of the original number which was crossed out.
 
 ## Base Text
 
@@ -80,9 +82,9 @@ Let us start encoding this snapshot. The first step is defining the base text, r
 ```txt
 There was an old Man of Termopylae;
 He never dıd anything properly;
-  But they said, "If you choose,
-  To boil fish and figs in our shoe,
-  Never you shall remain in Thermopylae".
+But, they said "If you choose,
+To boil fish and figs in our shoe,
+Never you shall remain in Thermopylae".
 ```
 
 👉 Hands-on:
@@ -135,11 +137,11 @@ To this end, add an annotate operation with a `char offsets` feature which conta
 
 5. in the rendition section, click the play button and look at the `o`: you will see it replaced by an overwritten `O` after a few instants, just like it happened in our manuscript.
 
-![operation 1](img/ex1-02.png)
+![operation editor](img/ex1-02.png)
 
 As for the rendition, there is no need for rendition-oriented features here, because the defaults are just fine. The `O` appears overwritten and has the same black color of the base text, because the default position for added text is origin and the default text color is black.
 
-![rendition of operation 1](img/ex1-03.png)
+![rendition](img/ex1-03.png)
 
 Note the indents, and on the left the 3 colored rectangles representing `v0` (=base text), `v1` (indentations), `v2` (replacement).
 
@@ -153,12 +155,25 @@ We thus repeat the above procedure: add a new operation, set type=add-after and 
 
 If you play the rendition again, it ends with this image:
 
-![operation 4](img/ex1-04.png)
+![rendition](img/ex1-04.png)
 
-(5) `;` → `,` after `Termopylae`. Visually, in our manuscript we just have a descending diagonal stroke on the dot above the comma of the semicolon. We now want to encode exactly this on the visual side, while still preserving the effective text alteration, which is a replacement (comma instead of semicolon). So, first we start with the text layer, adding a replace operation at 35 with run 1 (=`;`) with value `,`. Then, we add these features:
+(3) `;` → `,` after `Termopylae`. Visually, in our manuscript we just have a descending diagonal stroke on the dot above the comma of the semicolon. We now want to encode exactly this on the visual side, while still preserving the effective text alteration, which is a replacement (comma instead of semicolon). So, first we start with the text layer, adding a replace operation at 35 with run 1 (=`;`) with value `,`. Then, we add these features:
 
 - `hints`=`diagonal stroke down`: this is the sign used to mean the deletion of the dot. As for all signs, it comes from our catalog of hints.
 - `log`=`cross out dot of ';' after Termopylae`
 - `foreground color`=`black`: this is the color for the hint. You must always explicitly define a color for it (unless you encode it in the hints catalog).
 - `hint Y offset`=`-0.25th`: this moves the hint up for about one quarter the average character height; otherwise, given its default origin position, the line would extend up to the comma below the dot.
 - `overridden text value`=(empty): this tells the renderer to not display the added text, here comma. This would be pointless, because the comma is already there. So, textually we replace `;` with `,`, but visually we just draw a line on the dot of `;`, without rewriting the comma. This is exactly what we encode with these features.
+
+![rendition](img/ex1-05.png)
+
+(4) delete the comma after `But`. We could also represent this with a move operation, but in this example we aim at maximum granularity. At any rate, we consider this delete logically connected to the next addition, so we add a group ID to this operation (with value `move-comma`): we will add the same group ID to the next operation too, thus virtually grouping them.
+
+So here the operation is of type delete, at 72 with run 1. Its features are:
+
+- `hints`=`diagonal stroke up`
+- `foreground color`=`black`
+- `hint Y offset`=`0.25th`: this moves the stroke one-quarter the average character height down.
+- `log`=`delete comma after 'But'`
+
+![rendition](img/ex1-06.png)
