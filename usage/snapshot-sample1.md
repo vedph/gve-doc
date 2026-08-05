@@ -100,4 +100,12 @@ Let us now define the operations following our description.
 2. in the `operations` tab, click the `add operation` button.
 3. pick as type `replace`, set `at`=14 and `run`=1, and enter the new text `O` in `value`.
 4. let us now add a feature for "immediate": click the `+feature` button and under name pick the `immediate` feature; you can also type any characters of this name in the top search box (which opens when you click the name dropdown) to quickly locate it. Then in value select `1`, which is the only possible value for this feature, which is a boolean feature. Then, click the round checkmark button to add this feature. You will see it in the features list. Finally, click save to save the operation, and the bottom save button to save the whole part if you want to save it; or just the run button of the newly added operation. This will update the rendition section.
-5. in the rendition section, click the play button and look at the `o`: you will see it replaced by an overwritten `O`, just like in our manuscript.  
+5. in the rendition section, click the play button and look at the `o`: you will see it replaced by an overwritten `O` after a few instants, just like it happened in our manuscript.  
+
+![operation 1](img/ex1-02.png)
+
+As for the rendition, there is no need for rendition-oriented features here, because the defaults are just fine. The `O` appears overwritten and has the same black color of the base text, because the default position for added text is origin and the default text color is black.
+
+![rendition of operation 1](img/ex1-03.png)
+
+Note on the left the two colored rectangles representing `v0` and `v1`.
