@@ -284,9 +284,28 @@ If you look at the rendition while it plays, you can note that the visual result
 
 At this stage, we realize that the indentation is too wide: in our manuscript `Should` is below `anything`, slightly offset to the right. In fact, looking at verses, the word `But` should appear below `never`. So we just change the indentation values from 100 to 50 in the first operation and run the operations again.
 
-▶️ (13) **annotate** the epigram by marking it with a circle dot.
+![rendition](img/ex1-14.png)
 
-TODO
+▶️ (13) **annotate** the epigram (top left of first line: at 1, run 1) by marking it with a circle dot. Features:
+
+- `hints`=`circle (dotted)`
+- `foreground color`=`blue`
+- `hint position`=`north-west`: top left of first line.
+- `hint Y scale`=`0.75`: shrink vertically to compensate for automatic sizing, because the reference text is just one character (the first one), and this will shrink the hint horizontally.
+- `log`=`add circled dot to epigram`
+
+![rendition](img/ex1-15.png)
+
+▶️ (14) annotate the epigram by adding its number `2` on top of the text (at 15 run 2, corresponding to `ld` of `old`). Features:
+
+- `hints`=`note (above)`
+- `note`=`2`: the content of the hint's text placeholder.
+- `foreground color`=`blue`
+- `hint Y offset`=`-0.75th`: sligthly move the number up.
+- `log`=`add epigram number '2'`
+- `stage name`=`AS2`: this completes the green hand stage.
+
+![rendition](img/ex1-16.png)
 
 ### Green Hand
 
