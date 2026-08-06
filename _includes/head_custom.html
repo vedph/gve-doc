@@ -9,19 +9,19 @@
 </style>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    // Matches common Just the Docs image containers
+    /* Matches common Just the Docs image containers */
     const selector =
       '.main-content img:not([src$=".svg"]), #main-content img:not([src$=".svg"]), .content img:not([src$=".svg"]), main img:not([src$=".svg"])';
 
-    // Initialize medium-zoom
+    /* Initialize medium-zoom */
     const zoom = mediumZoom(selector, {
       margin: 24,
       background: "rgba(0, 0, 0, 0.8)",
       scrollOffset: 0,
     });
 
-    // Re-attach zoom to images loaded dynamically or lazily
-    setTimeout(() => {
+    /* Re-attach zoom to images loaded dynamically or lazily */
+    setTimeout(function () {
       zoom.attach(selector);
     }, 1000);
   });
