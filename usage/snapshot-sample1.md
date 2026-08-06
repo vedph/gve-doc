@@ -112,7 +112,6 @@ To this end, add an **annotate** operation with a `char offsets` feature which c
 1. in the `operations` tab, click the `add operation` button.
 2. pick as type `annotate`, set `at`=1 and `run`=1 (conventionally we just target the first character of the text).
 3. click the `+feature` button and under name pick the `char offsets` feature; you can also type any characters of this name in the top search box (which opens when you click the name dropdown) to quickly locate it. Then in `value` type `69:x=100 100:x=100`. Let us dissect this value (look at the [rendition documentation](../model/rendition.md) for more):
-
    - `69:` means that you are targeting character ID 69.
    - `x=100` means that you are setting a horizontal offset equal to 100 pixels (this is just a convenient value, you can change it as you want).
    - again, the next expression after space says to add a horizontal offset equal to 100 to character with ID=100.
@@ -220,3 +219,42 @@ So, to be consistent with a granular diplomatic representation, here we can defi
 - **annotate** `your` with a box.
 
 ![rendition](img/ex1-10.png)
+
+(9) **add** `s` after `shoe` (add-after at 132, value=`s`). Features:
+
+- `position`=`north-east`: position at top-right of `shoe`.
+- `font size`=`18`: make added text smaller.
+- `Y offset`=`0.25th`: slightly offset down.
+- `log`=`add 's' after 'shoe'`
+
+![rendition](img/ex1-11.png)
+
+(10) reorder `Never you shall` into `You shall never` by adding numbers on top of these words (3, 1, 2). This is encoded with 6 grouped operations (group ID=`reorder`):
+
+- **annotate** `you` with `1` (at 141, run 3). This annotation uses a hint including a placeholder: the hint represents some text written on top of the reference text as an annotation which is not going to become part of the text, like here the number `1`. The hint is `note (interlinear above)` meaning a note placed above its reference text, typically between two lines. This means the text will be smaller to fit into the interlinear space, and it will be placed above the reference text. The text itself is provided to the hint by another feature, named `note`. So, features are:
+  - `hints`=`note (interlinear above)`
+  - `note`=`1`: the value to fill the text placeholder in the hint.
+  - `log`=`add '1' on 'you'`
+- **annotate** `shall` with `2` (at 145, run 5). Features:
+  - `hints`=`note (interlinear above)`
+  - `note`=`2`: the value to fill the text placeholder in the hint.
+  - `log`=`add '1' on 'you'`
+- **annotate** `Never` with `3` (at 135, run 3). Features:.
+  - `hints`=`note (interlinear above)`
+  - `note`=`3`: the value to fill the text placeholder in the hint.
+  - `log`=`add '1' on 'you'`
+- **move** `Never_` after `shall_`. Until now we have just added numbers on top of words, to encode the visual layer. We now need to apply the change meant by them by reordering the text as indicated by those numbers. This implies moving `Never` and its following space after `shall` and its following space, whence `you shall Never`. Features:
+  - `log`=`move 'Never_' after 'shall_'`
+- **replace** `y` with `Y` in `you`. This is implicitly required by the fact that now `you` has become the first word of the sentence and must be capitalized to get a uniform text. Features:
+- `overridden text value`=(empty): we need to tell the renderer to avoid displaying the new text `Y`, so we can reproduce the facsimile. This is just an operation implicit in the reordering, and is not visible in the manuscript.
+- `log`=`uppercase 'y' of 'you'`
+- **replace** `N` with `n` in `Never`. For the same reason, we need to lowercase `Never` which now is no longer the first word of the sentence. Features:
+  - `overridden text value`=(empty) as above.
+  - `stage name`=`AS1`: this is an important feature: it says that we have completed all the operations belonging to the black hand, which ended with a specific stage of the text we consider as self-contained and meaningful. All the operations we have encoded so far were just steps towards this waypoint. We thus flag the stage reached at this point as the first alteration stage (`AS1`=alteration stage 1 is just a convention, you can name the stage as you want).
+  - `log`=`lowercase 'N' of 'Never'`
+
+> 💡 Note that the operations adding numbers are all equal except for their coordinates and the note's text. So you can use the clone button of the first such operation to quickly generate the others and then adjust their properties accordingly.
+
+![rendition](img/ex1-12.png)
+
+If you look at the rendition while it plays, you can note that the visual result of the operations affecting text is no different from that after the operations which add number.
