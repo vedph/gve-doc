@@ -403,3 +403,5 @@ If we now want to get a compact, text-based representation of the operations enc
 ```
 
 In this code each line represents a single operation, starting with its coordinates followed by features within square brackets. This short text represents all the information encoded in this example, from the first to the last alteration, for both textual and visual layers, in a very compact and machine-readable way. Together with the base text, this is all you need to represent the snapshot model.
+
+If you were lost in following up this sample and using the editor, just restart from scratch: paste the base text, then batch add operations pasting the above code, and everything will be complete at once.
