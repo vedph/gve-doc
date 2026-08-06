@@ -7,6 +7,16 @@ nav_order: 4
 
 # Snapshot Sample 1
 
+- [Snapshot Sample 1](#snapshot-sample-1)
+  - [Description](#description)
+  - [Base Text](#base-text)
+  - [Operations](#operations)
+    - [Indentation](#indentation)
+    - [Black Hand](#black-hand)
+    - [Blue Hand](#blue-hand)
+    - [Green Hand](#green-hand)
+    - [DSL](#dsl)
+
 ![illustration](img/thermopylae-ill.png)
 
 ```txt
@@ -365,7 +375,7 @@ At this stage, we realize that the indentation is too wide: in our manuscript `S
 
 This is the final rendition in its symbolic, computable and interactive form. Compare it with our manuscript facsimile: it appears as a stylized version of it, where each sign is specifically added and annotated according to our reconstruction.
 
-![illustration](img/thermopylae-ill.png)
+![mock facsimile](img/thermopylae-facs.png)
 
 ### DSL
 
