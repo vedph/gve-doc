@@ -296,7 +296,7 @@ At this stage, we realize that the indentation is too wide: in our manuscript `S
 
 ![rendition](img/ex1-15.png)
 
-▶️ (14) annotate the epigram by adding its number `2` on top of the text (at 15 run 2, corresponding to `ld` of `old`). Features:
+▶️ (14) **annotate** the epigram by adding its number `2` on top of the text (at 15 run 2, corresponding to `ld` of `old`). Features:
 
 - `hints`=`note (above)`
 - `note`=`2`: the content of the hint's text placeholder.
@@ -309,7 +309,65 @@ At this stage, we realize that the indentation is too wide: in our manuscript `S
 
 ### Green Hand
 
-TODO
+▶️ (15) cross out `Should` and add a dotted underline to `If`, i.e. restore it. This implies two operations, grouped under `restore`:
+
+- **replace** `Should` with `If` (at 186 run 6). Features:
+  - `hints`=`horizontal stroke`
+  - `foreground color`=`darkgreen`: note that from here on we use green.
+  - `reason`=`revert change`
+  - `overridden text value`=(empty): this ensures that the renderer does not display `If` over `Should`, because the manuscript here restores `If` by just crossing out `Should` and underlining `If`.
+  - `log`=`restore 'If' from 'Should'`
+- **annotate** `If` (at 85 run 2) with dotted underline. Features:
+  - `hints`=`line - bottom dotted`
+  - `foreground color`=`darkgreen`
+  - `log`=`underline restored 'If'`
+
+> Note that here we are annotating a text which is no longer present in the current alteration: `If` has been replaced by `Should`. Yet, just like all written characters stay on the paper forever, so added nodes are kept in the chain forever. Also note that once you add `If` again, its characters have their own identifiers, different from those of the original `If`, right because each character is kept in the chain with its ID. So, keep this in mind should you later add operations involving this restored `If`: its identifiers will not be those of the base text `If`.
+
+![rendition](img/ex1-17.png)
+
+▶️ (16) **annotate** `ai` (at 154 run 2) in `remain` as long. Features:
+
+- `hints`=`line - top`
+- `foreground color`=`darkgreen`
+- `reason`=`metrical`
+- `log`=`add macron on 'ai' of 'remain'`
+
+![rendition](img/ex1-18.png)
+
+▶️ (17) add a vertical stroke after `remain` (at 156) to mark colometry.
+
+- `hints`=`line - right`
+- `foreground color`=`darkgreen`
+- `hint X scale`=`2`: the vertical line references a single character, so it would be rendered very narrow. To compensate for this we horizontally stretch it by 200%.
+- `reason`=`metrical`
+- `log`=`add vertical line after 'remain'`
+
+![rendition](img/ex1-19.png)
+
+▶️ (18) renumber epigram `2` to `3`. `3` was written to the right of the original number which was crossed out. This implies two operations, grouped under `renumber`:
+
+- **annotate** the previous number (the blue one), using the same reference (at 15 run 2) to cross it out. Features:
+  - `hints`=`diagonal stroke up`
+  - `foreground color`=`darkgreen`
+  - `hint position`=`north`: position on top of `ld` of `old`.
+  - `hint Y offset`=`-0.75th`: slightly offset up.
+  - `log`=`cross out number 2`
+- **annotate** the epigram with a new number. Features:
+  - `hints`=`note (above)`
+  - `foreground color`=`darkgreen`
+  - `note`=`3`: the text to fill the placeholder in the hint.
+  - `hint position`=`north`
+  - `hint Y offset`=`-0.75th`
+  - `log`=`add epigram number '3'`
+
+![rendition](img/ex1-20.png)
+
+This is the final rendition in its symbolic, computable and interactive form. Compare it with our manuscript facsimile: it appears as a stylized version of it, where each sign is specifically added and annotated according to our reconstruction.
+
+![illustration](img/thermopylae-ill.png)
+
+### DSL
 
 If we now want to get a compact, text-based representation of the operations encoded until now, we can click the `Copy operations as DSL` button in the top toolbar of the operations tab. This will copy in the clipboard the following text:
 
