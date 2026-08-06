@@ -23,6 +23,8 @@ In this example, we use this mock manuscript text:
 
 ![manuscript](img/thermopylae-facs.png)
 
+---
+
 ## Description
 
 Let us pretend this is an autograph manuscript shwowing 3 hands with 3 different colors, in this order:
@@ -37,43 +39,47 @@ Adopting the convention to describe the various operations on this text from top
 
 - **black hand**:
 
-(1) `old` → `Old`. We reconstruct this as an "immediate" correction, i.e. the same hand immediately recognized the lowercase as an error and corrected it into uppercase while writing.
+▶️ (1) uppercase `old` → `Old`. We reconstruct this as an "immediate" correction, i.e. the same hand immediately recognized the lowercase as an error and corrected it into uppercase while writing.
 
-(2) `Termopylae` → `Thermopylae`. The same hand introduces the missing `h`.
+▶️ (2) add the missing `h` to `Termopylae` → `Thermopylae`.
 
-(3) `;` → `,` after `Termopylae`. The semicolon here gets changed into a comma by simply crossing out the dot above the comma in the semicolon. This is a compendiary way of representing this replacement, much more effective in handwriting.
+▶️ (3) change `;` to `,` after `Termopylae`. The semicolon here gets changed into a comma by simply crossing out the dot above the comma in the semicolon. This is a compendiary way of representing this replacement, much more effective in handwriting.
 
-(4) delete the comma after `But`.
+▶️ (4) delete the comma after `But`.
 
-(5) add a comma after `said`. This is logically connected to the previous operation (we are moving the comma).
+▶️ (5) add a comma after `said`. This is logically connected to the previous operation (we are moving the comma).
 
-(6) delete `fish and`. The hand scribbled on top of these words to mean their deletion.
+▶️ (6) delete `fish and`. The hand scribbled on top of these words to mean their deletion.
 
-(7) figs → eggs. The hand here just wrote a smaller `eg` on top of `fi` in `figs`.
+▶️ (7) figs → eggs. The hand here just wrote a smaller `eg` on top of `fi` in `figs`.
 
-(8) `our` → `your`. Here the hand boxed out `our` and added `your` at the right edge of the verse, with the same box, meaning that this new text should replace the original one.
+▶️ (8) `our` → `your`. Here the hand boxed out `our` and added `your` at the right edge of the verse, with the same box, meaning that this new text should replace the original one.
 
-(9) `shoe` → `shoes`. Here the hand just added a smaller `s` at the top right of `shoe`.
+▶️ (9) `shoe` → `shoes`. Here the hand just added a smaller `s` at the top right of `shoe`.
 
-(10) reorder `Never you shall` into `You shall never`. This is very compressed in the manuscript, which just added smaller numbers on top of these words to mean their reordering.
+▶️ (10) reorder `Never you shall` into `You shall never`. This is very compressed in the manuscript, which just added smaller numbers on top of these words to mean their reordering.
 
 - **blue hand**:
 
-(11) add the missing dot above `i` in `did`.
+▶️ (11) add the missing dot above `i` in `did`.
 
-(12) `If` → `Should`. The new word was written above the old one, which was crossed out.
+▶️ (12) `If` → `Should`. The new word was written above the old one, which was crossed out.
 
-(13) add a circled dot drawing at the beginning of the epigram, to mark it as an item of some collection.
+▶️ (13) add a circled dot drawing at the beginning of the epigram, to mark it as an item of some collection.
 
-(14) add the number `2` on top of the epigram.
+▶️ (14) add the number `2` on top of the epigram.
 
 - **green hand**:
 
-(15) annotate `ai` in `remain` as long (a metrical annotation).
+▶️ (15) cross out `Should` and add a dotted underline to `If` to mean we want to revert to the original word.
 
-(16) add a vertical stroke after `remain` to mark colometry.
+▶️ (16) annotate `ai` in `remain` as long (a metrical annotation).
 
-(17) `2` → `3` as the epigram number. `3` was written to the right of the original number which was crossed out.
+▶️ (17) add a vertical stroke after `remain` to mark colometry.
+
+▶️ (18) renumber epigram `2` to `3`. `3` was written to the right of the original number which was crossed out.
+
+---
 
 ## Base Text
 
@@ -96,6 +102,8 @@ Never you shall remain in Thermopylae".
 5. it's a good idea to save the snapshot part by clicking the bottom `save` button.
 
 ![base text](img/ex1-01.png)
+
+---
 
 ## Operations
 
@@ -122,7 +130,7 @@ To this end, add an **annotate** operation with a `char offsets` feature which c
 
 ### Black Hand
 
-(1) **replace** `old` → `Old`. Here we literally replace `o` with `O`, adding an `immediate` feature with value `1` (which here represents the true value of a boolean feature).
+▶️ (1) **replace** `old` → `Old`. Here we literally replace `o` with `O`, adding an `immediate` feature with value `1` (which here represents the true value of a boolean feature).
 
 👉 Hands-on:
 
@@ -144,7 +152,7 @@ As for the rendition, there is no need for rendition-oriented features here, bec
 
 Note the indents, and on the left the 3 colored rectangles representing `v0` (=base text), `v1` (indentations), `v2` (replacement).
 
-(2) **replace** `Termopylae` → `Thermopylae`: here we add `h` after `T`. So, we can encode this as an add-after operation. Note that we might as well encode it as a replacement considering the whole word (`Termopylae` → `Thermopylae`), but usually at least in GVE we aim to a representation very close to the visual (diplomatic) layer.
+▶️ (2) **replace** `Termopylae` → `Thermopylae`: here we add `h` after `T`. So, we can encode this as an add-after operation. Note that we might as well encode it as a replacement considering the whole word (`Termopylae` → `Thermopylae`), but usually at least in GVE we aim to a representation very close to the visual (diplomatic) layer.
 
 We thus repeat the above procedure: add a new operation, set type=add-after and `at`=25 (the `T` of `Termopylae`). As for features, add:
 
@@ -156,7 +164,7 @@ If you play the rendition again, it ends with this image:
 
 ![rendition](img/ex1-04.png)
 
-(3) **replace** `;` → `,` after `Termopylae`. Visually, in our manuscript we just have a descending diagonal stroke on the dot above the comma of the semicolon. We now want to encode exactly this on the visual side, while still preserving the effective text alteration, which is a replacement (comma instead of semicolon). So, first we start with the text layer, adding a replace operation at 35 with run 1 (=`;`) with value `,`. Then, we add these features:
+▶️ (3) **replace** `;` → `,` after `Termopylae`. Visually, in our manuscript we just have a descending diagonal stroke on the dot above the comma of the semicolon. We now want to encode exactly this on the visual side, while still preserving the effective text alteration, which is a replacement (comma instead of semicolon). So, first we start with the text layer, adding a replace operation at 35 with run 1 (=`;`) with value `,`. Then, we add these features:
 
 - `hints`=`diagonal stroke down`: this is the sign used to mean the deletion of the dot. As for all signs, it comes from our catalog of hints.
 - `log`=`cross out dot of ';' after Termopylae`
@@ -166,7 +174,7 @@ If you play the rendition again, it ends with this image:
 
 ![rendition](img/ex1-05.png)
 
-(4) **delete** the comma after `But`. We could also represent this with a move operation, but in this example we aim at maximum granularity. At any rate, we consider this delete logically connected to the next addition, so we add a group ID to this operation (with value `move-comma`): we will add the same group ID to the next operation too, thus virtually grouping them.
+▶️ (4) **delete** the comma after `But`. We could also represent this with a move operation, but in this example we aim at maximum granularity. At any rate, we consider this delete logically connected to the next addition, so we add a group ID to this operation (with value `move-comma`): we will add the same group ID to the next operation too, thus virtually grouping them.
 
 So here the operation is of type delete, at 72 with run 1. Its features are:
 
@@ -177,14 +185,14 @@ So here the operation is of type delete, at 72 with run 1. Its features are:
 
 ![rendition](img/ex1-06.png)
 
-(5) **add comma after** `said`: we add an add-after operation at 82, with group ID=`move-comma` and these features:
+▶️ (5) **add comma after** `said`: we add an add-after operation at 82, with group ID=`move-comma` and these features:
 
 - `position`=`east`: place the comma at the right of `said`.
 - `log`=`add comma after 'said'`
 
 ![rendition](img/ex1-07.png)
 
-(6) **delete** `fish and` plus its following space. Note that we include the space because otherwise the resulting text would have 2 spaces, the one before `fish` and the other after `and`. So we add a delete operation at 108 with run 9 and these features:
+▶️ (6) **delete** `fish and` plus its following space. Note that we include the space because otherwise the resulting text would have 2 spaces, the one before `fish` and the other after `and`. So we add a delete operation at 108 with run 9 and these features:
 
 - `hints`=`scribble (wavy)`
 - `foreground color`=`black`
@@ -193,7 +201,7 @@ So here the operation is of type delete, at 72 with run 1. Its features are:
 
 ![rendition](img/ex1-08.png)
 
-(7) **replace** `fi` in `figs` with `eg`, whence `eggs`. This is a replacement operation at 117 with run 2 with value=`eg` and these features:
+▶️ (7) **replace** `fi` in `figs` with `eg`, whence `eggs`. This is a replacement operation at 117 with run 2 with value=`eg` and these features:
 
 - `position`=`north`: the text is added above the old one.
 - `font size`=`18`: the added text is smaller.
@@ -203,7 +211,7 @@ So here the operation is of type delete, at 72 with run 1. Its features are:
 
 ![rendition](img/ex1-09.png)
 
-(8) **replace** `our` with `your`. Note that we could just add `y` before `our` as well; but this representation is closer to the visual layer, where the hand boxed the original word and fully wrote the new one, boxed too.
+▶️ (8) **replace** `our` with `your`. Note that we could just add `y` before `our` as well; but this representation is closer to the visual layer, where the hand boxed the original word and fully wrote the new one, boxed too.
 
 So, to be consistent with a granular diplomatic representation, here we can define 3 logically grouped operations (all sharing an `our-2-your` group ID):
 
@@ -220,7 +228,7 @@ So, to be consistent with a granular diplomatic representation, here we can defi
 
 ![rendition](img/ex1-10.png)
 
-(9) **add** `s` after `shoe` (add-after at 132, value=`s`). Features:
+▶️ (9) **add** `s` after `shoe` (add-after at 132, value=`s`). Features:
 
 - `position`=`north-east`: position at top-right of `shoe`.
 - `font size`=`18`: make added text smaller.
@@ -229,7 +237,7 @@ So, to be consistent with a granular diplomatic representation, here we can defi
 
 ![rendition](img/ex1-11.png)
 
-(10) reorder `Never you shall` into `You shall never` by adding numbers on top of these words (3, 1, 2). This is encoded with 6 grouped operations (group ID=`reorder`):
+▶️ (10) reorder `Never you shall` into `You shall never` by adding numbers on top of these words (3, 1, 2). This is encoded with 6 grouped operations (group ID=`reorder`):
 
 - **annotate** `you` with `1` (at 141, run 3). This annotation uses a hint including a placeholder: the hint represents some text written on top of the reference text as an annotation which is not going to become part of the text, like here the number `1`. The hint is `note (interlinear above)` meaning a note placed above its reference text, typically between two lines. This means the text will be smaller to fit into the interlinear space, and it will be placed above the reference text. The text itself is provided to the hint by another feature, named `note`. So, features are:
   - `hints`=`note (interlinear above)`
@@ -257,4 +265,64 @@ So, to be consistent with a granular diplomatic representation, here we can defi
 
 ![rendition](img/ex1-12.png)
 
-If you look at the rendition while it plays, you can note that the visual result of the operations affecting text is no different from that after the operations which add number.
+If you look at the rendition while it plays, you can note that the visual result of the operations affecting text is no different from that after the operations which add number. That's because the last 3 operations in this group are changing the text in the way indicated by visuals, while keeping visuals themselves unchanged.
+
+### Blue Hand
+
+▶️ (11) add the missing dot above `i` in `did`. As we effectively typed a dotless `i` in the original text, this is a **replace** operation at 47 (run 1, value `i`) with these features:
+
+- `hints`=`i-dot`: this hint is designed right to represent the dot of a dotless `i`. There are other similar hints too, like umlaut.
+- `foreground color`=`blue`: note that from here on the color is blue.
+- overridden text value=(empty): we do not want the new `i` replacing the dotless `i` in the text to appear on the rendition; we just want the dot above the dotless `i`.
+- `log`=`add dot to 'i' of 'did'`
+
+![rendition](img/ex1-13.png)
+
+> This hint slightly exaggerates the dot size on purpose, to make it more visible in the rendition. You can change this detail by either editing the hint or applying a scale feature to it.
+
+▶️ (12) **replace** `If` (at 85, run 2) with `Should`. Features:
+
+At this stage, we realize that the indentation is too wide: in our manuscript `Should` is below `anything`, slightly offset to the right. In fact, looking at verses, the word `But` should appear below `never`. So we just change the indentation values from 100 to 50 in the first operation and run the operations again.
+
+▶️ (13) **annotate** the epigram by marking it with a circle dot.
+
+TODO
+
+### Green Hand
+
+TODO
+
+If we now want to get a compact, text-based representation of the operations encoded until now, we can click the `Copy operations as DSL` button in the top toolbar of the operations tab. This will copy in the clipboard the following text:
+
+```txt
+1×1: [r_char-offsets="69:x=50 100:x=50"]
+14×1="O" [immediate=1 *log:="uppercase 'old'"]
+25×1+]"h" [*log:="add 'h' after 'T' in 'Termopylae'" r_t-position=ne r_font-size=18]
+35×1="," [r_hints=diagonal-stroke-down *log:="cross out dot of ';' after Termopylae" r_h-offset-y=-0.25th r_t-value="" r_fore-color=black]
+72×1-@move-comma [*log:="delete comma after 'But'" r_hints=diagonal-stroke-up r_fore-color=black r_h-offset-y=0.25th]
+82×1+]","@move-comma [*log:="add comma after 'said'" r_t-position=e]
+108×9- [*log:="delete 'fish and_'" r_hints=scribble-wavy r_fore-color=black r_h-scale-x=0.8]
+117×2="eg" [*log:="replace 'fi' of 'figs' with 'eg'" r_t-position=n r_font-size=18 r_hints=diagonal-stroke-up r_fore-color=black]
+125×3:@our-2-your [*log:="box 'our'" r_hints=box r_fore-color=black]
+125×3="your"@our-2-your [*log:="replace 'our' with 'your'" r_t-position=e r_t-offset-x=1tw r_t-displaced-span=129x5]
+180×4:@our-2-your [*log:="box 'your'" r_hints=box r_fore-color=black]
+132×1+]"s" [*log:="add 's' after 'shoe'" r_t-position=ne r_font-size=18 r_t-offset-y=0.25th]
+141×3:@reorder [*log:="add '1' on 'you'" note=1 r_hints=note-interlinear-above]
+145×5:@reorder [*log:="add '2' on 'shall'" note=2 r_hints=note-interlinear-above]
+135×5:@reorder [*log:="add '3' on 'never'" r_hints=note-interlinear-above note=3]
+135×6>]150@reorder [*log:="move 'Never_' after 'shall_'"]
+141×1="Y"@reorder [*log:="uppercase 'y' of 'you'" r_t-value=""]
+135×1="n"@reorder [*log:="lowercase 'N' of 'Never'" r_t-value="" *version^:=AS1]
+47×1="i" [*log:="add dot to 'i' of 'did'" r_hints=i-dot r_fore-color=blue r_t-value=""]
+85×2="Should" [*log:="replace 'If' with 'Should'" r_fore-color=blue r_t-position=n r_font-size=18 r_t-offset-x=1tw]
+1×1: [*log:="add circled dot to epigram" r_hints=circle-dotted r_fore-color=blue r_h-position=nw r_h-scale-y=0.75]
+15×2: [*log:="add epigram number '2'" r_fore-color=blue r_hints=note-above r_h-offset-y=-0.75th note=2 *version^:=AS2]
+188×6="If"@restore [*log:="restore 'If' from 'Should'" r_hints=horizontal-stroke r_fore-color=darkgreen reason=revert r_t-value=""]
+85×2:@restore [*log:="underline restored 'If'" r_hints=line-bottom-dotted r_fore-color=darkgreen]
+154×2: [*log:="add macron on 'ai' of 'remain'" r_fore-color=darkgreen r_hints=line-top reason=metrical]
+156×1: [*log:="add vertical line after 'remain'" r_hints=line-right reason=metrical r_h-scale-x=2 r_fore-color=darkgreen]
+15×2:@renumber [*log:="cross out number 2" r_fore-color=darkgreen r_hints=diagonal-stroke-up r_h-offset-y=-0.75th r_h-position=n]
+18×1:@renumber [*log:="add epigram number '3'" r_hints=note-above r_fore-color=darkgreen note=3 r_h-position=n r_h-offset-y=-0.75th]
+```
+
+In this code each line represents a single operation, starting with its coordinates followed by features within square brackets. This short text represents all the information encoded in this example, from the first to the last alteration, for both textual and visual layers, in a very compact and machine-readable way. Together with the base text, this is all you need to represent the snapshot model.
