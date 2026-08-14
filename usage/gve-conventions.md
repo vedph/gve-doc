@@ -1,4 +1,13 @@
+---
+title: "Editor - GVE Conventions"
+layout: default
+parent: Usage
+nav_order: 4
+---
+
 # GVE Conventions
+
+These conventions are used for GVE, which is a highly diplomatic edition.
 
 ## General Principles
 
@@ -33,13 +42,17 @@ Thus, we could assign a group ID like `waegt` to both the operations (replace an
 
 ## Epigram-Specific Conventions
 
-(1) **always encode indentations with an initial annotate** operation via the `char offsets` feature, which contains an expression defining all the horizontal and/or vertical offsets for all characters which start an indented or otherwise offset text.
+(C1) **always encode indentations with an initial annotate** operation via the `char offsets` feature, which contains an expression defining all the horizontal and/or vertical offsets for all characters which start an indented or otherwise offset text.
 
 - set `at`=1 and `run`=1 (conventionally we just target the first character of the text).
 - feature value is expressed with syntax `ID:x=N,y=N` for each indentation (you can omit either `x` or `y`). Separate multiple indentations with space.
 
->This is true also for gaps internal to the text. Remember that all the indents must be ordered by their ID, ascending, in the feature value.
+>This is true also for gaps internal to the text. ⚠️ Remember that all the indents must be ordered by their ID, ascending, in the feature value.
 
-(2) **always add a `log` feature** to each operation summarizing what it does. This helps users focus on the specific area of the text affected by the operation. Be short, and cite the text between quotes e.g. `add "s" after "dog"`.
+(C2) **always add a `log` feature** to each operation summarizing what it does. This helps users focus on the specific area of the text affected by the operation. Be short, and cite the text between quotes e.g. `add "s" after "dog"`.
 
-(3) **always aim at the smallest (or zero) offset**. Try using the proper position feature to position each element, optionally adjusting it with scale and offset, rather than positioning it wrong and then using bigger offsets to move them. For instance position `north-east` rather than positioning north and offsetting the X coordinate to the right; unless the offset would be bigger with this solution.
+(C3) **always aim at the smallest (or zero) offset**. Try using the proper position feature to position each element, optionally adjusting it with scale and offset, rather than positioning it wrong and then using bigger offsets to move them. For instance position `north-east` rather than positioning north and offsetting the X coordinate to the right; unless the offset would be bigger with this solution.
+
+(C4) **always use text-relative units** for offsets (except for indentations, which are mostly based on conventional fixed numbers). So, typically use `tw` for horizontal offsets and `th` for vertical offsets.
+
+(C5) **assign the same group ID to semantically connected operations**. IDs should be lowercase and include no spaces (use dash as a separator, e.g. `change-number`).
