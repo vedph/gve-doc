@@ -197,3 +197,7 @@ In short, the renderer provides these sections:
 - **details**: the details of the last run operation and those of the character you hover on with the mouse. Use this to quickly inspect features injected by operations to annotate their output text.
 
 You can drag the rendition to pan it and use the mouse wheel to zoom in and out (in addition to the zoom buttons).
+
+⚠️ Always remember to carefully distinguish between characters which are or become part of the text and those which represent other signs which do not represent the text you are encoding. For instance, a number or a letter added on top of an epigram's text to order it in a collection is not strictly part of the text, even if it visually is text (digits or letters). If instead you add a letter to a word in the epigram's text, this is a change in the text, and as for all such changes it must be encoded with an operation different from annotate.
+
+The _annotate_ type is the only operation type which does NOT alter the text. All other operations generate a different text as their output. So, always remember this rule when selecting the operations' type: if it does not change the text, then it's an _annotate_ operation, whatever its visual appearance (including text); if instead it does change the text, even in the slightest possible way, it must not be an _annotate_ operation.
