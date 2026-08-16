@@ -1,5 +1,5 @@
 ---
-title: Editor
+title: "Editor Model"
 layout: default
 parent: Model
 nav_order: 6
