@@ -109,7 +109,7 @@ In a publishing flow, where data move from the backend database (edited with Cad
 An additional GVE-specific part planned for the carrier refers to their "codicological units" which are just snapshots in this case. Presently this is not yet implemented but its model is:
 
 - `units` (`ContentUnit[]`):
-  - `id`\* (`AssertedCompositeId`):
+  - `id`\* (`AssertedCompositeId`): this links to the content resource: it might be an internal or an external resource as needed. Often it just targets some authority list.
     - `target`\*  (`PinTarget`):
       - `gid` (`string`)
       - `label` (`string`)
@@ -119,22 +119,22 @@ An additional GVE-specific part planned for the carrier refers to their "codicol
       - `roleId` (`string`)
       - `name` (`string`)
       - `value` (`string`)
-    - `tag` (`string`)
+    - `tag` (`string`, 📚 `asserted-id-tags`)
     - `features` (`string[]`)
     - `note` (`string`)
-    - `scope` (`string`)
+    - `scope` (`string`, 📚 `asserted-id-scopes`)
     - `assertion` (`Assertion`):
       - `tag` (`string`)
       - `rank`\* (`number`)
       - `note` (`string`)
       - `references` (`DocReference[]`):
-      - `type` (`string`)
-      - `tag` (`string`)
-      - `citation` (`string`)
-      - `note` (`string`)
+        - `type` (`string`, 📚 `doc-reference-types`)
+        - `tag` (`string`, 📚 `doc-reference-tags`)
+        - `citation` (`string`)
+        - `note` (`string`)
   - `location`\* (`string`): e.g. `1r`
   - `note` (`string`)
-  - `features` (`NamedValue[]`):
+  - `features` (`NamedValue[]`, 📚 `asserted-id-features`):
     - `name`\* (`string`)
     - `value`\* (`string`)
 
