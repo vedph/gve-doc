@@ -319,5 +319,3 @@ Also, note some interesting properties:
 - the position is `o` = origin. This way the rectangle including the line will be positioned exactly on top of the rectangle including the reference text.
 - the horizontal scale is set to 110% (`1.1`) because we want the line to stretch a bit beyond both edges of the text.
 - the entrance animation is wipe-right, so the line will be "drawn" from left to right.
-
-TODO
