@@ -42,10 +42,9 @@ So, in the context of the GVE system these are the main software components:
 - web app with a full-fledged editor for entering snapshot and other data, based on the [Cadmus](https://vedph.github.io/cadmus-doc) system.
 - custom web components for snapshot visualization.
 
-In more detail, currently 3 custom web components are available:
+In more detail, currently 2 custom web components are available (both integrated in the editor too):
 
-- the web component for the **original (graphical) visualization**, currently integrated in the editor.
-- the web component for the **symbolic visualization**, to be completed and then integrated in the editor.
+- the web component for the **symbolic visualization**.
 - the web component for **editing visual catalogs** of hints with their animations (_hint designer_). This is added to provide a more effective tool to design hints visually with SVG code, create and test GSAP-based animations, manage hint variables for placeholder resolution, and save/load hint data to/from JSON files.
 
 🚀 You can experiment with the hint designer in the vanilla HTML page at <http://gve-hint-designer.surge.sh>. If you inspect the page's source code, you will see that all what it takes to embed in it the full-blown editor is adding its tag like `<gve-hint-designer></gve-hint-designer>`. The demo contains a bit more code just to load some preset data (hints and animations) to play with.
