@@ -29,7 +29,18 @@ Currently, software tools are being constantly refined and actively used to ente
   - ⚙️ [gve-shell](https://github.com/vedph/gve-shell): Angular libraries with frontend components for creating.
   - ⚙️ [cadmus-gve-app](https://github.com/vedph/cadmus-gve-app): Cadmus-based editor frontend.
 
-The software solution is designed for containerization and distributed in Docker images. So, it can be easily run off the shelf both in a web server and in a local machine, whatever its platform (Unix, MacOS, Windows).
+The software developed for this edition has a composite, **multi-layered stack** summarized in Figure 1. This composite structure is a well-known paradigm which allows modular ar-chitectures and their easier management over time.
+
+![software stack](img/gve-stack.png)
+
+Starting from the bottom, data are stored in two types of databases: a document database (MongoDB, JSON-based) and a RDBMS (PostgreSQL). A data software layer anyway abstracts the details of these databases away from the rest of the stack: the data layer is the middleman between the underlying databases and any access to them from the upper layers. Then, a business software layer contains the core logic for the system. In turn, this is exposed to the external world via an API layer.
+
+The software solution is designed for containerization and distributed in **Docker** images. So, it can be easily run off the shelf both in a web server and in a local machine, whatever its platform (Unix, MacOS, Windows). The most relevant images are:
+
+- 🐋 `vedph2020/cadmus-gve-api:latest`: Cadmus-based editor API.
+- 🐋 `vedph2020/cadmus-gve-app:latest`: Cadmus-based editor frontend (web application).
+- 🐋 `vedph2020/gve-demo`: backend chain structure demo (web application).
+- 🐋 `vedph2020/gve-api:latest`: Hydra API.
 
 Data produced by the editor can be represented with JSON data, or even plain text, and is stored in a standard document-based database (MongoDB), leveraging the power of the full-fledged [Cadmus content creation framework](https://vedph.github.io/cadmus-doc), even if the model is completely independent from it.
 
