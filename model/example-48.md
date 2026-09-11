@@ -9,9 +9,9 @@ nav_order: 5
 
 🚀 demo: <http://gve-rendition.surge.sh/?sample=h5-48>
 
-This is a real example from Venetian Epigram H5-48 as per our project numbering. Figure 1 shows a symbolic facsimile, with added line numbering for reference. There are two hands, one in pencil (orange), and another in red ink.
+This is a real example from Venetian Epigram H5-48 as per VEdition numbering. Figure 1 shows a symbolic facsimile, with added line numbering for reference. There are two hands, one in pencil (orange), and another in red ink.
 
-As for the numbers over words in line 5, they are ultimately red, but in this case the second hand just wrote with red ink on top of pencil to confirm the reordering represented by these numbers. So, this is not visible in Figure 1, but will appear in the interactive visualization.
+As for the numbers over words in line 5, they are ultimately red; but in this case the second hand just wrote with red ink on top of pencil to confirm the reordering represented by these numbers. So, this is not visible in Figure 1, but will appear in the interactive visualization.
 
 ![facsimile](img/h5-48-facs.png)
 
@@ -34,21 +34,31 @@ Dann du biſt alles zugleich und biſt ein Engel dazu .
 
 > Note that this transcription preserves the original habit of prepending a space before punctuation characters, and uses characters like `ſ` for `s`.
 
-In our reconstruction, the first operation is a simple change in punctuation: at the end of line 4, the hand re­places semicolon with colon.
+In our **reconstruction** these are the operations grouped by the respective hands (whitin each group, the order of operations is just conventional and follows the reading order: from top to bottom, and from left to right):
 
-> Of course, for the whole reconstruction the ordering of operations within a stage is just conventional and follows the reading order.
+- 🟠 _orange hand_:
 
-Then it reorders words in line 5. This is done by just adding ordinal numbers on top of the words. Finally, it adds an annotation at the left of the first line, "sten". This is the correct ending for the word "künstlichen". This ends the alteration stages by the orange hand.
+1. at the end of line 4, re­place semicolon with colon.
+2. reorder words in line 5. This is indicated by adding ordinal numbers on top of the words.
+3. add an annotation at the left of the first line, "sten". This is the correct ending for the word "künstlichen". This ends the alteration stages by the orange hand.
 
-Now, the red hand's operations start. First, the red hand clarifies the intent of the pre­vious hand, by inser­ting "st" at the right place. Then it adds a dot on the "i" of "Weich" (as it was missing), and confirms the reordering in line 5, by redrawing the numbers in red. Then, in the last line it replaces "Dann" with "Die"; removes "bist" and "und" before the second "bist"; and adds "und" before "ein Engel".
+- 🔴 _red hand_:
 
-Finally, later an ● epigram number was added, with black ink.
+1. clarify the intent of the pre­vious hand, by inser­ting "st" at the right place.
+2. add a dot on the "i" of "Weich" (as it was missing).
+3. confirm the reordering in line 5, by redrawing the numbers in red.
+4. in the last line: replace "Dann" with "Die";
+5. remove the first "bist";
+6. remove the following "und" before the second "bist";
+7. add "und" before "ein Engel".
 
-Now, let's describe all this in our model, for both textual and graphical layers, via operations.
+- finally, later an epigram number was added, with black ink.
+
+Now, let's describe all this in our model, for both textual and graphical layers, via operations. In what follows, for each operation we add the tag of the generated text (e.g. `v1`), its type (e.g. `annotate`) followed by its [DSL](snapshot#operations-dsl) representation and a comment.
 
 ## Operations
 
-- **orange hand**:
+- 🟠 **orange hand**:
 
 ▶️ (`v1`) **annotate**: 65: `[r_char-offsets="65:x=100 179:x=100 295:x=100 406:x=100" *log:="Indent lines."]`: the first operation outputs a new version, v1, and it is just an initial setup to indent lines. As we have seen, base text layout has no indentation, so we need to customize it before start. That's why we use an annotation operation, which only adds features, without changing the text. In this case we add a horizontal offset to the first character of each even line in the epigram, thus indenting them. The offsets feature contains multiple pairs, each with character identifier and offset value. Also we constantly add a _log_ feature, with a short description about the intent of the operation, to make the code more reada­ble.
 
@@ -74,7 +84,7 @@ Now, let's describe all this in our model, for both textual and graphical layers
 
 ▶️ (`v10`) **add before**: 1: `[r_hints=note note=|ſten r_fore-color=orange r_h-position=w r_h-offset-x=-20 r_h-offset-y=2 r_h-scale-x=1.5 *version^=alteration1 *log:="Add annotation '|ſten' before the first line."]`: finally, we add the annotation "sten" at the left of the first line. This is not very perspicuous, but it is hinting at the fact that the word "künstlichen" should be corrected. With the output of this operation we complete the first alteration stage, corresponding to changes by the orange hand. A `version` property here assigns "alteration stage 1" to the output of this operation. We thus promote this specific output to an alteration stage; all the pre­vious versions were just steps towards this stage.
 
-- **red hand**:
+- 🔴 **red hand**:
 
 ▶️ (`v11`) **add before**: `22+[ſt [r_hints=half-psi r_t-position=n r_fore-color=red r_font-size=20 r_t-offset-y=-6 *log:="Add 'ſt' before 'en' in 'künstlichen' with callout whence 'künſtlichſten'."]`: the other hand first makes the last cor­rection explicit, by adding "st" at the top of a callout sign. This sign is repre­sented by the hint named _half-psi_, while the added text appears above (north), a bit smaller (font-size), and offset up (offset-y). Also the color now is red.
 

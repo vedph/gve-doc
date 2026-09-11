@@ -260,7 +260,9 @@ When multiple targets match the same hint, ordinal-based overrides take preceden
 
 An additional layer of abstraction can make operation metadata even more efficient. Side by side with those abstract, yet still lower-level rendition features, which directly specify position, color, font size, and the like, the symbolic approach also allows for the definition of **higher-level features**, acting as a shortcut towards multiple lower-level counterparts.
 
-For instance, consider a real-world example like the numbers later added to some epigrams, to define a collection by specifying their relative order in it. Now, in many cases, this number was made in the context of a single session by a single hand, and thus it typically features a similar appearance and position.
+For instance, consider a real-world example like the numbers later added to some epigrams, to virtually define a collection by specifying their relative order in it.
+
+In many cases, this number was made in the context of a single session by a single hand, and thus it typically features a similar appearance and position.
 
 Let us say that in our case the number is written with a smaller text, a brown ink, rotated by about -45 degrees, at the top-left of the epigram, rather offset from it: in this case, we would just have an annotation operation, and users could pick from a list a higher-level feature like `epigram-nr`, entering its number as its value (like `epigram-nr`=`12`), in all the epigrams using the same type of mark.
 
@@ -275,7 +277,7 @@ The feature adapter works in two steps:
 
 Both these steps are configured by the adapter settings.
 
-The features to be matched are defined by a small DSL with this syntax:
+The features to be matched are defined by a tiny domain specific language (DSL) with the following syntax:
 
 - 1 or more **clauses**, separated by logical operators: `AND`, `OR`, `AND NOT`, `OR NOT`. These follow the standard precedence in boolean algebra: so first NOT, then AND, then OR.
 - **whitespace** separate tokens.
@@ -306,7 +308,9 @@ For instance:
 - `note^=corrected` matches a feature with name=`note` and value starting with `corrected`.
 - `note^=corrected AND (color=red OR color=green)` matches a feature with name=`note` and value starting with `corrected` and either a feature named `color` with value equal to `red` or a feature named `color` with value equal to `green`.
 
-Additionally, each clause can be wrapped in square brackets when you want to capture its name and value, similar to what happens in a regular expression when capturing groups in the matched text. So, `[note^=corrected]` means that we want to capture into a numbered group (1, 2, 3... in the order the captured clauses are specified) the name and value for the matched note feature. Then, in the feature replacement stage, we will use this number prefixed by `$` as a placeholder for the captured name or value, e.g.:
+Additionally, each clause can be wrapped in square brackets when you want to **capture** its name and value, similar to what happens in a regular expression when capturing groups in the matched text.
+
+So, `[note^=corrected]` means that we want to capture into a numbered group (1, 2, 3... in the order the captured clauses are specified) the name and value for the matched note feature. Then, in the feature replacement stage, we will use this number prefixed by `$` as a placeholder for the captured name or value, e.g.:
 
 - `$1.name`=captured feature name.
 - `$1.value`=captured feature value.
