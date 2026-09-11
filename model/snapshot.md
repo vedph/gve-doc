@@ -16,6 +16,7 @@ nav_order: 2
   - [Objective vs. Subjective](#objective-vs-subjective)
   - [Visual vs. Textual](#visual-vs-textual)
   - [Diplomatic Model](#diplomatic-model)
+    - [Evolution](#evolution)
     - [Signs Classification](#signs-classification)
     - [Visual Grammar](#visual-grammar)
 
@@ -27,6 +28,8 @@ A snapshot essentially consists of two parts:
 
 - the base text, which is the starting point of the transformation.
 - the editing operations which act on text to produce alterations.
+
+The snapshot is an abstraction, representing a set of text transformations which generate annotated text with their textual and visual representation; but this abstraction is rooted into the material document interpreted to create it.
 
 🌐 Quick links:
 
@@ -248,6 +251,8 @@ there are 8 **types** of operations (listed with their corresponding operator in
 - swap (`<>`): e.g. `1x2<>3x3`.
 - annotate (`:`): this is a do-nothing operation which affects only metadata by updating features; e.g. `3x2: [note=sample]`.
 
+>Note that the only operation types which introduce new text are replace and add before/after.
+
 All operations thus share a common set of metadata, represented by:
 
 - generic **features**: an open-ended set of any type of features, modeled as generic name=value pairs.
@@ -346,15 +351,13 @@ Apart from reading issues, signs on the text carrier represent the objective lay
 
 Then, the interpretation of these signs is up to scholars, even when it's trivial. Understanding zero, one or more signs as hints to specific operations, grouping operations into alteration stages, defining their relative order, and adding all the supplementary metadata about each single alteration is an interpretative act.
 
-At the base of a snapshot we have a base text, and a set of annotated operations which carry our interpretation, but still distinguish the signs appearance from their interpreted meaning. And this leads us to the third challenge, visual vs. textual layers.
+At the core of a snapshot we have a base text, and a set of annotated operations which carry our interpretation, but still distinguish the signs appearance from their interpreted meaning. And this leads us to the third challenge, visual vs. textual layers.
 
 ## Visual vs. Textual
 
 Our description of the visual part of each snapshot is not just an indiscriminate graphical depiction of it. This is already provided by a photographic facsimile. In our description we rather attempt an ordered, logical grouping of signs while interpreting their meaning. Yet, each single operation has a clear separation of concerns: the representation of its visual part, and that of its meaning for the text.
 
-If you look again at Figure 4, besides the base text (in black) you can see signs added with another ink (red). Whether it's the same hand adding them with a different ink, or a different hand, it's another matter. Rather, in most cases we can be confident that the red annotations represent a unitary set of changes, like a single editing session.
-
-So, at first we can use this visual evidence to distinguish the "red" alteration stage from the "black" base text.
+If you look again at Figure 4, besides the base text (in black) you can see signs added with another ink (red). Whether it's the same hand adding them with a different ink, or a different hand, it's another matter. Rather, in most cases we can be confident that the red annotations represent a unitary set of changes, like a single editing session. So, at first we can use this visual evidence to distinguish the "red" alteration stage from the "black" base text.
 
 Then, focusing on the red signs, we see:
 
@@ -374,20 +377,60 @@ We thus interpret these signs with 2 operations:
 - _delete "sample"_: the operation itself is just making this deletion, whatever the signs which hint at it. These signs are kept separated in a distinct feature, whose only purpose is to represent their visual appearance. In this example, these signs happen to be a single horizontal line on top of the word.
 - _replace "text" with "test"_: in this specific case, to get this result all what is required is replacing a single character. That's why the operation encodes exactly this: replace "x" with "s". Again, that's all what is required to be able to generate the new text. Then, on the visual layer, we happen to have 2 hints: a circle around "x" and a circled "s" above.
 
-So, in both cases, besides adding these two operations, which affect the textual layer, we will add distinct features to them to represent the visual layer:
+In both cases, besides adding these two operations, which affect the textual layer, we will add distinct features to them to represent the visual layer:
 
 - for _deletion_, a "line hint" feature, with a "red" foreground color feature, with a "position" feature (on top of the deleted word).
 - for _replacement_, a "circle hint" feature with its "position" feature (on top of the replaced "x") and a "circled s" feature with its "position" feature (above and right of "x"); both with a "red" foreground color feature.
 
 Thus, this model defines a clear boundary between the textual layer and its visual counterparts; both are expressed within the operation, and with maximum granularity, while preserving the distinction between their appearance and their interpretation for the text.
 
-This defines a fully _symbolic_ diplomatic model, where visuals are encoded for their essential components, using a sort of **visual grammar** of signs, while still leveraging the same model for them. Just like you encode a "reason" feature, e.g. a replacement for metrical reasons, you encode all the visuals representing that replacement. Not only this allows to encode the appearance of the manuscript, but it also uses a set of conventional descriptors for their signs, which can be equally leveraged for further analysis. Providing a more computable, and thus more abstract, representation of visuals paves the way for new types of analysis; for instance, one could also analyze the distribution of their features among carriers and their relationship with their meaning. A specific visual representation might be typical of a period, a set of documents, a hand, etc; and from a paleographic point of view, one might be even interested in collecting, classifying, and quantifying the distribution of signs with their meanings.
+This defines a fully _symbolic_ diplomatic model, where visuals are encoded for their essential components, using a sort of **grammar** of signs, while still leveraging the same model for them. Just like you encode a "reason" feature, e.g. a replacement for metrical reasons, you encode all the visuals representing that replacement.
 
-This is similar to what happens when you adopt a set of descriptors in an iconographic description of an image: you pick from a closed vocabulary a set of items which in your theorical framework are capable of defining the main features of that image.
+Not only allows this to encode the appearance of the manuscript, but it also uses a set of conventional descriptors for their signs, which can be equally leveraged for further analysis. Providing a more **computable**, and thus more abstract, representation of visuals paves the way for new types of analysis; for instance, one could also analyze the distribution of their features among carriers and their relationship with their meaning. A specific visual representation might be typical of a period, a set of documents, a hand, etc; and from a paleographic point of view, one might be even interested in collecting, classifying, and quantifying the distribution of signs with their meanings. This is similar to what happens when you adopt a set of descriptors in an iconographic description of an image: you pick from a closed vocabulary a set of items which in your theorical framework are capable of defining the main features of that image.
 
 ## Diplomatic Model
 
 The diplomatic model not only encodes essential data for a very faithful diplomatic representation; it also provides an operational model. Just like the textual part of the snapshot model allows the chain to generate all the alterations, its visual part allows rendering components to display them in a highly interactive presentation.
+
+### Evolution
+
+The diplomatic model has dramatically evolved since the project's inception. The biggest change and improvement is related to how the model represents the diplomatic layer of its data.
+
+Since its inception, the model was designed to represent not only the full details of text transformations in the context of a genetic philology environment; but also to provide a visual counterpart of it. At that time, visuals were already part of the operation model, just like they are now; but their architecture was different.
+
+The original design targeted a more traditional scenario, where a facsimile stood side by side to the corresponding text, like in most TEI-based editions. Each operation had a subset of metadata specifically designed to represent its visual appearance in the original document; to ensure a true visual layer with more interactivity and a relative independence from the image, this metadata also included an optional SVG-based drawing. This code imitated what could be seen on the document in re-lation with the effects of each operation, like a stroke on a word meaning its deletion.
+
+So, the idea of having a dual layer (textual and visual) at the same level of granularity of operations was already there. The W3C SVG standard to display any kind of signs as drawings was chosen right because of the level of interactivity it could bring with itself, including animations as part of a time-enabled visualization; besides being the web standard for vector-based graphics and an XML dialect, especially fit to TEI-oriented data export. So, it was like having a more streamlined and interactive version of the facsimile, based on SVG but split into smaller portions, each referred to a specific operation.
+
+Once we started to experiment with real-world data entry, the edition progressively shifted towards a much more diplomatic nature, to represent the complexity of its handwritten texts and the often non-trivial relationship between textual transformations on one side and their visual appearance on the other side.
+
+In turn, increasing the diplomatic detail of the edition implied having to reduce the time spent to curate the corresponding visual layer: in the original approach, scholars literally had to re-draw in SVG most of the signs found for each operation. It was like rewriting the facsimile with SVG. Even with the aid of SVG drawing applications, this often ended up in more effort; especially because of the tendency to repeat the same visuals for the same kinds of operations, backed by a sort of visual grammar, reflecting writing conventions or habits even within a range of possible variations.
+
+We thus needed a way to _limit_ the data entry effort on the visual layer, leaving SVG coding to the _machine_, rather than to the user; at the same time, we required _higher granularity_ in representing visuals; not only on the display, but also on the computable side. Diplo-matic details needed to be classified, semantically connotated and made searchable, building the grammar of visuals corresponding to the text editing operations represented by them.
+
+To meet all these requirements, a new visual model was designed; still connected to the operations-based architecture, but much more involved on the software side. In turn, moving most of the visual work on the software required to make it available to software clients in charge of consuming our data, for instance to present it in a web frontend. Given the computational burden implied, we could not leave consumers on their own; rather, we had to provide a ready to use tool for this display.
+
+When designing software for this latitude of use, we should leverage the most popular, standard and reusable technologies, which allow virtually any software stack to include it in its mix. For this reason, the frontend portion of this new software subsystem has been implemented using a different, vanilla technology: custom web components (still based on Typescript).
+
+>Custom web components are are small, self‑contained building blocks for user interfaces that follow open, W3C standards. They work in any modern web environment, no matter whether the surrounding application is built with Angular, React, Vue, plain HTML, or something not yet invented. This makes them ideal when you need a UI element that must survive across different technologies, institutions, or long‑term preservation contexts.
+>A custom web component behaves like a new HTML tag. You can drop it into any webpage, regardless of the tech stack, without rewriting it for each framework; even in a totally stat-ic, vanilla HTML page they bring with them all the complex logic and interactivity they use.
+>Accordingly, internal code, styles, and behavior are isolated: they won't break the host application, nor the host application will break it. Their distribution is simple: you can publish it as a simple file or package. Anyone can reuse it without adopting your entire devel-opment framework. Because web components rely on browser standards they remain usable even as frameworks come and go.  
+>In contrast, a component written in Angular is tied to Angular: it requires the Angular runtime, Angular conventions, and Angular tooling. That's excellent for large, cohesive parts of our own application, like the editor, which requires high complexity and articulat-ed architectures involving a lot of plumbing best provided by a separate framework; but not for a single-task UI element, meant to be shared widely and embedded in diverse environments.
+
+So, two complementary web components were developed in a separate, independent code repository:
+
+- a **rendition component**, in charge of a fully interactive, time-enabled visualization of snapshots using the new diplomatic model. Demo: <http://gve-rendition.surge.sh/?sample=h5-48> (other samples are available). For instance, a frontend web site designed for end users will be able to directly integrate this renderer into its pages, gaining all its visualization and interaction capabilities.
+- a **visual resources editor**, used to help users create the grammar of visual signs (technically named hints here). Demo: <http://gve-hint-designer.surge.sh>.
+
+Both of these components have then been integrated into the Cadmus-based editor used to create edition data.
+
+The biggest change in the operation model for this improvement has been dropping its specific visual part and rather encode it within the same architecture already in place to define their metadata, i.e. features.
+
+Every operation can have any number of name/value pairs named features, usually drawn from a controlled vocabulary. These define aspects like hand, ink, reason, editorial annotations, etc. which are then injected by the operation into its generated text, as additional metadata. So, operations do not simply generate another text: they also annotate it further, leveraging their features.
+
+In the new model, the idea is to adopt features to fully encode also the visual layer corresponding to each operation. This implies moving to a 'text-based' representation of visuals, a symbolic graphic layer, dropping a strictly facsimile-based approach in favor of a more abstract and streamlined encoding. This introduces an intermediate software layer between a text-based, simplified description focused on semantics rather than on noisy variations and their interactive graphical visualization. The software leverages this description and the visual resources from our grammar to literally draw them on the screen, dynamically generating the SVG code for them in real time.
+
+This way, we get seamlessly from a text-based description (in operation features) into a fully interactive, streamlined and yet faithful visualization on the diplomatic layer. Scholars only have to pick the features from their vocabulary, telling what they want to visually represent, rather than how to do it, which is the job of the software renderer.
 
 ### Signs Classification
 

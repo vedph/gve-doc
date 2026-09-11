@@ -9,4 +9,4 @@ nav_order: 1
 
 - 🎥 [presentation](https://www.youtube.com/watch?v=6fdIUpomJZw)
 
-This section provides a conceptual introduction to the digital model of VEdition.
+This section provides a conceptual introduction to the digital model of VEdition, codenamed _Hydra_.
