@@ -60,7 +60,7 @@ It is not long nor complex.
 
 ## Operations
 
-Now, let us formalize this reconstruction using operations while also providing rendition features for them, in order to represent its visual appearance. For each operation, we list the corresponding output version tag (`v1`, `v2`, etc.) in brackets, followed by the DSL representing the operation and its features.
+Now, let us formalize this reconstruction using operations while also providing rendition features for them, in order to represent its visual appearance. For each operation, we list the corresponding output version tag (`v1`, `v2`, etc.) in brackets, followed by the [DSL](snapshot#operations-dsl) representing the operation and its features.
 
 > 💡 You can see the backend data for this example by playing with the online chain demo at <https://gve-demo.fusi-soft.com/snapshot>: just pick the `rendition features` preset, click the button to load it, then click `Run`. You can look at the features injected by operations in text under the `Steps` tab. You will see the rendition features among the other ones, after each version.
 
