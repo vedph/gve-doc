@@ -442,11 +442,11 @@ In this symbolic diplomatic model, signs get a pragmatic classification which is
 
 This image shows the end of a line ("... Wund:"); below and slightly to the left of the final word "Wund:", a replacement word "Wunder." has been written.
 
-Let's consider the types of these signs. The most obvious type is the **base text** itself: here "Wund:" is part of it.
+Let's consider the types of these signs:
 
-After the base text was written, many other signs were added later. One of them is a diagonal line crossing this word; this line hints at the deletion of it. So, the meaning of this sign is an editing operation; it literally "hints" at it. We call these signs 🔖 **hints** right because of this. Hints are the visual counterpart (when there is any) of editing operations.
-
-Another type of sign is the word which was meant to replace "Wund:": "Wunder.", written below and to the left of it. With reference to the base text, which is our starting point, this is 🔖 **added text**. Among operations, only insert and replace add new text. So, whenever they are used, new text nodes will be added to the chain.
+- the most obvious type is the **base text** itself: here "Wund:" is part of it, the original text written along the same line.
+- after the base text was written, many other signs were added later. One of them is a diagonal line crossing this word; this line hints at the deletion of it. So, the meaning of this sign is an editing operation; it literally "hints" at it. We call these signs 🔖 **hints** right because of this. Hints are the visual counterpart (when there is any) of editing operations.
+- another type of sign is the word which was meant to replace "Wund:": "Wunder.", written below and to the left of it. With reference to the base text, which is our starting point, this is 🔖 **added text**. Among operations, only insert and replace add new text. So, whenever they are used, new text nodes will be added to the chain.
 
 So here we are removing Wund, and adding Wunder. In higher-level terms, we are replacing "Wund:" with "Wunder.". That's our editing operation, with two visual components:
 
@@ -455,7 +455,7 @@ So here we are removing Wund, and adding Wunder. In higher-level terms, we are r
 
 Added text and hints taken together are also known as 🔖 **added elements**, because with reference to base text they were added later.
 
->"Element" in the context of visualization is a specific term belonging to its XML-based encoding, as the visualization relies on SVG (which is an XML dialect).
+>"Element" in the context of visualization is a specific term belonging to its XML-based encoding, as the visualization relies on SVG (which is an XML dialect). In SVG everything which is drawn is represented by elements: lines, shapes, text, etc.
 
 It should be noticed that the distinction between _hints_ and _added text_ is not a visual one; as for all the signs in this classification, it is a logical and functional one. For instance, it may well happen that a hint is represented by text, like the number of an epigram written on its corner, or a textual annotation. Even then, the hint is different because it's only the optional visual counterpart of an operation, and does not represent text which becomes part of the epigram's text. So, it may have the appearance of text, or more often be just some freehand drawing; but in both cases, it never represents a part of the text being transformed.
 
@@ -466,7 +466,7 @@ Among text elements, _base text_ is the entry point for the transformation, typi
 This implies that:
 
 - **base text** can be rendered with a simpler logic, essentially equal to that which dictates the arrangement of characters in lines on a sheet of paper. Characters follow each other on the same line, until the next line starts. Anyway, this layout can occasionally be modified; for instance, whatever the reasons, a portion of the text might be written with a different size, or along an offset or rotated baseline. At any rate, these are occasional departures which can be implemented by overriding the default text features.
-- **added text** instead is placed and sized freely, reflecting its appearance on the carrier.
+- **added text** instead is placed and sized freely, reflecting its appearance on the carrier, just like it happens for hints, which are signs of any sort freely positioned on the document.
 
 ### Visual Grammar
 
@@ -474,17 +474,15 @@ Besides added text, the visual grammar of this model allows any type of signs fo
 
 So, we could never predict all the shapes of all the hints found on a sheet, especially when crossing project borders (which is implied by the generic vocation of this system). This implies that our model must be **open** and capable of representing any drawings.
 
-Nonetheless, it is also true that, especially within a single project's borders, hints can be easily grouped into repeatedly used **types**. Many of them also have a nearly universal use, like the line on top of a word, meaning its deletion.
+Nonetheless, it is also true that, especially within a single project's borders, hints can be easily grouped into repeatedly used **types**. Many of them also have a nearly universal use, like the line on top of a word meaning its deletion.
 
-So, even if each line drawn on the sheet is unique, and corresponds to a unique act happened in time, it can easily be traced back to a single pattern: the symbol for a line. This is an abstraction; but the real-world departures from its ideal appearance can be easily discarded as irrelevant, just like when listening to a speech we discard allophonic variants and identify the immaterial phonemes behind these surface expressions.
+So, even if each line drawn on the sheet is unique, and corresponds to a unique act happened in time, it can easily be traced back to a single pattern: the symbol for a line. This is an abstraction; but the real-world departures from its ideal appearance, all the single, unique instances of lines ever drawn on our documents in historically determined acts, each slightly different from the others, can be easily discarded as irrelevant; just like when listening to a speech we discard allophonic variants and identify the immaterial phonemes behind these surface expressions.
 
 Of course, to provide more details we can multiply these symbols: for instance, we can have one type for the horizontal line (`—`); another for the diagonal line raising from left to right (`/`); and yet another one for the diagonal line lowering from to left to right (`\`). The level of detail depends only on the project's nature and purposes.
 
-Anyway, whatever our choice, in the end we define a sort of **catalog** of signs representing hint types, like "horizontal line", "diagonal line up", "diagonal line down", "cross", etc. These are abstract types, discarding the single details of each specific stroke drawn on the paper; but they capture their essential nature, dropping accidental features, while preserving all the different types required by our model.
+Whatever our choice, in the end we define a sort of **catalog** of signs representing hint types, like "horizontal line", "diagonal line up", "diagonal line down", "cross", etc. These are abstract types, discarding the single details of each specific stroke drawn on the paper; but they capture their essential nature, dropping accidental features, while preserving all the different types required by our model.
 
-Thus, the first ingredient for our visualization is a catalog of hints, each with its own appearance and a set of metadata. Most of these metadata concur to define the behavior of each hint with reference to its rendition, like sizing, positioning, rotation, scale, etc.
-
-Among them, hints are also connected to their entrance **animation** in the visualization stage. Given the focus on dynamic transformation, animation here is not just a fancy feature, but it is crucial for the semantics of a visualization which fully embraces the flux of time.
+Thus, the first ingredient for our visualization is a catalog of hints, each with its own appearance and a set of metadata. Most of these metadata concur to define the behavior of each hint with reference to its rendition, like sizing, positioning, rotation, scale, etc. Among them, hints are also connected to their entrance **animation** in the visualization stage. Given the focus on dynamic transformation, animation here is not just a fancy feature, but it is crucial for the semantics of a visualization which fully embraces the flux of time.
 
 In fact, whatever the approach, graphical or symbolic, a crucial aspect of this model is time: we focus on the transformation process happening during time, step after step, replaying what writers did, at least according to our reconstruction and its conventions. In visualization, time means animations, for each state transition.
 
@@ -504,7 +502,7 @@ The second ingredient is a set of metadata providing a declarative approach to t
 
 >As a general rule, all feature names starting with a prefix ending with underscore (e.g. `r_`) are conventionally considered to be _functional_ features, which are not usually displayed to end users among text metadata.
 
-The purpose of these features is _overriding_ some of the default properties of the elements being drawn. All elements follow a general logic for their size, position, and transformation, which allows the software to display them on behalf of the user; rendition features just provide specific behavior for them, so that they can reflect the actual sigs on paper.
+The purpose of these features is _overriding_ (=replacing the value of) some of the default properties of the elements being drawn. All elements follow a general logic for their size, position, and transformation, which allows the software to display them on behalf of the user; rendition features just provide specific behavior for them, so that they can reflect the actual sigs on paper.
 
 For instance, when rendering text the software uses a preset font family, size, and style; but you can change any of them using rendition features which specify new values. Rendition features are specified by users, just like any other features belonging to operations. So the operation continues to be the core representational device handed to users.
 
