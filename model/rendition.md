@@ -49,25 +49,33 @@ In more detail, currently 2 custom web components are available (both integrated
 
 🚀 You can experiment with the hint designer in the vanilla HTML page at <http://gve-hint-designer.surge.sh>. If you inspect the page's source code, you will see that all what it takes to embed in it the full-blown editor is adding its tag like `<gve-hint-designer></gve-hint-designer>`. The demo contains a bit more code just to load some preset data (hints and animations) to play with.
 
-⚙️ This is more technical-oriented documentation, but it provides the conceptual background of snapshot rendition.
+The rendition system has been designed to provide a predictable visualization based on operation features, starting from these sign classes and their catalogs. Essentially, the renderer translates into SVG code the "sentences" built from features, which in turn use a specific "vocabulary": the [hints catalog](snapshot.md#visual-grammar).
+
+This translation is the foundation of a highly flexible and powerful visualization, which can faithfully represent all diplomatic details of the original document while also providing the instructions to literally draw them.
+
+Here we summarize the main concepts behind the visualization; you can find more by playing with online demos or inspecting real-world entered data in the editor.
 
 ## Elements
 
-The whole rendition is based on SVG, which is an obvious choice here: it's a W3C standard, adopts vector-based graphics which can be interactively manipulated in the page, and it's an XML dialect.
+The whole rendition is based on SVG, which is an obvious choice here: it's a W3C standard, adopts vector-based graphics which can be interactively manipulated in the page, and it's an XML dialect. Using SVG is like drawing any geometrical sign (a point, a line, a shape, etc.) or text on a canvas. Even when rendering text, we are drawing it like any other element: in the end it’s a vector-based graphic, where each character is rendered according to the selected font, style and size.
+
+As SVG is an XML dialect, it represents its geometries with XML elements and attributes: for instance, line is a line, rect is a rectangle, text is a text, etc. So, SVG is totally de-clarative: it does not tell how but what to draw, providing all the computed coordinates and sizes for it.
+
+The price of this complete freedom in drawing is that you need a lot of low-level geometric computation. The renderer is in charge of all these computations when generating ele-ments and attributes in SVG. Thus, scholars are completely shielded from the technical details of SVG encoding and computations; but they need to know the general conven-tions defined for this rendition, so that they are able to predict exactly what will be drawn. At any rate, the renderer component is directly integrated into the editor, so that operators can immediately see the outcome of their work.
 
 As remarked, the **rendered entities** are:
 
-- **base text**: the start input text, rendered all at once at the beginning of the visualization, character by character from left to right, and line by line from top to bottom (text never wraps). Base text appears all at once unless `charAnimationId` setting is set to an animation ID to use for rendering it one character at a time.
-- **added text** is rendered character by character and line by line, but its position and size are calculated according to its reference base text, text rendition properties, and operation features.
-- **hints** are defined by operation features. A hint is an SVG `g` element with any content and optional placeholders.
+- **base text**: the start input text, rendered all at once at the beginning of the visualization, character by character from left to right, and line by line from top to bottom (text never wraps). The source for base text is the input parameter representing it. Base text appears all at once unless `charAnimationId` setting is set to an animation ID to use for rendering it one character at a time.
+- **added text** is rendered character by character and line by line, but its position and size are calculated according to its reference base text, text rendition properties, and operation features. The source for added text is the value of an operation which adds text, i.e. an insert or a replace operation.
+- **hints** are defined by operation features. A hint is an SVG `g` element with any content and optional placeholders. The source for hints is operation features.
 
-In turn, rendered **SVG elements** are:
+Similarly, rendered **SVG elements** are:
 
-- **base elements**: existing since start and rendering base text, they are all SVG `text` elements, 1 per character.
+- **base elements**: these elements exist since the beginning of the visualization and render the base text with one text element per character. This high granularity reflects that of the [text model](snapshot), where each single character is a node of the chain's graph. This also implies that every single character can carry its own metadata, which can be visualized by just hovering the mouse on it.
 - **added elements**: added text (1 SVG `text` element per character) and hints (1 SVG `g` element per hint), both added by operations.
 - **text hilites** (temporary): a visualization artifact triggered by user action to hilite some visuals; they depend on existing SVG elements for their size and position, and they do not interact in any other way with them.
 
-The only relevant **control characters** evaluated in text as such are:
+In rendering text, the only relevant [control characters](https://en.wikipedia.org/wiki/Control_character) evaluated in text (base or added text) the only relevant **control characters** evaluated in text as such are:
 
 - **LF**: line end.
 - **space**: rendered by offsetting the position of the next character by a specific amount. The amount is calculated according to the width of a reference character, rendered with the current text settings (font family, size, style, etc.). To this end, the component:
