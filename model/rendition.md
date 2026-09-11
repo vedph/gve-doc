@@ -8,10 +8,13 @@ nav_order: 3
 - [Rendition Model](#rendition-model)
   - [Web Component](#web-component)
   - [Elements](#elements)
+  - [Relative Positioning](#relative-positioning)
   - [Rendition Features](#rendition-features)
-  - [Placing Added Elements](#placing-added-elements)
   - [Added Text Rendition](#added-text-rendition)
   - [Hints Rendition](#hints-rendition)
+    - [Hint's SVG](#hints-svg)
+    - [Other Hint's Properties](#other-hints-properties)
+    - [Hint's Features](#hints-features)
   - [Feature Adapter](#feature-adapter)
   - [Hints Designer](#hints-designer)
 
@@ -75,55 +78,37 @@ Similarly, rendered **SVG elements** are:
 - **added elements**: added text (1 SVG `text` element per character) and hints (1 SVG `g` element per hint), both added by operations.
 - **text hilites** (temporary): a visualization artifact triggered by user action to hilite some visuals; they depend on existing SVG elements for their size and position, and they do not interact in any other way with them.
 
-In rendering text, the only relevant [control characters](https://en.wikipedia.org/wiki/Control_character) evaluated in text (base or added text) the only relevant **control characters** evaluated in text as such are:
+In rendering text, the only relevant [control characters](https://en.wikipedia.org/wiki/Control_character) evaluated in text (base or added text) as such are:
 
 - **LF**: line end.
 - **space**: rendered by offsetting the position of the next character by a specific amount. The amount is calculated according to the width of a reference character, rendered with the current text settings (font family, size, style, etc.). To this end, the component:
   - uses `m` as the default reference character.
   - makes the space width a fraction of the computed width of the reference character, once all the current text rendition settings have been applied to it. This is defined by component setting `spaceWidthFraction` which defaults to 0.33 (usually the space is 1/3 of the `m` width).
 
-## Rendition Features
+The renderer gets the base text and the result of running all the operations (or a subset of them) transforming it in a snapshot. It then renders the base text with base elements first, and then hints and added text (encoded by operations) as added elements. This can hap-pen in a continuous transformation progress, or be controlled by viewers who step forward or back from operation to operation, looking at the text changing under their eyes.
 
-Rendition features are used to override rendering settings. All these features can be combined and affect position and size in various ways, so elements are displayed only after evaluating all of them.
+## Relative Positioning
 
-> All rendition features names start with `r_`:
+As we have seen, base text elements follow the general flow of a typical text layout, so that each character gets positioned accordingly. As for added elements instead, whether they are text or hints, their position is totally free and unpredictable: so it's up to the scholars to define them to reproduce the original document.
 
-- `r_char-offsets` (applicable only to the first operation): character offsets for rendering some specific text nodes (and thus indirectly also all the character nodes following it, up to line end). Used to change line layout by adding indent, or increasing or decreasing space between lines. Format: for each offset, `ID:y=...,x=...` (where we can specify only `x`, only `y`, or both, in any order; values represent `px` units), where:
-  - `ID`=target character ID. As per the general text layout rules, once we offset this target characters, all the other characters will follow on the same baseline, unless any of them has another offset.
-  - `y`=Y offset to add to the computed character baseline (negative=up, positive=down).
-  - `x`=X offset to add to the computed character baseline (negative=left, positive=right).
-  - both `x` and `y` can be followed by a unit specifier. The default unit is just pixels; otherwise, the value is followed by suffixes `tw`=text character average width (according to the current font and size) or `th`=text character average height.
-- `r_char-offset`: this works as `r_char-offsets`, but it is provided in the features of a single character node. The reason for a multiple-offsets feature (rather than multiple single-offset features) is that when a character gets an offset, this affects not only it, but also all the following characters. So, order of application matters, and this could not be ensured when using multiple features.
-- `r_font-family`: font family.
-- `r_font-size`: font size.
-- `r_fore-color`: foreground color.
-- `r_back-color`: background color.
-- `r_italic`: italic value (boolean).
-- `r_bold`: bold value (boolean).
-- `r_underline`: underline value (0-N=thickness in `px`).
-- `r_overline`: overline value (as for underline).
-- `r_strike`: strikethrough value (as for underline).
-- `r_text-line-style`: the style of overline, underline, or strikethrough: `solid`, `dotted`, `dashed`, `wavy` (as in SVG and CSS; corresponds to SVG `text-decoration-line`).
-- `r_text-line-color`: default color of the overline, underline or strikethrough.
-- `r_rotate`: rotation amount to be applied to each single character.
-- `r_hints`: link the operation to any number of hints. The value is a space-delimited list of hint IDs, in rendition order.
-- `r_hint-vars`: this has no effect on text; it's used to define a set of variables to be consumed by hints placeholders. Each variable has name=value, and is separated with space. For instance, `color=red bold=1` to pass variables `color`=`red` and `bold`=`1` to the hints being rendered for the operation being processed.
-
-> In backend data, all rendition features have their lifespan limited to the version generated by their operation. This avoids accumulating them in the output context, ensuring that they are valid only for the immediate output of the operation containing them.
-
-## Placing Added Elements
+Anyway, this happens at a higher level of abstraction; otherwise, scholars would be in charge of all computations required to exactly position each element where desired. So, the logic for added elements is first dictated by the assumption that all added elements by definition refer to base text elements.
 
 The logic for added elements is first dictated by the assumption that all added elements by definition _refer to base text elements_. This is a consequence of the fact that added elements represent annotations attached to the base text. For instance, the position of the word "Wunder." in Figure 1 is defined with reference to the word "Wund:" it is going to replace: it appears below and to the left of it.
 
 ![relative position](img/wund.png)
 
+- _Figure 1 - Sample handwritten text_
+
 This reflects the fact that annotators look at the text they are willing to change, and then add annotations to it in some empty space, usually near to it. So again here the model mimicks the reality of the creative process.
 
-So, two main factors are used for computing size and position:
+Two main factors are used to compute size and position of added elements:
 
-- 🔖 **RBR** (_Reference text Bounding Rectangle_): the rectangle including all the bounding rectangles of all the subsequent nodes displayed for the text "selected" by an operation. So, if a segment to be deleted is "DE", its bounding rectangle is the rectangle including all the rectangles for "D" and "E". If reference segments happen to be _split_ in multiple lines then there will be _multiple RBR's_, one for each split portion of the text. In this case:
-  - the _additional text_ just refers to the first RBR.
-  - the _hint_ is repeated for each RBR, except the hint having a placeholder element.
+- 🔖 **RBR** (_Reference text Bounding Rectangle_): the rectangle including all the bounding rectangles of all the subsequent nodes displayed for the text "selected" by an operation. So, if a segment to be deleted is "DE", its bounding rectangle is the rectangle including all the rectangles for "D" and "E".
+
+If reference segments happen to be _split_ in multiple lines then there will be _multiple RBR's_, one for each split portion of the text. In this case:
+
+- the _additional text_ just refers to the first RBR.
+- the _hint_ is repeated for each RBR, except the hint having a placeholder element.
 
 > The logic of this repetition for hints (and not for additional text or for placeholder hints) is that in most cases hints represent decorations on top of their reference text, e.g. a strikethrough on top of the text being deleted; so, if this text happens to be split between two lines, we still need to apply strikethrough to all the reference text. The exception for the placeholder element is due to the fact that the placeholder element is an element including dynamically defined content (e.g. text) which should not be repeated.
 
@@ -131,7 +116,11 @@ So, two main factors are used for computing size and position:
   - for _added text_: the bounding rectangle containing all the SVG text elements representing the added text. Text is added character by character, so when adding "AB", 2 SVG `text` elements will be added, and the rectangle containing both of them will be the EBR.
   - for _hints_: the bounding rectangle containing the root SVG `g` element with all its descendants.
 
-In the end the renderer must compute EBR and then place it relative to the RBR; so it is a matter of placing two rectangles. Relative position values defined for the added element refer to a position of the EBR "outside" or "inside" the RBR (Figure 1). This provides an intuitive model, just like we say that "Wunder." is "below and to the left of" the word it replaces. The software defines a dozen of relative positions which use abbreviations from cardinal points:
+From this point of view, positioning and sizing any added element, whatever it is, ends up being a problem of positioning and sizing a rectangle (EBR) with reference to another one (RBR).
+
+Relative positions defined for added elements mimick cardinal points and refer to a position of the EBR "outside" or "inside" the RBR (Figure 2). This provides an intuitive model, just like we say that "Wunder." is "below and to the left of" the word it replaces in Figure 1.
+
+The software defines a dozen of relative positions which use abbreviations from cardinal points:
 
 - **outside RBR**:
   - `n`: EBR-bottom edge aligned with RBR-top edge; horizontally centered.
@@ -142,6 +131,7 @@ In the end the renderer must compute EBR and then place it relative to the RBR; 
   - `ne`: EBR-bottom-left corner aligned with RBR-top-right corner.
   - `sw`: EBR-top-right corner aligned with RBR-bottom-left corner.
   - `se`: EBR-top-left corner aligned with RBR-bottom-right corner.
+
 - **inside RBR**:
   - `inw`=northwest corner: EBR-top-left corner aligned with RBR top-left-corner.
   - `ine`=northeast corner: EBR-top-right corner aligned with RBR top-right-corner.
@@ -153,44 +143,74 @@ In the end the renderer must compute EBR and then place it relative to the RBR; 
 
 - _Figure 1: relative positions for placing added elements_
 
-A crucial difference between text and hints is that while text elements are **sized** accordingly to their rendition using their current style (as defined by font family, size, color, etc.), _hint elements are initially sized to fit the RBR_. Hints are picked from a catalog, where they have an intrinsic design-time size; but then it is shrunk or enlarged to fit the RBR. The effect of this adjustment is that everything which is designed to be drawn on top of reference text fully covers it, as expected. For instance, the diagonal line on top of "Wund:" in Figure 1 will fully cover that text, right because it is the diagonal of its RBR. This is also why the default position for hints is `o`: this will result in a default behavior which covers the whole reference text.
+A crucial difference between text and hints is that while text elements are **sized** accordingly to their rendition using their current style (as defined by font family, size, color, etc.), _hint elements are initially sized to fit the RBR_.
+
+Hints are picked from a catalog, where they have an intrinsic design-time size; but then it is shrunk or enlarged to fit the RBR. The effect of this adjustment is that everything which is designed to be drawn on top of reference text fully covers it, as expected. 
+
+For instance, the diagonal line on top of "Wund:" in Figure 1 will fully cover that text, right because it is the diagonal of its RBR. This is also why the default position for hints is `o`: this will result in a default behavior which covers the whole reference text.
+
+## Rendition Features
+
+Rendition features are used to override rendering settings. All these features can be combined and affect position and size in various ways, so elements are displayed only after evaluating all of them.
+
+The renderer adopts a default, preset value for each of these features, so scholars have to specify them only when they need to change them. This makes data entry economic while still allowing full customization.
+
+> All rendition features names start with `r_`:
+
+General rendition features are:
+
+- 🟢 `r_char-offsets` (applicable only to the first operation): character offsets for rendering some specific text nodes (and thus indirectly also all the character nodes following it, up to line end). Used to change line layout by adding indent, or increasing or decreasing space between lines. Format: for each offset, `ID:y=...,x=...` (where we can specify only `x`, only `y`, or both, in any order; values represent `px` units), where:
+  - `ID`=target character ID. As per the general text layout rules, once we offset this target characters, all the other characters will follow on the same baseline, unless any of them has another offset.
+  - `y`=Y offset to add to the computed character baseline (negative=up, positive=down).
+  - `x`=X offset to add to the computed character baseline (negative=left, positive=right).
+  - both `x` and `y` can be followed by a unit specifier. The default unit is just pixels; otherwise, the value is followed by suffixes `tw`=text character average width (according to the current font and size) or `th`=text character average height.
+- 🟢 `r_char-offset`: this works as `r_char-offsets`, but it is provided in the features of a single character node. The reason for a multiple-offsets feature (rather than multiple single-offset features) is that when a character gets an offset, this affects not only it, but also all the following characters. So, order of application matters, and this could not be ensured when using multiple features.
+- 🟢 `r_font-family`: font family.
+- 🟢 `r_font-size`: font size.
+- 🟢 `r_fore-color`: foreground color.
+- 🟢 `r_back-color`: background color.
+- 🟢 `r_italic`: italic value (boolean).
+- 🟢 `r_bold`: bold value (boolean).
+- 🟢 `r_underline`: underline value (0-N=thickness in pixels -- `px`).
+- 🟢 `r_overline`: overline value (as for underline).
+- 🟢 `r_strike`: strikethrough value (as for underline).
+- 🟢 `r_text-line-style`: the style of overline, underline, or strikethrough: `solid`, `dotted`, `dashed`, `wavy` (as in SVG and CSS; corresponds to SVG `text-decoration-line`).
+- 🟢 `r_text-line-color`: default color of the overline, underline or strikethrough.
+- 🟢 `r_rotate`: rotation amount to be applied to each single character.
+- 🟢 `r_hints`: link the operation to one or more hints. The value is a space-delimited list of hint IDs, in rendition order.
+- 🟢 `r_hint-vars`: this has no effect on text; it's used to define a set of variables to be consumed by hints placeholders. Each variable has name=value, and is separated with space. For instance, `color=red bold=1` to pass variables `color`=`red` and `bold`=`1` to the hints being rendered for the operation being processed.
+
+> In backend data, all rendition features have their lifespan limited to the version generated by their operation. This avoids accumulating them in the output context, ensuring that they are valid only for the immediate output of the operation containing them.
 
 ## Added Text Rendition
 
 Added text is defined by operation's `value` for those operations which add new text (=add or replace operations):
 
-- its size depends on the text and its style, as defined by current settings and possibly overrides from operation features.
-- its position depends on the RBR.
+- its **size** depends on the text and its style, as defined by current settings and possibly overrides from operation features.
+- its **position** depends on the RBR.
 
 These **rendition features** are applicable only to added text:
 
-- `r_t-position`: position of added text relative to the RBR.
-- `r_t-offset-x`: X offset for the added text, relative to the computed `r_t-position`.
-- `r_t-offset-y`: Y offset for the added text, relative to the computed `r_t-position`.
-- `r_t-displaced-span`: a span of base text with format `IDxN` where `ID`=node ID and `N`=count of chars to include, to be used as the RBR instead of the default RBR. This works exactly like a displaced hint, but is applied to added text.
-- `r_t-value`: a display-only override for the text value of the operation (which is an operation introducing new text, and thus having this text in its `value` property -- i.e. an add or replace operation). This overrides the operation's `value` property which contains the added text so that something different can be displayed. Note that this value can be an empty string.
+- 🔵 `r_t-position`: position of added text relative to the RBR.
+- 🔵 `r_t-offset-x`: X offset for the added text, relative to the computed `r_t-position`.
+- 🔵 `r_t-offset-y`: Y offset for the added text, relative to the computed `r_t-position`.
+- 🔵 `r_t-displaced-span`: a span of base text with format `IDxN` where `ID`=node ID and `N`=count of chars to include, to be used as the RBR instead of the default RBR. This works exactly like a displaced hint, but is applied to added text.
+- 🔵 `r_t-value`: a display-only override for the text value of the operation (which is an operation introducing new text, and thus having this text in its `value` property -- i.e. an add or replace operation). This overrides the operation's `value` property which contains the added text so that something different can be displayed. Note that this value can be an empty string.
 
 ## Hints Rendition
 
 A hint is an SVG code fragment linked to a specific operation. Hint rendering always happens before adding the added text possibly introduced by that operation, when there is any.
 
 - hints are defined in a dictionary in the component's **settings**.
-- hints SVG has design size and coordinates relative to a fixed-size rectangular area (defined by settings `hintDesignWidth` and `hintDesignHeight`). Then, they are variously scaled according to their computed size and position.
-- hints are **linked** to operations via a special `r_hints` rendition feature, which contains the IDs of all the hints to use for that operation. For instance, `r_hints` = `alpha beta` means we want to apply 2 hints with ID `alpha` and `beta`, in this order.
+- the hints SVG code, which defines its appearance, has design size and coordinates relative to a _fixed-size rectangular area_ (defined by settings `hintDesignWidth` and `hintDesignHeight`). Then, they are variously scaled according to their computed size and position.
+- hints are **linked** to operations via the `r_hints` rendition feature, which contains the IDs of all the hints to use for that operation. For instance, `r_hints` = `alpha beta` means we want to apply 2 hints with ID `alpha` and `beta`, in this order.
+- hints not only have an SVG-encoded appearance, but also a set of **properties** defining their behavior.
 
-Hints **properties** are:
+### Hint's SVG
 
-- `svg`: SVG code for hint's visuals, always having a root `g` element.
-- `position`: relative position for the hint.
-- `offsetX`: absolute (10) or proportional (`0.5th`=half text character average height, `0.5tw`=half text character average width).
-- `offsetY`: absolute (10) or proportional (`0.5th`=half text character average height, `0.5tw`=half text character average width).
-- `scaleX`: horizontal scale: `1` = match bounds width, `1.1` = 110% of bounds width.
-- `scaleY`: vertical scale: `1` = match bounds height, `1.1` = 110% of bounds height.
-- `rotation`: optional hint's rotation (`0`=none).
-- `animation`: JS code for animating the hint's entrance via [GSAP](https://gsap.com), or `#` + the ID of a preset animation (defined in settings).
-- `displacedRefSpan`: a span of base text with format `IDxN` where `ID`=base text node ID and `N`=count of chars to include, to be used as the RBR instead of the default RBR (as defined by the operation). In most cases it is set programmatically by the `r_h-displaced-span` feature.
+The main property of a hint is its `svg` property, which defines the SVG code for the hint's visuals, always having a root `g` element.
 
-The hint's **svg property** is a string representing the SVG content of a hint. The SVG content has these characteristics:
+The SVG content has these characteristics:
 
 - its **root element** is always a `g` element. This allows to manipulate the whole hint as a single entity (e.g. for transforming or animating it). When adding the hint, the component adds a unique identifier to it, by setting the root `g` element's `id` attribute to a value like `hint-X` where `X` is built from:
   - the _operation's ID_.
@@ -202,15 +222,31 @@ The hint's **svg property** is a string representing the SVG content of a hint. 
   - its _text value_ is either a literal, or resolved at runtime when within whiskers (like any placeholder). In the latter case, the text element's value is the name of the feature to get the text value from. For instance, `<text id="placeholder">{{note}}</text>` means that the text will be the value of a `note` feature in the same operation. If a feature with this name is not found, the text displayed is the feature name.
   - its _size_ by default is equal to the RBR size, variously modified by hint's properties and features overriding them, except for the special case of text placeholder hints (see below).
 
+### Other Hint's Properties
+
+Other hint's properties are:
+
+- `svg`: SVG code for hint's visuals, always having a root `g` element.
+- `position`: relative position for the hint.
+- `offsetX`: absolute (10) or proportional (`0.5th`=half text character average height, `0.5tw`=half text character average width).
+- `offsetY`: absolute (10) or proportional (`0.5th`=half text character average height, `0.5tw`=half text character average width).
+- `scaleX`: horizontal scale: `1` = match bounds width, `1.1` = 110% of bounds width.
+- `scaleY`: vertical scale: `1` = match bounds height, `1.1` = 110% of bounds height.
+- `rotation`: optional hint's rotation (`0`=none).
+- `animation`: JS code for animating the hint's entrance via [GSAP](https://gsap.com), or `#` + the ID of a preset animation (defined in settings).
+- `displacedRefSpan`: a span of base text with format `IDxN` where `ID`=base text node ID and `N`=count of chars to include, to be used as the RBR instead of the default RBR (as defined by the operation). In most cases it is set programmatically by the `r_h-displaced-span` feature.
+
+### Hint's Features
+
 These **rendition features** are applicable only to hints:
 
-- `r_h-position`: override hint's `position` property.
-- `r_h-offset-x`: override hint's `offsetX` property.
-- `r_h-offset-y`: override hint's `offsetY` property.
-- `r_h-scale-x`: override hint's `scaleX` property.
-- `r_h-scale-y`: override hint's `scaleY` property.
-- `r_h-rotation`: override hint's `rotation` property.
-- `r_h-displaced-span`: override hint's `desplacedRefSpan` property (for displaced hints).
+- 🟠 `r_h-position`: override hint's `position` property.
+- 🟠 `r_h-offset-x`: override hint's `offsetX` property.
+- 🟠 `r_h-offset-y`: override hint's `offsetY` property.
+- 🟠 `r_h-scale-x`: override hint's `scaleX` property.
+- 🟠 `r_h-scale-y`: override hint's `scaleY` property.
+- 🟠 `r_h-rotation`: override hint's `rotation` property.
+- 🟠 `r_h-displaced-span`: override hint's `desplacedRefSpan` property (for displaced hints).
 
 By default, hint features apply to ALL hints in the operation (those listed by `r_hints` feature), unless the property value starts with `@` followed by a space-delimited list of targets, ended by `:`; in this case, it applies ONLY to those hints matching the list. Targets can be:
 
