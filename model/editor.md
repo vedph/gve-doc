@@ -244,7 +244,7 @@ As for data browsing, essentially the entities at play are:
 - epigrams (abstractions grouping versions)
 - collections (abstractions collecting versions usually into a sequence)
 
-The diagram below exemplifies their connections:
+The diagram in Figure 1 exemplifies their connections:
 
 ```mermaid
 flowchart TD;
@@ -264,16 +264,22 @@ L2[L] --> V1
 L2[L] --> V2
 ```
 
-## Data Flow
+- _Figure 1 - Top-level entities links_
 
-The main data flow for VEdition can be summarized in this diagram:
+In the diagram entity types are represented by letters: `L`=collection, `E`=epigram, `C`=carrier, `S`=snapshot, `V`=version (alteration stage). Ideally, whatever the visualizations, we can imagine a scenario where users can land at any of these nodes and freely move among them, following their logical links.
 
-![flow](img/flow.png)
+For instance, you might get a list of epigrams, pick one and see all its text versions (E → S → V); then pick a version and see its text next to a list of all other versions, variously grouped and sorted by computed similarity, snapshot they belong to, carrier they are attested in, and collections including them (V → S → C, V → L); from here, pick another version (V → V) or open it to compare to the previous one; or just pick its snapshot to see all its alterations (V → S → V); or a carrier to see its snapshots in their material order (V → S → C → S); etc.
 
-Reading it from left to right:
+## Edition Workflow
 
-1. users concurrently enter data via the Cadmus GVE editor, hosted in an IISG institutional VM.
-2. data are stored by Cadmus in a standard NoSql document-based database (MongoDB). The model here essentially deals with 4 entity types: on the material side, the epigram versions including snapshots and the text carriers; on the immaterial side, the epigrams. Between these two realms there are collections, which can be either material or immaterial.
-3. additionally, users also maintain an independent Zotero-based bibliography, and Cadmus links to it to provide bibliographic data.
-4. these two databases can be directly used by a frontend app (=the VEdition's website), and/or indirectly via an intermediate data export which provides a sort of view-model for data, best fit to the requirements of the app. Zotero data too can either be accessed directly or cached into this intermdiate database, thus avoiding potential issues with Zotero services availability.
-5. both the Cadmus editor and the frontend app are containerized with Docker images. This makes it very easy to port them in any environment and ensures a longer duration in time, because the software is completely containerized with all its dependencies and configurations, and servers use it like a black box.
+The main data flow for VEdition can be summarized in Figure 2:
+
+![workflow](img/gve-flow.png)
+
+- _Figure 2 - VEdition workflow_
+
+Starting from the documents, the philological work prepares both data and some prebuilt lists to be imported once.
+
+In most cases data passes through operators (students), who using the editor perform the effective data entry, except for those snapshots which are too complex and are better added by philologist themselves. In both cases, data are stored in the centralized Cadmus database.
+
+Once data are in the database, we can [export them into JSON](https://vedph.github.io/cadmus-doc/migration/export/json-export.html), remodeling it into the shape required by further processing, like that planned for a web site, whether it is implemented via AI or company. Additionally, we can [export TEI documents](https://vedph.github.io/cadmus-doc/migration/export/rendition.html) with a subset of snapshot data.
