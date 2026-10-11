@@ -1,6 +1,11 @@
 # Presentation
 
-## Entities Graph
+Presentation focuses on two main areas:
+
+- browsing a top-level overview of all the **entities** with their relationships (carriers, epigrams, snapshots, versions, collections): the entities graph.
+- inspecting **texts** and their differences and live reconstruction: the text versions (generated from snapshots) and their snapshots.
+
+## (1) Entities Graph
 
 An essential aspect of the model devised for VEdition is that it reflects the **"constellation"** of texts which goes under the name of "Venetian epigrams", where there is no plain linear evolution. Many versions of the "same" text (the abstraction we name "epigram", here `E`) coexist, scattered across multiple manuscripts or prints (the "text carriers", `C`), variously grouped under multiple collections (material or immaterial; `L`).
 
@@ -161,6 +166,10 @@ A paged list of all versions matching version filters:
   - `S` **snapshot name** as a link: a version always has 1 parent snapshot. Click it to open it.
   - **navigation buttons** to walk from it:
     - `L` collections: opens a _collections view_ filtered to show only the collections including that version.
+  - **text**: an expandable small-font scrollable text frame with the version's text.
+  - **selection button**: whether the version is selected for [parallel view](#parallel-view). Only versions belonging to the same epigram can be selected.
+
+Selecting a text for parallel view adds it to the texts to be visually displayed side by side with a diffing report and their metadata (see [Texts](#2-texts)). This is very flexible because it allows you to compare any of the versions from the same epigram, even from different snapshots.
 
 ### Collections View
 
@@ -170,3 +179,63 @@ A paged list of all collections matching version filters:
 - each **list item** shows essential metadata about the [collection](editor#collection-item) plus:
   - **navigation buttons** to walk from it:
     - `V` versions: opena a _versions view_ filtered to show only the versions of that collection (i.e. the contents of the collection).
+
+## (2) Texts
+
+From a pragmatic standpoint, the text view can be "animated" or "still":
+
+- the **animated** view refers to the snapshot view experience, as already implemented within the editor when previewing the edited snapshot. Users will be able to see the live, animated transformation of the snapshot text stage after stage, manually step forward or backward, hover on text to see metadata, etc. So here the UI will just wrap the already existing component. You can get to this UI from any view which directly or indirectly displays a snapshot.
+- the **still** view refers to a more analytic view experience, similar to that proposed by an early video mockup. This starts from the versions view, whether it is the top-level view, or is nested inside another view (see above). Having a list of filtered views allows users to freely select ANY of them (as far as they belong to the same epigram) to be part of the static view, where they are all displayed side by side: this is the **parallel view**.
+
+## Parallel View
+
+The parallel view is a set of any number of columns which mimick the more traditional visualization in other digital genetic editions with enhanced interactivity.
+
+Starting from the **versions view**, users select any number of versions they want to see in this view. There is no technical limit; but practically we will impose an arbitrary maximum number of allowed versions in the view (e.g. 10), to avoid over-populating it and ensure a responsive UI even in low-performance clients.
+
+Each **column** in the parallel view contains:
+
+- the **full text** of the version.
+- a **selection of metadata** for that version in a smaller collapsible panel below the text.
+
+There is 1 column per selected version, plus a **diff column** in fixed position (we can anchor it at the left or right edge). A horizontal scrollbar allows to see all the columns when they are too many to fit within the browser window.
+
+The diff column is an interactive, real-time computed view which shows the diffing between any of the selected columns in the parallel view. By default it starts by comparing the first two selected versions; but then users are free to compare any version with any other among those selected. So, if I choose two versions A and B, the diffing shows the differences between A and B: what was added and what was removed. This is similar to what is done inside the animated snapshot viewer: there, you can see the diffing between any two alteration stages in the snapshot.
+
+This provides the following benefits:
+
+- the view is focused on a single epigram (within or outside the boundaries of a single snapshot), but seamlessly integrated in the upper-level entities graph browsing experience. Users start by browsing carriers, epigrams, snapshots, collections, or versions, as they prefer, and reach any top-level or nested versions view from them; then, they frelly pick the versions they want to compare, and click a button to open the parallel view. When done, they go back to the list and possibly change their selection or continue browsing for other entities.
+- users are completely free to decide which versions they want to compare, whether they come from the same or different snapshots, in the order they prefer.
+- users are not limited to a predefined number of versions: rather than just the 2 canonical columns A and B, users can see any number of columns side by side to compare 2, 3, 4, or whatever other number of versions they want.
+- users can interactively focus on any pair of versions among those displayed and see their computed diffing in the diff column. So, if they have selected versions A, B, C, D, E (in this order) the parallel view will open with the diff between A and B; but then at any moment users can pick another version for any of the two terms of the diffing pair (A:C, B:E, E:B, etc. -- any combination is possible).
+- the visualization can fit any screen size and layout maximizing the usage of available space.
+
+The view core would thus appear as in this diagram (let us assume we placed the diff view at the left -- this can also be a user-defined parameter, according to his preferences):
+
+```txt
+the diff column where user
+selected v3 from snapshot
+H5_001 and v12 from snapshot
+A1_002
+
++------------------------+ +------------------------+ +------------------------+
+| H5_001.v3 : A1_002.v12 | | H5_001.v3              | | A1_002.v12             |  ... etc.: as many versions as you want
++------------------------+ +------------------------+ +------------------------+  as far as they belong to the same epi-
+| The diffed text        | | The version text here  | | The version text here  |  gram.
+| is displayed           | |                        | |                        |
+| here. Deletions in red | |                        | |                        |
+| with strikethrough;    | |                        | |                        |
+| additions in blue; the | |                        | |                        |
+| rest in black.         | |                        | |                        |
++------------------------+ +------------------------+ +------------------------+
+| [H5_001.v3  [↓]]       | | version metadata here  | | version metadata here  |
+| [A1_002.v12 [↓]]       | |                        | |                        |
++------------------------+ +------------------------+ +------------------------+
+
+in the low panel users
+pick the versions to
+include in the diffing
+pair
+```
+
+We could then add a top toolbar with various commands to e.g. copy a version, download an XML file representing it, download the diffing, remove a version from the view, reorder versions in it, control zoom levels, etc.
