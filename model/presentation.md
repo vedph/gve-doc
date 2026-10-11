@@ -87,7 +87,7 @@ V2[V] --> L
 
 In a presentation we should clearly present entities, while still allowing users to walk across their whole graph.
 
-The 3 levels identified in the previous section allow us to define at least these top-level views for our data:
+The 3 levels identified in the previous section allow us to define at least these **views** for our data; views act as reusable UI components and focus on a specific entity type:
 
 1. **carriers view**: the list of all the material supports which carry our texts. Readers interested in codicological aspects or studying the story of a single material object would look into that.
 2. **epigrams view**: the list of all epigrams. This is a virtual collection of all the abstractions representing a unitary group of text versions. Most readers will probably start from this list.
@@ -102,9 +102,13 @@ We can thus identify UI blocks which show entities in a compact, table-like layo
 A paged list of all carriers matching carrier filters:
 
 - a **filters panel** allow to combine various filters to view only the carriers matching them (e.g. name, date range, consistency, specific epigrams included, etc.). The filters start blank, so that the whole list is initially shown.
-- each **list item** shows essential metadata about the [carrier](editor#carrier-item) plus **navigation buttons** to walk down from it:
-  - epigrams: opens an _epigrams view_ filtered by the epigrams included in the carrier.
-  - snapshots: opens a _snapshots view_ filtered by the snapshots included in the carrier.
-  - collections: opens a _collections view_ filtered by the versions included in the carrier. This shows all collections which include at least one version from that carrier.
+- each **list item** shows essential metadata about the [carrier](editor#carrier-item) plus:
+  - a **view button** to directly view the list of carrier's facsimiles from IIIF. As usual here, we start with a list of thumbnails with labels and then let users pick any of them to see the facsimile in an interactive viewer, like in Mirador.
+  - **navigation buttons** to walk down from it:
+    - epigrams: opens an _epigrams view_ filtered by the epigrams included in the carrier.
+    - snapshots: opens a _snapshots view_ filtered by the snapshots included in the carrier.
+    - collections: opens a _collections view_ filtered by the versions included in the carrier. This shows all collections which include at least one version from that carrier.
+
+So readers will open a plain list of carriers; if desired, from each carrier in the list they can drill down to epigrams, snapshots and collections. This merges a table layout with a tree layout where each node is yet another view.
 
 ### Epigrams View
