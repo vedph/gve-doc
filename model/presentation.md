@@ -1,57 +1,42 @@
 # Presentation
 
-Presentation here is discussed at a higher level of abstraction: we focus more on functional blocks and data views than on per-pixel mockups. Also, this does not cover all the possible views, nor of course any of the static pages which should be included in the real site. The focus here is on data and their relationships, with the purpose of proposing a presentational model which does not flatten nor lose the complex graph of entities which was so carefully designed and implemented in the corresponding backend.
+Presentation here is discussed at a higher level of abstraction: we focus more on _functional areas_ and _data views_ than on graphical mockups. Also, this does not cover all the possible views, nor any of the static pages which should be included in the real site. The focus here is on _data_ and their _relationships_, to emphasize a presentational model which does not flatten nor lose the complex graph of entities which was so carefully designed and implemented in the corresponding backend.
 
-This presentation focuses on two main areas:
+The idea is allowing easy and natural transitions across all the entities in the database: carriers (=the material support like notebooks), epigrams, text versions and collections, starting from any of them and walking seamlessly to the others. When inspecting text, you can look at the animated transformations using the already implemented component (the same used in the editor to preview the snapshot) and by comparing any number of text versions from the same epigram side by side, with real-time interactive diffing and more tools.
+
+So, this presentation proposal focuses on two main areas:
 
 - browsing a top-level overview of all the **entities** with their relationships (carriers, epigrams, snapshots, versions, collections): the entities graph.
 - inspecting **texts** and their differences and live reconstruction: the text versions (generated from snapshots) and their snapshots.
 
-Figure 1 shows a top-level overview of the navigation among the main views:
-
-```mermaid
-flowchart TD;
-
-carriers_view --> epigrams_view
-carriers_view --> snapshots_view
-carriers_view --> collections_view
-
-epigrams_view --> carriers_view
-epigrams_view --> snapshots_view
-epigrams_view --> versions_view
-epigrams_view --> collections_view
-
-snapshot_view --> snapshot_player
-snapshot_view --> versions_view
-snapshot_view --> collections_view
-
-collections_view --> versions_view
-
-versions_view --> parallel_view
-versions_view --> snapshot_player
-versions_view --> epigrams_view
-```
-
-- _Figure 1 - Top-level views_
-
 In very generic terms, you could imagine a user experience like this:
 
 - the user lands on the site home, where he can choose to browse data in various ways:
-  - (codicological path): by looking at notebooks and other carriers: he will start with a [carriers view](#carriers-view) with the list of all carriers.
-  - (works path): by looking at the list of [epigrams](#epigrams-view).
-  - (textual path): by looking directly at the list of text [versions](#versions-view) of epigrams. We can also have a full text search page, landing on this view as the results of the query.
-  - (collections path): by looking at the list of [collections](#collections-view), which variously group text versions in selected sequences.
+  - (_codicological path_): by looking at notebooks and other carriers: he will start with a [carriers view](# carriers-view) with the list of all carriers.
+  - (_literary path_): by looking at the list of [epigrams](# epigrams-view).
+  - (_textual path_): by looking directly at the list of text [versions](# versions-view) of epigrams. We can also have a full text search page, landing on this view as the results of the query.
+  - (_publishing path_): by looking at the list of [collections](# collections-view), which variously group text versions in selected sequences.
 - from any of these views, the user can walk seamlessly to view other entities, as explained in the description of each of them and summarized by the links in Figure 1.
+
+Figure 1 shows a top-level overview of the navigation among the main views and summarizes the site's map, from left to right:
+
+- in the _leftmost column_, the circled entity symbols represent entities as nodes of a graph; their links represent the direct navigational connections to other entities (via a nested view when the relationship is 1 to many; via a direct link to the entity when the relationship is 1 to 1; in the latter case, the line is dotted). This clearly shows the graph-shaped links among our entities, and allows users to naturally follow them in the direction they desire.
+- the _mid column_ represent top-level views: users may want to see the lists of carriers, epigrams, versions, or collections. The list of snapshots is available only as a nested list because the snapshot is an intermediate model which can be easily hidden to avoid complicating the UI with it.
+- the _righmost column_ contains secondary views: the details page for each single carrier, epigram, snapshot, version, or collection; plus the snapshot player (which "plays" the transformation of a text across its alteration stages) and the parallel view (which displays side by side a user-defined selection of text versions from the same epigram).
+
+![site map](img/sitemap.png)
+
+- _Figure 1 - Top-level views_
 
 > Note that any of these views has a full set of filters which allow to perform searches among the items they list by combining a lot of criteria. Also, most of them allow drilling down into children views with other lists, thus effectively implementing a cross-entities walk along the entities graph.
 
 For instance, say a user wants to see the texts for epigram 10:
 
 1. he lands on the home page.
-2. he picks the list of [epigrams](#epigrams-view) and browses to 10, or filters the list as desired to find it quickly.
-3. he clicks the button in its row to drill down into its [text versions](#versions-view). Text versions are listed below epigram 10 with their text and metadata.
+2. he picks the list of [epigrams](# epigrams-view) and browses to 10, or filters the list as desired to find it quickly.
+3. he clicks the button in its row to drill down into its [text versions](# versions-view). Text versions are listed below epigram 10 with their text and metadata.
 4. if he wants to compare versions inspecting their details, he freely selects all the versions from the list by clicking their select button; when done, he clicks a button which leads him to the parallel view.
-5. the [parallel view](#parallel-view) shows all the selected text versions side by side as columns, with their metadata and an interactive diffing environment.
+5. the [parallel view](# parallel-view) shows all the selected text versions side by side as columns, with their metadata and an interactive diffing environment.
 
 This is just an example; but any of the paths along the lines connecting the views in Figure 1 can be followed, at any time, with a rich set of filters for immediate search and highly interactive views on text.
 
@@ -152,17 +137,17 @@ The 3 levels identified in the previous section allow us to define at least thes
 
 We can thus identify UI blocks which show entities in a compact, table-like layout, while still allowing to walk seamlessly from node to node.
 
-### Carriers View
+### 👀 Carriers View
 
 A paged list of all carriers matching carrier filters:
 
 - a **filters panel** allow to combine various filters to view only the carriers matching them (e.g. name, date range, consistency, specific epigrams included, etc.). The filters start blank, so that the whole list is initially shown.
 - each **list item** shows essential metadata about the [carrier](editor#carrier-item) plus:
-  - a **view button** to directly view the list of carrier's facsimiles from IIIF. As usual here, we start with a list of thumbnails with labels and then let users pick any of them to see the facsimile in an interactive viewer, like in Mirador.
+  - a 🖼️ **view button** to directly view the list of carrier's facsimiles from IIIF. As usual here, we start with a list of thumbnails with labels and then let users pick any of them to see the facsimile in an interactive viewer, like in Mirador.
   - **navigation buttons** to walk from it:
-    - `E` epigrams: opens an _epigrams view_ filtered to show only the epigrams in that carrier;
-    - `S` snapshots: opens a _snapshots view_ filtered to show only the snapshots in that carrier;
-    - `L` collections: opens a _collections view_ filtered to show only the collections including snapshots from that carrier.
+    - ▶️ `E` epigrams: opens an _epigrams view_ filtered to show only the epigrams in that carrier;
+    - ▶️ `S` snapshots: opens a _snapshots view_ filtered to show only the snapshots in that carrier;
+    - ▶️ `L` collections: opens a _collections view_ filtered to show only the collections including snapshots from that carrier.
 
 So readers will open a plain list of carriers; if desired, from each carrier in the list they can drill down to epigrams, snapshots and collections. This merges a table layout with a tree layout where each node is yet another view, e.g.:
 
@@ -181,47 +166,47 @@ So readers will open a plain list of carriers; if desired, from each carrier in 
 
 The same type of layout applies to all other entities. This makes the UI modular, because the essential presentation strategy is the same for all. Note anyway that here we are defining the top level navigation experience to browse all the entities defined in the database following their internal connections. We will then add views for single entities, each specialized on its own, especially for viewing text.
 
-### Epigrams View
+### 👀 Epigrams View
 
 A paged list of all epigrams matching epigram filters:
 
 - a **filters panel** allow to combine various filters to view only the epigrams matching them (e.g. name, date range, hands, etc.). The filters start blank, so that the whole list is initially shown.
 - each **list item** shows essential metadata about the [epigram](editor#epigram-item) plus:
   - **navigation buttons** to walk from it:
-    - `C` carriers: opens a _carriers view_ filtered to show only the carriers including that epigram.
-    - `S` snapshots: opens a _snapshots view_ filtered to show only the snapshots included in that epigram.
-    - `V` versions: opena a _versions view_ filtered to show only the versions of that epigram. This bypasses the intermediate snapshot level to go straight to texts when we focus on text content rather than on its materiality.
-    - `L` collections: opens a _collections view_ filtered to show only the collections including that epigram.
+    - ▶️ `C` carriers: opens a _carriers view_ filtered to show only the carriers including that epigram.
+    - ▶️ `S` snapshots: opens a _snapshots view_ filtered to show only the snapshots included in that epigram.
+    - ▶️ `V` versions: opena a _versions view_ filtered to show only the versions of that epigram. This bypasses the intermediate snapshot level to go straight to texts when we focus on text content rather than on its materiality.
+    - ▶️ `L` collections: opens a _collections view_ filtered to show only the collections including that epigram.
 
-### Snapshots View
+### 👀 Snapshots View
 
 A paged list of all snapshots matching snapshot filters:
 
 - a **filters panel** allow to combine various filters to view only the snapshots matching them (e.g. epigram, carrier, hands, etc.). The filters start blank, so that the whole list is initially shown.
 - each **list item** shows essential metadata about the [snapshot](editor#snapshot-item) plus:
-  - `C` **carrier name** as a link: a snapshot always has 1 parent carrier. Click it to open it.
-  - `E` **epigram name** as a link: a snapshot always has 1 parent epigram. Click it to open it.
+  - 🔗 `C` **carrier name** as a link: a snapshot always has 1 parent carrier. Click it to open it.
+  - 🔗 `E` **epigram name** as a link: a snapshot always has 1 parent epigram. Click it to open it.
   - **navigation buttons** to walk from it:
-    - `V` versions: opena a _versions view_ filtered to show only the versions of that epigram. This bypasses the intermediate snapshot level to go straight to texts when we focus on text content rather than on its materiality.
-    - `L` collections: opens a _collections view_ filtered to show only the collections including that epigram.
+    - ▶️ `V` versions: opena a _versions view_ filtered to show only the versions of that epigram. This bypasses the intermediate snapshot level to go straight to texts when we focus on text content rather than on its materiality.
+    - ▶️ `L` collections: opens a _collections view_ filtered to show only the collections including that epigram.
 
-### Versions View
+### 👀 Versions View
 
 A paged list of all versions matching version filters:
 
 - a **filters panel** allow to combine various filters to view only the versions matching them (e.g. text, snapshot, epigram, etc.). The filters start blank, so that the whole list is initially shown.
 - each **list item** shows essential metadata about the version plus:
-  - `C` **carrier name** as a link: a version always has 1 parent carrier. Click it to open it.
-  - `E` **epigram name** as a link: a version always has 1 parent epigram. Click it to open it.
-  - `S` **snapshot name** as a link: a version always has 1 parent snapshot. Click it to open it.
+  - 🔗 `C` **carrier name** as a link: a version always has 1 parent carrier. Click it to open it.
+  - 🔗 `E` **epigram name** as a link: a version always has 1 parent epigram. Click it to open it.
+  - 🔗 `S` **snapshot name** as a link: a version always has 1 parent snapshot. Click it to open it.
   - **navigation buttons** to walk from it:
-    - `L` collections: opens a _collections view_ filtered to show only the collections including that version.
+    - ▶️ `L` collections: opens a _collections view_ filtered to show only the collections including that version.
   - **text**: an expandable small-font scrollable text frame with the version's text.
-  - **selection button**: whether the version is selected for [parallel view](#parallel-view). Only versions belonging to the same epigram can be selected.
+  - **selection button**: whether the version is selected for [parallel view](# parallel-view). Only versions belonging to the same epigram can be selected.
 
 Selecting a text for parallel view adds it to the texts to be visually displayed side by side with a diffing report and their metadata (see [Texts](#2-texts)). This is very flexible because it allows you to compare any of the versions from the same epigram, even from different snapshots.
 
-### Collections View
+### 👀 Collections View
 
 A paged list of all collections matching version filters:
 
@@ -237,7 +222,7 @@ From a pragmatic standpoint, the text view can be "animated" or "still":
 - the **animated** view refers to the snapshot view experience, as already implemented within the editor when previewing the edited snapshot. Users will be able to see the live, animated transformation of the snapshot text stage after stage, manually step forward or backward, hover on text to see metadata, etc. So here the UI will just wrap the already existing component. You can get to this UI from any view which directly or indirectly displays a snapshot.
 - the **still** view refers to a more analytic view experience, similar to that proposed by an early video mockup. This starts from the versions view, whether it is the top-level view, or is nested inside another view (see above). Having a list of filtered views allows users to freely select ANY of them (as far as they belong to the same epigram) to be part of the static view, where they are all displayed side by side: this is the **parallel view**.
 
-## Parallel View
+### 👀 Parallel View
 
 The parallel view is a set of any number of columns which mimick the more traditional visualization in other digital genetic editions with enhanced interactivity.
 
