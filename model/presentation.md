@@ -57,6 +57,8 @@ CE[C/E] --> S2[S]
 
 - _Figure 2: carriers and epigrams contain snapshots_
 
+---
+
 ```mermaid
 flowchart LR;
 
@@ -66,6 +68,8 @@ S --> V2[V]
 
 - _Figure 3: snapshots contain (generate) versions_
 
+---
+
 ```mermaid
 flowchart LR;
 
@@ -74,3 +78,31 @@ V2[V] --> L
 ```
 
 - _Figure 4: versions are grouped into collections_
+
+---
+
+## Presenting the Graph
+
+In a presentation we should clearly present entities, while still allowing users to walk across their whole graph.
+
+The 3 levels identified in the previous section allow us to define at least these top-level views for our data:
+
+1. **carriers view**: the list of all the material supports which carry our texts. Readers interested in codicological aspects or studying the story of a single material object would look into that.
+2. **epigrams view**: the list of all epigrams. This is a virtual collection of all the abstractions representing a unitary group of text versions. Most readers will probably start from this list.
+3. **snapshots view**: this would be probably best served as an intermediate view in walking the graph. The snapshot concept is an abstraction and is backed up by the [genetic model](architecture.md) defined for Hydra. Yet, the snapshot also has a material part: it is the sum of all signs we group together (base text and its annotations) on a portion of a sheet or on one or more sheets of a carrier, and it implicitly contains all the text versions. So, when flipping the pages of a notebook, we see snapshots; and when drilling down from an epigram node we find snapshots (which in turn contain versions).
+4. **versions view**: the list of text versions. These are the only entities with text, so in the end readers will look for them. Anyway, the might want to get at this list in different ways: starting from an upper layer, e.g. when drilling down from an epigram through snapshots; or even by freely browsing all available texts, even when belonging to different epigrams (e.g. when landing to the list from a full-text search).
+5. **collections view**: the list of all collections. These are material or immaterial groupings of text versions.
+
+We can thus identify UI blocks which show entities in a compact, table-like layout, while still allowing to walk seamlessly from node to node.
+
+### Carriers View
+
+A paged list of all carriers matching carrier filters:
+
+- a **filters panel** allow to combine various filters to view only the carriers matching them (e.g. name, date range, consistency, specific epigrams included, etc.). The filters start blank, so that the whole list is initially shown.
+- each **list item** shows essential metadata about the [carrier](editor#carrier-item) plus **navigation buttons** to walk down from it:
+  - epigrams: opens an _epigrams view_ filtered by the epigrams included in the carrier.
+  - snapshots: opens a _snapshots view_ filtered by the snapshots included in the carrier.
+  - collections: opens a _collections view_ filtered by the versions included in the carrier. This shows all collections which include at least one version from that carrier.
+
+### Epigrams View
