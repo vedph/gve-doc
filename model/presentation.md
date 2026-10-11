@@ -104,11 +104,69 @@ A paged list of all carriers matching carrier filters:
 - a **filters panel** allow to combine various filters to view only the carriers matching them (e.g. name, date range, consistency, specific epigrams included, etc.). The filters start blank, so that the whole list is initially shown.
 - each **list item** shows essential metadata about the [carrier](editor#carrier-item) plus:
   - a **view button** to directly view the list of carrier's facsimiles from IIIF. As usual here, we start with a list of thumbnails with labels and then let users pick any of them to see the facsimile in an interactive viewer, like in Mirador.
-  - **navigation buttons** to walk down from it:
-    - epigrams: opens an _epigrams view_ filtered by the epigrams included in the carrier.
-    - snapshots: opens a _snapshots view_ filtered by the snapshots included in the carrier.
-    - collections: opens a _collections view_ filtered by the versions included in the carrier. This shows all collections which include at least one version from that carrier.
+  - **navigation buttons** to walk from it:
+    - `E` epigrams: opens an _epigrams view_ filtered to show only the epigrams in that carrier;
+    - `S` snapshots: opens a _snapshots view_ filtered to show only the snapshots in that carrier;
+    - `L` collections: opens a _collections view_ filtered to show only the collections including snapshots from that carrier.
 
-So readers will open a plain list of carriers; if desired, from each carrier in the list they can drill down to epigrams, snapshots and collections. This merges a table layout with a tree layout where each node is yet another view.
+So readers will open a plain list of carriers; if desired, from each carrier in the list they can drill down to epigrams, snapshots and collections. This merges a table layout with a tree layout where each node is yet another view, e.g.:
+
+```txt
++-----------+-------+------+-----------+-----------+------+-------+-----+
+| filters   | E S L | name | shelfmark | materials | size | dates | ... |
+|           |[E]S L | name | shelfmark | materials | size | dates | ... |  <== drilling down to epigrams for this carrier
+|           +-|---------------------------------------------------------+
+|           | Epigrams of H50                                           |  <== nested epigrams view
+|           | ... compact epigrams view filtered by H50 ...             |
+|           +-----------------------------------------------------------+
++-----------+-------+------+-----------+-----------+------+-------+-----+
+```
+
+> As for the real layout, one can define a more compact style for nested views and hide a portion or all of their filters (e.g. when viewing the epigrams from carrier H50, at least the carrier filter will be hidden). The nested view provides a quick insight and can be expanded or collapsed. Alternatively one can use a variant of the action linked to the button which opens a new page with that view as the root. This allows for the best of both worlds: having a top-level list of the entities you are interested in but still being able to quickly drill down to other related entities at a glance. From there you will be able to move to another page where the top level view is different, or just continue drilling down if possible.
+
+The same type of layout applies to all other entities. This makes the UI modular, because the essential presentation strategy is the same for all. Note anyway that here we are defining the top level navigation experience to browse all the entities defined in the database following their internal connections. We will then add views for single entities, each specialized on its own, especially for viewing text.
 
 ### Epigrams View
+
+A paged list of all epigrams matching epigram filters:
+
+- a **filters panel** allow to combine various filters to view only the epigrams matching them (e.g. name, date range, hands, etc.). The filters start blank, so that the whole list is initially shown.
+- each **list item** shows essential metadata about the [epigram](editor#epigram-item) plus:
+  - **navigation buttons** to walk from it:
+    - `C` carriers: opens a _carriers view_ filtered to show only the carriers including that epigram.
+    - `S` snapshots: opens a _snapshots view_ filtered to show only the snapshots included in that epigram.
+    - `V` versions: opena a _versions view_ filtered to show only the versions of that epigram. This bypasses the intermediate snapshot level to go straight to texts when we focus on text content rather than on its materiality.
+    - `L` collections: opens a _collections view_ filtered to show only the collections including that epigram.
+
+### Snapshots View
+
+A paged list of all snapshots matching snapshot filters:
+
+- a **filters panel** allow to combine various filters to view only the snapshots matching them (e.g. epigram, carrier, hands, etc.). The filters start blank, so that the whole list is initially shown.
+- each **list item** shows essential metadata about the [snapshot](editor#snapshot-item) plus:
+  - `C` **carrier name** as a link: a snapshot always has 1 parent carrier. Click it to open it.
+  - `E` **epigram name** as a link: a snapshot always has 1 parent epigram. Click it to open it.
+  - **navigation buttons** to walk from it:
+    - `V` versions: opena a _versions view_ filtered to show only the versions of that epigram. This bypasses the intermediate snapshot level to go straight to texts when we focus on text content rather than on its materiality.
+    - `L` collections: opens a _collections view_ filtered to show only the collections including that epigram.
+
+### Versions View
+
+A paged list of all versions matching version filters:
+
+- a **filters panel** allow to combine various filters to view only the versions matching them (e.g. text, snapshot, epigram, etc.). The filters start blank, so that the whole list is initially shown.
+- each **list item** shows essential metadata about the version plus:
+  - `C` **carrier name** as a link: a version always has 1 parent carrier. Click it to open it.
+  - `E` **epigram name** as a link: a version always has 1 parent epigram. Click it to open it.
+  - `S` **snapshot name** as a link: a version always has 1 parent snapshot. Click it to open it.
+  - **navigation buttons** to walk from it:
+    - `L` collections: opens a _collections view_ filtered to show only the collections including that version.
+
+### Collections View
+
+A paged list of all collections matching version filters:
+
+- a **filters panel** allow to combine various filters to view only the collections matching them (e.g. virtual, carrier, epigram, etc.). The filters start blank, so that the whole list is initially shown.
+- each **list item** shows essential metadata about the [collection](editor#collection-item) plus:
+  - **navigation buttons** to walk from it:
+    - `V` versions: opena a _versions view_ filtered to show only the versions of that collection (i.e. the contents of the collection).
