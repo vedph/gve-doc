@@ -2,7 +2,7 @@
 
 Presentation here is discussed at a higher level of abstraction: we focus more on _functional areas_ and _data views_ than on graphical mockups. Also, this does not cover all the possible views, nor any of the static pages which should be included in the real site. The focus here is on _data_ and their _relationships_, to emphasize a presentational model which does not flatten nor lose the complex graph of entities which was so carefully designed and implemented in the corresponding backend.
 
-The idea is allowing easy and natural transitions across all the entities in the database: carriers (=the material support like notebooks), epigrams, text versions and collections, starting from any of them and walking seamlessly to the others. When inspecting text, you can look at the animated transformations using the already implemented component (the same used in the editor to preview the snapshot) and by comparing any number of text versions from the same epigram side by side, with real-time interactive diffing and more tools.
+The idea is allowing easy and natural transitions across all the entities in the database: carriers (=the material support like notebooks), epigrams, text versions and collections, starting from any of them and walking seamlessly to the others. When inspecting text, you can look at the animated transformations using the already implemented component (the same used in the editor to preview the snapshot), or by comparing any number of text versions from the same epigram side by side, with real-time interactive diffing and more tools.
 
 So, this presentation proposal focuses on two main areas:
 
@@ -12,11 +12,11 @@ So, this presentation proposal focuses on two main areas:
 In very generic terms, you could imagine a user experience like this:
 
 - the user lands on the site home, where he can choose to browse data in various ways:
-  - (_codicological path_): by looking at notebooks and other carriers: he will start with a [carriers view](# carriers-view) with the list of all carriers.
-  - (_literary path_): by looking at the list of [epigrams](# epigrams-view).
-  - (_textual path_): by looking directly at the list of text [versions](# versions-view) of epigrams. We can also have a full text search page, landing on this view as the results of the query.
-  - (_publishing path_): by looking at the list of [collections](# collections-view), which variously group text versions in selected sequences.
-- from any of these views, the user can walk seamlessly to view other entities, as explained in the description of each of them and summarized by the links in Figure 1.
+  - 👣 _codicological path_: by looking at notebooks and other carriers: he will start with a [carriers view](# carriers-view) with the list of all carriers.
+  - 👣 _literary path_: by looking at the list of [epigrams](# epigrams-view).
+  - 👣 _textual path_: by looking directly at the list of text [versions](# versions-view) of epigrams. We can also have a full text search page, landing on this view as the results of the query.
+  - 👣 _publishing path_: by looking at the list of [collections](# collections-view), which variously group text versions in selected sequences.
+- from any of these views, the user can walk seamlessly to view other entities.
 
 Figure 1 shows a top-level overview of the navigation among the main views and summarizes the site's map, from left to right:
 
