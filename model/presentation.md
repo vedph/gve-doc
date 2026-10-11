@@ -1,9 +1,59 @@
 # Presentation
 
-Presentation focuses on two main areas:
+Presentation here is discussed at a higher level of abstraction: we focus more on functional blocks and data views than on per-pixel mockups. Also, this does not cover all the possible views, nor of course any of the static pages which should be included in the real site. The focus here is on data and their relationships, with the purpose of proposing a presentational model which does not flatten nor lose the complex graph of entities which was so carefully designed and implemented in the corresponding backend.
+
+This presentation focuses on two main areas:
 
 - browsing a top-level overview of all the **entities** with their relationships (carriers, epigrams, snapshots, versions, collections): the entities graph.
 - inspecting **texts** and their differences and live reconstruction: the text versions (generated from snapshots) and their snapshots.
+
+Figure 1 shows a top-level overview of the navigation among the main views:
+
+```mermaid
+flowchart TD;
+
+carriers_view --> epigrams_view
+carriers_view --> snapshots_view
+carriers_view --> collections_view
+
+epigrams_view --> carriers_view
+epigrams_view --> snapshots_view
+epigrams_view --> versions_view
+epigrams_view --> collections_view
+
+snapshot_view --> snapshot_player
+snapshot_view --> versions_view
+snapshot_view --> collections_view
+
+collections_view --> versions_view
+
+versions_view --> parallel_view
+versions_view --> snapshot_player
+versions_view --> epigrams_view
+```
+
+- _Figure 1 - Top-level views_
+
+In very generic terms, you could imagine a user experience like this:
+
+- the user lands on the site home, where he can choose to browse data in various ways:
+  - (codicological path): by looking at notebooks and other carriers: he will start with a [carriers view](#carriers-view) with the list of all carriers.
+  - (works path): by looking at the list of epigrams.
+  - (textual path): by looking directly at the list of text versions of epigrams. We can also have a full text search page, landing on this view as the results of the query.
+  - (collections path): by looking at the list of collections, which variously group text versions in selected sequences.
+- from any of these views, the user can walk seamlessly to view other entities, as explained in the description of each of them and summarized by the links in Figure 1.
+
+> Note that any of these views has a full set of filters which allow to perform searches among the items they list by combining a lot of criteria. Also, most of them allow drilling down into children views with other lists, thus effectively implementing a cross-entities walk along the entities graph.
+
+For instance, say a user wants to see the texts for epigram 10:
+
+1. he lands on the home page.
+2. he picks the list of [epigrams](#epigrams-view) and browses to 10, or filters the list as desired to find it quickly.
+3. he clicks the button in its row to drill down into its [text versions](#versions-view). Text versions are listed below epigram 10 with their text and metadata.
+4. if he wants to compare versions inspecting their details, he freely selects all the versions from the list by clicking their select button; when done, he clicks a button which leads him to the parallel view.
+5. the [parallel view](#parallel-view) shows all the selected text versions side by side as columns, with their metadata and an interactive diffing environment.
+
+This is just an example; but any of the paths along the lines connecting the views in Figure 1 can be followed, at any time, with a rich set of filters for immediate search and highly interactive views on text.
 
 ## (1) Entities Graph
 
@@ -23,7 +73,7 @@ So, among these entities:
 
 The result is a **graph** of nodes (=entities) which can be browsed starting from any node and following the links to any other node.
 
-The diagram in Figure 1 exemplifies this graph:
+The diagram in Figure 2 exemplifies this graph:
 
 ```mermaid
 flowchart TD;
@@ -43,7 +93,7 @@ L2[L] --> V1
 L2[L] --> V2
 ```
 
-- _Figure 1 - Top-level entities links_
+- _Figure 2 - Top-level entities links_
 
 In presenting these data we should try to reflect this complex set of relationships among different entities, allowing users to seamlessly hop from node to node and get a sense of their connection in the constellation.
 
@@ -53,7 +103,7 @@ If we consider the hierarchy intrinsic in the above defined entities, we can def
 2. `S` and `L`
 3. `V`
 
-Here each upper level contains some or all entities of the lower level (Figures 2-4):
+Here each upper level contains some or all entities of the lower level (Figures 3-5):
 
 ```mermaid
 flowchart LR;
@@ -62,7 +112,7 @@ CE[C/E] --> S1[S]
 CE[C/E] --> S2[S]
 ```
 
-- _Figure 2: carriers and epigrams contain snapshots_
+- _Figure 3: carriers and epigrams contain snapshots_
 
 ---
 
@@ -73,7 +123,7 @@ S --> V1[V]
 S --> V2[V]
 ```
 
-- _Figure 3: snapshots contain (generate) versions_
+- _Figure 4: snapshots contain (generate) versions_
 
 ---
 
@@ -84,7 +134,7 @@ V1[V] --> L
 V2[V] --> L
 ```
 
-- _Figure 4: versions are grouped into collections_
+- _Figure 5: versions are grouped into collections_
 
 ---
 
@@ -210,7 +260,7 @@ This provides the following benefits:
 - users can interactively focus on any pair of versions among those displayed and see their computed diffing in the diff column. So, if they have selected versions A, B, C, D, E (in this order) the parallel view will open with the diff between A and B; but then at any moment users can pick another version for any of the two terms of the diffing pair (A:C, B:E, E:B, etc. -- any combination is possible).
 - the visualization can fit any screen size and layout maximizing the usage of available space.
 
-The view core would thus appear as in this diagram (let us assume we placed the diff view at the left -- this can also be a user-defined parameter, according to his preferences):
+The view core would thus appear as in Figure 6 (let us assume we placed the diff view at the left -- this can also be a user-defined parameter, according to his preferences):
 
 ```txt
 the diff column where user
@@ -238,4 +288,6 @@ include in the diffing
 pair
 ```
 
-We could then add a top toolbar with various commands to e.g. copy a version, download an XML file representing it, download the diffing, remove a version from the view, reorder versions in it, control zoom levels, etc.
+- _Figure 6 - The parallel view_
+
+We might then add a top toolbar with various commands to e.g. copy a version, download an XML file representing it, download the diffing, remove a version from the view, reorder versions in it, control zoom levels, etc.
