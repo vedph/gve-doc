@@ -38,9 +38,9 @@ In very generic terms, you could imagine a user experience like this:
 
 - the user lands on the site home, where he can choose to browse data in various ways:
   - (codicological path): by looking at notebooks and other carriers: he will start with a [carriers view](#carriers-view) with the list of all carriers.
-  - (works path): by looking at the list of epigrams.
-  - (textual path): by looking directly at the list of text versions of epigrams. We can also have a full text search page, landing on this view as the results of the query.
-  - (collections path): by looking at the list of collections, which variously group text versions in selected sequences.
+  - (works path): by looking at the list of [epigrams](#epigrams-view).
+  - (textual path): by looking directly at the list of text [versions](#versions-view) of epigrams. We can also have a full text search page, landing on this view as the results of the query.
+  - (collections path): by looking at the list of [collections](#collections-view), which variously group text versions in selected sequences.
 - from any of these views, the user can walk seamlessly to view other entities, as explained in the description of each of them and summarized by the links in Figure 1.
 
 > Note that any of these views has a full set of filters which allow to perform searches among the items they list by combining a lot of criteria. Also, most of them allow drilling down into children views with other lists, thus effectively implementing a cross-entities walk along the entities graph.
