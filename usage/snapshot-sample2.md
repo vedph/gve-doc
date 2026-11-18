@@ -87,7 +87,7 @@ As for any operation which does not alter the text, this is an _annotation_ oper
 2. **click "add new operation"** at the top right (or press Alt+Shift+N). The operation editor opens.
 3. in the editor, **pick the "annotate" type and enter coordinates**. The "at" and "run" coordinates represent the operation target: in this case, the text to annotate. "At" is the character numeric ID: each character has one: look at the small numbers below each character in base text. "Run" is the number of characters to target starting from "At". For indents, conventionally we only target the first character of the text (because indents are set once for the whole text): so here we just enter 1 for both "at" and "run". When you enter coordinates, a small context is displayed in the context "peeper" next to them.
 
-    ⚙️ Note that when new characters are added to the text (by add/replace operations) they get new unique numeric IDs. So character IDs coincide with their positions only for base text; later, characters are inserted into it with their own numbers, thus breaking the progressive numeric sequence. This is not an issue, because the ID is an identifier and as such it has no intrinsic meaning. Yet it is worth noting, because users might assume that numbers refer to positions.
+   ⚙️ Note that when new characters are added to the text (by add/replace operations) they get new unique numeric IDs. So character IDs coincide with their positions only for base text; later, characters are inserted into it with their own numbers, thus breaking the progressive numeric sequence. This is not an issue, because the ID is an identifier and as such it has no intrinsic meaning. Yet it is worth noting, because users might assume that numbers refer to positions.
 
 4. **add an operation feature for indents** using the "add feature button" (or pressing Alt+Shift+F). The operation feature editor opens.
 5. **pick the char offsets feature** in name. You can scroll the list of features or type some characters to filter it (usually this is quicker).
@@ -107,24 +107,34 @@ As for any operation which does not alter the text, this is an _annotation_ oper
 
 1. **add a new operation**; the operation editor opens. Set type="add-after", "at"=103, "run"=1, value=" ,".
 2. **add operation features**:
-
    - log = `add ' ,' after ſich`. 💡 It is a good practice to always add log to operations (except for the first indents operation) describing them in a few words. This will help viewers focus on the changing part when viewing the rendition.
    - foreground color = light blue.
-   - position = east. 💡 This is the _relative position of the sign_. Imagine a rectangle around the text targeted by the operation coordinates: the relative position is defined with cardinal points, so north=above, south=below, east=right, etc. The default relative position is origin, which means the center of the imaginary rectangle, and is used to overwrite or to wrap text in shapes.
-   - reason = proposal.
+   - position = east. This tells where the text was added: here to the right of the word. In manuscripts positions are essential because text is added by hand wherever there is room for it, usually above the line. 💡 Position is always _relative_ to the target text; and this conceptually makes sense, because annotations owe their existence to it. Imagine a rectangle around the text targeted by the operation coordinates: the relative position is defined with cardinal points, so north=above, south=below, east=right, etc. The default relative position is origin, which means the center of the imaginary rectangle, and is used to overwrite or to wrap text in shapes.
+   - reason = proposal. This is an editorial evaluation for that annotation.
    - accepted source of = `N7`.
 
 3. **save operation**. Remember to save also the whole snapshot to the server from time to time.
 
 Look below the operations list: you will see the text output by each of them. On the right there is a map with all the outputs from operations, in their order. When you click any of them you see the text on the left. Except for annotation operations, the output text will be different from the previous one. Additionally, operations inject metadata, which when referred to the whole text (rather than just to the target one) are displayed below. You will see the log feature there.
 
-Look at the last output in map, "v1 > v2". The orange characters are those affected by the operation: in this case the added space and comma. Click on one of them to see further metadata injected into those characters only.
+Look at the last output in map, "v1 > v2". The orange characters are those affected by the operation: in this case the added space and comma. Click on one of them to see further metadata injected into those characters only. So, _operations not only generate new text: they also annotate it_.
 
 ![operation result](img/ex2-03.png)
 
 - ▶️ (3) replace `ſ` with `ß`. Note that this change is the source for another document, N7.
 
 ✏️ **Guided Work**
+
+1. **add a new operation**; the operation editor opens. Set type="replace", "at"=269, "run"=1, value="ß".
+2. **add operation features**:
+   - log = `replace 'ſ' with 'ß' in miſtraut`.
+   - foreground color = light blue.
+   - reason=proposal.
+   - accepted source of = `N7`.
+
+    > Note that there is no position. The default position is origin, so `ß` will be overwritten to `ſ` in our rendition; just like we want.
+
+3. **save operation**.
 
 ### Goethe
 
