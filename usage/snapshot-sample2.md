@@ -7,7 +7,7 @@ nav_order: 6
 
 # Snapshot Sample 2
 
-This is a real-world example from VEdition (epigram 4 of notebook H5). The base text is:
+This is a guided, real-world example from VEdition (epigram 4 of notebook H5). The base text is:
 
 ```txt
 4.
@@ -26,7 +26,9 @@ Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 <details>
 <summary>✏️ Guided Operations</summary>
 
-1. once you have entered the snapshot part editor, click the "base text" button and paste the text there. Then click "set" to set it.
+<p>1. once you have entered the snapshot part editor, <strong>click the "base text" button</strong> and paste the text there.</>
+<p>2. <strong>click "set" to set the new base text</strong>, closing the dialog.</p>
+<p>3. <strong>click save</strong> at the bottom whenever you want to commit your edits to the server. It is a good idea to save from time to time to avoid losing your work in case your computer has issues.</p>
 
 </details>
 
