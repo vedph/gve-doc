@@ -47,7 +47,7 @@ Adopting the convention to describe the various operations on this text from top
 
 > Note that the convention does not apply to numberings and other signs added outside the epigram's text to make it an item of some collection. These are usually encoded at the end of each hand.
 
-- **black hand**:
+- 👉 **black hand**:
 
 ▶️ (1) uppercase `old` → `Old`. We reconstruct this as an "immediate" correction, i.e. the same hand immediately recognized the lowercase as an error and corrected it into uppercase while writing.
 
@@ -69,7 +69,7 @@ Adopting the convention to describe the various operations on this text from top
 
 ▶️ (10) reorder `Never you shall` into `You shall never`. This is very compressed in the manuscript, which just added smaller numbers on top of these words to mean their reordering.
 
-- **blue hand**:
+- 👉 **blue hand**:
 
 ▶️ (11) add the missing dot above `i` in `did`.
 
@@ -79,7 +79,7 @@ Adopting the convention to describe the various operations on this text from top
 
 ▶️ (14) add the number `2` on top of the epigram.
 
-- **green hand**:
+- 👉 **green hand**:
 
 ▶️ (15) cross out `Should` and add a dotted underline to `If` to mean we want to revert to the original word.
 

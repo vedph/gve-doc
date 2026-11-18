@@ -2,7 +2,7 @@
 title: Setup
 layout: default
 parent: Usage
-nav_order: 6
+nav_order: 7
 ---
 
 # Setup
