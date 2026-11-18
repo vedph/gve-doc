@@ -134,7 +134,7 @@ Look at the last output in map, "v1 > v2". The orange characters are those affec
    - foreground color = purple.
    - 🚩 stage name = `AS2`: this feature _marks the end of this alterations stage_. All the operations executed up to this point accumulated changes on the same text. At this point, we consider this a true waypoint along the creative path of this text, mainly because of the hand change in the next operation. Thus the output of this operation will be considered a self-contained alteration stage.
 
-    > Note that there is no position. The default position is `origin`: so `ß` will be overwritten to `ſ` in our rendition; just what we want.
+   > Note that there is no position. The default position is `origin`: so `ß` will be overwritten to `ſ` in our rendition; just what we want.
 
 3. **save operation**.
 
@@ -162,7 +162,7 @@ Hovering the mouse on text shows at the bottom details about all metadata inject
 
 Here is the rendition result with the offsets in place:
 
-   ![offset](img/ex2-04.png)
+![offset](img/ex2-04.png)
 
 ### Riemer 2
 
@@ -207,6 +207,34 @@ Here is the rendition result with the offsets in place:
    - hint Y offset = `0.5th`.
    - reason = `metrical`.
    - stage name = `AS4`.
+
+### Adding Hands
+
+Among operation metadata there is also the source of the operation, which in our case is the hand which traced its visual part on the sheet. The operation editor has a source tab for that; but given that usually many operations belong to the same hand in a sequence, we prefer to annotate this once for all of them instead that one at a time.
+
+So here we need to assign operations to hands as follows:
+
+- 2-3 = Riemer 1
+- 4 = Goethe
+- 5-6 = Riemer 2
+
+✏️ **Guided Work**
+
+1. in the operations toolbar above their list, click in the "operations" textbox (next to the "batch" button) and type `2-3`. This means we are going to edit all the operations in this range. Then click the people icon to open the batch sources editor. A new editor opens below.
+2. in "ID" pick `Riemer 1`: this is the hand identifier.
+3. in "type" pick `hand`: this is the source type. Here we have only 1 type, hand; but other projects might have different source types (e.g. other documents). 💡 Note that the whole Hydra model is totally agnostic with reference to almost all values you see in lists in the UI. These are defined in external taxonomies, which define the profile for each project. So _here you are just working with the set of taxonomies designed for VEdition; but Hydra is a generic model and tool_ designed to fit any other project.
+
+   > The rank value can be used to define the level of certainty for this source attribution; while a generic note can be put in note. Here we just need to set the hand ID.
+
+4. **click the save button**. The sources editor close. Now operations 2 and 3 got this source at once (mind the sources count at the right edge of the operations list).
+
+   ![operations source](img/ex2-05.png)
+
+5. **repeat the procedure 1-4 for the other ranges**: 4=Goethe (or if you prefer just edit the operation), 5-6=Riemer 2.
+
+Finally, run all operations and look at the rendition:
+
+![rendition](img/ex2-06.png)
 
 ---
 
