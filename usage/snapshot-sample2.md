@@ -7,7 +7,16 @@ nav_order: 6
 
 # Snapshot Sample 2
 
-This is a guided, real-world example from VEdition (epigram 4 of notebook H5). The base text is:
+This is a guided, real-world example from VEdition (epigram 4 of notebook H5). In what follows:
+
+- 👉 marks a hand.
+- ▶️ marks an operation.
+- ⚙️ marks technical explanatory notes.
+- ✏️ marks a step in a guided procedure.
+- 💡 marks a tip for learners.
+- ⚠️ marks a warning (=pay attention to avoid errors).
+
+The base text is:
 
 ```txt
 4.
@@ -23,14 +32,15 @@ Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 
 > Note that VEdition encodes also peculiar diplomatic aspects of the manuscript, like spaces before punctuation or `ſ` for `s`, without normalizations. An English translation can be found at <https://www.poetryintranslation.com/PITBR/German/GoetheVenetianEpigrams.php#anchor_Toc171440807>.
 
-<details>
-<summary>✏️ Guided Operations</summary>
+✏️ **Guided Work**
 
-<p>1. once you have entered the snapshot part editor, <strong>click the "base text" button</strong> and paste the text there.</p>
-<p>2. <strong>click "set" to set the new base text</strong>, closing the dialog.</p>
-<p>3. <strong>click save</strong> at the bottom whenever you want to commit your edits to the server. It is a good idea to save from time to time to avoid losing your work in case your computer has issues.</p>
+1. once you have entered the snapshot part editor, **click the "base text" button** and paste the text there.
+2. **click "set" to set the new base text**, closing the dialog.
+3. **click save** at the bottom whenever you want to commit your edits to the server. It is a good idea to save from time to time to avoid losing your work in case your computer has issues.
 
-</details>
+⚠️ The text will be displayed character by character. Each character gets a unique numeric ID, which for the base text is just its ordinal number (1=first, 2=second...). Anyway, this is just an opaque identifier with no intrinsic meaning. Newly added characters will get new IDs, thus breaking the illusion they are just ordinals.
+
+![text](img/ex2-01.png)
 
 ---
 
@@ -39,20 +49,13 @@ Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 This example is very simple because it comes from a 1799 print with a few handwritten annotations, mainly about punctuation. In this notebook we usually define 4 alteration stages:
 
 1. self-corrections by Geist (ink), here absent. The stage is distinct only for alignment with other epigrams in the same source.
-2. Riemer 1 (pencil).
+2. [Riemer](https://en.wikipedia.org/wiki/Friedrich_Wilhelm_Riemer) 1 (pencil).
 3. Goethe 1 (red chalk).
 4. Riemer 2 (pencil).
 
 ---
 
 ## Operations
-
-This is for a guided exercise. In what follows:
-
-- 👉 marks a hand.
-- ▶️ marks an operation.
-- ⚙️ marks technical explanatory notes.
-- ✏️ marks a step in a guided procedure.
 
 ### Indents
 
@@ -72,22 +75,21 @@ As for any operation which does not alter the text, this is an _annotation_ oper
 1:x=13.5tw 4:y=1th 61:x=3.5tw,y=1th 124:y=1th 184:x=3.5tw,y=1th 241:y=1th 300:x=3.5tw,y=1th 356:y=1th 423:x=3.5tw,y=1th
 ```
 
-Note that we use text-width units (`tw`) for horizontal indents and text-height units (`th`) for vertical indents. These come in handy because they represent the average character width/height; so, empirically the user just has to count the amount of characters which in the line above an indented one are printed before the first character of the indented line to estimate a reasonable value. Then this can be adjusted by looking at the preview. This way we reproduce with a very good approximation the layout of printed documents, too.
+💡 Usually we adopt text-width units (`tw`) for horizontal indents and text-height units (`th`) for vertical indents. These come in handy because they represent the average character width/height; so, empirically the user just has to count the amount of characters which in the line above an indented one are printed before the first character of the indented line to estimate a reasonable value. Then this can be adjusted by looking at the preview. This way we reproduce with a very good approximation the layout of printed documents, too.
 
-<details>
-<summary>✏️ Guided Operations</summary>
+✏️ **Guided Work**
 
-<p>1. **click the "operations" tab** to select it.</p>
-<p>2. **click "add new operation"** at the top right (or press Alt+Shift+N). The operation editor opens.</p>
-<p>3. in the editor, **pick the "annotate" type and enter coordinates**. The "at" and "run" coordinates represent the operation target: in this case, the text to annotate. "At" is the character numeric ID: each character has one: look at the small numbers below each character in base text. "Run" is the number of characters to target starting from "At". For indents, conventionally we only target the first character of the text (because indents are set once for the whole text): so here we just enter 1 for both "at" and "run". When you enter coordinates, a small context is displayed in the context "peeper" next to them.</p>
+1. **click the "operations" tab** to select it.
+2. **click "add new operation"** at the top right (or press Alt+Shift+N). The operation editor opens.
+3. in the editor, **pick the "annotate" type and enter coordinates**. The "at" and "run" coordinates represent the operation target: in this case, the text to annotate. "At" is the character numeric ID: each character has one: look at the small numbers below each character in base text. "Run" is the number of characters to target starting from "At". For indents, conventionally we only target the first character of the text (because indents are set once for the whole text): so here we just enter 1 for both "at" and "run". When you enter coordinates, a small context is displayed in the context "peeper" next to them.
 
-<p>⚙️ Note that when new characters are added to the text (by add/replace operations) they get new unique numeric IDs. So character IDs coincide with their positions only for base text; later, characters are inserted into it with their own numbers, thus breaking the progressive numeric sequence. This is not an issue, because the ID is an identifier and as such it has no intrinsic meaning. Yet it is worth noting, because users might assume that numbers refer to positions.</p>
+    ⚙️ Note that when new characters are added to the text (by add/replace operations) they get new unique numeric IDs. So character IDs coincide with their positions only for base text; later, characters are inserted into it with their own numbers, thus breaking the progressive numeric sequence. This is not an issue, because the ID is an identifier and as such it has no intrinsic meaning. Yet it is worth noting, because users might assume that numbers refer to positions.
 
-<p>4. **add an operation feature for indents** using the "add feature button" (or pressing Alt+Shift+F). The operation feature editor opens.</p>
-<p>5. **pick the char offsets feature** in name. You can scroll the list of features or type some characters to filter it (usually this is quicker).</p>
-<p>6. **paste the offsets in value** (see above).</p>
-<p>7. **save the feature** clicking the "save" button. It appears in the features box.</p>
-<p>8. **save the operation** clicking the "save" button. It appears in the operations list. To show a quick overview of its features, toggle the "feat. details" switch at the top-left corner and look at the "feats" column in the operations list.</p>
+4. **add an operation feature for indents** using the "add feature button" (or pressing Alt+Shift+F). The operation feature editor opens.
+5. **pick the char offsets feature** in name. You can scroll the list of features or type some characters to filter it (usually this is quicker).
+6. **paste the offsets in value** (see above).
+7. **save the feature** clicking the "save" button. It appears in the features box.
+8. **save the operation** clicking the "save" button. It appears in the operations list. 💡 To _show a quick overview of operation features_, toggle the "feat. details" switch at the top-left corner and look at the "feats" column in the operations list.
 
 </details>
 
