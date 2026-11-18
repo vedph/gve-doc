@@ -240,9 +240,13 @@ Finally, run all operations and look at the rendition:
 
 ## DSL
 
-All data we entered via the UI can be encoded as plain text:
+The snapshot editor is designed as a complete tool to define all textual and visual aspects of the creative process which left traces in manuscripts. Nonetheless it is highly efficient: instead of encoding every single alteration in full with its text and annotations, it just provides the "recipe" to generate them. This recipe is right the process we describe via operations, reflecting our interpretation of the manuscript.
 
-- base text:
+Operations have their own DSL (domain specific language): a special syntax which allows us to encode it as plain text. So, all data we entered via the UI (the base text and all operations) can be encoded in a compact and highly portable form as plain text, too. The database itself anyway ultimately deals with JSON code, which is a plain-text format, too.
+
+You can get the plain text for your snapshot from the editor using two buttons:
+
+- base text: click the "copy" button next to the set text button in the base text tab. The result is:
 
 ```txt
 4.
@@ -256,7 +260,7 @@ Schön iſt das Land , doch ach ! Fauſtinen find’ ich nicht wieder ,
 Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 ```
 
-- operations:
+- operations: click the "copy operations DSL" button in the toolbar above the operations list. The result is:
 
 ```txt
 1×1: [r_char-offsets="1:x=13.5tw 4:y=1th 61:x=3.5tw,y=1th 124:y=1th 184:x=3.5tw,y=1th 241:y=1th 300:x=3.5tw,y=1th 356:y=1th 423:x=3.5tw,y=1th"]
