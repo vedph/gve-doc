@@ -10,6 +10,8 @@ aux_links:
 mermaid:
   version: "11.4.1"
 
+markdown: kramdown
+
 enable_copy_code_button: true
 
 nav_sort: case_insensitive
