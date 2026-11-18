@@ -53,6 +53,10 @@ This example is very simple because it comes from a 1799 print with a few handwr
 3. Goethe 1 (red chalk).
 4. Riemer 2 (pencil).
 
+This word processor text summarizes the text appearance:
+
+![text](img/ex2-00.png)
+
 ---
 
 ## Operations
@@ -91,14 +95,36 @@ As for any operation which does not alter the text, this is an _annotation_ oper
 7. **save the feature** clicking the "save" button. It appears in the features box.
 8. **save the operation** clicking the "save" button. It appears in the operations list. Also, at the bottom _the rendition will show all indents_. 💡 To _show a quick overview of operation features_, toggle the "feat. details" switch at the top-left corner and look at the "feats" column in the operations list.
 
-![text](img/ex2-02.png)
+![operation editor](img/ex2-02.png)
 
 ### Riemer 1
 
 - 👉 **Riemer 1** (light blue):
 
-- ▶️ (2) add comma after `ſich`.
+- ▶️ (2) add comma after `ſich`. Given that the convention is having a space before punctuation, we also add a space before the added comma.
+
+✏️ **Guided Work**
+
+1. **add a new operation**; the operation editor opens. Set type="add-after", "at"=103, "run"=1, value=" ,".
+2. **add operation features**:
+
+   - log = `add ' ,' after ſich`. 💡 It is a good practice to always add log to operations (except for the first indents operation) describing them in a few words. This will help viewers focus on the changing part when viewing the rendition.
+   - foreground color = light blue.
+   - position = east. 💡 This is the _relative position of the sign_. Imagine a rectangle around the text targeted by the operation coordinates: the relative position is defined with cardinal points, so north=above, south=below, east=right, etc. The default relative position is origin, which means the center of the imaginary rectangle, and is used to overwrite or to wrap text in shapes.
+   - reason = proposal.
+   - accepted source of = `N7`.
+
+3. **save operation**. Remember to save also the whole snapshot to the server from time to time.
+
+Look below the operations list: you will see the text output by each of them. On the right there is a map with all the outputs from operations, in their order. When you click any of them you see the text on the left. Except for annotation operations, the output text will be different from the previous one. Additionally, operations inject metadata, which when referred to the whole text (rather than just to the target one) are displayed below. You will see the log feature there.
+
+Look at the last output in map, "v1 > v2". The orange characters are those affected by the operation: in this case the added space and comma. Click on one of them to see further metadata injected into those characters only.
+
+![operation result](img/ex2-03.png)
+
 - ▶️ (3) replace `ſ` with `ß`. Note that this change is the source for another document, N7.
+
+✏️ **Guided Work**
 
 ### Goethe
 
@@ -138,7 +164,7 @@ Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 
 ```txt
 1×1: [r_char-offsets="1:x=13.5tw 4:y=1th 61:x=3.5tw,y=1th 124:y=1th 184:x=3.5tw,y=1th 241:y=1th 300:x=3.5tw,y=1th 356:y=1th 423:x=3.5tw,y=1th"]
-103×1+]"," [r_fore-color=lightblue *log:="add ',' after ſich" r_t-position=e reason=proposal accepted-source-of=N7]
+103×1+]" ," [r_fore-color=lightblue *log:="add ' ,' after ſich" r_t-position=e reason=proposal accepted-source-of=N7]
 269×1="ß" [r_fore-color=lightblue *log:="replace 'ſ' with 'ß'" accepted-source-of=N7 *version^:=AS2 reason=proposal]
 483×1="ß" [r_fore-color=red r_t-position=inw *log:="replace 'ß' with 'ß'" reason=confirmation accepted-source-of=N7 *version^:=AS3]
 181×2- [r_fore-color=blue r_hints=vertical-stroke reason=proposal rejected-source-of="N7 A1" *log:="delete ',' after 'vergebens'" r_h-scale-x=4]
