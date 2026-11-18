@@ -89,9 +89,9 @@ As for any operation which does not alter the text, this is an _annotation_ oper
 5. **pick the char offsets feature** in name. You can scroll the list of features or type some characters to filter it (usually this is quicker).
 6. **paste the offsets in value** (see above).
 7. **save the feature** clicking the "save" button. It appears in the features box.
-8. **save the operation** clicking the "save" button. It appears in the operations list. 💡 To _show a quick overview of operation features_, toggle the "feat. details" switch at the top-left corner and look at the "feats" column in the operations list.
+8. **save the operation** clicking the "save" button. It appears in the operations list. Also, at the bottom _the rendition will show all indents_. 💡 To _show a quick overview of operation features_, toggle the "feat. details" switch at the top-left corner and look at the "feats" column in the operations list.
 
-</details>
+![text](img/ex2-02.png)
 
 ### Riemer 1
 
