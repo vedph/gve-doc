@@ -26,7 +26,7 @@ Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 <details>
 <summary>✏️ Guided Operations</summary>
 
-<p>1. once you have entered the snapshot part editor, <strong>click the "base text" button</strong> and paste the text there.</>
+<p>1. once you have entered the snapshot part editor, <strong>click the "base text" button</strong> and paste the text there.</p>
 <p>2. <strong>click "set" to set the new base text</strong>, closing the dialog.</p>
 <p>3. <strong>click save</strong> at the bottom whenever you want to commit your edits to the server. It is a good idea to save from time to time to avoid losing your work in case your computer has issues.</p>
 
