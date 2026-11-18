@@ -77,17 +77,17 @@ Note that we use text-width units (`tw`) for horizontal indents and text-height 
 <details>
 <summary>✏️ Guided Operations</summary>
 
-1. **click the "operations" tab** to select it.
-2. **click "add new operation"** at the top right (or press Alt+Shift+N). The operation editor opens.
-3. in the editor, **pick the "annotate" type and enter coordinates**. The "at" and "run" coordinates represent the operation target: in this case, the text to annotate. "At" is the character numeric ID: each character has one: look at the small numbers below each character in base text. "Run" is the number of characters to target starting from "At". For indents, conventionally we only target the first character of the text (because indents are set once for the whole text): so here we just enter 1 for both "at" and "run". When you enter coordinates, a small context is displayed in the context "peeper" next to them.
+<p>1. **click the "operations" tab** to select it.</p>
+<p>2. **click "add new operation"** at the top right (or press Alt+Shift+N). The operation editor opens.</p>
+<p>3. in the editor, **pick the "annotate" type and enter coordinates**. The "at" and "run" coordinates represent the operation target: in this case, the text to annotate. "At" is the character numeric ID: each character has one: look at the small numbers below each character in base text. "Run" is the number of characters to target starting from "At". For indents, conventionally we only target the first character of the text (because indents are set once for the whole text): so here we just enter 1 for both "at" and "run". When you enter coordinates, a small context is displayed in the context "peeper" next to them.</p>
 
-⚙️ Note that when new characters are added to the text (by add/replace operations) they get new unique numeric IDs. So character IDs coincide with their positions only for base text; later, characters are inserted into it with their own numbers, thus breaking the progressive numeric sequence. This is not an issue, because the ID is an identifier and as such it has no intrinsic meaning. Yet it is worth noting, because users might assume that numbers refer to positions.
+<p>⚙️ Note that when new characters are added to the text (by add/replace operations) they get new unique numeric IDs. So character IDs coincide with their positions only for base text; later, characters are inserted into it with their own numbers, thus breaking the progressive numeric sequence. This is not an issue, because the ID is an identifier and as such it has no intrinsic meaning. Yet it is worth noting, because users might assume that numbers refer to positions.</p>
 
-4. **add an operation feature for indents** using the "add feature button" (or pressing Alt+Shift+F). The operation feature editor opens.
-5. **pick the char offsets feature** in name. You can scroll the list of features or type some characters to filter it (usually this is quicker).
-6. **paste the offsets in value** (see above).
-7. **save the feature** clicking the "save" button. It appears in the features box.
-8. **save the operation** clicking the "save" button. It appears in the operations list. To show a quick overview of its features, toggle the "feat. details" switch at the top-left corner and look at the "feats" column in the operations list.
+<p>4. **add an operation feature for indents** using the "add feature button" (or pressing Alt+Shift+F). The operation feature editor opens.</p>
+<p>5. **pick the char offsets feature** in name. You can scroll the list of features or type some characters to filter it (usually this is quicker).</p>
+<p>6. **paste the offsets in value** (see above).</p>
+<p>7. **save the feature** clicking the "save" button. It appears in the features box.</p>
+<p>8. **save the operation** clicking the "save" button. It appears in the operations list. To show a quick overview of its features, toggle the "feat. details" switch at the top-left corner and look at the "feats" column in the operations list.</p>
 
 </details>
 
