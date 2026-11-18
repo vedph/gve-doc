@@ -14,6 +14,7 @@ This is a guided, real-world example from VEdition (epigram 4 of notebook H5). I
 - ⚙️ marks technical explanatory notes.
 - ✏️ marks a step in a guided procedure.
 - 💡 marks a tip for learners.
+- 🚩 marks an alteration stage end.
 - ⚠️ marks a warning (=pay attention to avoid errors).
 
 The base text is:
@@ -131,7 +132,7 @@ Look at the last output in map, "v1 > v2". The orange characters are those affec
    - reason=proposal.
    - accepted source of = `N7`.
    - foreground color = purple.
-   - stage name = `AS2`: this feature _marks the end of this alterations stage_. All the operations executed up to this point accumulated changes on the same text. At this point, we consider this a true waypoint along the creative path of this text, mainly because of the hand change in the next operation. Thus the output of this operation will be considered a self-contained alteration stage.
+   - 🚩 stage name = `AS2`: this feature _marks the end of this alterations stage_. All the operations executed up to this point accumulated changes on the same text. At this point, we consider this a true waypoint along the creative path of this text, mainly because of the hand change in the next operation. Thus the output of this operation will be considered a self-contained alteration stage.
 
     > Note that there is no position. The default position is `origin`: so `ß` will be overwritten to `ſ` in our rendition; just what we want.
 
@@ -155,7 +156,7 @@ Hovering the mouse on text shows at the bottom details about all metadata inject
    - foreground color = red.
    - reason = confirmation.
    - accepted source of = `N7`.
-   - stage name = `AS3`.
+   - 🚩 stage name = `AS3`.
    - X offset and Y offset = `-2`. This is a refinement to let the previous letters still be partially visible behind the new one, like it happens on paper. By slightly offsetting the position of the newly written read `ß`, we avoid to completely hide the purple `ß` behind it:
 3. **save operation**. You can re-run operations and see the updated rendition at will.
 
