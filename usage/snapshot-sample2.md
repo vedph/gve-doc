@@ -108,7 +108,7 @@ As for any operation which does not alter the text, this is an _annotation_ oper
 1. **add a new operation**; the operation editor opens. Set type="add-after", "at"=103, "run"=1, value=" ,".
 2. **add operation features**:
    - log = `add ' ,' after ſich`. 💡 It is a good practice to always add log to operations (except for the first indents operation) describing them in a few words. This will help viewers focus on the changing part when viewing the rendition.
-   - foreground color = light blue.
+   - foreground color = purple. ⚠️ For this exercise we replace light blue with a darker, more visible color.
    - position = east. This tells where the text was added: here to the right of the word. In manuscripts positions are essential because text is added by hand wherever there is room for it, usually above the line. 💡 Position is always _relative_ to the target text; and this conceptually makes sense, because annotations owe their existence to it. Imagine a rectangle around the text targeted by the operation coordinates: the relative position is defined with cardinal points, so north=above, south=below, east=right, etc. The default relative position is origin, which means the center of the imaginary rectangle, and is used to overwrite or to wrap text in shapes.
    - reason = proposal. This is an editorial evaluation for that annotation.
    - accepted source of = `N7`.
@@ -128,19 +128,40 @@ Look at the last output in map, "v1 > v2". The orange characters are those affec
 1. **add a new operation**; the operation editor opens. Set type="replace", "at"=269, "run"=1, value="ß".
 2. **add operation features**:
    - log = `replace 'ſ' with 'ß' in miſtraut`.
-   - foreground color = light blue.
    - reason=proposal.
    - accepted source of = `N7`.
+   - foreground color = purple.
+   - stage name = `AS2`: this feature _marks the end of this alterations stage_. All the operations executed up to this point accumulated changes on the same text. At this point, we consider this a true waypoint along the creative path of this text, mainly because of the hand change in the next operation. Thus the output of this operation will be considered a self-contained alteration stage.
 
-    > Note that there is no position. The default position is origin, so `ß` will be overwritten to `ſ` in our rendition; just like we want.
+    > Note that there is no position. The default position is `origin`: so `ß` will be overwritten to `ſ` in our rendition; just what we want.
 
 3. **save operation**.
+
+🚀 You can now **look at the rendition** at the bottom to see what you encoded until now. You can do this at any moment: just run all the operations (the "run" button is at the top-right) and then in the rendition toolbar click the "start slideshow" button to see all operations unwind over time, according to the visuals you encoded for each of them. At the right of the rendition toolbar you will see the log value of each operation.
+
+Hovering the mouse on text shows at the bottom details about all metadata injected by operations, both into the text as a whole and into specific portions of it. At the left you see all the alterations and those which are staged; at the bottom you can see the text of each output and the diffing between any two of them. Feel free to explore here, the rendition has a lot of functions because it is intended also for use in the final publication.
 
 ### Goethe
 
 - 👉 **Goethe** (red):
 
-- ▶️ (4) Goethe literally rewrites `ß` over the `ß` written by Riemer to confirm the change. So, again this is a replacement operation, where the new value is equal to the old one. This means that in the end the resulting text does not change; but we encode it, because _we are reconstructing a process_, not just a text. The text is a byproduct of the process. In this process, we must encode the action of Goethe who confirmed the change by his secretary. Additionally, that process left traces on paper, as the letter was overwritten, by a different hand and with a different color. In the highly diplomatic context of VEdition we want to preserve visual information, too. This will allow us to reproduce it in text rendition when displaying it.
+- ▶️ (4) Goethe literally rewrites `ß` over the `ß` written by Riemer to confirm the change. So, again this is a replacement operation, where the new value is equal to the old one. 💡 This means that in the end the resulting text does not change; but we encode it because _we are reconstructing a process_, not just a text. The text is a byproduct of the process. In this process, we must encode the action of Goethe who confirmed the change by his secretary. Goethe re-wrote the letter; and we are encoding right that. Additionally, that process left traces on paper, as the letter was overwritten, by a different hand and with a different color. In the highly diplomatic context of VEdition we want to preserve visual information, too. This will allow us to reproduce it in text rendition when displaying it.
+
+✏️ **Guided Work**
+
+1. **add a new operation**; the operation editor opens. Set type="replace", "at"=484, "run"=1, value="ß".
+2. **add operation features**:
+   - log = `replace 'ß' with 'ß' in miſtraut`.
+   - foreground color = red.
+   - reason = confirmation.
+   - accepted source of = `N7`.
+   - stage name = `AS3`.
+   - X offset and Y offset = `-2`. This is a refinement to let the previous letters still be partially visible behind the new one, like it happens on paper. By slightly offsetting the position of the newly written read `ß`, we avoid to completely hide the purple `ß` behind it:
+3. **save operation**. You can re-run operations and see the updated rendition at will.
+
+Here is the rendition result with the offsets in place:
+
+   ![offset](img/ex2-04.png)
 
 ### Riemer 2
 
@@ -174,9 +195,9 @@ Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 
 ```txt
 1×1: [r_char-offsets="1:x=13.5tw 4:y=1th 61:x=3.5tw,y=1th 124:y=1th 184:x=3.5tw,y=1th 241:y=1th 300:x=3.5tw,y=1th 356:y=1th 423:x=3.5tw,y=1th"]
-103×1+]" ," [r_fore-color=lightblue *log:="add ' ,' after ſich" r_t-position=e reason=proposal accepted-source-of=N7]
-269×1="ß" [r_fore-color=lightblue *log:="replace 'ſ' with 'ß'" accepted-source-of=N7 *version^:=AS2 reason=proposal]
-483×1="ß" [r_fore-color=red r_t-position=inw *log:="replace 'ß' with 'ß'" reason=confirmation accepted-source-of=N7 *version^:=AS3]
+103×1+]" ," [r_fore-color=purple r_t-position=e reason=proposal accepted-source-of=N7 *log:="add ' ,' after ſich"]
+269×1="ß" [*log:="replace 'ſ' with 'ß' in miſtraut" r_fore-color=purple reason=proposal accepted-source-of=N7 *version^:=AS2]
+484×1="ß" [*log:="replace 'ß' with 'ß' in miſtraut" r_fore-color=red reason=confirmation accepted-source-of=N7 *version^:=AS3 r_t-offset-x=-2 r_t-offset-y=-2]
 181×2- [r_fore-color=blue r_hints=vertical-stroke reason=proposal rejected-source-of="N7 A1" *log:="delete ',' after 'vergebens'" r_h-scale-x=4]
 239×1="." [r_fore-color=blue r_hints=vertical-stroke reason=proposal rejected-source-of="N7 A1" *log:="replace ';' with '.' after 'Zucht'" r_t-position=e r_h-scale-x=4]
 288×1: [r_hints=note-above r_fore-color=blue note=˘ *log:="add '˘' above the i of 'iſt'" *version^:=AS4 reason=metrical r_h-offset-y=0.5th]
