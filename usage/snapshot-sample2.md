@@ -106,7 +106,7 @@ As for any operation which does not alter the text, this is an _annotation_ oper
 
 ✏️ **Guided Work**
 
-1. **add a new operation**; the operation editor opens. Set type="add-after", "at"=103, "run"=1, value=" ,".
+1. **add a new operation**; the operation editor opens. Set type="add-after", "at"=`103`, "run"=`1`, value=` ,` (space + comma).
 2. **add operation features**:
    - log = `add ' ,' after ſich`. 💡 It is a good practice to always add log to operations (except for the first indents operation) describing them in a few words. This will help viewers focus on the changing part when viewing the rendition.
    - foreground color = purple. ⚠️ For this exercise we replace light blue with a darker, more visible color.
@@ -126,7 +126,7 @@ Look at the last output in map, "v1 > v2". The orange characters are those affec
 
 ✏️ **Guided Work**
 
-1. **add a new operation**; the operation editor opens. Set type="replace", "at"=269, "run"=1, value="ß".
+1. **add a new operation**; the operation editor opens. Set type="replace", "at"=`269`, "run"=`1`, value=`ß`.
 2. **add operation features**:
    - log = `replace 'ſ' with 'ß' in miſtraut`.
    - reason=proposal.
@@ -150,7 +150,7 @@ Hovering the mouse on text shows at the bottom details about all metadata inject
 
 ✏️ **Guided Work**
 
-1. **add a new operation**; the operation editor opens. Set type="replace", "at"=484, "run"=1, value="ß".
+1. **add a new operation**; the operation editor opens. Set type="replace", "at"=`484`, "run"=`1`, value=`ß`.
 2. **add operation features**:
    - log = `replace 'ß' with 'ß' in miſtraut`.
    - foreground color = red.
@@ -169,8 +169,44 @@ Here is the rendition result with the offsets in place:
 - 👉 **Riemer 2** (blue):
 
 - ▶️ (5) delete `,` after `vergebens` with a vertical stroke on it. Note that this proposal was rejected in later documents N7 and A1.
+
+✏️ **Guided Work**
+
+1. **add a new operation**; the operation editor opens. Set type="delete", "at"=`181`, "run"=`2`. Value is empty: being a deletion, no new text is to be defined. Note that as usual punctuation is preceded by space, so here we delete space + comma, not just comma; otherwise we would end up with an extra trailing space.
+2. **add operation features**:
+   - log = `delete ',' after 'vergebens'`.
+   - foreground color = blue.
+   - hints = `vertical-stroke`. This deletion is visually represented in the text by a vertical stroke on the comma. That's the visual counterpart of the operation in our document. ⚠️ Once you select the `vertical-stroke` hint from the list of values, click the `+` button next to it. This is because an operation can have multiple hints, so you might want to select several hints and repeatedly add them in the feature value, separated by spaces.
+   - displaced hint span = `182x1`. This feature allows to "displace" the hint using as reference text for its position a different span, here `182x1`. Without this feature, the hint would be placed relative to the targeted text, i.e. `181x2` (space + comma) and would thus approximately appear between these two characters (=to the left of the comma); instead, we want it relative to the comma only so that it overwrites it (whence 182 by 1 character).
+   - hint X scale = `6`. As a general rule, 💡 _the hint sign not only is positioned relative to the reference text; it is also sized as its imaginary bounding rectangle_. So, in case of extremely narrow characters like a comma, a vertical line would be sized so thin that it would become invisible. To compensate for this, we add a 600% horizontal scale to the hint (here the line). This way it becomes visible and sized as in the document.
+   - reason = proposal.
+   - rejected source of = `N7 A1`.
+3. **save operation**. If you want to see the rendition, just run and replay it. 💡 To compress the animation times you can remove intervals between each operation by toggling the bolt button in the rendition toolbar. This is handy during editing when you often want to look at the result visually.
+
 - ▶️ (6) replace `;` with `.` after `Zucht`. Again, this proposal was rejected in N7 and A1.
+
+✏️ **Guided Work**
+
+1. **add a new operation**; the operation editor opens. Set type="delete", "at"=`239`, "run"=`1`, value=`.`. Note that as usual punctuation is preceded by space, so here we delete space + comma, not just comma; otherwise we would end up with an extra trailing space.
+2. **add operation features**:
+   - log = `replace ';' with '.' after 'Zucht'`.
+   - foreground color = blue.
+   - hints = `vertical-stroke`.
+   - hint X scale = `6`.
+   - reason = proposal.
+   - rejected source of = `N7 A1`.
+
 - ▶️ (7) add `˘` (a _breve_ sign) above the `i` of `iſt` to mean that metrically this is a weak position.
+
+1. **add a new operation**; the operation editor opens. Set type="annotate", "at"=`288`, "run"=`1`. Note that as usual punctuation is preceded by space, so here we delete space + comma, not just comma; otherwise we would end up with an extra trailing space.
+2. **add operation features**:
+   - log = `add breve above the i of 'iſt'`.
+   - foreground color = blue.
+   - hints = `note-above`.
+   - note = `⏑`.
+   - hint Y offset = `0.5th`.
+   - reason = `metrical`.
+   - stage name = `AS4`.
 
 ---
 
@@ -198,8 +234,8 @@ Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 1×1: [r_char-offsets="1:x=13.5tw 4:y=1th 61:x=3.5tw,y=1th 124:y=1th 184:x=3.5tw,y=1th 241:y=1th 300:x=3.5tw,y=1th 356:y=1th 423:x=3.5tw,y=1th"]
 103×1+]" ," [r_fore-color=purple r_t-position=e reason=proposal accepted-source-of=N7 *log:="add ' ,' after ſich"]
 269×1="ß" [*log:="replace 'ſ' with 'ß' in miſtraut" r_fore-color=purple reason=proposal accepted-source-of=N7 *version^:=AS2]
-484×1="ß" [*log:="replace 'ß' with 'ß' in miſtraut" r_fore-color=red reason=confirmation accepted-source-of=N7 *version^:=AS3 r_t-offset-x=-2 r_t-offset-y=-2]
-181×2- [r_fore-color=blue r_hints=vertical-stroke reason=proposal rejected-source-of="N7 A1" *log:="delete ',' after 'vergebens'" r_h-scale-x=4]
-239×1="." [r_fore-color=blue r_hints=vertical-stroke reason=proposal rejected-source-of="N7 A1" *log:="replace ';' with '.' after 'Zucht'" r_t-position=e r_h-scale-x=4]
-288×1: [r_hints=note-above r_fore-color=blue note=˘ *log:="add '˘' above the i of 'iſt'" *version^:=AS4 reason=metrical r_h-offset-y=0.5th]
+484×1="ß" [*log:="replace 'ß' with 'ß' in miſtraut" r_fore-color=red r_t-position=inw reason=confirmation accepted-source-of=N7 *version^:=AS3]
+181×2- [*log:="delete ',' after 'vergebens'" r_fore-color=blue r_hints=vertical-stroke reason=proposal rejected-source-of="N7 A1" r_h-displaced-span=182x1 r_h-scale-x=6]
+239×1="." [*log:="replace ';' with '.' after 'Zucht'" r_fore-color=blue r_hints=vertical-stroke r_h-scale-x=6 reason=proposal rejected-source-of="N7 A1"]
+288×1: [*log:="add breve above the i of 'iſt'" r_fore-color=blue r_hints=note-above note=⏑ reason=metrical *version^:=AS4 r_h-offset-y=0.5th]
 ```
