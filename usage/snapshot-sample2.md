@@ -33,6 +33,8 @@ Das iſt Italien nicht mehr , das ich mit Schmerzen verließ.
 
 > Note that VEdition encodes also peculiar diplomatic aspects of the manuscript, like spaces before punctuation or `ſ` for `s`, without normalizations. An English translation can be found at <https://www.poetryintranslation.com/PITBR/German/GoetheVenetianEpigrams.php#anchor_Toc171440807>.
 
+![text](img/ex2-00fac.png)
+
 ✏️ **Guided Work**
 
 1. once you have entered the snapshot part editor, **click the "base text" button** and paste the text there.
